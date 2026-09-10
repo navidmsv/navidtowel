@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>NavidTowel | فروش حوله</title>
-
-    <meta name="description"
-          content="NavidTowel - فروش آنلاین حوله‌های باکیفیت">
+    <title>NavidTowel | حوله باکیفیت</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -15,14 +12,13 @@
 <body>
 
 <header class="header">
-
-    <div class="container nav">
+    <div class="container header-inner">
 
         <a href="#" class="logo">
-            <span>Navid</span>Towel
+            Navid<span>Towel</span>
         </a>
 
-        <nav>
+        <nav class="nav">
             <a href="#home">خانه</a>
             <a href="#shop">فروشگاه</a>
             <a href="#categories">دسته‌بندی‌ها</a>
@@ -30,522 +26,447 @@
             <a href="#contact">تماس با ما</a>
         </nav>
 
-        <div class="actions">
-
-            <button class="search">
-                ⌕
-            </button>
-
-            <button class="cart" onclick="openCart()">
+        <div class="header-actions">
+            <button class="cart-btn openCart">
                 🛒 سبد خرید
-                <b id="cartCount">۰</b>
+                <span class="cartCount">0</span>
             </button>
-
         </div>
 
     </div>
-
 </header>
 
 
-<!-- HERO -->
+<main>
 
-<section id="home" class="hero">
+    <!-- HERO -->
 
-    <div class="container hero-content">
+    <section class="hero" id="home">
 
-        <div class="hero-text">
+        <div class="container hero-inner">
 
-            <span class="eyebrow">
-                حس لطافت، هر روز
-            </span>
+            <div class="hero-text">
 
-            <h1>
-                حوله‌ای که
-                <strong>
-                    کیفیتش را حس می‌کنی.
-                </strong>
-            </h1>
+                <span class="hero-label">
+                    NAVIDTOWEL COLLECTION
+                </span>
 
-            <p>
-                مجموعه‌ای از حوله‌های نرم، خوش‌دوخت
-                و باکیفیت برای حمام، استخر و استفاده روزمره.
-            </p>
+                <h1>
+                    حوله‌ای که<br>
+                    کیفیتش را حس می‌کنی
+                </h1>
 
-            <div class="buttons">
+                <p>
+                    مجموعه‌ای از حوله‌های نرم، باکیفیت و خوش‌دوخت
+                    برای حمام، استخر و استفاده روزمره.
+                </p>
 
-                <a href="#shop" class="btn primary">
-                    مشاهده محصولات
+                <div class="hero-buttons">
+
+                    <a href="#shop" class="btn-primary">
+                        مشاهده محصولات
+                    </a>
+
+                    <a href="#categories" class="btn-secondary">
+                        دسته‌بندی‌ها
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="hero-visual">
+
+                <div class="towel-shape towel-one"></div>
+                <div class="towel-shape towel-two"></div>
+                <div class="towel-shape towel-three"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BENEFITS -->
+
+    <section class="benefits">
+
+        <div class="container benefits-grid">
+
+            <div class="benefit">
+                <div class="benefit-icon">✦</div>
+                <strong>کیفیت بالا</strong>
+                <span>انتخاب‌شده با دقت</span>
+            </div>
+
+            <div class="benefit">
+                <div class="benefit-icon">◈</div>
+                <strong>نرم و لطیف</strong>
+                <span>مناسب استفاده روزانه</span>
+            </div>
+
+            <div class="benefit">
+                <div class="benefit-icon">✓</div>
+                <strong>ارسال سریع</strong>
+                <span>بسته‌بندی مطمئن</span>
+            </div>
+
+            <div class="benefit">
+                <div class="benefit-icon">♡</div>
+                <strong>رضایت مشتری</strong>
+                <span>اولویت ما شما هستید</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CATEGORIES -->
+
+    <section class="section" id="categories">
+
+        <div class="container">
+
+            <div class="section-head">
+
+                <div>
+                    <h2 class="section-title">
+                        دسته‌بندی محصولات
+                    </h2>
+
+                    <p class="section-subtitle">
+                        برای هر استفاده، یک انتخاب مناسب
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="categories">
+
+                <a href="#shop" class="category-card">
+                    <h3>حوله حمام</h3>
+                    <p>نرم و جذب‌کننده</p>
                 </a>
 
-                <a href="#categories" class="btn secondary">
-                    دسته‌بندی‌ها
+                <a href="#shop" class="category-card">
+                    <h3>حوله دست و صورت</h3>
+                    <p>سبک و لطیف</p>
+                </a>
+
+                <a href="#shop" class="category-card">
+                    <h3>حوله استخری</h3>
+                    <p>مناسب استخر و سفر</p>
+                </a>
+
+                <a href="#shop" class="category-card">
+                    <h3>ست حوله</h3>
+                    <p>انتخابی شیک برای خانه</p>
                 </a>
 
             </div>
 
         </div>
 
+    </section>
 
-        <div class="hero-image">
 
-            <div class="towel towel-one"></div>
+    <!-- PRODUCTS -->
 
-            <div class="towel towel-two"></div>
+    <section class="section" id="shop">
 
-            <div class="offer">
+        <div class="container">
 
-                <small>
-                    پیشنهاد ویژه
-                </small>
+            <div class="section-head">
 
-                <strong>
-                    ست‌های حوله
-                </strong>
+                <div>
+                    <h2 class="section-title">
+                        محصولات منتخب
+                    </h2>
 
-                <span>
-                    رنگ دلخواهت را انتخاب کن
-                </span>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- BENEFITS -->
-
-<section class="benefits">
-
-    <div class="container benefits-grid">
-
-        <div>
-            <span>✓</span>
-            <div>
-                <b>کیفیت قابل اعتماد</b>
-                <small>انتخاب‌شده برای استفاده روزمره</small>
-            </div>
-        </div>
-
-        <div>
-            <span>↗</span>
-            <div>
-                <b>ارسال سریع</b>
-                <small>بسته‌بندی مرتب و مطمئن</small>
-            </div>
-        </div>
-
-        <div>
-            <span>♡</span>
-            <div>
-                <b>پشتیبانی</b>
-                <small>راهنمای انتخاب محصول</small>
-            </div>
-        </div>
-
-        <div>
-            <span>✦</span>
-            <div>
-                <b>خرید آسان</b>
-                <small>ثبت سفارش در چند مرحله</small>
-            </div>
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- CATEGORIES -->
-
-<section id="categories" class="section">
-
-    <div class="container">
-
-        <div class="section-title">
-
-            <div>
-                <span class="eyebrow">
-                    انتخاب کن
-                </span>
-
-                <h2>
-                    دسته‌بندی محصولات
-                </h2>
-            </div>
-
-            <a href="#shop">
-                مشاهده همه ←
-            </a>
-
-        </div>
-
-
-        <div class="categories">
-
-            <a href="#shop" class="category category-one">
-
-                <strong>
-                    حوله حمام
-                </strong>
-
-                <small>
-                    لطیف و جاذب
-                </small>
-
-            </a>
-
-
-            <a href="#shop" class="category category-two">
-
-                <strong>
-                    حوله دست و صورت
-                </strong>
-
-                <small>
-                    مناسب استفاده روزمره
-                </small>
-
-            </a>
-
-
-            <a href="#shop" class="category category-three">
-
-                <strong>
-                    حوله استخری
-                </strong>
-
-                <small>
-                    سبک و کاربردی
-                </small>
-
-            </a>
-
-
-            <a href="#shop" class="category category-four">
-
-                <strong>
-                    ست حوله
-                </strong>
-
-                <small>
-                    انتخابی شیک برای هدیه
-                </small>
-
-            </a>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- PRODUCTS -->
-
-<section id="shop" class="section products-section">
-
-    <div class="container">
-
-        <div class="section-title">
-
-            <div>
-
-                <span class="eyebrow">
-                    منتخب NavidTowel
-                </span>
-
-                <h2>
-                    محبوب‌ترین محصولات
-                </h2>
-
-            </div>
-
-        </div>
-
-
-        <div id="products" class="products"></div>
-
-    </div>
-
-</section>
-
-
-<!-- PROMO -->
-
-<section class="promo">
-
-    <div class="container promo-content">
-
-        <div>
-
-            <span class="eyebrow">
-                پیشنهاد ویژه
-            </span>
-
-            <h2>
-                برای حمام،
-                یک انتخاب نرم و ماندگار.
-            </h2>
-
-            <p>
-                محصولات منتخب NavidTowel را ببین.
-            </p>
-
-            <a href="#shop" class="btn light">
-                خرید محصولات
-            </a>
-
-        </div>
-
-        <div class="promo-logo">
-            NT
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ABOUT -->
-
-<section id="about" class="section about">
-
-    <div class="container about-content">
-
-        <div>
-
-            <span class="eyebrow">
-                درباره NavidTowel
-            </span>
-
-            <h2>
-                سادگی، کیفیت و حس خوب.
-            </h2>
-
-        </div>
-
-        <p>
-
-            در NavidTowel تلاش می‌کنیم انتخاب حوله را
-            ساده کنیم؛ محصولاتی با ظاهر زیبا، حس لطافت
-            و کیفیت مناسب استفاده روزانه.
-
-        </p>
-
-    </div>
-
-</section>
-
-
-<!-- REVIEWS -->
-
-<section class="section">
-
-    <div class="container">
-
-        <div class="section-title">
-
-            <div>
-
-                <span class="eyebrow">
-                    نظر مشتری‌ها
-                </span>
-
-                <h2>
-                    خرید خوب، حس خوب
-                </h2>
-
-            </div>
-
-        </div>
-
-
-        <div class="reviews">
-
-            <article>
-
-                <div class="stars">
-                    ★★★★★
+                    <p class="section-subtitle">
+                        چند انتخاب محبوب NavidTowel
+                    </p>
                 </div>
 
-                <p>
-                    بافت حوله خیلی نرم بود
-                    و بسته‌بندی هم مرتب رسید.
-                </p>
+                <a href="#shop" class="view-all">
+                    مشاهده همه محصولات
+                </a>
 
-                <b>
-                    مشتری NavidTowel
-                </b>
-
-            </article>
+            </div>
 
 
-            <article>
-
-                <div class="stars">
-                    ★★★★★
-                </div>
-
-                <p>
-                    رنگش دقیقاً چیزی بود
-                    که در عکس دیده بودم.
-                </p>
-
-                <b>
-                    مشتری NavidTowel
-                </b>
-
-            </article>
-
-
-            <article>
-
-                <div class="stars">
-                    ★★★★★
-                </div>
-
-                <p>
-                    برای هدیه گرفتم
-                    و خیلی شیک بود.
-                </p>
-
-                <b>
-                    مشتری NavidTowel
-                </b>
-
-            </article>
+            <div class="products"></div>
 
         </div>
 
-    </div>
+    </section>
 
-</section>
+
+    <!-- PROMO -->
+
+    <section class="section">
+
+        <div class="container">
+
+            <div class="promo">
+
+                <div>
+                    <h2>
+                        برای شروع، ساده انتخاب کن.
+                    </h2>
+
+                    <p>
+                        کیفیت خوب، طراحی زیبا و حس بهتر بعد از حمام.
+                    </p>
+                </div>
+
+                <a href="#shop" class="btn-secondary">
+                    خرید محصولات
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ABOUT -->
+
+    <section class="section" id="about">
+
+        <div class="container about">
+
+            <div class="about-box"></div>
+
+            <div class="about-text">
+
+                <h2>
+                    درباره NavidTowel
+                </h2>
+
+                <p>
+                    ما در NavidTowel تلاش می‌کنیم محصولاتی را ارائه کنیم
+                    که علاوه بر ظاهر زیبا، کیفیت و لطافت مناسبی داشته باشند.
+                </p>
+
+                <p>
+                    هدف ما این است که خرید حوله برای شما ساده،
+                    مطمئن و لذت‌بخش باشد.
+                </p>
+
+                <a href="#contact" class="btn-primary">
+                    ارتباط با ما
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- REVIEWS -->
+
+    <section class="section">
+
+        <div class="container">
+
+            <div class="section-head">
+
+                <div>
+                    <h2 class="section-title">
+                        نظر مشتریان
+                    </h2>
+
+                    <p class="section-subtitle">
+                        تجربه‌ای که برای ما ارزشمند است
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="reviews">
+
+                <div class="review">
+
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+
+                    <p>
+                        حوله خیلی نرم و باکیفیت بود.
+                        بسته‌بندی هم عالی انجام شده بود.
+                    </p>
+
+                    <strong>
+                        مشتری NavidTowel
+                    </strong>
+
+                </div>
+
+
+                <div class="review">
+
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+
+                    <p>
+                        کیفیت محصول نسبت به قیمت خیلی خوب بود.
+                        حتماً دوباره خرید می‌کنم.
+                    </p>
+
+                    <strong>
+                        مشتری NavidTowel
+                    </strong>
+
+                </div>
+
+
+                <div class="review">
+
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+
+                    <p>
+                        رنگ و ظاهر حوله دقیقاً چیزی بود که انتظار داشتم.
+                    </p>
+
+                    <strong>
+                        مشتری NavidTowel
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
 
 
 <!-- FOOTER -->
 
-<footer id="contact">
+<footer class="footer" id="contact">
 
-    <div class="container footer">
+    <div class="container">
 
-        <div>
+        <div class="footer-grid">
 
-            <a href="#" class="logo footer-logo">
-                <span>Navid</span>Towel
-            </a>
+            <div>
 
-            <p>
-                فروش آنلاین حوله‌های باکیفیت
-                و خوش‌دوخت.
-            </p>
+                <h3>
+                    NavidTowel
+                </h3>
 
-        </div>
+                <p>
+                    حوله‌های باکیفیت برای زندگی روزمره.
+                </p>
 
-
-        <div>
-
-            <h4>
-                دسترسی سریع
-            </h4>
-
-            <a href="#shop">
-                فروشگاه
-            </a>
-
-            <a href="#categories">
-                دسته‌بندی‌ها
-            </a>
-
-            <a href="#about">
-                درباره ما
-            </a>
-
-        </div>
+            </div>
 
 
-        <div>
+            <div>
 
-            <h4>
-                پشتیبانی
-            </h4>
+                <h3>
+                    فروشگاه
+                </h3>
 
-            <a href="#">
-                پیگیری سفارش
-            </a>
+                <a href="#shop">همه محصولات</a>
+                <a href="#categories">دسته‌بندی‌ها</a>
+                <a href="#shop">پرفروش‌ها</a>
 
-            <a href="#">
-                قوانین خرید
-            </a>
-
-            <a href="#">
-                سوالات متداول
-            </a>
-
-        </div>
+            </div>
 
 
-        <div>
+            <div>
 
-            <h4>
-                ارتباط با ما
-            </h4>
+                <h3>
+                    راهنما
+                </h3>
 
-            <p>
-                اینستاگرام:
-                @navidtowel
-            </p>
+                <a href="#about">درباره ما</a>
+                <a href="#">قوانین و مقررات</a>
+                <a href="#">روش‌های ارسال</a>
 
-            <p>
-                پشتیبانی:
-                ۰۹۱۲۱۲۳۴۵۶۷
-            </p>
+            </div>
+
+
+            <div>
+
+                <h3>
+                    تماس
+                </h3>
+
+                <p>
+                    تلفن: 09121234567
+                </p>
+
+                <p>
+                    Instagram: @navidtowel
+                </p>
+
+            </div>
 
         </div>
 
-    </div>
 
+        <div class="footer-bottom">
 
-    <div class="copyright">
+            © 2026 NavidTowel — تمامی حقوق محفوظ است.
 
-        © ۱۴۰۵ NavidTowel
-        — تمامی حقوق محفوظ است.
+        </div>
 
     </div>
 
 </footer>
 
 
-<!-- CART -->
+<!-- CART MODAL -->
 
-<div id="cartModal" class="cart-modal">
+<div class="cartModal cart-modal">
 
     <div class="cart-box">
 
-        <button onclick="closeCart()" class="close">
-            ×
-        </button>
+        <div class="cart-header">
 
-        <h2>
-            سبد خرید
-        </h2>
+            <h2>
+                سبد خرید
+            </h2>
 
-        <div id="cartItems"></div>
+            <button class="closeCart">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="cartItems"></div>
+
 
         <div class="cart-total">
 
-            جمع کل:
+            <span>
+                مبلغ کل
+            </span>
 
-            <strong id="cartTotal">
+            <strong class="cartTotal">
                 ۰ تومان
             </strong>
 
         </div>
 
-        <button class="checkout" onclick="checkout()">
+
+        <button class="checkout">
             ادامه ثبت سفارش
         </button>
 
