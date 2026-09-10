@@ -1,34 +1,3 @@
-const products = [
-    {
-        id: 1,
-        name: "حوله حمام کلاسیک",
-        description: "نرم، ضخیم و مناسب استفاده روزمره",
-        price: 890000,
-        badge: "پرفروش"
-    },
-    {
-        id: 2,
-        name: "حوله دست و صورت",
-        description: "لطیف و سبک برای استفاده روزانه",
-        price: 390000,
-        badge: "جدید"
-    },
-    {
-        id: 3,
-        name: "حوله استخری",
-        description: "جذب آب بالا و مناسب استخر و سفر",
-        price: 690000,
-        badge: "محبوب"
-    },
-    {
-        id: 4,
-        name: "ست حوله دو نفره",
-        description: "ست کامل و شیک برای دو نفر",
-        price: 1490000,
-        badge: "ویژه"
-    }
-];
-
 let cart = JSON.parse(localStorage.getItem("navidTowelCart")) || [];
 
 const productsContainer = document.querySelector(".products");
