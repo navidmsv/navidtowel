@@ -60,54 +60,182 @@
 </header>
 
 
-<!-- ================= MOBILE MENU ================= -->
-
+<!-- =========================
+     MOBILE SIDE MENU
+========================= -->
 <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
 
-<aside class="mobile-menu" id="mobileMenu">
+<aside class="mobile-side-menu" id="mobileSideMenu">
 
-    <div class="mobile-menu-header">
-        <strong>
-            Navid<span>Towel</span>
-        </strong>
+    <!-- Header -->
+    <div class="mobile-side-header">
 
-        <button class="mobile-menu-close" id="mobileMenuClose">
+        <div class="mobile-side-brand">
+            <div class="mobile-side-logo">N</div>
+
+            <div>
+                <strong>NavidTowel</strong>
+                <span>فروشگاه حوله و کالای خواب</span>
+            </div>
+        </div>
+
+        <button
+            type="button"
+            class="mobile-side-close"
+            id="mobileMenuClose"
+            aria-label="بستن منو">
             ×
         </button>
+
     </div>
 
-    <div class="mobile-menu-links">
 
-        <a href="index.html">خانه</a>
+    <!-- Main Links -->
+    <nav class="mobile-side-links">
 
-        <a href="shop.html">فروشگاه</a>
+        <a href="index.html" class="mobile-side-link">
+            <span class="side-icon">⌂</span>
+            <span>صفحه اصلی</span>
+        </a>
 
-        <button class="mobile-category-button" id="mobileCategoryButton">
-            <span>دسته‌بندی‌ها</span>
-            <span>‹</span>
-        </button>
 
-        <div class="mobile-category-list" id="mobileCategoryList">
+        <!-- Categories -->
+        <div class="mobile-side-category">
 
-            <a href="shop.html?category=men">حوله مردانه</a>
-            <a href="shop.html?category=women">حوله زنانه</a>
-            <a href="shop.html?category=kids">حوله بچگانه</a>
-            <a href="shop.html?category=bath">حوله حمامی</a>
-            <a href="shop.html?category=pool">حوله استخری</a>
-            <a href="shop.html?category=meter">حوله متری</a>
-            <a href="shop.html?category=robe">تن‌پوش</a>
+            <button
+                type="button"
+                class="mobile-side-link mobile-side-category-button"
+                id="mobileCategoryButton">
+
+                <span class="side-icon">☰</span>
+                <span>دسته‌بندی‌ها</span>
+
+                <span class="side-arrow" id="mobileCategoryArrow">⌄</span>
+
+            </button>
+
+
+            <div
+                class="mobile-side-category-list"
+                id="mobileCategoryList">
+
+                <a href="shop.html?category=men">
+                    مردانه
+                </a>
+
+                <a href="shop.html?category=women">
+                    زنانه
+                </a>
+
+                <a href="shop.html?category=kids">
+                    بچگانه
+                </a>
+
+                <a href="shop.html?category=bath">
+                    حمامی
+                </a>
+
+                <a href="shop.html?category=pool">
+                    استخری
+                </a>
+
+                <a href="shop.html?category=meter">
+                    متری
+                </a>
+
+                <a href="shop.html?category=robe">
+                    تن‌پوش
+                </a>
+
+            </div>
 
         </div>
 
-        <a href="#about">درباره ما</a>
-        <a href="#contact">تماس با ما</a>
+
+        <!-- Discount -->
+        <a href="discount.html" class="mobile-side-link mobile-side-discount">
+
+            <span class="side-icon">%</span>
+
+            <span>تخفیفات</span>
+
+            <span class="discount-badge">
+                ویژه
+            </span>
+
+        </a>
+
+
+        <!-- Order Tracking -->
+        <a href="tracking.html" class="mobile-side-link">
+
+            <span class="side-icon">⌕</span>
+
+            <span>پیگیری سفارش</span>
+
+        </a>
+
+
+        <!-- About -->
+        <a href="index.html#about" class="mobile-side-link">
+
+            <span class="side-icon">i</span>
+
+            <span>درباره ما</span>
+
+        </a>
+
+
+        <!-- Contact -->
+        <a href="index.html#contact" class="mobile-side-link">
+
+            <span class="side-icon">☎</span>
+
+            <span>تماس با ما</span>
+
+        </a>
+
+    </nav>
+
+
+    <!-- Bottom Buttons -->
+    <div class="mobile-side-bottom">
+
+        <a
+            href="shop.html"
+            class="mobile-bottom-button">
+
+            <span>▦</span>
+            <small>همه محصولات</small>
+
+        </a>
+
+
+        <a
+            href="cart.html"
+            class="mobile-bottom-button">
+
+            <span>🛒</span>
+            <small>سبد خرید</small>
+
+        </a>
+
+
+        <!-- Instagram -->
+        <a
+            href="https://instagram.com/YOUR_INSTAGRAM"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mobile-bottom-button">
+
+            <span>◎</span>
+            <small>اینستاگرام</small>
+
+        </a>
 
     </div>
 
 </aside>
-
-
-<main>
 
 <!-- ================================================= -->
 <!-- ================= HERO SLIDER =================== -->
