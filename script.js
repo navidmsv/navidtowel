@@ -461,3 +461,131 @@ document.addEventListener(
 
     }
 );
+/* =========================================================
+   NAVIDTOWEL — MOBILE SIDE MENU
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const menu = document.getElementById("mobileSideMenu");
+    const overlay = document.getElementById("mobileMenuOverlay");
+    const closeBtn = document.getElementById("mobileMenuClose");
+
+    const openBtn =
+        document.getElementById("mobileMenuButton") ||
+        document.querySelector(".mobile-menu-button") ||
+        document.querySelector(".mobile-menu-btn");
+
+    const category =
+        document.querySelector(".mobile-side-category");
+
+    const categoryButton =
+        document.getElementById("mobileCategoryButton");
+
+
+    function openSideMenu() {
+
+        if (!menu) return;
+
+        menu.classList.add("active");
+
+        if (overlay) {
+            overlay.classList.add("active");
+        }
+
+        document.body.style.overflow = "hidden";
+    }
+
+
+    function closeSideMenu() {
+
+        if (!menu) return;
+
+        menu.classList.remove("active");
+
+        if (overlay) {
+            overlay.classList.remove("active");
+        }
+
+        document.body.style.overflow = "";
+    }
+
+
+    /* Open */
+    if (openBtn) {
+
+        openBtn.addEventListener("click", function (e) {
+
+            e.preventDefault();
+
+            openSideMenu();
+
+        });
+
+    }
+
+
+    /* Close */
+    if (closeBtn) {
+
+        closeBtn.addEventListener("click", function () {
+
+            closeSideMenu();
+
+        });
+
+    }
+
+
+    /* Click outside */
+    if (overlay) {
+
+        overlay.addEventListener("click", function () {
+
+            closeSideMenu();
+
+        });
+
+    }
+
+
+    /* ESC */
+    document.addEventListener("keydown", function (e) {
+
+        if (e.key === "Escape") {
+
+            closeSideMenu();
+
+        }
+
+    });
+
+
+    /* Categories */
+    if (categoryButton && category) {
+
+        categoryButton.addEventListener("click", function () {
+
+            category.classList.toggle("open");
+
+        });
+
+    }
+
+
+    /* Close menu after clicking a link */
+    if (menu) {
+
+        menu.querySelectorAll("a").forEach(function (link) {
+
+            link.addEventListener("click", function () {
+
+                closeSideMenu();
+
+            });
+
+        });
+
+    }
+
+});
