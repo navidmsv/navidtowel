@@ -1,263 +1,1106 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NavidTowel | فروشگاه حوله</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="home-page">
+
+<!-- ================= HEADER ================= -->
+<header class="header">
+    <div class="container header-inner">
+
+        <button class="mobile-menu-button" id="mobileMenuButton" aria-label="منو">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <a href="index.html" class="logo">
+            Navid<span>Towel</span>
+        </a>
+
+        <nav class="nav">
+            <a href="index.html">خانه</a>
+            <a href="shop.html">فروشگاه</a>
+
+            <div class="nav-category">
+                <button class="nav-category-btn">
+                    دسته‌بندی‌ها
+                    <span>⌄</span>
+                </button>
+
+                <div class="category-dropdown">
+                    <a href="shop.html?category=men">حوله مردانه</a>
+                    <a href="shop.html?category=women">حوله زنانه</a>
+                    <a href="shop.html?category=kids">حوله بچگانه</a>
+                    <a href="shop.html?category=bath">حوله حمامی</a>
+                    <a href="shop.html?category=pool">حوله استخری</a>
+                    <a href="shop.html?category=meter">حوله متری</a>
+                    <a href="shop.html?category=robe">تن‌پوش</a>
+                </div>
+            </div>
+
+            <a href="#about">درباره ما</a>
+            <a href="#contact">تماس با ما</a>
+        </nav>
+
+        <div class="header-actions">
+            <button class="cart-btn openCart">
+                🛒
+                <span>سبد خرید</span>
+                <b class="cartCount">0</b>
+            </button>
+        </div>
+
+    </div>
+</header>
+
+
+<!-- ================= MOBILE MENU ================= -->
+
+<div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+<aside class="mobile-menu" id="mobileMenu">
+
+    <div class="mobile-menu-header">
+        <strong>
+            Navid<span>Towel</span>
+        </strong>
+
+        <button class="mobile-menu-close" id="mobileMenuClose">
+            ×
+        </button>
+    </div>
+
+    <div class="mobile-menu-links">
+
+        <a href="index.html">خانه</a>
+
+        <a href="shop.html">فروشگاه</a>
+
+        <button class="mobile-category-button" id="mobileCategoryButton">
+            <span>دسته‌بندی‌ها</span>
+            <span>‹</span>
+        </button>
+
+        <div class="mobile-category-list" id="mobileCategoryList">
+
+            <a href="shop.html?category=men">حوله مردانه</a>
+            <a href="shop.html?category=women">حوله زنانه</a>
+            <a href="shop.html?category=kids">حوله بچگانه</a>
+            <a href="shop.html?category=bath">حوله حمامی</a>
+            <a href="shop.html?category=pool">حوله استخری</a>
+            <a href="shop.html?category=meter">حوله متری</a>
+            <a href="shop.html?category=robe">تن‌پوش</a>
+
+        </div>
+
+        <a href="#about">درباره ما</a>
+        <a href="#contact">تماس با ما</a>
+
+    </div>
+
+</aside>
+
+
+<main>
+
+<!-- ================================================= -->
+<!-- ================= HERO SLIDER =================== -->
+<!-- ================================================= -->
+
+<section class="hero hero-slider-section" id="home">
+
+    <div class="container">
+
+        <div class="hero-slider" id="heroSlider">
+
+            <!-- عکس شماره 1 -->
+            <div class="hero-slide active">
+                <img
+                    src="IMG_3885.jpeg"
+                    alt="حوله NavidTowel"
+                >
+            </div>
+
+            <!--
+                برای اضافه کردن عکس دوم:
+                همین قسمت را کپی کن و اسم عکس را تغییر بده.
+            -->
+
+            <div class="hero-slide">
+                <img
+                    src="IMG_3886.jpeg"
+                    alt="حوله NavidTowel"
+                >
+            </div>
+
+            <!-- عکس سوم -->
+            <div class="hero-slide">
+                <img
+                    src="IMG_3887.jpeg"
+                    alt="حوله NavidTowel"
+                >
+            </div>
+
+
+            <!-- دکمه قبلی -->
+            <button
+                type="button"
+                class="hero-slider-arrow hero-slider-prev"
+                id="heroPrev"
+                aria-label="عکس قبلی"
+            >
+                →
+            </button>
+
+            <!-- دکمه بعدی -->
+            <button
+                type="button"
+                class="hero-slider-arrow hero-slider-next"
+                id="heroNext"
+                aria-label="عکس بعدی"
+            >
+                ←
+            </button>
+
+
+            <!-- نقطه‌های پایین عکس -->
+            <div class="hero-slider-dots" id="heroDots"></div>
+
+        </div>
+
+
+        <!-- متن بعد از عکس -->
+
+        <div class="hero-text hero-text-under">
+
+            <span class="hero-label">
+                NAVIDTOWEL COLLECTION
+            </span>
+
+            <h1>
+                لطافت واقعی،
+                <br>
+                از همین‌جا شروع می‌شود.
+            </h1>
+
+            <p>
+                مجموعه‌ای از حوله‌های باکیفیت، نرم و خوش‌دوخت
+                برای حمام، استخر و استفاده روزمره.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="shop.html" class="btn-primary">
+                    مشاهده محصولات
+                    <span>←</span>
+                </a>
+
+                <a href="#categories" class="btn-secondary">
+                    دسته‌بندی‌ها
+                </a>
+
+            </div>
+
+            <div class="hero-mini-info">
+
+                <div>
+                    <strong>کیفیت</strong>
+                    <span>انتخاب‌شده</span>
+                </div>
+
+                <div>
+                    <strong>نرم و لطیف</strong>
+                    <span>مناسب استفاده روزانه</span>
+                </div>
+
+                <div>
+                    <strong>ارسال</strong>
+                    <span>بسته‌بندی مطمئن</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= BENEFITS ================= -->
+
+<section class="benefits">
+
+    <div class="container benefits-grid">
+
+        <div class="benefit">
+            <div class="benefit-icon">✦</div>
+            <div>
+                <strong>کیفیت بالا</strong>
+                <span>انتخاب‌شده با دقت</span>
+            </div>
+        </div>
+
+        <div class="benefit">
+            <div class="benefit-icon">◈</div>
+            <div>
+                <strong>نرم و لطیف</strong>
+                <span>حس بهتر بعد از حمام</span>
+            </div>
+        </div>
+
+        <div class="benefit">
+            <div class="benefit-icon">✓</div>
+            <div>
+                <strong>ارسال مطمئن</strong>
+                <span>بسته‌بندی مناسب</span>
+            </div>
+        </div>
+
+        <div class="benefit">
+            <div class="benefit-icon">♡</div>
+            <div>
+                <strong>رضایت مشتری</strong>
+                <span>اولویت ما شما هستید</span>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CATEGORIES ================= -->
+
+<section class="section categories-section" id="categories">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <span class="section-label">
+                    دسته‌بندی
+                </span>
+
+                <h2 class="section-title">
+                    برای هر استفاده، یک انتخاب
+                </h2>
+
+                <p class="section-subtitle">
+                    دسته‌بندی موردنظرت را انتخاب کن و محصولات را ببین.
+                </p>
+
+            </div>
+
+            <a href="shop.html" class="view-all">
+                مشاهده همه ←
+            </a>
+
+        </div>
+
+
+        <div class="categories">
+
+            <a href="shop.html?category=bath" class="category-card category-bath">
+                <div class="category-number">01</div>
+                <div class="category-content">
+                    <h3>حوله حمام</h3>
+                    <p>نرم، جاذب و مناسب استفاده روزمره</p>
+                    <span>مشاهده محصولات ←</span>
+                </div>
+            </a>
+
+            <a href="shop.html?category=pool" class="category-card category-pool">
+                <div class="category-number">02</div>
+                <div class="category-content">
+                    <h3>حوله استخری</h3>
+                    <p>مناسب استخر، سفر و استفاده بیرون</p>
+                    <span>مشاهده محصولات ←</span>
+                </div>
+            </a>
+
+            <a href="shop.html?category=men" class="category-card category-men">
+                <div class="category-number">03</div>
+                <div class="category-content">
+                    <h3>مردانه</h3>
+                    <p>انتخاب‌های ساده و کاربردی</p>
+                    <span>مشاهده محصولات ←</span>
+                </div>
+            </a>
+
+            <a href="shop.html?category=women" class="category-card category-women">
+                <div class="category-number">04</div>
+                <div class="category-content">
+                    <h3>زنانه</h3>
+                    <p>لطافت و طراحی برای بانوان</p>
+                    <span>مشاهده محصولات ←</span>
+                </div>
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SELECTED PRODUCTS ================= -->
+
+<section class="section selected-products-section" id="shop">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <span class="section-label">
+                    NAVIDTOWEL
+                </span>
+
+                <h2 class="section-title">
+                    محصولات منتخب
+                </h2>
+
+                <p class="section-subtitle">
+                    چند انتخاب محبوب برای شروع خرید
+                </p>
+
+            </div>
+
+            <div class="products-heading-actions">
+
+                <div class="slider-buttons">
+
+                    <button
+                        type="button"
+                        class="slider-button"
+                        id="productsPrev"
+                    >
+                        →
+                    </button>
+
+                    <button
+                        type="button"
+                        class="slider-button"
+                        id="productsNext"
+                    >
+                        ←
+                    </button>
+
+                </div>
+
+                <a href="shop.html" class="view-all">
+                    مشاهده همه محصولات
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="products-slider">
+
+            <div class="products">
+                <!-- محصولات توسط script.js ساخته می‌شوند -->
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PROMO ================= -->
+
+<section class="section promo-section">
+
+    <div class="container">
+
+        <div class="promo">
+
+            <div class="promo-decoration">
+                NAVID
+            </div>
+
+            <div class="promo-content">
+
+                <span>NAVIDTOWEL</span>
+
+                <h2>
+                    انتخاب خوب،
+                    <br>
+                    لازم نیست پیچیده باشد.
+                </h2>
+
+                <p>
+                    محصول مناسب خودت را پیدا کن و با خیال راحت سفارش بده.
+                </p>
+
+            </div>
+
+            <a href="shop.html" class="btn-light">
+                رفتن به فروشگاه
+                <span>←</span>
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ABOUT ================= -->
+
+<section class="section about-section" id="about">
+
+    <div class="container about">
+
+        <div class="about-box">
+
+            <div class="about-box-inner">
+
+                <span>ABOUT US</span>
+
+                <strong>
+                    NAVID
+                    <small>TOWEL</small>
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="about-text">
+
+            <span class="section-label">
+                درباره ما
+            </span>
+
+            <h2>
+                قرار است خرید حوله،
+                <br>
+                ساده‌تر باشد.
+            </h2>
+
+            <p>
+                در NavidTowel تلاش می‌کنیم محصولاتی را انتخاب کنیم
+                که در کنار ظاهر خوب، کیفیت و لطافت مناسبی داشته باشند.
+            </p>
+
+            <p>
+                هدف ما این است که بتوانی بدون دردسر،
+                محصول مناسب خودت را پیدا کنی و سفارش بدهی.
+            </p>
+
+            <a href="#contact" class="btn-primary">
+                ارتباط با ما
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= REVIEWS ================= -->
+
+<section class="section reviews-section">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <span class="section-label">
+                    تجربه مشتریان
+                </span>
+
+                <h2 class="section-title">
+                    نظر مشتریان
+                </h2>
+
+                <p class="section-subtitle">
+                    تجربه خوب مشتری، بهترین معرفی ماست.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="reviews">
+
+            <div class="review">
+
+                <div class="review-top">
+                    <div class="stars">★★★★★</div>
+                    <span>خرید موفق</span>
+                </div>
+
+                <p>
+                    حوله خیلی نرم و باکیفیت بود.
+                    بسته‌بندی هم خیلی خوب انجام شده بود.
+                </p>
+
+                <strong>
+                    مشتری NavidTowel
+                </strong>
+
+            </div>
+
+
+            <div class="review">
+
+                <div class="review-top">
+                    <div class="stars">★★★★★</div>
+                    <span>خرید موفق</span>
+                </div>
+
+                <p>
+                    کیفیت محصول نسبت به قیمت خیلی خوب بود.
+                    حتماً دوباره خرید می‌کنم.
+                </p>
+
+                <strong>
+                    مشتری NavidTowel
+                </strong>
+
+            </div>
+
+
+            <div class="review">
+
+                <div class="review-top">
+                    <div class="stars">★★★★★</div>
+                    <span>خرید موفق</span>
+                </div>
+
+                <p>
+                    رنگ و ظاهر حوله دقیقاً چیزی بود
+                    که انتظار داشتم.
+                </p>
+
+                <strong>
+                    مشتری NavidTowel
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer" id="contact">
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div class="footer-brand">
+
+                <a href="index.html" class="logo">
+                    Navid<span>Towel</span>
+                </a>
+
+                <p>
+                    حوله‌های باکیفیت برای زندگی روزمره.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <h3>فروشگاه</h3>
+
+                <a href="shop.html">
+                    همه محصولات
+                </a>
+
+                <a href="#categories">
+                    دسته‌بندی‌ها
+                </a>
+
+                <a href="shop.html">
+                    محصولات منتخب
+                </a>
+
+            </div>
+
+
+            <div>
+
+                <h3>راهنما</h3>
+
+                <a href="#about">
+                    درباره ما
+                </a>
+
+                <a href="#">
+                    قوانین و مقررات
+                </a>
+
+                <a href="#">
+                    روش‌های ارسال
+                </a>
+
+            </div>
+
+
+            <div>
+
+                <h3>تماس</h3>
+
+                <p>
+                    تلفن: 09121234567
+                </p>
+
+                <p>
+                    Instagram: @navidtowel
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <span>© 2026 NavidTowel</span>
+
+            <span>تمامی حقوق محفوظ است.</span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- ================= CART ================= -->
+
+<div class="cartModal cart-modal">
+
+    <div class="cart-box">
+
+        <div class="cart-header">
+
+            <h2>
+                سبد خرید
+            </h2>
+
+            <button class="closeCart">
+                ×
+            </button>
+
+        </div>
+
+        <div class="cartItems"></div>
+
+        <div class="cart-total">
+
+            <span>
+                مبلغ کل
+            </span>
+
+            <strong class="cartTotal">
+                ۰ تومان
+            </strong>
+
+        </div>
+
+        <button class="checkout">
+            ادامه ثبت سفارش
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= SCRIPTS ================= -->
+
+<script src="products.js"></script>
+<script src="script.js"></script>
+
+<script>
+
 /* ================================================= */
-/* =============== HERO IMAGE SLIDER ============== */
+/* ================= MOBILE MENU =================== */
 /* ================================================= */
 
-.home-page .hero-slider-section {
-    padding-top: 25px;
-    padding-bottom: 50px;
-}
+const mobileMenuButton =
+    document.getElementById("mobileMenuButton");
 
-.home-page .hero-slider-section > .container {
-    width: 100%;
-}
+const mobileMenu =
+    document.getElementById("mobileMenu");
 
+const mobileMenuOverlay =
+    document.getElementById("mobileMenuOverlay");
 
-/* خود کادر عکس */
-
-.home-page .hero-slider {
-    position: relative;
-    width: 100%;
-    height: min(62vh, 620px);
-    min-height: 330px;
-    overflow: hidden;
-    border-radius: 28px;
-    background: #e9eee9;
-    box-shadow: 0 18px 45px rgba(30, 50, 40, 0.10);
-}
+const mobileMenuClose =
+    document.getElementById("mobileMenuClose");
 
 
-/* هر اسلاید */
+function openMobileMenu() {
 
-.home-page .hero-slide {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    visibility: hidden;
-    transition:
-        opacity 0.65s ease,
-        visibility 0.65s ease;
+    mobileMenu.classList.add("active");
+    mobileMenuOverlay.classList.add("active");
+    document.body.classList.add("menu-open");
+
 }
 
 
-/* عکس فعال */
+function closeMobileMenu() {
 
-.home-page .hero-slide.active {
-    opacity: 1;
-    visibility: visible;
+    mobileMenu.classList.remove("active");
+    mobileMenuOverlay.classList.remove("active");
+    document.body.classList.remove("menu-open");
+
 }
 
 
-/* خود عکس */
+mobileMenuButton?.addEventListener(
+    "click",
+    openMobileMenu
+);
 
-.home-page .hero-slide img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+mobileMenuClose?.addEventListener(
+    "click",
+    closeMobileMenu
+);
 
-
-/* دکمه‌های راست و چپ */
-
-.home-page .hero-slider-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 5;
-
-    width: 48px;
-    height: 48px;
-
-    border: 1px solid rgba(255,255,255,0.65);
-    border-radius: 50%;
-
-    background: rgba(255,255,255,0.88);
-    color: #294737;
-
-    font-size: 22px;
-
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-
-    transition:
-        transform 0.2s ease,
-        background 0.2s ease;
-}
-
-
-/* دکمه سمت راست */
-
-.home-page .hero-slider-prev {
-    right: 20px;
-}
-
-
-/* دکمه سمت چپ */
-
-.home-page .hero-slider-next {
-    left: 20px;
-}
-
-
-/* حرکت هنگام هاور */
-
-.home-page .hero-slider-arrow:hover {
-    transform:
-        translateY(-50%)
-        scale(1.08);
-
-    background: #ffffff;
-}
-
-
-/* نقطه‌های پایین */
-
-.home-page .hero-slider-dots {
-    position: absolute;
-    z-index: 6;
-
-    bottom: 18px;
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    display: flex;
-    gap: 8px;
-
-    padding: 7px 10px;
-
-    border-radius: 50px;
-
-    background: rgba(0,0,0,0.20);
-
-    backdrop-filter: blur(6px);
-}
-
-
-/* هر نقطه */
-
-.home-page .hero-dot {
-    width: 8px;
-    height: 8px;
-
-    padding: 0;
-    border: 0;
-    border-radius: 50%;
-
-    background: rgba(255,255,255,0.65);
-
-    cursor: pointer;
-
-    transition:
-        width 0.25s ease,
-        background 0.25s ease;
-}
-
-
-/* نقطه فعال */
-
-.home-page .hero-dot.active {
-    width: 25px;
-    border-radius: 20px;
-    background: #ffffff;
-}
-
-
-/* متن زیر عکس */
-
-.home-page .hero-text-under {
-    width: 100%;
-    max-width: 850px;
-
-    margin: 0 auto;
-
-    padding-top: 48px;
-
-    text-align: center;
-}
-
-
-/* دکمه‌ها وسط */
-
-.home-page .hero-text-under .hero-buttons {
-    justify-content: center;
-}
-
-
-/* اطلاعات کوچک */
-
-.home-page .hero-text-under .hero-mini-info {
-    justify-content: center;
-}
+mobileMenuOverlay?.addEventListener(
+    "click",
+    closeMobileMenu
+);
 
 
 /* ================================================= */
-/* ================== MOBILE ======================= */
+/* ============== MOBILE CATEGORIES ================ */
 /* ================================================= */
 
-@media (max-width: 768px) {
+const mobileCategoryButton =
+    document.getElementById("mobileCategoryButton");
 
-    .home-page .hero-slider-section {
-        padding-top: 15px;
-        padding-bottom: 35px;
-    }
+const mobileCategoryList =
+    document.getElementById("mobileCategoryList");
 
-    .home-page .hero-slider {
-        height: 48vh;
-        min-height: 260px;
-        border-radius: 20px;
-    }
 
-    .home-page .hero-slider-arrow {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
-    }
+mobileCategoryButton?.addEventListener(
+    "click",
+    () => {
 
-    .home-page .hero-slider-prev {
-        right: 12px;
-    }
+        mobileCategoryButton.classList.toggle("active");
 
-    .home-page .hero-slider-next {
-        left: 12px;
-    }
+        mobileCategoryList.classList.toggle("active");
 
-    .home-page .hero-slider-dots {
-        bottom: 12px;
     }
+);
 
-    .home-page .hero-text-under {
-        padding-top: 32px;
-        text-align: center;
-    }
 
-    .home-page .hero-text-under .hero-mini-info {
-        flex-wrap: wrap;
-    }
+/* ================================================= */
+/* ========== CLOSE MENU AFTER CLICK =============== */
+/* ================================================= */
+
+document
+    .querySelectorAll(".mobile-menu a")
+    .forEach(link => {
+
+        link.addEventListener(
+            "click",
+            closeMobileMenu
+        );
+
+    });
+
+
+/* ================================================= */
+/* =============== PRODUCT SLIDER ================== */
+/* ================================================= */
+
+const productSlider =
+    document.querySelector(
+        ".selected-products-section .products"
+    );
+
+const prevButton =
+    document.getElementById("productsPrev");
+
+const nextButton =
+    document.getElementById("productsNext");
+
+
+function moveProducts(direction) {
+
+    if (!productSlider) return;
+
+    const amount =
+        productSlider.clientWidth * 0.78;
+
+    productSlider.scrollBy({
+
+        left: direction * amount,
+
+        behavior: "smooth"
+
+    });
 
 }
 
 
-/* موبایل خیلی کوچک */
+prevButton?.addEventListener(
+    "click",
+    () => moveProducts(-1)
+);
 
-@media (max-width: 480px) {
+nextButton?.addEventListener(
+    "click",
+    () => moveProducts(1)
+);
 
-    .home-page .hero-slider {
-        height: 42vh;
-        min-height: 230px;
-        border-radius: 16px;
-    }
 
-    .home-page .hero-slider-arrow {
-        width: 36px;
-        height: 36px;
-    }
+/* ================================================= */
+/* ============ HOME PRODUCT LIMIT ================= */
+/* ================================================= */
+
+function limitHomeProducts() {
+
+    const cards =
+        document.querySelectorAll(
+            ".selected-products-section .product-card"
+        );
+
+    cards.forEach((card, index) => {
+
+        if (index >= 5) {
+
+            card.style.display = "none";
+
+        }
+
+    });
 
 }
+
+
+setTimeout(
+    limitHomeProducts,
+    100
+);
+
+
+/* ================================================= */
+/* ========== PRODUCT ARROWS VISIBILITY ============ */
+/* ================================================= */
+
+setTimeout(() => {
+
+    const cards =
+        document.querySelectorAll(
+            ".selected-products-section .product-card"
+        );
+
+    if (cards.length <= 4) {
+
+        prevButton.style.display = "none";
+        nextButton.style.display = "none";
+
+    }
+
+}, 300);
+
+
+/* ================================================= */
+/* ================= HERO SLIDER ==================== */
+/* ================================================= */
+
+const heroSlides =
+    document.querySelectorAll(".hero-slide");
+
+const heroPrev =
+    document.getElementById("heroPrev");
+
+const heroNext =
+    document.getElementById("heroNext");
+
+const heroDots =
+    document.getElementById("heroDots");
+
+let heroCurrent = 0;
+
+let heroTimer;
+
+
+/* ساخت نقطه‌های پایین اسلایدر */
+
+heroSlides.forEach((slide, index) => {
+
+    const dot =
+        document.createElement("button");
+
+    dot.type = "button";
+
+    dot.className =
+        "hero-dot" +
+        (index === 0 ? " active" : "");
+
+    dot.addEventListener(
+        "click",
+        () => {
+
+            showHeroSlide(index);
+
+            restartHeroTimer();
+
+        }
+    );
+
+    heroDots.appendChild(dot);
+
+});
+
+
+const heroDotsList =
+    document.querySelectorAll(".hero-dot");
+
+
+/* نمایش عکس */
+
+function showHeroSlide(index) {
+
+    if (!heroSlides.length) return;
+
+    heroCurrent =
+        (index + heroSlides.length) %
+        heroSlides.length;
+
+
+    heroSlides.forEach((slide, i) => {
+
+        slide.classList.toggle(
+            "active",
+            i === heroCurrent
+        );
+
+    });
+
+
+    heroDotsList.forEach((dot, i) => {
+
+        dot.classList.toggle(
+            "active",
+            i === heroCurrent
+        );
+
+    });
+
+}
+
+
+/* عکس قبلی */
+
+heroPrev?.addEventListener(
+    "click",
+    () => {
+
+        showHeroSlide(heroCurrent - 1);
+
+        restartHeroTimer();
+
+    }
+);
+
+
+/* عکس بعدی */
+
+heroNext?.addEventListener(
+    "click",
+    () => {
+
+        showHeroSlide(heroCurrent + 1);
+
+        restartHeroTimer();
+
+    }
+);
+
+
+/* حرکت خودکار */
+
+function startHeroTimer() {
+
+    heroTimer =
+        setInterval(() => {
+
+            showHeroSlide(
+                heroCurrent + 1
+            );
+
+        }, 4000);
+
+}
+
+
+/* ریست تایمر بعد از کلیک */
+
+function restartHeroTimer() {
+
+    clearInterval(heroTimer);
+
+    startHeroTimer();
+
+}
+
+
+/* شروع */
+
+showHeroSlide(0);
+
+startHeroTimer();
+
+
+/* ================================================= */
+/* ============ توقف هنگام بردن موس ================ */
+/* ================================================= */
+
+const heroSlider =
+    document.getElementById("heroSlider");
+
+
+heroSlider?.addEventListener(
+    "mouseenter",
+    () => clearInterval(heroTimer)
+);
+
+
+heroSlider?.addEventListener(
+    "mouseleave",
+    startHeroTimer
+);
+
+</script>
+
+</body>
+</html>
