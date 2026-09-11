@@ -1,499 +1,1363 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NavidTowel | حوله و کالای خواب</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="home-page">
-<header class="header">
-    <div class="container header-inner">
-        <a href="index.html" class="logo">
-            <span class="logo-mark">N</span>
-            <span>
-                <strong>NavidTowel</strong>
-                <small>حوله و کالای خواب</small>
-            </span>
-        </a>
-        <nav class="desktop-nav">
-            <a href="index.html" class="active">خانه</a>
-            <div class="nav-dropdown">
-                <button type="button" class="nav-dropdown-btn">
-                    دسته‌بندی‌ها
-                    <span>⌄</span>
-                </button>
-                <div class="nav-dropdown-menu">
-                    <a href="shop.html?category=men">حوله مردانه</a>
-                    <a href="shop.html?category=women">حوله زنانه</a>
-                    <a href="shop.html?category=kids">حوله بچگانه</a>
-                    <a href="shop.html?category=bath">حوله حمامی</a>
-                    <a href="shop.html?category=pool">حوله استخری</a>
-                    <a href="shop.html?category=meter">حوله متری</a>
-                    <a href="shop.html?category=robe">تن‌پوش</a>
-                </div>
-            </div>
-            <a href="shop.html">فروشگاه</a>
-            <a href="#about">درباره ما</a>
-        </nav>
-        <div class="header-actions">
-            <a href="shop.html" class="header-shop-btn">مشاهده محصولات</a>
-            <button type="button" class="mobile-menu-btn" id="mobileMenuBtn">
-                ☰
-            </button>
-        </div>
-    </div>
-</header>
-<div class="mobile-menu" id="mobileMenu">
-    <div class="mobile-menu-head">
-        <strong>منوی سایت</strong>
-        <button type="button" id="mobileMenuClose">×</button>
-    </div>
-    <a href="index.html">خانه</a>
-    <a href="shop.html">فروشگاه</a>
-    <button type="button" class="mobile-category-toggle" id="mobileCategoryToggle">
-        دسته‌بندی‌ها
-        <span>⌄</span>
-    </button>
-    <div class="mobile-category-list" id="mobileCategoryList">
-        <a href="shop.html?category=men">مردانه</a>
-        <a href="shop.html?category=women">زنانه</a>
-        <a href="shop.html?category=kids">بچگانه</a>
-        <a href="shop.html?category=bath">حمامی</a>
-        <a href="shop.html?category=pool">استخری</a>
-        <a href="shop.html?category=meter">متری</a>
-        <a href="shop.html?category=robe">تن‌پوش</a>
-    </div>
-    <a href="#about">درباره ما</a>
-</div>
-<main>
-    <!-- HERO SLIDER -->
-    <section class="hero hero-slider-section" id="home">
-        <div class="container">
-            <div class="hero-slider" id="heroSlider">
-                <!-- برای اضافه کردن عکس جدید، فقط یک hero-slide دیگر کپی کن -->
-                <div class="hero-slide active">
-                    <img src="IMG_3885.jpeg" alt="حوله NavidTowel">
-                </div>
-                <div class="hero-slide">
-                    <img src="IMG_3886.jpeg" alt="حوله NavidTowel">
-                </div>
-                <div class="hero-slide">
-                    <img src="IMG_3887.jpeg" alt="حوله NavidTowel">
-                </div>
-                <button
-                    type="button"
-                    class="hero-slider-arrow hero-slider-prev"
-                    id="heroPrev"
-                    aria-label="تصویر قبلی">
-                    →
-                </button>
-                <button
-                    type="button"
-                    class="hero-slider-arrow hero-slider-next"
-                    id="heroNext"
-                    aria-label="تصویر بعدی">
-                    ←
-                </button>
-                <div class="hero-slider-dots" id="heroDots"></div>
-            </div>
-            <div class="hero-text hero-text-under">
-                <div class="hero-label">
-                    کیفیتی که لمس می‌شود
-                </div>
-                <h1>
-                    لطافت را<br>
-                    <span>انتخاب کنید.</span>
-                </h1>
-                <p>
-                    مجموعه‌ای از حوله‌های باکیفیت و کالاهای خواب
-                    برای خانه‌ای زیباتر و آرامش بیشتر.
-                </p>
-                <div class="hero-buttons">
-                    <a href="shop.html" class="btn-primary">
-                        مشاهده محصولات
-                    </a>
-                    <a href="#about" class="btn-secondary">
-                        درباره NavidTowel
-                    </a>
-                </div>
-                <div class="hero-mini-info">
-                    <div>
-                        <strong>کیفیت</strong>
-                        <span>انتخاب‌شده</span>
-                    </div>
-                    <div>
-                        <strong>تنوع</strong>
-                        <span>برای همه</span>
-                    </div>
-                    <div>
-                        <strong>ارسال</strong>
-                        <span>به سراسر کشور</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- BENEFITS -->
-    <section class="benefits">
-        <div class="container benefits-grid">
-            <div class="benefit-card">
-                <span>01</span>
-                <div>
-                    <strong>کیفیت بالا</strong>
-                    <p>محصولات با کیفیت و انتخاب‌شده</p>
-                </div>
-            </div>
-            <div class="benefit-card">
-                <span>02</span>
-                <div>
-                    <strong>تنوع محصولات</strong>
-                    <p>مناسب برای تمام اعضای خانواده</p>
-                </div>
-            </div>
-            <div class="benefit-card">
-                <span>03</span>
-                <div>
-                    <strong>خرید آسان</strong>
-                    <p>ساده، سریع و بدون دردسر</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- CATEGORIES -->
-    <section class="section categories-section">
-        <div class="container">
-            <div class="section-head">
-                <div>
-                    <span class="section-label">دسته‌بندی</span>
-                    <h2>برای هر سلیقه، یک انتخاب</h2>
-                </div>
-                <a href="shop.html" class="section-link">
-                    مشاهده همه ←
-                </a>
-            </div>
-            <div class="categories-grid">
-                <a href="shop.html?category=men" class="category-card">
-                    <div class="category-number">01</div>
-                    <h3>مردانه</h3>
-                    <p>حوله‌های مردانه</p>
-                    <span>←</span>
-                </a>
-                <a href="shop.html?category=women" class="category-card">
-                    <div class="category-number">02</div>
-                    <h3>زنانه</h3>
-                    <p>لطافت و زیبایی</p>
-                    <span>←</span>
-                </a>
-                <a href="shop.html?category=kids" class="category-card">
-                    <div class="category-number">03</div>
-                    <h3>بچگانه</h3>
-                    <p>نرم و دوست‌داشتنی</p>
-                    <span>←</span>
-                </a>
-                <a href="shop.html?category=bath" class="category-card">
-                    <div class="category-number">04</div>
-                    <h3>حمامی</h3>
-                    <p>برای حمام و خانه</p>
-                    <span>←</span>
-                </a>
-                <a href="shop.html?category=pool" class="category-card">
-                    <div class="category-number">05</div>
-                    <h3>استخری</h3>
-                    <p>سبک و کاربردی</p>
-                    <span>←</span>
-                </a>
-                <a href="shop.html?category=robe" class="category-card">
-                    <div class="category-number">06</div>
-                    <h3>تن‌پوش</h3>
-                    <p>راحتی بیشتر</p>
-                    <span>←</span>
-                </a>
-            </div>
-        </div>
-    </section>
-    <!-- SELECTED PRODUCTS -->
-    <section class="section products-section">
-        <div class="container">
-            <div class="section-head">
-                <div>
-                    <span class="section-label">پیشنهاد ما</span>
-                    <h2>محصولات منتخب</h2>
-                </div>
-                <a href="shop.html" class="section-link">
-                    مشاهده همه ←
-                </a>
-            </div>
-            <div class="products-slider-wrap">
-                <button
-                    type="button"
-                    class="products-arrow products-prev"
-                    id="productsPrev">
-                    →
-                </button>
-                <div class="products-slider" id="homeProducts">
-                    <!-- محصولات توسط script.js ساخته می‌شوند -->
-                </div>
-                <button
-                    type="button"
-                    class="products-arrow products-next"
-                    id="productsNext">
-                    ←
-                </button>
-            </div>
-        </div>
-    </section>
-    <!-- PROMO -->
-    <section class="promo-section">
-        <div class="container">
-            <div class="promo-box">
-                <div>
-                    <span class="section-label">NavidTowel</span>
-                    <h2>
-                        برای خانه‌ای<br>
-                        گرم‌تر و زیباتر
-                    </h2>
-                    <p>
-                        محصولات مورد نیاز خانه را با کیفیت و انتخابی مطمئن تهیه کنید.
-                    </p>
-                </div>
-                <a href="shop.html" class="btn-light">
-                    ورود به فروشگاه
-                </a>
-            </div>
-        </div>
-    </section>
-    <!-- ABOUT -->
-    <section class="section about-section" id="about">
-        <div class="container about-grid">
-            <div class="about-text">
-                <span class="section-label">درباره ما</span>
-                <h2>
-                    انتخاب خوب،
-                    از یک حس خوب شروع می‌شود.
-                </h2>
-                <p>
-                    NavidTowel با هدف ارائه محصولات باکیفیت و کاربردی
-                    در زمینه حوله و کالاهای خواب فعالیت می‌کند.
-                </p>
-                <p>
-                    تلاش ما این است که خریدی ساده، مطمئن و لذت‌بخش
-                    برای شما فراهم کنیم.
-                </p>
-                <a href="shop.html" class="btn-primary">
-                    مشاهده فروشگاه
-                </a>
-            </div>
-            <div class="about-box">
-                <div class="about-box-number">N</div>
-                <strong>NavidTowel</strong>
-                <span>
-                    کیفیتی برای استفاده هر روز
-                </span>
-            </div>
-        </div>
-    </section>
-    <!-- REVIEWS -->
-    <section class="section reviews-section">
-        <div class="container">
-            <div class="section-head centered">
-                <div>
-                    <span class="section-label">نظر مشتریان</span>
-                    <h2>تجربه‌ای که می‌ماند</h2>
-                </div>
-            </div>
-            <div class="reviews-grid">
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p>
-                        کیفیت حوله واقعاً خوب بود و از چیزی که انتظار داشتم بهتر بود.
-                    </p>
-                    <strong>مشتری NavidTowel</strong>
-                </div>
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p>
-                        جنس نرم و خوبی داشت. خرید از فروشگاه هم راحت بود.
-                    </p>
-                    <strong>مشتری NavidTowel</strong>
-                </div>
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p>
-                        تنوع محصولات خوبه و برای خرید دوباره حتماً برمی‌گردم.
-                    </p>
-                    <strong>مشتری NavidTowel</strong>
-                </div>
-            </div>
-        </div>
-    </section>
-</main>
-<!-- FOOTER -->
-<footer class="footer">
-    <div class="container footer-grid">
-        <div class="footer-brand">
-            <a href="index.html" class="logo footer-logo">
-                <span class="logo-mark">N</span>
-                <span>
-                    <strong>NavidTowel</strong>
-                    <small>حوله و کالای خواب</small>
-                </span>
-            </a>
-            <p>
-                کیفیتی که لمس می‌شود.
-            </p>
-        </div>
-        <div class="footer-links">
-            <strong>دسترسی سریع</strong>
-            <a href="index.html">خانه</a>
-            <a href="shop.html">فروشگاه</a>
-            <a href="#about">درباره ما</a>
-        </div>
-        <div class="footer-links">
-            <strong>دسته‌بندی‌ها</strong>
-            <a href="shop.html?category=men">مردانه</a>
-            <a href="shop.html?category=women">زنانه</a>
-            <a href="shop.html?category=kids">بچگانه</a>
-            <a href="shop.html?category=bath">حمامی</a>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        © NavidTowel — تمامی حقوق محفوظ است.
-    </div>
-</footer>
-<script src="products.js"></script>
-<script src="script.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    /* =========================
-       MOBILE MENU
-    ========================= */
-    const mobileMenu = document.getElementById("mobileMenu");
-    const mobileMenuBtn = document.getElementById("mobileMenuBtn");
-    const mobileMenuClose = document.getElementById("mobileMenuClose");
-    mobileMenuBtn?.addEventListener("click", function () {
-        mobileMenu.classList.add("open");
-    });
-    mobileMenuClose?.addEventListener("click", function () {
-        mobileMenu.classList.remove("open");
-    });
-    document.querySelectorAll(".mobile-menu a").forEach(function (link) {
-        link.addEventListener("click", function () {
-            mobileMenu.classList.remove("open");
-        });
-    });
-    /* =========================
-       MOBILE CATEGORIES
-    ========================= */
-    const categoryToggle = document.getElementById("mobileCategoryToggle");
-    const categoryList = document.getElementById("mobileCategoryList");
-    categoryToggle?.addEventListener("click", function () {
-        categoryList.classList.toggle("open");
-    });
-    /* =========================
-       HERO SLIDER
-    ========================= */
-    const heroSlides = document.querySelectorAll(".hero-slide");
-    const heroPrev = document.getElementById("heroPrev");
-    const heroNext = document.getElementById("heroNext");
-    const heroDots = document.getElementById("heroDots");
-    const heroSlider = document.getElementById("heroSlider");
-    let heroCurrent = 0;
-    let heroTimer = null;
-    if (heroSlides.length && heroDots) {
-        heroSlides.forEach(function (slide, index) {
-            const dot = document.createElement("button");
-            dot.type = "button";
-            dot.className = "hero-dot";
-            if (index === 0) {
-                dot.classList.add("active");
-            }
-            dot.addEventListener("click", function () {
-                showHeroSlide(index);
-                restartHeroTimer();
-            });
-            heroDots.appendChild(dot);
-        });
-        const heroDotsList = heroDots.querySelectorAll(".hero-dot");
-        function showHeroSlide(index) {
-            heroCurrent =
-                (index + heroSlides.length) %
-                heroSlides.length;
-            heroSlides.forEach(function (slide, i) {
-                slide.classList.toggle(
-                    "active",
-                    i === heroCurrent
-                );
-            });
-            heroDotsList.forEach(function (dot, i) {
-                dot.classList.toggle(
-                    "active",
-                    i === heroCurrent
-                );
-            });
-        }
-        function startHeroTimer() {
-            clearInterval(heroTimer);
-            heroTimer = setInterval(function () {
-                showHeroSlide(heroCurrent + 1);
-            }, 4000);
-        }
-        function restartHeroTimer() {
-            clearInterval(heroTimer);
-            startHeroTimer();
-        }
-        heroPrev?.addEventListener("click", function () {
-            showHeroSlide(heroCurrent - 1);
-            restartHeroTimer();
-        });
-        heroNext?.addEventListener("click", function () {
-            showHeroSlide(heroCurrent + 1);
-            restartHeroTimer();
-        });
-        heroSlider?.addEventListener("mouseenter", function () {
-            clearInterval(heroTimer);
-        });
-        heroSlider?.addEventListener("mouseleave", function () {
-            startHeroTimer();
-        });
-        showHeroSlide(0);
-        startHeroTimer();
+/* =========================================================
+   NAVIDTOWEL — HOME DESIGN
+   Home styles are scoped to .home-page
+========================================================= */
+.home-page {
+    --green: #294737;
+    --green-dark: #1d3428;
+    --green-soft: #e9eee9;
+    --cream: #f7f3ea;
+    --cream-2: #fcfaf5;
+    --gold: #b79a5b;
+    --gold-soft: #eee3cc;
+    --text: #20251f;
+    --muted: #777b73;
+    --white: #fff;
+    --border: #e5dfd2;
+    --shadow: 0 20px 55px rgba(30, 50, 38, .10);
+    font-family: Tahoma, Arial, sans-serif;
+    direction: rtl;
+    background: var(--cream-2);
+    color: var(--text);
+    line-height: 1.8;
+    min-height: 100vh;
+}
+.home-page *,
+.home-page *::before,
+.home-page *::after {
+    box-sizing: border-box;
+}
+.home-page {
+    margin: 0;
+    padding: 0;
+}
+.home-page a {
+    text-decoration: none;
+    color: inherit;
+}
+.home-page button,
+.home-page input,
+.home-page textarea,
+.home-page select {
+    font-family: Tahoma, Arial, sans-serif;
+}
+.home-page button {
+    cursor: pointer;
+}
+.home-page.menu-open {
+    overflow: hidden;
+}
+.home-page .container {
+    width: min(1180px, 92%);
+    margin-left: auto;
+    margin-right: auto;
+}
+/* =========================================================
+   HEADER
+========================================================= */
+.home-page .header {
+    height: 78px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(252, 250, 245, .94);
+    border-bottom: 1px solid rgba(229, 223, 210, .8);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+.home-page .header-inner {
+    height: 78px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+.home-page .logo {
+    font-size: 25px;
+    font-weight: 900;
+    color: var(--green);
+    letter-spacing: -1.3px;
+    white-space: nowrap;
+}
+.home-page .logo span {
+    color: var(--gold);
+}
+.home-page .nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+.home-page .nav > a,
+.home-page .nav-category-btn {
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--text);
+}
+.home-page .nav > a {
+    position: relative;
+    padding: 28px 0;
+}
+.home-page .nav > a::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 17px;
+    width: 0;
+    height: 2px;
+    background: var(--gold);
+    transition: .25s;
+}
+.home-page .nav > a:hover {
+    color: var(--green);
+}
+.home-page .nav > a:hover::after {
+    width: 100%;
+}
+/* =========================================================
+   CATEGORY DROPDOWN
+========================================================= */
+.home-page .nav-category {
+    position: relative;
+    height: 78px;
+    display: flex;
+    align-items: center;
+}
+.home-page .nav-category-btn {
+    border: 0;
+    background: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+.home-page .nav-category-btn span {
+    color: var(--gold);
+    font-size: 18px;
+    transition: .2s;
+}
+.home-page .nav-category:hover .nav-category-btn {
+    color: var(--green);
+}
+.home-page .nav-category:hover .nav-category-btn span {
+    transform: rotate(180deg);
+}
+.home-page .category-dropdown {
+    position: absolute;
+    top: 66px;
+    right: -18px;
+    width: 220px;
+    padding: 9px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: .22s;
+}
+.home-page .nav-category:hover .category-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.home-page .category-dropdown a {
+    display: block;
+    padding: 10px 13px;
+    border-radius: 9px;
+    font-size: 12px;
+    transition: .2s;
+}
+.home-page .category-dropdown a:hover {
+    background: var(--green-soft);
+    color: var(--green);
+}
+/* =========================================================
+   HEADER ACTIONS
+========================================================= */
+.home-page .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+.home-page .cart-btn {
+    border: 0;
+    background: var(--green);
+    color: white;
+    min-height: 42px;
+    padding: 0 15px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .2s;
+}
+.home-page .cart-btn:hover {
+    background: var(--green-dark);
+    transform: translateY(-2px);
+}
+.home-page .cart-btn b,
+.home-page .cart-btn span,
+.home-page .cart-count {
+    min-width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 10px;
+}
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+.home-page .mobile-menu-button {
+    display: none;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    background: white;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+.home-page .mobile-menu-button span {
+    width: 19px;
+    height: 2px;
+    background: var(--green);
+    border-radius: 5px;
+}
+.home-page .mobile-menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    background: rgba(15, 25, 19, .48);
+    opacity: 0;
+    visibility: hidden;
+    transition: .25s;
+}
+.home-page .mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+.home-page .mobile-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(340px, 88%);
+    height: 100vh;
+    z-index: 3100;
+    background: var(--cream-2);
+    transform: translateX(105%);
+    transition: .3s;
+    box-shadow: -20px 0 50px rgba(0,0,0,.15);
+    overflow-y: auto;
+}
+.home-page .mobile-menu.active {
+    transform: translateX(0);
+}
+.home-page .mobile-menu-header {
+    height: 78px;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.home-page .mobile-menu-header strong {
+    color: var(--green);
+    font-size: 21px;
+}
+.home-page .mobile-menu-header strong span {
+    color: var(--gold);
+}
+.home-page .mobile-menu-close {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: white;
+    color: var(--green);
+    font-size: 23px;
+    cursor: pointer;
+}
+.home-page .mobile-menu-links {
+    padding: 20px;
+}
+.home-page .mobile-menu-links > a,
+.home-page .mobile-category-button {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: bold;
+    text-align: right;
+    cursor: pointer;
+}
+.home-page .mobile-menu-links > a:hover,
+.home-page .mobile-category-button:hover {
+    background: var(--green-soft);
+    color: var(--green);
+}
+.home-page .mobile-category-button span:last-child {
+    color: var(--gold);
+    font-size: 20px;
+    transition: .2s;
+}
+.home-page .mobile-category-button.active span:last-child {
+    transform: rotate(-90deg);
+}
+.home-page .mobile-category-list {
+    display: none;
+    padding: 3px 10px 10px 0;
+}
+.home-page .mobile-category-list.active {
+    display: block;
+}
+.home-page .mobile-category-list a {
+    display: block;
+    padding: 9px 15px;
+    border-right: 2px solid var(--border);
+    color: var(--muted);
+    font-size: 12px;
+}
+.home-page .mobile-category-list a:hover {
+    color: var(--green);
+    border-color: var(--gold);
+}
+/* =========================================================
+   HERO + IMAGE SLIDER
+========================================================= */
+.home-page .hero {
+    min-height: auto;
+    display: block;
+    background:
+        radial-gradient(
+            circle at 12% 18%,
+            rgba(183,154,91,.11),
+            transparent 28%
+        ),
+        var(--cream);
+    padding: 28px 0 55px;
+}
+.home-page .hero-slider-section > .container {
+    width: min(1180px, 92%);
+    margin-left: auto;
+    margin-right: auto;
+}
+.home-page .hero-slider {
+    position: relative;
+    width: 100%;
+    height: min(62vh, 620px);
+    min-height: 360px;
+    overflow: hidden;
+    border-radius: 28px;
+    background: #e9eee9;
+    box-shadow: 0 25px 65px rgba(30,50,38,.14);
+}
+.home-page .hero-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        opacity .65s ease,
+        visibility .65s ease;
+}
+.home-page .hero-slide.active {
+    opacity: 1;
+    visibility: visible;
+}
+.home-page .hero-slide img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+/* Slider arrows */
+.home-page .hero-slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(255,255,255,.7);
+    border-radius: 50%;
+    background: rgba(255,255,255,.9);
+    color: var(--green);
+    font-size: 21px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(0,0,0,.15);
+    transition:
+        transform .2s ease,
+        background .2s ease;
+}
+.home-page .hero-slider-prev {
+    right: 20px;
+}
+.home-page .hero-slider-next {
+    left: 20px;
+}
+.home-page .hero-slider-arrow:hover {
+    background: white;
+    transform: translateY(-50%) scale(1.08);
+}
+/* Slider dots */
+.home-page .hero-slider-dots {
+    position: absolute;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 10px;
+    border-radius: 30px;
+    background: rgba(0,0,0,.22);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+}
+.home-page .hero-dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,.65);
+    cursor: pointer;
+    transition:
+        width .25s ease,
+        background .25s ease;
+}
+.home-page .hero-dot.active {
+    width: 25px;
+    border-radius: 20px;
+    background: white;
+}
+/* Text below slider */
+.home-page .hero-text-under {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding-top: 48px;
+    text-align: center;
+}
+.home-page .hero-text {
+    padding-right: 0;
+}
+.home-page .hero-label {
+    display: inline-block;
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+}
+.home-page .hero h1 {
+    color: var(--green-dark);
+    font-size: clamp(40px, 5vw, 62px);
+    line-height: 1.25;
+    letter-spacing: -2.5px;
+    margin: 0 0 20px;
+}
+.home-page .hero h1 span {
+    color: var(--green);
+}
+.home-page .hero p {
+    max-width: 600px;
+    margin: 0 auto 28px;
+    color: var(--muted);
+    font-size: 15px;
+}
+.home-page .hero-text-under .hero-buttons {
+    justify-content: center;
+}
+.home-page .hero-text-under .hero-mini-info {
+    justify-content: center;
+}
+.home-page .hero-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.home-page .btn-primary,
+.home-page .btn-secondary,
+.home-page .btn-light {
+    min-height: 46px;
+    padding: 0 22px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    font-size: 12px;
+    font-weight: bold;
+    transition: .25s;
+}
+.home-page .btn-primary {
+    background: var(--green);
+    color: white;
+}
+.home-page .btn-primary:hover {
+    background: var(--green-dark);
+    transform: translateY(-2px);
+}
+.home-page .btn-secondary {
+    border: 1px solid var(--green);
+    background: transparent;
+    color: var(--green);
+}
+.home-page .btn-secondary:hover {
+    background: var(--green);
+    color: white;
+}
+.home-page .hero-mini-info {
+    display: flex;
+    gap: 30px;
+    margin-top: 38px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+}
+.home-page .hero-mini-info div {
+    display: flex;
+    flex-direction: column;
+}
+.home-page .hero-mini-info strong {
+    color: var(--green-dark);
+    font-size: 11px;
+}
+.home-page .hero-mini-info span {
+    color: var(--muted);
+    font-size: 9px;
+}
+/* =========================================================
+   BENEFITS
+========================================================= */
+.home-page .benefits {
+    background: var(--green);
+    color: white;
+}
+.home-page .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+.home-page .benefit {
+    min-height: 92px;
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-left: 1px solid rgba(255,255,255,.1);
+}
+.home-page .benefit:last-child {
+    border-left: 0;
+}
+.home-page .benefit-icon {
+    width: 39px;
+    height: 39px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: rgba(255,255,255,.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 19px;
+}
+.home-page .benefit strong {
+    display: block;
+    font-size: 12px;
+}
+.home-page .benefit span {
+    display: block;
+    color: rgba(255,255,255,.58);
+    font-size: 9px;
+}
+/* =========================================================
+   SECTIONS
+========================================================= */
+.home-page .section {
+    padding: 88px 0;
+}
+.home-page .section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+.home-page .section-label {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+}
+.home-page .section-title {
+    color: var(--green-dark);
+    font-size: 31px;
+    line-height: 1.35;
+    margin: 4px 0;
+}
+.home-page .section-subtitle {
+    color: var(--muted);
+    font-size: 12px;
+}
+.home-page .view-all {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: bold;
+    white-space: nowrap;
+    transition: .2s;
+}
+.home-page .view-all:hover {
+    color: var(--green);
+}
+/* =========================================================
+   CATEGORIES
+========================================================= */
+.home-page .categories {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+.home-page .category-card {
+    min-height: 275px;
+    position: relative;
+    padding: 23px;
+    overflow: hidden;
+    border-radius: 18px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: .3s;
+}
+.home-page .category-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 45px rgba(30,50,38,.14);
+}
+.home-page .category-bath {
+    background: linear-gradient(145deg, #536e5d, #294737);
+}
+.home-page .category-pool {
+    background: linear-gradient(145deg, #71877c, #4b6257);
+}
+.home-page .category-men {
+    background: linear-gradient(145deg, #746d5d, #4e493f);
+}
+.home-page .category-women {
+    background: linear-gradient(145deg, #a08f7b, #695b4e);
+}
+.home-page .category-card::before {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 280px;
+    left: -50px;
+    bottom: -90px;
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 30px;
+    transform: rotate(19deg);
+}
+.home-page .category-number {
+    position: relative;
+    z-index: 2;
+    color: rgba(255,255,255,.55);
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+.home-page .category-content {
+    position: relative;
+    z-index: 2;
+}
+.home-page .category-content h3 {
+    font-size: 19px;
+    margin: 0 0 5px;
+}
+.home-page .category-content p {
+    max-width: 190px;
+    color: rgba(255,255,255,.68);
+    font-size: 10px;
+    margin: 0 0 14px;
+}
+.home-page .category-content span {
+    font-size: 10px;
+}
+/* =========================================================
+   PRODUCTS
+========================================================= */
+.home-page .selected-products-section {
+    background: var(--cream);
+}
+.home-page .products-heading-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.home-page .slider-buttons {
+    display: flex;
+    gap: 6px;
+}
+.home-page .slider-button {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: white;
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: .2s;
+}
+.home-page .slider-button:hover {
+    background: var(--green);
+    border-color: var(--green);
+    color: white;
+}
+.home-page .selected-products-section .products-slider {
+    overflow: hidden;
+}
+.home-page .selected-products-section .products {
+    display: flex;
+    gap: 17px;
+    overflow-x: auto;
+    padding: 5px 2px 18px;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+}
+.home-page .selected-products-section .products::-webkit-scrollbar {
+    display: none;
+}
+.home-page .selected-products-section .product-card {
+    flex: 0 0 calc((100% - 51px) / 4);
+    min-width: 0;
+    overflow: hidden;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    scroll-snap-align: start;
+    transition: .25s;
+}
+.home-page .selected-products-section .product-card:nth-child(n+6) {
+    display: none;
+}
+.home-page .selected-products-section .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+}
+.home-page .selected-products-section .product-image {
+    height: 260px;
+    position: relative;
+    overflow: hidden;
+    background: #e9e2d5;
+}
+.home-page .selected-products-section .product-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+.home-page .selected-products-section .product-info {
+    padding: 16px;
+}
+.home-page .selected-products-section .product-info h3 {
+    font-size: 14px;
+    margin: 0 0 5px;
+}
+.home-page .selected-products-section .product-desc {
+    color: var(--muted);
+    font-size: 10px;
+    margin: 0 0 13px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.home-page .selected-products-section .product-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+.home-page .selected-products-section .price {
+    color: var(--green-dark);
+    font-size: 13px;
+    font-weight: 900;
+}
+.home-page .selected-products-section .add-cart {
+    border: 0;
+    background: var(--green);
+    color: white;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.home-page .selected-products-section .add-cart:hover {
+    background: var(--green-dark);
+}
+.home-page .badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 5;
+    background: var(--gold);
+    color: white;
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-size: 9px;
+}
+/* =========================================================
+   PROMO
+========================================================= */
+.home-page .promo {
+    min-height: 275px;
+    position: relative;
+    overflow: hidden;
+    padding: 45px 55px;
+    border-radius: 24px;
+    background: var(--green-dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+.home-page .promo-decoration {
+    position: absolute;
+    left: -30px;
+    bottom: -65px;
+    font-size: 155px;
+    font-weight: 900;
+    color: rgba(255,255,255,.035);
+    transform: rotate(-12deg);
+}
+.home-page .promo-content {
+    position: relative;
+    z-index: 2;
+}
+.home-page .promo-content > span {
+    color: var(--gold);
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+.home-page .promo h2 {
+    font-size: 31px;
+    line-height: 1.4;
+    margin: 8px 0;
+}
+.home-page .promo p {
+    color: rgba(255,255,255,.6);
+    font-size: 11px;
+    margin: 0;
+}
+.home-page .btn-light {
+    position: relative;
+    z-index: 2;
+    background: white;
+    color: var(--green);
+    white-space: nowrap;
+}
+.home-page .btn-light:hover {
+    background: var(--gold-soft);
+    transform: translateY(-2px);
+}
+/* =========================================================
+   ABOUT
+========================================================= */
+.home-page .about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 70px;
+}
+.home-page .about-box {
+    min-height: 420px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 25px;
+    background: linear-gradient(
+        140deg,
+        #486451,
+        #20382b
+    );
+}
+.home-page .about-box::before,
+.home-page .about-box::after {
+    content: "";
+    position: absolute;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 50%;
+}
+.home-page .about-box::before {
+    width: 330px;
+    height: 330px;
+    left: -100px;
+    bottom: -110px;
+}
+.home-page .about-box::after {
+    width: 460px;
+    height: 460px;
+    right: -220px;
+    top: -210px;
+}
+.home-page .about-box-inner {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+.home-page .about-box-inner span {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+.home-page .about-box-inner strong {
+    font-size: 63px;
+    line-height: 1;
+    letter-spacing: -3px;
+}
+.home-page .about-box-inner small {
+    display: block;
+    margin-top: 8px;
+    color: rgba(255,255,255,.5);
+    font-size: 11px;
+    letter-spacing: 6px;
+    text-align: center;
+}
+.home-page .about-text h2 {
+    color: var(--green-dark);
+    font-size: 34px;
+    line-height: 1.5;
+    margin: 5px 0 20px;
+}
+.home-page .about-text p {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 0 0 13px;
+}
+/* =========================================================
+   REVIEWS
+========================================================= */
+.home-page .reviews {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 17px;
+}
+.home-page .review {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 23px;
+    transition: .25s;
+}
+.home-page .review:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+}
+.home-page .review-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+.home-page .stars {
+    color: var(--gold);
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+.home-page .review-top > span {
+    color: #a2a49e;
+    font-size: 9px;
+}
+.home-page .review p {
+    color: var(--muted);
+    font-size: 11px;
+    min-height: 55px;
+    margin: 0 0 15px;
+}
+.home-page .review strong {
+    color: var(--green-dark);
+    font-size: 11px;
+}
+/* =========================================================
+   FOOTER
+========================================================= */
+.home-page .footer {
+    background: #1c2b22;
+    color: white;
+    padding: 60px 0 25px;
+}
+.home-page .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 40px;
+}
+.home-page .footer h3 {
+    font-size: 14px;
+    margin: 0 0 14px;
+}
+.home-page .footer p,
+.home-page .footer a {
+    display: block;
+    color: rgba(255,255,255,.58);
+    font-size: 11px;
+    margin: 0 0 7px;
+}
+.home-page .footer a:hover {
+    color: white;
+}
+.home-page .footer-brand .logo {
+    display: inline-block;
+    color: white;
+    margin-bottom: 10px;
+}
+.home-page .footer-brand .logo span {
+    color: var(--gold);
+}
+.home-page .footer-bottom {
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,.1);
+    display: flex;
+    justify-content: space-between;
+    color: rgba(255,255,255,.4);
+    font-size: 9px;
+}
+/* =========================================================
+   CART MODAL
+========================================================= */
+.home-page .cart-modal,
+.home-page .cartModal {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    background: rgba(0,0,0,.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.home-page .cart-modal.active,
+.home-page .cartModal.active {
+    display: flex;
+}
+.home-page .cart-box {
+    width: min(500px, 100%);
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 25px;
+    background: var(--cream-2);
+    border-radius: 20px;
+}
+.home-page .cart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.home-page .closeCart {
+    border: 0;
+    background: transparent;
+    font-size: 25px;
+    cursor: pointer;
+}
+.home-page .cart-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 0;
+    border-top: 1px solid var(--border);
+    margin-top: 15px;
+}
+.home-page .checkout {
+    width: 100%;
+    border: 0;
+    padding: 13px;
+    border-radius: 9px;
+    background: var(--green);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media (max-width: 1000px) {
+    .home-page .nav {
+        gap: 17px;
     }
-    /* =========================
-       HOME PRODUCTS — MAX 5
-    ========================= */
-    const homeProducts = document.getElementById("homeProducts");
-    if (homeProducts) {
-        setTimeout(function () {
-            const cards =
-                homeProducts.querySelectorAll(".product-card");
-            cards.forEach(function (card, index) {
-                if (index >= 5) {
-                    card.style.display = "none";
-                }
-            });
-        }, 300);
+    .home-page .hero h1 {
+        font-size: 47px;
     }
-    /* =========================
-       HOME PRODUCT ARROWS
-    ========================= */
-    const productsPrev =
-        document.getElementById("productsPrev");
-    const productsNext =
-        document.getElementById("productsNext");
-    productsPrev?.addEventListener("click", function () {
-        homeProducts?.scrollBy({
-            left: -320,
-            behavior: "smooth"
-        });
-    });
-    productsNext?.addEventListener("click", function () {
-        homeProducts?.scrollBy({
-            left: 320,
-            behavior: "smooth"
-        });
-    });
-});
-</script>
-</body>
-</html>
+    .home-page .categories {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .home-page .selected-products-section .product-card {
+        flex-basis: calc((100% - 34px) / 3);
+    }
+}
+@media (max-width: 800px) {
+    .home-page .header,
+    .home-page .header-inner {
+        height: 68px;
+    }
+    .home-page .mobile-menu-button {
+        display: flex;
+    }
+    .home-page .nav {
+        display: none;
+    }
+    .home-page .header-inner {
+        gap: 10px;
+    }
+    .home-page .logo {
+        font-size: 22px;
+    }
+    .home-page .header-actions .cart-btn span {
+        display: none;
+    }
+    .home-page .cart-btn {
+        padding: 0 11px;
+    }
+    /* HERO MOBILE */
+    .home-page .hero {
+        padding: 15px 0 40px;
+    }
+    .home-page .hero-slider-section > .container {
+        width: 94%;
+    }
+    .home-page .hero-slider {
+        height: 52vh;
+        min-height: 270px;
+        border-radius: 20px;
+    }
+    .home-page .hero-slider-arrow {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+    }
+    .home-page .hero-slider-prev {
+        right: 12px;
+    }
+    .home-page .hero-slider-next {
+        left: 12px;
+    }
+    .home-page .hero-slider-dots {
+        bottom: 12px;
+    }
+    .home-page .hero-text-under {
+        padding-top: 32px;
+    }
+    .home-page .hero h1 {
+        font-size: 38px;
+        letter-spacing: -1.5px;
+    }
+    .home-page .hero p {
+        font-size: 13px;
+    }
+    .home-page .hero-text-under .hero-mini-info {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .home-page .benefits-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .home-page .benefit {
+        border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .home-page .about {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .home-page .reviews {
+        grid-template-columns: 1fr;
+    }
+    .home-page .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media (max-width: 600px) {
+    .home-page .container {
+        width: 94%;
+    }
+    .home-page .hero {
+        padding-top: 10px;
+    }
+    .home-page .hero-slider {
+        height: 43vh;
+        min-height: 230px;
+        border-radius: 17px;
+    }
+    .home-page .hero-slider-arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+    .home-page .hero-slider-prev {
+        right: 9px;
+    }
+    .home-page .hero-slider-next {
+        left: 9px;
+    }
+    .home-page .hero h1 {
+        font-size: 31px;
+    }
+    .home-page .hero p {
+        font-size: 12px;
+    }
+    .home-page .hero-mini-info {
+        gap: 17px;
+        margin-top: 28px;
+    }
+    .home-page .hero-mini-info strong {
+        font-size: 10px;
+    }
+    .home-page .hero-mini-info span {
+        font-size: 8px;
+    }
+    .home-page .benefit {
+        padding: 13px 9px;
+        gap: 7px;
+    }
+    .home-page .benefit-icon {
+        width: 31px;
+        height: 31px;
+        font-size: 15px;
+    }
+    .home-page .section {
+        padding: 60px 0;
+    }
+    .home-page .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 24px;
+    }
+    .home-page .section-title {
+        font-size: 25px;
+    }
+    .home-page .products-heading-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .home-page .categories {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .home-page .category-card {
+        min-height: 215px;
+        padding: 17px;
+        border-radius: 14px;
+    }
+    .home-page .category-content h3 {
+        font-size: 16px;
+    }
+    .home-page .category-content p {
+        font-size: 9px;
+    }
+    .home-page .selected-products-section .product-card {
+        flex: 0 0 calc((100% - 10px) / 2);
+    }
+    .home-page .selected-products-section .product-image {
+        height: 205px;
+    }
+    .home-page .selected-products-section .product-info {
+        padding: 12px;
+    }
+    .home-page .selected-products-section .product-info h3 {
+        font-size: 12px;
+    }
+    .home-page .selected-products-section .price {
+        font-size: 10px;
+    }
+    .home-page .selected-products-section .add-cart {
+        font-size: 8px;
+        padding: 7px;
+    }
+    .home-page .promo {
+        padding: 32px 24px;
+        flex-direction: column;
+        align-items: flex-start;
+        min-height: auto;
+        border-radius: 18px;
+    }
+    .home-page .promo h2 {
+        font-size: 25px;
+    }
+    .home-page .promo-decoration {
+        font-size: 90px;
+    }
+    .home-page .about-box {
+        min-height: 280px;
+    }
+    .home-page .about-box-inner strong {
+        font-size: 51px;
+    }
+    .home-page .about-text h2 {
+        font-size: 27px;
+    }
+    .home-page .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px 18px;
+    }
+    .home-page .footer-bottom {
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+    }
+}
+@media (max-width: 480px) {
+    .home-page .hero-slider {
+        height: 43vh;
+        min-height: 230px;
+    }
+    .home-page .hero h1 {
+        font-size: 31px;
+    }
+}
+@media (max-width: 400px) {
+    .home-page .categories {
+        grid-template-columns: 1fr;
+    }
+    .home-page .category-card {
+        min-height: 190px;
+    }
+    .home-page .selected-products-section .product-card {
+        flex-basis: 82%;
+    }
+    .home-page .hero-mini-info {
+        gap: 10px;
+    }
+}
