@@ -42,21 +42,18 @@ const products = [
         category: "set",
         image: "images/towel-set.webp",
         description: "ست حوله دو نفره زیبا و باکیفیت، انتخابی مناسب برای استفاده خانوادگی یا هدیه."
-    }
-{
+    },
+    
+    {
+        
     id: 5,
     name: "تن‌پوش زنانه مدل فلان",
     price: 1290000,
     oldPrice: 1490000,
     badge: "جدید",
-
-    categories: [
-        "women",
-        "robe"
-    ],
-
+    categories: ["women", "robe"],
     image: "images/women-robe.webp",
-
     description: "توضیحات محصول..."
-}
+    
+    }
 ];
