@@ -427,51 +427,71 @@
     class="bottom-cart"
     id="bottomCart"
 >
-<div class="bottom-cart-info">
-    <div class="bottom-cart-icon">
-        🛒
-    </div>
-    <div>
-        <strong>
-            سبد خرید
-        </strong>
-        <span>
-            <span id="bottomCartCount">
-                ۰
+    <div class="bottom-cart-info">
+        <div class="bottom-cart-icon">
+            🛒
+        </div>
+        <div>
+            <strong>
+                سبد خرید
+            </strong>
+            <span>
+                <span id="bottomCartCount">
+                    ۰
+                </span>
+                کالا
             </span>
-            کالا
-        </span>
+        </div>
     </div>
+    <div class="bottom-cart-total">
+        <span>
+            مبلغ کل
+        </span>
+        <strong id="bottomCartTotal">
+            ۰ تومان
+        </strong>
+    </div>
+    <button
+        class="bottom-cart-checkout"
+        id="bottomCheckout"
+    >
+        تکمیل سفارش
+    </button>
 </div>
-<div class="bottom-cart-total">
-    <span>
-        مبلغ کل
-    </span>
-    <strong id="bottomCartTotal">
-        ۰ تومان
-    </strong>
-</div>
-<button
-    class="bottom-cart-checkout"
-    id="bottomCheckout"
->
-    تکمیل سفارش
-</button>
+<!-- =========================
+     پنجره سبد خرید
+     ========================= -->
+<div class="cartModal">
+    <div class="cartBox">
+        <button class="closeCart">
+            ×
+        </button>
+        <h2>
+            سبد خرید
+        </h2>
+        <div class="cartItems"></div>
+        <div class="cart-footer">
+            <span>
+                مبلغ کل
+            </span>
+            <strong class="cartTotal">
+                ۰ تومان
+            </strong>
+        </div>
+        <button class="checkout">
+            تکمیل سفارش
+        </button>
+    </div>
 </div>
 <!-- =========================
      فایل محصولات
      ========================= -->
 <script src="products.js"></script>
+<!-- سیستم اصلی سبد خرید -->
+<script src="script.js"></script>
 <script>
 /* =========================
-   اطلاعات سبد خرید
-   ========================= */
-let shopCart =
-    JSON.parse(
-        localStorage.getItem("navidTowelCart")
-    ) || [];
-/* =========================
-   المنت‌ها
+   المنت‌های فروشگاه
    ========================= */
 const shopProducts =
     document.getElementById("shopProducts");
@@ -483,14 +503,6 @@ const sortFilter =
     document.getElementById("sortFilter");
 const productsCount =
     document.getElementById("productsCount");
-const bottomCart =
-    document.getElementById("bottomCart");
-const bottomCartCount =
-    document.getElementById("bottomCartCount");
-const bottomCartTotal =
-    document.getElementById("bottomCartTotal");
-const headerCartCount =
-    document.querySelector(".cartCount");
 /* =========================
    قیمت
    ========================= */
@@ -498,81 +510,6 @@ function formatShopPrice(price) {
     return Number(price)
         .toLocaleString("fa-IR")
         + " تومان";
-}
-/* =========================
-   ذخیره سبد
-   ========================= */
-function saveShopCart() {
-    localStorage.setItem(
-        "navidTowelCart",
-        JSON.stringify(shopCart)
-    );
-}
-/* =========================
-   آپدیت سبد پایین
-   ========================= */
-function updateBottomCart() {
-    if (!shopCart.length) {
-        bottomCart.classList.remove("active");
-        if (headerCartCount) {
-            headerCartCount.textContent = "۰";
-        }
-        return;
-    }
-    const quantity =
-        shopCart.reduce(
-            (sum, item) =>
-                sum + item.quantity,
-            0
-        );
-    const total =
-        shopCart.reduce(
-            (sum, item) =>
-                sum +
-                item.price *
-                item.quantity,
-            0
-        );
-    bottomCartCount.textContent =
-        quantity.toLocaleString("fa-IR");
-    bottomCartTotal.textContent =
-        formatShopPrice(total);
-    if (headerCartCount) {
-        headerCartCount.textContent =
-            quantity.toLocaleString("fa-IR");
-    }
-    bottomCart.classList.add("active");
-}
-/* =========================
-   افزودن به سبد
-   ========================= */
-function addToShopCart(id) {
-    const product =
-        products.find(
-            item => item.id === id
-        );
-    if (!product) return;
-    const existing =
-        shopCart.find(
-            item => item.id === id
-        );
-    if (existing) {
-        existing.quantity++;
-    } else {
-        shopCart.push({
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            quantity: 1
-        });
-    }
-    saveShopCart();
-    updateBottomCart();
-    /* افکت کوچک روی دکمه */
-    const buttons =
-        document.querySelectorAll(
-            `.shop-add-cart`
-        );
 }
 /* =========================
    رفتن به صفحه محصول
@@ -687,7 +624,7 @@ function renderShopProducts() {
                             class="shop-add-cart"
                             onclick="
                                 event.stopPropagation();
-                                addToShopCart(${product.id});
+                                addToCart(${product.id});
                             "
                         >
                             افزودن
@@ -713,26 +650,9 @@ sortFilter.addEventListener(
     renderShopProducts
 );
 /* =========================
-   تکمیل سفارش
-   ========================= */
-document
-    .getElementById("bottomCheckout")
-    .addEventListener(
-        "click",
-        function() {
-            if (!shopCart.length) {
-                return;
-            }
-            alert(
-                "صفحه تکمیل سفارش در مرحله بعدی فعال می‌شود."
-            );
-        }
-    );
-/* =========================
    اجرای اولیه
    ========================= */
 renderShopProducts();
-updateBottomCart();
 </script>
 </body>
 </html>
