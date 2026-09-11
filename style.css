@@ -989,3 +989,58 @@ button {
         font-size: 24px;
     }
 }
+.back-btn,
+.all-products-btn {
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    transition: 0.2s;
+}
+
+.back-btn {
+    background: transparent;
+    color: #333;
+}
+
+.back-btn:hover {
+    background: #f1f1f1;
+}
+
+.all-products-btn {
+    background: #f1f5ee;
+    color: #34452f;
+}
+
+.all-products-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* فاصله مناسب بین دکمه‌های هدر */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* موبایل */
+@media (max-width: 768px) {
+
+    .header-actions {
+        gap: 5px;
+    }
+
+    .back-btn,
+    .all-products-btn {
+        font-size: 12px;
+        padding: 8px 9px;
+    }
+
+    .cart-btn {
+        font-size: 12px;
+        padding: 8px 9px;
+    }
+}
