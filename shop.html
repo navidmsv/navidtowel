@@ -324,33 +324,40 @@
 
 <!-- سبد خرید -->
 
-<div class="cartModal">
+<div class="bottom-cart" id="bottomCart">
 
-    <div class="cartBox">
+    <div class="bottom-cart-info">
 
-        <button class="closeCart">×</button>
+        <div class="bottom-cart-icon">
+            🛒
+        </div>
 
-        <h2>سبد خرید</h2>
-
-        <div class="cartItems"></div>
-
-        <div class="cart-footer">
-
+        <div>
             <strong>
-                مجموع:
-                <span class="cartTotal">۰ تومان</span>
+                سبد خرید
             </strong>
 
-            <button class="checkout">
-                ثبت سفارش
-            </button>
-
+            <span>
+                <span id="bottomCartCount">۰</span> کالا
+            </span>
         </div>
 
     </div>
 
-</div>
 
+    <div class="bottom-cart-total">
+        <span>مبلغ کل</span>
+        <strong id="bottomCartTotal">
+            ۰ تومان
+        </strong>
+    </div>
+
+
+    <button class="bottom-cart-checkout">
+        تکمیل سفارش
+    </button>
+
+</div>
 
 <script src="products.js"></script>
 <script src="script.js"></script>
