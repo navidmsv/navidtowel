@@ -349,56 +349,42 @@
      هدر سایت
 ========================= -->
 
-<header class="site-header">
-
-    <div class="container">
+<header class="header">
+    <div class="container header-inner">
 
         <a href="index.html" class="logo">
-            NavidTowel
+            Navid<span>Towel</span>
         </a>
 
-
-        <nav>
-
-            <a href="index.html">
-                خانه
-            </a>
-
-            <a href="index.html#products">
-                فروشگاه
-            </a>
-
-            <a href="index.html#categories">
-                دسته‌بندی‌ها
-            </a>
-
-            <a href="index.html#about">
-                درباره ما
-            </a>
-
-            <a href="index.html#contact">
-                تماس با ما
-            </a>
-
+        <nav class="nav">
+            <a href="index.html#home">خانه</a>
+            <a href="index.html#shop">فروشگاه</a>
+            <a href="index.html#categories">دسته‌بندی‌ها</a>
+            <a href="index.html#about">درباره ما</a>
+            <a href="index.html#contact">تماس با ما</a>
         </nav>
 
+        <div class="header-actions">
 
-        <!-- سبد خرید همان هدر اصلی -->
+            <!-- فلش بازگشت -->
+            <button class="back-btn" onclick="history.back()">
+                ← بازگشت
+            </button>
 
-        <button
-            class="openCart"
-            type="button">
+            <!-- همه محصولات -->
+            <a href="index.html#shop" class="all-products-btn">
+                🛍️ همه محصولات
+            </a>
 
-            🛒 سبد خرید
+            <!-- سبد خرید -->
+            <button class="cart-btn openCart">
+                🛒 سبد خرید
+                <span class="cartCount">0</span>
+            </button>
 
-            <span class="cartCount">
-                0
-            </span>
-
-        </button>
+        </div>
 
     </div>
-
 </header>
 
 
