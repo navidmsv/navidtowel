@@ -282,7 +282,9 @@ function renderCart() {
         formatPrice(total);
 
 }
-
+if (typeof updateBottomCart === "function") {
+    updateBottomCart();
+}
 
 /* باز کردن سبد */
 
