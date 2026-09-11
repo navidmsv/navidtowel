@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NavidTowel | حوله باکیفیت</title>
+    <title>NavidTowel | فروشگاه حوله</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="home-page">
 <!-- ================= HEADER ================= -->
-<header class="site-header">
+<header class="header">
     <div class="container header-inner">
-        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="منو">
+        <button class="mobile-menu-button" id="mobileMenuButton" aria-label="منو">
             <span></span>
             <span></span>
             <span></span>
@@ -18,73 +18,58 @@
         <a href="index.html" class="logo">
             Navid<span>Towel</span>
         </a>
-        <nav class="desktop-nav">
-            <a href="index.html" class="active">
-                خانه
-            </a>
-            <a href="shop.html">
-                فروشگاه
-            </a>
-            <div class="nav-dropdown">
+        <nav class="nav">
+            <a href="index.html">خانه</a>
+            <a href="shop.html">فروشگاه</a>
+            <div class="nav-category">
                 <button class="nav-category-btn">
                     دسته‌بندی‌ها
                     <span>⌄</span>
                 </button>
-                <div class="nav-dropdown-menu">
-                    <a href="shop.html">
-                        همه محصولات
-                    </a>
+                <div class="category-dropdown">
                     <a href="shop.html?category=men">
-                        مردانه
+                        حوله مردانه
                     </a>
                     <a href="shop.html?category=women">
-                        زنانه
+                        حوله زنانه
                     </a>
                     <a href="shop.html?category=kids">
-                        بچگانه
+                        حوله بچگانه
                     </a>
                     <a href="shop.html?category=bath">
-                        حمامی
+                        حوله حمامی
                     </a>
                     <a href="shop.html?category=pool">
-                        استخری
+                        حوله استخری
                     </a>
                     <a href="shop.html?category=meter">
-                        متری
+                        حوله متری
                     </a>
                     <a href="shop.html?category=robe">
                         تن‌پوش
                     </a>
                 </div>
             </div>
-            <a href="#about">
-                درباره ما
-            </a>
-            <a href="#contact">
-                تماس با ما
-            </a>
+            <a href="#about">درباره ما</a>
+            <a href="#contact">تماس با ما</a>
         </nav>
-        <button class="header-cart openCart">
-            <span class="cart-icon">
+        <div class="header-actions">
+            <button class="cart-btn openCart">
                 🛒
-            </span>
-            <span>
-                سبد خرید
-            </span>
-            <b class="cartCount">
-                0
-            </b>
-        </button>
+                <span>سبد خرید</span>
+                <b class="cartCount">0</b>
+            </button>
+        </div>
     </div>
 </header>
 <!-- ================= MOBILE MENU ================= -->
 <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
 <aside class="mobile-menu" id="mobileMenu">
-    <div class="mobile-menu-head">
+    <div class="mobile-menu-header">
         <strong>
-            NavidTowel
+            Navid<span>Towel</span>
         </strong>
-        <button id="closeMobileMenu">
+        <button class="mobile-menu-close" id="mobileMenuClose">
             ×
         </button>
     </div>
@@ -95,35 +80,28 @@
         <a href="shop.html">
             فروشگاه
         </a>
-        <button class="mobile-category-toggle" id="mobileCategoryToggle">
-            <span>
-                دسته‌بندی‌ها
-            </span>
-            <span class="category-arrow">
-                ‹
-            </span>
+        <button class="mobile-category-button" id="mobileCategoryButton">
+            <span>دسته‌بندی‌ها</span>
+            <span>‹</span>
         </button>
-        <div class="mobile-categories" id="mobileCategories">
-            <a href="shop.html">
-                همه محصولات
-            </a>
+        <div class="mobile-category-list" id="mobileCategoryList">
             <a href="shop.html?category=men">
-                مردانه
+                حوله مردانه
             </a>
             <a href="shop.html?category=women">
-                زنانه
+                حوله زنانه
             </a>
             <a href="shop.html?category=kids">
-                بچگانه
+                حوله بچگانه
             </a>
             <a href="shop.html?category=bath">
-                حمامی
+                حوله حمامی
             </a>
             <a href="shop.html?category=pool">
-                استخری
+                حوله استخری
             </a>
             <a href="shop.html?category=meter">
-                متری
+                حوله متری
             </a>
             <a href="shop.html?category=robe">
                 تن‌پوش
@@ -140,63 +118,61 @@
 <main>
 <!-- ================= HERO ================= -->
 <section class="hero" id="home">
-    <div class="container hero-grid">
-        <div class="hero-content">
-            <span class="hero-eyebrow">
+    <div class="container hero-inner">
+        <div class="hero-text">
+            <span class="hero-label">
                 NAVIDTOWEL COLLECTION
             </span>
             <h1>
-                لطافت را
+                لطافت واقعی،
                 <br>
-                <em>لمس کن.</em>
+                از همین‌جا شروع می‌شود.
             </h1>
             <p>
-                مجموعه‌ای از حوله‌های باکیفیت،
-                نرم و خوش‌دوخت برای حمام،
-                استخر و استفاده روزمره.
+                مجموعه‌ای از حوله‌های باکیفیت، نرم و خوش‌دوخت
+                برای حمام، استخر و استفاده روزمره.
             </p>
-            <div class="hero-actions">
+            <div class="hero-buttons">
                 <a href="shop.html" class="btn-primary">
                     مشاهده محصولات
                     <span>←</span>
                 </a>
-                <a href="#categories" class="btn-outline">
+                <a href="#categories" class="btn-secondary">
                     دسته‌بندی‌ها
                 </a>
             </div>
             <div class="hero-mini-info">
                 <div>
-                    <strong>
-                        کیفیت
-                    </strong>
-                    <span>
-                        انتخاب‌شده با دقت
-                    </span>
+                    <strong>کیفیت</strong>
+                    <span>انتخاب‌شده</span>
                 </div>
                 <div>
-                    <strong>
-                        ارسال
-                    </strong>
-                    <span>
-                        بسته‌بندی مطمئن
-                    </span>
+                    <strong>نرم و لطیف</strong>
+                    <span>مناسب استفاده روزانه</span>
+                </div>
+                <div>
+                    <strong>ارسال</strong>
+                    <span>بسته‌بندی مطمئن</span>
                 </div>
             </div>
         </div>
-        <div class="hero-image">
+        <div class="hero-visual">
             <img
                 src="IMG_3885.jpeg"
                 alt="حوله NavidTowel"
             >
-            <div class="hero-image-overlay"></div>
-            <div class="hero-image-caption">
-                <span>
-                    PREMIUM TOWELS
-                </span>
+            <div class="hero-overlay"></div>
+            <div class="hero-photo-text">
+                <span>PREMIUM TOWELS</span>
                 <strong>
-                    کیفیتی که<br>
-                    حس می‌شود
+                    لطافت را
+                    <br>
+                    لمس کن
                 </strong>
+            </div>
+            <div class="hero-badge">
+                <small>انتخاب</small>
+                <strong>NavidTowel</strong>
             </div>
         </div>
     </div>
@@ -204,283 +180,281 @@
 <!-- ================= BENEFITS ================= -->
 <section class="benefits">
     <div class="container benefits-grid">
-        <div class="benefit-item">
-            <div class="benefit-symbol">
+        <div class="benefit">
+            <div class="benefit-icon">
                 ✦
             </div>
             <div>
-                <strong>
-                    کیفیت بالا
-                </strong>
-                <span>
-                    انتخاب‌شده با دقت
-                </span>
+                <strong>کیفیت بالا</strong>
+                <span>انتخاب‌شده با دقت</span>
             </div>
         </div>
-        <div class="benefit-item">
-            <div class="benefit-symbol">
+        <div class="benefit">
+            <div class="benefit-icon">
                 ◈
             </div>
             <div>
-                <strong>
-                    نرم و لطیف
-                </strong>
-                <span>
-                    مناسب استفاده روزانه
-                </span>
+                <strong>نرم و لطیف</strong>
+                <span>حس بهتر بعد از حمام</span>
             </div>
         </div>
-        <div class="benefit-item">
-            <div class="benefit-symbol">
+        <div class="benefit">
+            <div class="benefit-icon">
                 ✓
             </div>
             <div>
-                <strong>
-                    ارسال سریع
-                </strong>
-                <span>
-                    بسته‌بندی مطمئن
-                </span>
+                <strong>ارسال مطمئن</strong>
+                <span>بسته‌بندی مناسب</span>
             </div>
         </div>
-        <div class="benefit-item">
-            <div class="benefit-symbol">
+        <div class="benefit">
+            <div class="benefit-icon">
                 ♡
             </div>
             <div>
-                <strong>
-                    رضایت مشتری
-                </strong>
-                <span>
-                    اولویت ما شما هستید
-                </span>
+                <strong>رضایت مشتری</strong>
+                <span>اولویت ما شما هستید</span>
             </div>
         </div>
     </div>
 </section>
 <!-- ================= CATEGORIES ================= -->
-<section class="home-section" id="categories">
+<section class="section categories-section" id="categories">
     <div class="container">
-        <div class="section-heading">
+        <div class="section-head">
             <div>
-                <span class="section-eyebrow">
-                    EXPLORE
+                <span class="section-label">
+                    دسته‌بندی
                 </span>
-                <h2>
-                    انتخابت را پیدا کن
+                <h2 class="section-title">
+                    برای هر استفاده، یک انتخاب
                 </h2>
-                <p>
-                    محصولات را بر اساس نیازت انتخاب کن.
+                <p class="section-subtitle">
+                    دسته‌بندی موردنظرت را انتخاب کن و محصولات را ببین.
                 </p>
             </div>
-            <a href="shop.html" class="section-link">
-                همه محصولات
-                <span>←</span>
+            <a href="shop.html" class="view-all">
+                مشاهده همه ←
             </a>
         </div>
-        <div class="home-categories">
-            <a href="shop.html?category=bath" class="home-category category-large">
-                <div>
-                    <span>
-                        BATH
-                    </span>
+        <div class="categories">
+            <a href="shop.html?category=bath" class="category-card category-bath">
+                <div class="category-number">
+                    01
+                </div>
+                <div class="category-content">
                     <h3>
-                        حمامی
+                        حوله حمام
                     </h3>
                     <p>
-                        نرم، لطیف و جذب‌کننده
+                        نرم، جاذب و مناسب استفاده روزمره
                     </p>
+                    <span>
+                        مشاهده محصولات ←
+                    </span>
                 </div>
-                <strong>
-                    ←
-                </strong>
             </a>
-            <a href="shop.html?category=pool" class="home-category">
-                <div>
-                    <span>
-                        POOL
-                    </span>
+            <a href="shop.html?category=pool" class="category-card category-pool">
+                <div class="category-number">
+                    02
+                </div>
+                <div class="category-content">
                     <h3>
-                        استخری
+                        حوله استخری
                     </h3>
                     <p>
-                        مناسب استخر و سفر
+                        مناسب استخر، سفر و استفاده بیرون
                     </p>
+                    <span>
+                        مشاهده محصولات ←
+                    </span>
                 </div>
-                <strong>
-                    ←
-                </strong>
             </a>
-            <a href="shop.html?category=robe" class="home-category">
-                <div>
-                    <span>
-                        ROBE
-                    </span>
+            <a href="shop.html?category=men" class="category-card category-men">
+                <div class="category-number">
+                    03
+                </div>
+                <div class="category-content">
                     <h3>
-                        تن‌پوش
+                        مردانه
                     </h3>
                     <p>
-                        راحتی بعد از حمام
+                        انتخاب‌های ساده و کاربردی
                     </p>
+                    <span>
+                        مشاهده محصولات ←
+                    </span>
                 </div>
-                <strong>
-                    ←
-                </strong>
             </a>
-            <a href="shop.html?category=kids" class="home-category">
-                <div>
-                    <span>
-                        KIDS
-                    </span>
+            <a href="shop.html?category=women" class="category-card category-women">
+                <div class="category-number">
+                    04
+                </div>
+                <div class="category-content">
                     <h3>
-                        بچگانه
+                        زنانه
                     </h3>
                     <p>
-                        لطافت برای کوچولوها
+                        لطافت و طراحی برای بانوان
                     </p>
+                    <span>
+                        مشاهده محصولات ←
+                    </span>
                 </div>
-                <strong>
-                    ←
-                </strong>
             </a>
         </div>
     </div>
 </section>
 <!-- ================= SELECTED PRODUCTS ================= -->
-<section class="home-section selected-section" id="shop">
+<section class="section selected-products-section" id="shop">
     <div class="container">
-        <div class="section-heading">
+        <div class="section-head">
             <div>
-                <span class="section-eyebrow">
+                <span class="section-label">
                     NAVIDTOWEL
                 </span>
-                <h2>
+                <h2 class="section-title">
                     محصولات منتخب
                 </h2>
-                <p>
-                    چند انتخاب محبوب از مجموعه ما
+                <p class="section-subtitle">
+                    چند انتخاب محبوب برای شروع خرید
                 </p>
             </div>
-            <div class="product-slider-controls">
-                <button
-                    class="slider-btn"
-                    id="productsPrev"
-                    aria-label="قبلی"
-                >
-                    →
-                </button>
-                <button
-                    class="slider-btn"
-                    id="productsNext"
-                    aria-label="بعدی"
-                >
-                    ←
-                </button>
+            <div class="products-heading-actions">
+                <div class="slider-buttons">
+                    <button
+                        type="button"
+                        class="slider-button"
+                        id="productsPrev"
+                    >
+                        →
+                    </button>
+                    <button
+                        type="button"
+                        class="slider-button"
+                        id="productsNext"
+                    >
+                        ←
+                    </button>
+                </div>
+                <a href="shop.html" class="view-all">
+                    مشاهده همه محصولات
+                </a>
             </div>
         </div>
-        <div class="selected-products-wrap">
-            <div
-                class="selected-products"
-                id="selectedProducts"
-            ></div>
-        </div>
-        <div class="selected-bottom">
-            <span>
-                فقط چند محصول منتخب را نمایش می‌دهیم
-            </span>
-            <a href="shop.html">
-                مشاهده همه محصولات
-                <span>←</span>
-            </a>
+        <div class="products-slider">
+            <div class="products">
+                <!-- محصولات توسط script.js ساخته می‌شوند -->
+            </div>
         </div>
     </div>
 </section>
 <!-- ================= PROMO ================= -->
-<section class="home-section promo-section">
+<section class="section promo-section">
     <div class="container">
-        <div class="promo-box">
-            <div>
+        <div class="promo">
+            <div class="promo-decoration">
+                NAVID
+            </div>
+            <div class="promo-content">
                 <span>
                     NAVIDTOWEL
                 </span>
                 <h2>
-                    برای شروع،
+                    انتخاب خوب،
                     <br>
-                    ساده انتخاب کن.
+                    لازم نیست پیچیده باشد.
                 </h2>
                 <p>
-                    کیفیت خوب، طراحی زیبا
-                    و حس بهتر بعد از حمام.
+                    محصول مناسب خودت را پیدا کن و با خیال راحت سفارش بده.
                 </p>
             </div>
-            <a href="shop.html" class="promo-button">
-                شروع خرید
+            <a href="shop.html" class="btn-light">
+                رفتن به فروشگاه
                 <span>←</span>
             </a>
         </div>
     </div>
 </section>
 <!-- ================= ABOUT ================= -->
-<section class="home-section about-section" id="about">
-    <div class="container about-grid">
-        <div class="about-image">
-            <div></div>
+<section class="section about-section" id="about">
+    <div class="container about">
+        <div class="about-box">
+            <div class="about-box-inner">
+                <span>
+                    ABOUT US
+                </span>
+                <strong>
+                    NAVID
+                    <small>TOWEL</small>
+                </strong>
+            </div>
         </div>
-        <div class="about-content">
-            <span class="section-eyebrow">
-                ABOUT US
+        <div class="about-text">
+            <span class="section-label">
+                درباره ما
             </span>
             <h2>
-                چرا NavidTowel؟
+                قرار است خرید حوله،
+                <br>
+                ساده‌تر باشد.
             </h2>
             <p>
-                ما در NavidTowel تلاش می‌کنیم
-                محصولاتی را ارائه کنیم که علاوه بر
-                ظاهر زیبا، کیفیت و لطافت مناسبی داشته باشند.
+                در NavidTowel تلاش می‌کنیم محصولاتی را انتخاب کنیم
+                که در کنار ظاهر خوب، کیفیت و لطافت مناسبی داشته باشند.
             </p>
             <p>
-                هدف ما این است که خرید حوله برای شما
-                ساده، مطمئن و لذت‌بخش باشد.
+                هدف ما این است که بتوانی بدون دردسر،
+                محصول مناسب خودت را پیدا کنی و سفارش بدهی.
             </p>
-            <a href="shop.html" class="btn-primary">
-                مشاهده محصولات
-                <span>←</span>
+            <a href="#contact" class="btn-primary">
+                ارتباط با ما
             </a>
         </div>
     </div>
 </section>
 <!-- ================= REVIEWS ================= -->
-<section class="home-section reviews-section">
+<section class="section reviews-section">
     <div class="container">
-        <div class="section-heading">
+        <div class="section-head">
             <div>
-                <span class="section-eyebrow">
-                    CUSTOMER REVIEWS
+                <span class="section-label">
+                    تجربه مشتریان
                 </span>
-                <h2>
+                <h2 class="section-title">
                     نظر مشتریان
                 </h2>
-                <p>
-                    تجربه‌ای که برای ما ارزشمند است.
+                <p class="section-subtitle">
+                    تجربه خوب مشتری، بهترین معرفی ماست.
                 </p>
             </div>
         </div>
-        <div class="reviews-grid">
-            <div class="review-card">
-                <div class="stars">
-                    ★★★★★
+        <div class="reviews">
+            <div class="review">
+                <div class="review-top">
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+                    <span>
+                        خرید موفق
+                    </span>
                 </div>
                 <p>
                     حوله خیلی نرم و باکیفیت بود.
-                    بسته‌بندی هم عالی انجام شده بود.
+                    بسته‌بندی هم خیلی خوب انجام شده بود.
                 </p>
                 <strong>
                     مشتری NavidTowel
                 </strong>
             </div>
-            <div class="review-card">
-                <div class="stars">
-                    ★★★★★
+            <div class="review">
+                <div class="review-top">
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+                    <span>
+                        خرید موفق
+                    </span>
                 </div>
                 <p>
                     کیفیت محصول نسبت به قیمت خیلی خوب بود.
@@ -490,12 +464,18 @@
                     مشتری NavidTowel
                 </strong>
             </div>
-            <div class="review-card">
-                <div class="stars">
-                    ★★★★★
+            <div class="review">
+                <div class="review-top">
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+                    <span>
+                        خرید موفق
+                    </span>
                 </div>
                 <p>
-                    رنگ و ظاهر حوله دقیقاً چیزی بود که انتظار داشتم.
+                    رنگ و ظاهر حوله دقیقاً چیزی بود
+                    که انتظار داشتم.
                 </p>
                 <strong>
                     مشتری NavidTowel
@@ -506,16 +486,15 @@
 </section>
 </main>
 <!-- ================= FOOTER ================= -->
-<footer class="site-footer" id="contact">
+<footer class="footer" id="contact">
     <div class="container">
         <div class="footer-grid">
             <div class="footer-brand">
-                <a href="index.html" class="logo footer-logo">
+                <a href="index.html" class="logo">
                     Navid<span>Towel</span>
                 </a>
                 <p>
-                    حوله‌های باکیفیت برای
-                    زندگی روزمره.
+                    حوله‌های باکیفیت برای زندگی روزمره.
                 </p>
             </div>
             <div>
@@ -525,14 +504,11 @@
                 <a href="shop.html">
                     همه محصولات
                 </a>
-                <a href="shop.html?category=bath">
-                    حمامی
+                <a href="#categories">
+                    دسته‌بندی‌ها
                 </a>
-                <a href="shop.html?category=pool">
-                    استخری
-                </a>
-                <a href="shop.html?category=robe">
-                    تن‌پوش
+                <a href="shop.html">
+                    محصولات منتخب
                 </a>
             </div>
             <div>
@@ -551,7 +527,7 @@
             </div>
             <div>
                 <h3>
-                    تماس با ما
+                    تماس
                 </h3>
                 <p>
                     تلفن: 09121234567
@@ -600,171 +576,109 @@
 <script src="script.js"></script>
 <script>
 /* ================= MOBILE MENU ================= */
-const mobileMenuBtn =
-    document.getElementById("mobileMenuBtn");
+const mobileMenuButton =
+    document.getElementById("mobileMenuButton");
 const mobileMenu =
     document.getElementById("mobileMenu");
 const mobileMenuOverlay =
     document.getElementById("mobileMenuOverlay");
-const closeMobileMenu =
-    document.getElementById("closeMobileMenu");
-const mobileCategoryToggle =
-    document.getElementById("mobileCategoryToggle");
-const mobileCategories =
-    document.getElementById("mobileCategories");
+const mobileMenuClose =
+    document.getElementById("mobileMenuClose");
 function openMobileMenu() {
     mobileMenu.classList.add("active");
     mobileMenuOverlay.classList.add("active");
-    document.body.style.overflow = "hidden";
+    document.body.classList.add("menu-open");
 }
-function closeMenu() {
+function closeMobileMenu() {
     mobileMenu.classList.remove("active");
     mobileMenuOverlay.classList.remove("active");
-    document.body.style.overflow = "";
+    document.body.classList.remove("menu-open");
 }
-mobileMenuBtn.addEventListener(
+mobileMenuButton?.addEventListener(
     "click",
     openMobileMenu
 );
-closeMobileMenu.addEventListener(
+mobileMenuClose?.addEventListener(
     "click",
-    closeMenu
+    closeMobileMenu
 );
-mobileMenuOverlay.addEventListener(
+mobileMenuOverlay?.addEventListener(
     "click",
-    closeMenu
+    closeMobileMenu
 );
-mobileCategoryToggle.addEventListener(
-    "click",
-    () => {
-        mobileCategories.classList.toggle("active");
-        mobileCategoryToggle.classList.toggle("active");
-    }
-);
-/* بستن منو بعد از انتخاب لینک */
-document.querySelectorAll(
-    ".mobile-menu a"
-).forEach(link => {
-    link.addEventListener(
-        "click",
-        closeMenu
-    );
+/* ================= MOBILE CATEGORIES ================= */
+const mobileCategoryButton =
+    document.getElementById("mobileCategoryButton");
+const mobileCategoryList =
+    document.getElementById("mobileCategoryList");
+mobileCategoryButton?.addEventListener("click", () => {
+    mobileCategoryButton.classList.toggle("active");
+    mobileCategoryList.classList.toggle("active");
 });
-/* ================= SELECTED PRODUCTS ================= */
-const selectedProducts =
-    document.getElementById("selectedProducts");
-const selectedItems =
-    products.slice(0, 5);
-function formatHomePrice(price) {
-    return Number(price).toLocaleString("en-US")
-        + " تومان";
-}
-function renderSelectedProducts() {
-    selectedProducts.innerHTML =
-        selectedItems.map(product => {
-            const discount =
-                product.oldPrice &&
-                product.oldPrice > product.price
-                    ? Math.round(
-                        (
-                            (product.oldPrice - product.price)
-                            / product.oldPrice
-                        ) * 100
-                    )
-                    : 0;
-            return `
-                <article
-                    class="selected-product"
-                    onclick="location.href='product.html?id=${product.id}'"
-                >
-                    <div class="selected-product-image">
-                        <img
-                            src="${product.image}"
-                            alt="${product.name}"
-                            loading="lazy"
-                        >
-                        ${
-                            product.badge
-                            ? `<span class="product-badge">
-                                ${product.badge}
-                               </span>`
-                            : ""
-                        }
-                        ${
-                            discount
-                            ? `<span class="discount-badge">
-                                ${discount}٪
-                               </span>`
-                            : ""
-                        }
-                    </div>
-                    <div class="selected-product-info">
-                        <h3>
-                            ${product.name}
-                        </h3>
-                        <div class="selected-price">
-                            <strong>
-                                ${formatHomePrice(product.price)}
-                            </strong>
-                            ${
-                                product.oldPrice
-                                ? `<del>
-                                    ${formatHomePrice(product.oldPrice)}
-                                   </del>`
-                                : ""
-                            }
-                        </div>
-                        <button
-                            class="selected-add"
-                            onclick="event.stopPropagation(); addToCart(${product.id})"
-                        >
-                            افزودن به سبد
-                        </button>
-                    </div>
-                </article>
-            `;
-        }).join("");
-}
-renderSelectedProducts();
+/* ================= CLOSE MENU AFTER LINK ================= */
+document
+    .querySelectorAll(".mobile-menu a")
+    .forEach(link => {
+        link.addEventListener("click", () => {
+            closeMobileMenu();
+        });
+    });
 /* ================= PRODUCT SLIDER ================= */
-const productsSlider =
-    document.getElementById("selectedProducts");
-const prevBtn =
+const productSlider =
+    document.querySelector(".selected-products-section .products");
+const prevButton =
     document.getElementById("productsPrev");
-const nextBtn =
+const nextButton =
     document.getElementById("productsNext");
-function sliderMove(direction) {
+function moveProducts(direction) {
+    if (!productSlider) return;
     const amount =
-        productsSlider.clientWidth * 0.72;
-    productsSlider.scrollBy({
+        productSlider.clientWidth * 0.78;
+    productSlider.scrollBy({
         left: direction * amount,
         behavior: "smooth"
     });
 }
-prevBtn.addEventListener(
+prevButton?.addEventListener(
     "click",
-    () => sliderMove(1)
+    () => moveProducts(-1)
 );
-nextBtn.addEventListener(
+nextButton?.addEventListener(
     "click",
-    () => sliderMove(-1)
+    () => moveProducts(1)
 );
-/* ================= FIXED MOBILE LINK ================= */
-document.querySelectorAll(
-    ".desktop-nav a"
-).forEach(link => {
-    if (
-        link.getAttribute("href") === "#about" ||
-        link.getAttribute("href") === "#contact"
-    ) {
-        link.addEventListener(
-            "click",
-            () => {
-                closeMenu();
-            }
+/* ================= HOME PRODUCT LIMIT ================= */
+/*
+    script.js تمام محصولات را می‌سازد،
+    اما صفحه اصلی فقط ۵ محصول اول را نشان می‌دهد.
+*/
+function limitHomeProducts() {
+    const cards =
+        document.querySelectorAll(
+            ".selected-products-section .product-card"
         );
+    cards.forEach((card, index) => {
+        if (index >= 5) {
+            card.style.display = "none";
+        }
+    });
+}
+/*
+    چون script.js بعد از لود محصولات را می‌سازد،
+    کمی بعد محدودیت را اعمال می‌کنیم.
+*/
+setTimeout(limitHomeProducts, 100);
+/* ================= HIDE PRODUCT ARROWS WHEN NEEDED ================= */
+setTimeout(() => {
+    const cards =
+        document.querySelectorAll(
+            ".selected-products-section .product-card"
+        );
+    if (cards.length <= 4) {
+        prevButton.style.display = "none";
+        nextButton.style.display = "none";
     }
-});
+}, 300);
 </script>
 </body>
 </html>
