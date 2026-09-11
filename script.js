@@ -2,24 +2,30 @@ let cart = JSON.parse(localStorage.getItem("navidTowelCart")) || [];
 
 const productsContainer = document.querySelector(".products");
 const cartCount = document.querySelector(".cartCount");
+
 const cartModal = document.querySelector(".cartModal");
 const cartItems = document.querySelector(".cartItems");
 const cartTotal = document.querySelector(".cartTotal");
 
+const bottomCart = document.getElementById("bottomCart");
+const bottomCartCount = document.getElementById("bottomCartCount");
+const bottomCartTotal = document.getElementById("bottomCartTotal");
+
+
+/* تبدیل قیمت */
 
 function formatPrice(price) {
     return Number(price).toLocaleString("fa-IR") + " تومان";
 }
 
 
-/* نمایش محصولات */
+/* نمایش محصولات صفحه اصلی */
 
 function renderProducts() {
 
     if (!productsContainer) return;
 
     productsContainer.innerHTML = products.map(product => `
-
         <article
             class="product-card"
             onclick="openProduct(${product.id})"
@@ -27,17 +33,21 @@ function renderProducts() {
 
             <div class="product-image">
 
-                <span class="badge">
-                    ${product.badge || ""}
-                </span>
+                ${
+                    product.badge
+                    ? `<span class="badge">${product.badge}</span>`
+                    : ""
+                }
 
                 ${
                     product.image
-                    ? `<img
+                    ? `
+                    <img
                         src="${product.image}"
                         alt="${product.name}"
                         style="width:100%;height:100%;object-fit:cover;"
-                    >`
+                    >
+                    `
                     : ""
                 }
 
@@ -46,10 +56,7 @@ function renderProducts() {
 
             <div class="product-info">
 
-                <h3>
-                    ${product.name}
-                </h3>
-
+                <h3>${product.name}</h3>
 
                 <p class="product-desc">
                     ${product.description || ""}
@@ -65,7 +72,10 @@ function renderProducts() {
 
                     <button
                         class="add-cart"
-                        onclick="event.stopPropagation(); addToCart(${product.id})"
+                        onclick="
+                            event.stopPropagation();
+                            addToCart(${product.id});
+                        "
                     >
                         افزودن به سبد
                     </button>
@@ -75,12 +85,11 @@ function renderProducts() {
             </div>
 
         </article>
-
     `).join("");
 }
 
 
-/* باز کردن صفحه اختصاصی محصول */
+/* رفتن به صفحه محصول */
 
 function openProduct(id) {
 
@@ -90,7 +99,7 @@ function openProduct(id) {
 }
 
 
-/* اضافه کردن محصول به سبد */
+/* اضافه کردن محصول */
 
 function addToCart(id) {
 
@@ -111,15 +120,10 @@ function addToCart(id) {
     } else {
 
         cart.push({
-
             id: product.id,
-
             name: product.name,
-
             price: product.price,
-
             quantity: 1
-
         });
 
     }
@@ -129,12 +133,7 @@ function addToCart(id) {
 
     renderCart();
 
-
-    if (cartModal) {
-
-        cartModal.classList.add("active");
-
-    }
+    updateBottomCart();
 
 }
 
@@ -166,6 +165,8 @@ function changeQuantity(id, amount) {
 
     renderCart();
 
+    updateBottomCart();
+
 }
 
 
@@ -181,18 +182,14 @@ function saveCart() {
 }
 
 
-/* نمایش سبد */
+/* آپدیت تعداد سبد بالای سایت */
 
-function renderCart() {
+function updateHeaderCart() {
 
-    if (
-        !cartItems ||
-        !cartCount ||
-        !cartTotal
-    ) return;
+    if (!cartCount) return;
 
 
-    const totalQuantity =
+    const quantity =
         cart.reduce(
             (sum, item) =>
                 sum + item.quantity,
@@ -201,29 +198,39 @@ function renderCart() {
 
 
     cartCount.textContent =
-        totalQuantity;
+        quantity.toLocaleString("fa-IR");
+
+}
+
+
+/* نمایش سبد قدیمی، اگر در صفحه وجود داشته باشد */
+
+function renderCart() {
+
+    updateHeaderCart();
+
+
+    if (!cartItems || !cartTotal) {
+        return;
+    }
 
 
     if (cart.length === 0) {
 
         cartItems.innerHTML = `
-
             <div class="empty-cart">
                 سبد خرید شما خالی است.
             </div>
-
         `;
 
         cartTotal.textContent =
             "۰ تومان";
 
         return;
-
     }
 
 
     cartItems.innerHTML =
-
         cart.map(item => `
 
             <div class="cart-item">
@@ -249,11 +256,9 @@ function renderCart() {
                         +
                     </button>
 
-
                     <span>
                         ${item.quantity}
                     </span>
-
 
                     <button
                         onclick="changeQuantity(${item.id}, -1)"
@@ -282,34 +287,83 @@ function renderCart() {
         formatPrice(total);
 
 }
-if (typeof updateBottomCart === "function") {
-    updateBottomCart();
+
+
+/* نوار سبد خرید پایین */
+
+function updateBottomCart() {
+
+    if (!bottomCart) return;
+
+
+    if (cart.length === 0) {
+
+        bottomCart.classList.remove("active");
+
+        return;
+    }
+
+
+    const quantity =
+        cart.reduce(
+            (sum, item) =>
+                sum + item.quantity,
+            0
+        );
+
+
+    const total =
+        cart.reduce(
+            (sum, item) =>
+                sum +
+                item.price *
+                item.quantity,
+            0
+        );
+
+
+    if (bottomCartCount) {
+
+        bottomCartCount.textContent =
+            quantity.toLocaleString("fa-IR");
+
+    }
+
+
+    if (bottomCartTotal) {
+
+        bottomCartTotal.textContent =
+            Number(total).toLocaleString("fa-IR")
+            + " تومان";
+
+    }
+
+
+    bottomCart.classList.add("active");
+
 }
 
-/* باز کردن سبد */
+
+/* باز کردن سبد قدیمی */
 
 function openCart() {
 
-    if (cartModal) {
+    if (!cartModal) return;
 
-        cartModal.classList.add("active");
-
-    }
+    cartModal.classList.add("active");
 
     renderCart();
 
 }
 
 
-/* بستن سبد */
+/* بستن سبد قدیمی */
 
 function closeCart() {
 
-    if (cartModal) {
+    if (!cartModal) return;
 
-        cartModal.classList.remove("active");
-
-    }
+    cartModal.classList.remove("active");
 
 }
 
@@ -324,26 +378,18 @@ document.addEventListener(
 
         renderCart();
 
+        updateBottomCart();
+
 
         const openCartButton =
-            document.querySelector(
-                ".openCart"
-            );
+            document.querySelector(".openCart");
 
 
         const closeCartButton =
-            document.querySelector(
-                ".closeCart"
-            );
+            document.querySelector(".closeCart");
 
 
-        const checkoutButton =
-            document.querySelector(
-                ".checkout"
-            );
-
-
-        if (openCartButton) {
+        if (openCartButton && cartModal) {
 
             openCartButton.addEventListener(
                 "click",
@@ -367,7 +413,7 @@ document.addEventListener(
 
             cartModal.addEventListener(
                 "click",
-                (event) => {
+                event => {
 
                     if (
                         event.target === cartModal
@@ -383,6 +429,14 @@ document.addEventListener(
         }
 
 
+        /* تکمیل سفارش */
+
+        const checkoutButton =
+            document.querySelector(
+                ".bottom-cart-checkout"
+            );
+
+
         if (checkoutButton) {
 
             checkoutButton.addEventListener(
@@ -391,17 +445,13 @@ document.addEventListener(
 
                     if (cart.length === 0) {
 
-                        alert(
-                            "سبد خرید شما خالی است."
-                        );
-
                         return;
 
                     }
 
 
                     alert(
-                        "ثبت سفارش در مرحله بعدی سایت فعال می‌شود."
+                        "صفحه تکمیل سفارش در مرحله بعدی فعال می‌شود."
                     );
 
                 }
