@@ -7,6 +7,11 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
+
+/* =========================
+   صفحه سبد خرید
+   ========================= */
+
 .cart-page {
     padding: 140px 0 150px;
     min-height: 100vh;
@@ -27,12 +32,22 @@
     margin: 0;
 }
 
+
+/* =========================
+   محتوای اصلی
+   ========================= */
+
 .cart-layout {
     display: grid;
     grid-template-columns: 1fr 330px;
     gap: 25px;
     align-items: start;
 }
+
+
+/* =========================
+   محصولات
+   ========================= */
 
 .cart-products {
     display: flex;
@@ -129,6 +144,11 @@
     font-size: 17px;
 }
 
+
+/* =========================
+   خلاصه سفارش
+   ========================= */
+
 .order-summary {
     background: white;
     border-radius: 20px;
@@ -194,12 +214,10 @@
     margin-top: 20px;
 }
 
-.checkout-btn:active {
-    transform: scale(0.98);
-}
 
 /* =========================
    نوار پایین
+   فقط مبلغ قابل پرداخت
    ========================= */
 
 .cart-bottom-bar {
@@ -207,16 +225,24 @@
     left: 50%;
     bottom: 15px;
     transform: translateX(-50%);
+
     width: min(650px, calc(100% - 30px));
+
     background: rgba(255,255,255,0.97);
+
     border: 1px solid #e3e3e3;
     border-radius: 17px;
+
     padding: 12px 16px;
+
     box-sizing: border-box;
+
     display: flex;
     align-items: center;
     gap: 20px;
+
     box-shadow: 0 8px 30px rgba(0,0,0,0.14);
+
     z-index: 99999;
 }
 
@@ -229,11 +255,15 @@
 .bottom-cart-icon {
     width: 40px;
     height: 40px;
+
     border-radius: 11px;
+
     background: #f0f3ec;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     font-size: 19px;
 }
 
@@ -277,14 +307,25 @@
 
 .bottom-checkout {
     border: none;
+
     background: #34452f;
     color: white;
+
     font-family: inherit;
+
     padding: 11px 18px;
+
     border-radius: 10px;
+
     cursor: pointer;
+
     white-space: nowrap;
 }
+
+
+/* =========================
+   سبد خالی
+   ========================= */
 
 .empty-cart-page {
     background: white;
@@ -317,7 +358,136 @@
     border-radius: 11px;
 }
 
+
+/* =====================================================
+   هدر موبایل
+   ===================================================== */
+
+.mobile-menu-btn,
+.mobile-cart-btn,
+.mobile-menu,
+.mobile-menu-overlay {
+    display: none;
+}
+
+
 @media (max-width: 850px) {
+
+    /* ---------- هدر ---------- */
+
+    .header {
+        padding: 8px 0 !important;
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+    }
+
+    .header-inner {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        position: relative;
+        min-height: 42px;
+    }
+
+    .nav,
+    .header-actions {
+        display: none !important;
+    }
+
+    /* دکمه منو */
+
+    .mobile-menu-btn {
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        width: 40px;
+        height: 40px;
+
+        border: none;
+        border-radius: 12px;
+
+        background: #f0f3ec;
+        color: #34452f;
+
+        font-size: 21px;
+
+        cursor: pointer;
+
+        flex-shrink: 0;
+    }
+
+    /* لوگو */
+
+    .mobile-header-logo {
+        position: absolute;
+
+        left: 50%;
+        transform: translateX(-50%);
+
+        font-size: 18px !important;
+
+        white-space: nowrap;
+
+        margin: 0 !important;
+    }
+
+    /* سبد */
+
+    .mobile-cart-btn {
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        width: 40px;
+        height: 40px;
+
+        border-radius: 12px;
+
+        background: #34452f;
+        color: white;
+
+        text-decoration: none;
+
+        font-size: 17px;
+
+        position: relative;
+
+        margin-right: auto;
+
+        flex-shrink: 0;
+    }
+
+    .mobile-cart-btn span {
+        position: absolute;
+
+        top: -5px;
+        left: -5px;
+
+        min-width: 18px;
+        height: 18px;
+
+        padding: 0 4px;
+
+        border-radius: 20px;
+
+        background: #d8a84e;
+        color: white;
+
+        font-size: 9px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    /* ---------- صفحه ---------- */
 
     .cart-layout {
         grid-template-columns: 1fr;
@@ -358,10 +528,16 @@
         font-size: 12px;
     }
 
+
+    /* ---------- نوار پایین ---------- */
+
     .cart-bottom-bar {
         bottom: 9px;
+
         width: calc(100% - 18px);
+
         padding: 9px;
+
         gap: 8px;
     }
 
@@ -391,7 +567,219 @@
         padding: 9px 10px;
         font-size: 10px;
     }
+
+
+    /* =================================================
+       منوی کشویی
+       ================================================= */
+
+    .mobile-menu-overlay {
+        display: block;
+
+        position: fixed;
+
+        inset: 0;
+
+        background: rgba(0,0,0,0.45);
+
+        z-index: 10000;
+
+        opacity: 0;
+
+        visibility: hidden;
+
+        transition:
+            opacity .25s ease,
+            visibility .25s ease;
+    }
+
+    .mobile-menu-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+
+    .mobile-menu {
+        display: flex;
+
+        flex-direction: column;
+
+        position: fixed;
+
+        top: 0;
+        right: 0;
+
+        width: min(320px, 85%);
+
+        height: 100vh;
+
+        background: white;
+
+        z-index: 10001;
+
+        box-shadow: -10px 0 35px rgba(0,0,0,0.15);
+
+        transform: translateX(100%);
+
+        transition: transform .3s ease;
+
+        padding: 20px;
+
+        box-sizing: border-box;
+    }
+
+    .mobile-menu.active {
+        transform: translateX(0);
+    }
+
+
+    /* سر منو */
+
+    .mobile-menu-header {
+        display: flex;
+
+        align-items: center;
+        justify-content: space-between;
+
+        padding-bottom: 20px;
+
+        border-bottom: 1px solid #eee;
+    }
+
+    .mobile-menu-logo {
+        font-size: 21px;
+
+        font-weight: bold;
+
+        color: #34452f;
+    }
+
+    .mobile-menu-logo span {
+        color: #8b9b78;
+    }
+
+    .mobile-menu-close {
+        width: 38px;
+        height: 38px;
+
+        border: none;
+        border-radius: 11px;
+
+        background: #f3f3f0;
+
+        color: #444;
+
+        font-size: 25px;
+
+        cursor: pointer;
+    }
+
+
+    /* لینک‌ها */
+
+    .mobile-menu-links {
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 7px;
+
+        margin-top: 22px;
+    }
+
+    .mobile-menu-links a {
+        display: flex;
+
+        align-items: center;
+
+        gap: 13px;
+
+        min-height: 50px;
+
+        padding: 0 13px;
+
+        border-radius: 13px;
+
+        color: #333;
+
+        text-decoration: none;
+
+        font-size: 14px;
+
+        transition:
+            background .2s ease,
+            transform .2s ease;
+    }
+
+    .mobile-menu-links a:active {
+        transform: scale(.98);
+    }
+
+    .mobile-menu-links a span {
+        width: 30px;
+
+        text-align: center;
+
+        font-size: 19px;
+    }
+
+    .mobile-menu-links a strong {
+        margin-right: auto;
+
+        min-width: 20px;
+
+        height: 20px;
+
+        padding: 0 5px;
+
+        border-radius: 20px;
+
+        background: #34452f;
+
+        color: white;
+
+        font-size: 10px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    /* پایین منو */
+
+    .mobile-menu-bottom {
+        margin-top: auto;
+
+        padding-top: 20px;
+
+        border-top: 1px solid #eee;
+    }
+
+    .mobile-menu-bottom a {
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        height: 46px;
+
+        background: #34452f;
+
+        color: white;
+
+        border-radius: 12px;
+
+        text-decoration: none;
+
+        font-size: 13px;
+    }
+
 }
+
+
+/* گوشی‌های کوچک */
 
 @media (max-width: 500px) {
 
@@ -404,10 +792,6 @@
         font-size: 25px;
     }
 
-    .bottom-cart-bar {
-        width: calc(100% - 18px);
-    }
-
     .bottom-cart-info {
         flex: 1;
     }
@@ -416,26 +800,108 @@
         padding: 10px 15px;
         font-size: 11px;
     }
+
 }
+
+
+/* گوشی خیلی کوچک */
+
+@media (max-width: 360px) {
+
+    .mobile-menu-btn,
+    .mobile-cart-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .mobile-header-logo {
+        font-size: 16px !important;
+    }
+
+    .bottom-cart-text {
+        display: none;
+    }
+
+}
+
 </style>
 </head>
 
 <body>
 
+
+<!-- =====================================================
+     هدر
+     ===================================================== -->
+
 <header class="header">
+
 <div class="container header-inner">
 
-    <a href="index.html" class="logo">
+
+    <!-- منوی موبایل -->
+
+    <button
+        class="mobile-menu-btn"
+        id="mobileMenuBtn"
+        aria-label="باز کردن منو"
+    >
+        ☰
+    </button>
+
+
+    <!-- لوگو -->
+
+    <a
+        href="index.html"
+        class="logo mobile-header-logo"
+    >
         Navid<span>Towel</span>
     </a>
 
+
+    <!-- سبد موبایل -->
+
+    <a
+        href="cart.html"
+        class="mobile-cart-btn"
+    >
+        🛒
+
+        <span id="mobileCartCount">
+            0
+        </span>
+    </a>
+
+
+    <!-- منوی دسکتاپ -->
+
     <nav class="nav">
-        <a href="index.html#home">خانه</a>
-        <a href="shop.html">فروشگاه</a>
-        <a href="index.html#categories">دسته‌بندی‌ها</a>
-        <a href="index.html#about">درباره ما</a>
-        <a href="index.html#contact">تماس با ما</a>
+
+        <a href="index.html#home">
+            خانه
+        </a>
+
+        <a href="shop.html">
+            فروشگاه
+        </a>
+
+        <a href="index.html#categories">
+            دسته‌بندی‌ها
+        </a>
+
+        <a href="index.html#about">
+            درباره ما
+        </a>
+
+        <a href="index.html#contact">
+            تماس با ما
+        </a>
+
     </nav>
+
+
+    <!-- دکمه‌های دسکتاپ -->
 
     <div class="header-actions">
 
@@ -454,22 +920,126 @@
         </a>
 
         <button class="cart-btn">
+
             🛒 سبد خرید
-            <span id="headerCartCount">0</span>
+
+            <span id="headerCartCount">
+                0
+            </span>
+
         </button>
 
     </div>
+
 </div>
+
 </header>
+
+
+<!-- =====================================================
+     منوی کشویی موبایل
+     ===================================================== -->
+
+<div
+    class="mobile-menu-overlay"
+    id="mobileMenuOverlay"
+></div>
+
+
+<aside
+    class="mobile-menu"
+    id="mobileMenu"
+>
+
+    <div class="mobile-menu-header">
+
+        <div class="mobile-menu-logo">
+            Navid<span>Towel</span>
+        </div>
+
+        <button
+            class="mobile-menu-close"
+            id="mobileMenuClose"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="mobile-menu-links">
+
+        <a href="index.html#home">
+            <span>🏠</span>
+            خانه
+        </a>
+
+        <a href="shop.html">
+            <span>🛍️</span>
+            فروشگاه
+        </a>
+
+        <a href="index.html#categories">
+            <span>🧺</span>
+            دسته‌بندی‌ها
+        </a>
+
+        <a href="index.html#about">
+            <span>ℹ️</span>
+            درباره ما
+        </a>
+
+        <a href="index.html#contact">
+            <span>☎️</span>
+            تماس با ما
+        </a>
+
+        <a href="cart.html">
+
+            <span>🛒</span>
+
+            سبد خرید
+
+            <strong id="mobileMenuCartCount">
+                0
+            </strong>
+
+        </a>
+
+    </div>
+
+
+    <div class="mobile-menu-bottom">
+
+        <a href="shop.html">
+            مشاهده محصولات
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- =====================================================
+     صفحه
+     ===================================================== -->
 
 <main class="cart-page">
 
 <div class="container">
 
     <div class="cart-page-title">
-        <h1>سبد خرید</h1>
-        <p>محصولات انتخاب‌شده شما</p>
+
+        <h1>
+            سبد خرید
+        </h1>
+
+        <p>
+            محصولات انتخاب‌شده شما
+        </p>
+
     </div>
+
 
     <div id="cartContent"></div>
 
@@ -477,7 +1047,11 @@
 
 </main>
 
-<!-- نوار پایین -->
+
+<!-- =====================================================
+     نوار پایین
+     ===================================================== -->
+
 <div
     class="cart-bottom-bar"
     id="cartBottomBar"
@@ -504,6 +1078,7 @@
 
     </div>
 
+
     <div class="bottom-cart-details">
 
         <div class="bottom-detail">
@@ -523,6 +1098,7 @@
 
     </div>
 
+
     <button
         class="bottom-checkout"
         id="bottomCheckout"
@@ -533,13 +1109,14 @@
 
 </div>
 
+
 <script src="products.js"></script>
 
 <script>
 
-/* =========================
+/* =====================================================
    سبد خرید
-   ========================= */
+   ===================================================== */
 
 let cart =
     JSON.parse(
@@ -547,9 +1124,9 @@ let cart =
     ) || [];
 
 
-/* =========================
+/* =====================================================
    فرمت قیمت
-   ========================= */
+   ===================================================== */
 
 function price(value) {
 
@@ -560,9 +1137,9 @@ function price(value) {
 }
 
 
-/* =========================
+/* =====================================================
    ذخیره سبد
-   ========================= */
+   ===================================================== */
 
 function saveCart() {
 
@@ -574,14 +1151,15 @@ function saveCart() {
 }
 
 
-/* =========================
+/* =====================================================
    ساخت سبد
-   ========================= */
+   ===================================================== */
 
 function renderCart() {
 
     const content =
         document.getElementById("cartContent");
+
 
     if (!cart.length) {
 
@@ -632,7 +1210,9 @@ function renderCart() {
                                 p => p.id === item.id
                             );
 
+
                         if (!product) return "";
+
 
                         return `
 
@@ -806,14 +1386,15 @@ function renderCart() {
 
     `;
 
+
     updateSummary();
 
 }
 
 
-/* =========================
+/* =====================================================
    تغییر تعداد
-   ========================= */
+   ===================================================== */
 
 function changeQuantity(id, amount) {
 
@@ -822,9 +1403,12 @@ function changeQuantity(id, amount) {
             product => product.id === id
         );
 
+
     if (!item) return;
 
+
     item.quantity += amount;
+
 
     if (item.quantity <= 0) {
 
@@ -835,6 +1419,7 @@ function changeQuantity(id, amount) {
 
     }
 
+
     saveCart();
 
     renderCart();
@@ -842,9 +1427,9 @@ function changeQuantity(id, amount) {
 }
 
 
-/* =========================
+/* =====================================================
    حذف محصول
-   ========================= */
+   ===================================================== */
 
 function removeProduct(id) {
 
@@ -853,6 +1438,7 @@ function removeProduct(id) {
             product => product.id !== id
         );
 
+
     saveCart();
 
     renderCart();
@@ -860,14 +1446,16 @@ function removeProduct(id) {
 }
 
 
-/* =========================
+/* =====================================================
    محاسبه قیمت‌ها
-   ========================= */
+   ===================================================== */
 
 function updateSummary() {
 
     let subtotal = 0;
+
     let discount = 0;
+
     let quantity = 0;
 
 
@@ -878,7 +1466,9 @@ function updateSummary() {
                 p => p.id === item.id
             );
 
+
         quantity += item.quantity;
+
 
         subtotal +=
             item.price *
@@ -914,29 +1504,46 @@ function updateSummary() {
             "summarySubtotal"
         );
 
+
     const summaryDiscount =
         document.getElementById(
             "summaryDiscount"
         );
+
 
     const summaryFinal =
         document.getElementById(
             "summaryFinal"
         );
 
+
     const bottomFinal =
         document.getElementById(
             "bottomFinal"
         );
+
 
     const bottomQuantity =
         document.getElementById(
             "bottomQuantity"
         );
 
+
     const headerCartCount =
         document.getElementById(
             "headerCartCount"
+        );
+
+
+    const mobileCartCount =
+        document.getElementById(
+            "mobileCartCount"
+        );
+
+
+    const mobileMenuCartCount =
+        document.getElementById(
+            "mobileMenuCartCount"
         );
 
 
@@ -964,8 +1571,6 @@ function updateSummary() {
     }
 
 
-    /* فقط مبلغ قابل پرداخت در نوار پایین */
-
     if (bottomFinal) {
 
         bottomFinal.textContent =
@@ -989,16 +1594,33 @@ function updateSummary() {
 
     }
 
+
+    if (mobileCartCount) {
+
+        mobileCartCount.textContent =
+            quantity;
+
+    }
+
+
+    if (mobileMenuCartCount) {
+
+        mobileMenuCartCount.textContent =
+            quantity;
+
+    }
+
 }
 
 
-/* =========================
+/* =====================================================
    ادامه سفارش
-   ========================= */
+   ===================================================== */
 
 function goCheckout() {
 
     if (!cart.length) return;
+
 
     alert(
         "صفحه تکمیل سفارش در مرحله بعدی فعال می‌شود."
@@ -1007,9 +1629,101 @@ function goCheckout() {
 }
 
 
-/* =========================
+/* =====================================================
+   منوی موبایل
+   ===================================================== */
+
+const mobileMenuBtn =
+    document.getElementById(
+        "mobileMenuBtn"
+    );
+
+
+const mobileMenu =
+    document.getElementById(
+        "mobileMenu"
+    );
+
+
+const mobileMenuClose =
+    document.getElementById(
+        "mobileMenuClose"
+    );
+
+
+const mobileMenuOverlay =
+    document.getElementById(
+        "mobileMenuOverlay"
+    );
+
+
+function openMobileMenu() {
+
+    mobileMenu.classList.add("active");
+
+    mobileMenuOverlay.classList.add("active");
+
+    document.body.style.overflow = "hidden";
+
+}
+
+
+function closeMobileMenu() {
+
+    mobileMenu.classList.remove("active");
+
+    mobileMenuOverlay.classList.remove("active");
+
+    document.body.style.overflow = "";
+
+}
+
+
+if (mobileMenuBtn) {
+
+    mobileMenuBtn.addEventListener(
+        "click",
+        openMobileMenu
+    );
+
+}
+
+
+if (mobileMenuClose) {
+
+    mobileMenuClose.addEventListener(
+        "click",
+        closeMobileMenu
+    );
+
+}
+
+
+if (mobileMenuOverlay) {
+
+    mobileMenuOverlay.addEventListener(
+        "click",
+        closeMobileMenu
+    );
+
+}
+
+
+document
+    .querySelectorAll(".mobile-menu-links a")
+    .forEach(link => {
+
+        link.addEventListener(
+            "click",
+            closeMobileMenu
+        );
+
+    });
+
+
+/* =====================================================
    اجرا
-   ========================= */
+   ===================================================== */
 
 renderCart();
 
