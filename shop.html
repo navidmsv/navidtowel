@@ -3,55 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>فروشگاه | NavidTowel</title>
-
     <link rel="stylesheet" href="style.css">
-
     <style>
         :root {
             --green: #34452f;
             --green-dark: #263522;
+            --green-soft: #e9eee5;
             --cream: #f7f3eb;
             --white: #ffffff;
             --text: #252525;
-            --muted: #777;
-            --border: #e8e4dc;
-            --danger: #a33b32;
+            --muted: #7b7b7b;
+            --border: #e7e3db;
         }
-
         * {
             box-sizing: border-box;
         }
-
         body {
             margin: 0;
             background: var(--cream);
             color: var(--text);
             font-family: inherit;
         }
-
         a {
             text-decoration: none;
             color: inherit;
         }
-
-        button {
+        button,
+        input {
             font-family: inherit;
         }
-
         /* =========================
-           HEADER
+           HEADER DESKTOP
         ========================= */
-
         .shop-header {
-            background: var(--white);
+            background: #fff;
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
-
         .shop-header-inner {
             max-width: 1200px;
             height: 76px;
@@ -59,36 +50,30 @@
             padding: 0 20px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 30px;
+            gap: 35px;
         }
-
         .shop-logo {
+            color: var(--green);
             font-size: 25px;
             font-weight: 900;
-            color: var(--green);
             white-space: nowrap;
         }
-
         .shop-nav {
             display: flex;
             align-items: center;
             gap: 28px;
             margin-right: auto;
         }
-
         .shop-nav a {
-            font-size: 15px;
             color: #444;
+            font-size: 15px;
             transition: .2s;
         }
-
         .shop-nav a:hover,
         .shop-nav a.active {
             color: var(--green);
-            font-weight: 700;
+            font-weight: 800;
         }
-
         .header-cart {
             display: flex;
             align-items: center;
@@ -97,194 +82,243 @@
             font-weight: 700;
             white-space: nowrap;
         }
-
         .cart-count {
             min-width: 23px;
             height: 23px;
             padding: 0 6px;
-            border-radius: 50px;
+            border-radius: 30px;
             background: var(--green);
-            color: white;
+            color: #fff;
             display: inline-flex;
-            align-items: center;
             justify-content: center;
-            font-size: 12px;
+            align-items: center;
+            font-size: 11px;
         }
-
+        /* =========================
+           MOBILE HEADER
+        ========================= */
         .mobile-header {
             display: none;
         }
-
         /* =========================
            MOBILE MENU
         ========================= */
-
         .menu-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,.4);
+            background: rgba(0,0,0,.42);
             opacity: 0;
             visibility: hidden;
             transition: .25s;
             z-index: 2000;
         }
-
         .menu-overlay.active {
             opacity: 1;
             visibility: visible;
         }
-
         .mobile-menu {
             position: fixed;
             top: 0;
-            right: -310px;
-            width: 290px;
+            right: -320px;
+            width: 295px;
             max-width: 85%;
             height: 100%;
-            background: white;
+            background: #fff;
             z-index: 2100;
-            padding: 25px 20px;
+            padding: 24px 20px;
             transition: .3s ease;
-            box-shadow: -10px 0 30px rgba(0,0,0,.12);
+            box-shadow: -12px 0 35px rgba(0,0,0,.13);
         }
-
         .mobile-menu.active {
             right: 0;
         }
-
         .mobile-menu-head {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding-bottom: 20px;
             border-bottom: 1px solid var(--border);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
-
         .mobile-menu-logo {
             color: var(--green);
-            font-weight: 900;
             font-size: 21px;
+            font-weight: 900;
         }
-
         .menu-close {
-            border: 0;
-            background: #f3f1ec;
             width: 38px;
             height: 38px;
+            border: 0;
             border-radius: 50%;
+            background: #f3f1ec;
             cursor: pointer;
             font-size: 20px;
         }
-
         .mobile-menu-links {
             display: flex;
             flex-direction: column;
         }
-
         .mobile-menu-links a {
             padding: 16px 5px;
             border-bottom: 1px solid #f0ede7;
             font-size: 15px;
         }
-
         .mobile-menu-links a.active {
             color: var(--green);
             font-weight: 800;
         }
-
         .menu-products-btn {
-            display: block;
-            margin-top: 25px;
+            margin-top: 24px;
             background: var(--green);
-            color: white !important;
+            color: #fff !important;
             text-align: center;
-            padding: 14px !important;
             border-radius: 12px;
             border: 0 !important;
         }
-
         /* =========================
-           PAGE TITLE
+           PAGE
         ========================= */
-
         .shop-page {
             max-width: 1200px;
             margin: auto;
-            padding: 35px 20px 130px;
+            padding: 38px 20px 140px;
         }
-
-        .shop-title {
-            text-align: center;
-            margin-bottom: 30px;
+        .shop-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 20px;
+            margin-bottom: 28px;
         }
-
-        .shop-title h1 {
-            margin: 0 0 8px;
-            font-size: 31px;
+        .shop-heading h1 {
+            margin: 0 0 7px;
             color: var(--green-dark);
+            font-size: 31px;
         }
-
-        .shop-title p {
+        .shop-heading p {
             margin: 0;
             color: var(--muted);
             font-size: 14px;
         }
-
-        /* =========================
-           FILTER
-        ========================= */
-
-        .category-bar {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 35px;
+        .product-count {
+            color: var(--muted);
+            font-size: 13px;
+            white-space: nowrap;
         }
-
-        .category-btn {
+        /* =========================
+           CATEGORY SECTION
+        ========================= */
+        .category-section {
+            background: #fff;
             border: 1px solid var(--border);
-            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        .category-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .category-title {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--green-dark);
+        }
+        .category-hint {
+            color: var(--muted);
+            font-size: 11px;
+        }
+        .category-list {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 9px;
+        }
+        .category-btn {
+            min-height: 55px;
+            border: 1px solid var(--border);
+            background: #faf9f6;
             color: #555;
-            padding: 10px 20px;
-            border-radius: 30px;
+            border-radius: 13px;
             cursor: pointer;
             transition: .2s;
-            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            padding: 7px 5px;
         }
-
-        .category-btn:hover,
+        .category-btn:hover {
+            border-color: #cbd3c6;
+            background: var(--green-soft);
+        }
         .category-btn.active {
             background: var(--green);
-            color: white;
             border-color: var(--green);
+            color: #fff;
         }
-
+        .category-name {
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .category-number {
+            font-size: 10px;
+            opacity: .7;
+        }
+        /* =========================
+           SEARCH
+        ========================= */
+        .shop-tools {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 390px;
+        }
+        .search-box input {
+            width: 100%;
+            height: 45px;
+            border: 1px solid var(--border);
+            background: #fff;
+            border-radius: 12px;
+            outline: none;
+            padding: 0 15px;
+            font-size: 13px;
+            color: var(--text);
+        }
+        .search-box input:focus {
+            border-color: #b9c3b3;
+        }
+        .search-box input::placeholder {
+            color: #aaa;
+        }
         /* =========================
            PRODUCTS
         ========================= */
-
         .products-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 22px;
+            gap: 20px;
         }
-
         .product-card {
-            background: white;
+            background: #fff;
             border: 1px solid var(--border);
             border-radius: 18px;
             overflow: hidden;
-            transition: .25s ease;
             position: relative;
+            transition: .25s ease;
         }
-
         .product-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(45,55,40,.09);
+            box-shadow: 0 14px 32px rgba(45,55,40,.09);
         }
-
         .product-image {
             position: relative;
             width: 100%;
@@ -293,7 +327,6 @@
             overflow: hidden;
             cursor: pointer;
         }
-
         .product-image img {
             width: 100%;
             height: 100%;
@@ -301,110 +334,95 @@
             display: block;
             transition: .35s;
         }
-
         .product-card:hover .product-image img {
-            transform: scale(1.04);
+            transform: scale(1.035);
         }
-
         .product-badge {
             position: absolute;
-            top: 12px;
-            right: 12px;
+            top: 11px;
+            right: 11px;
             background: var(--green);
-            color: white;
-            padding: 6px 10px;
+            color: #fff;
+            padding: 5px 9px;
             border-radius: 20px;
-            font-size: 11px;
+            font-size: 10px;
             z-index: 2;
         }
-
-        .product-info {
-            padding: 16px;
+        .availability {
+            position: absolute;
+            left: 11px;
+            top: 11px;
+            background: rgba(255,255,255,.94);
+            color: var(--green);
+            padding: 5px 8px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 700;
+            z-index: 2;
         }
-
+        .product-info {
+            padding: 15px;
+        }
         .product-name {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
-            margin-bottom: 12px;
             line-height: 1.7;
-            min-height: 52px;
+            min-height: 51px;
+            margin-bottom: 10px;
             cursor: pointer;
         }
-
         .price-area {
-            min-height: 53px;
+            min-height: 48px;
         }
-
         .old-price {
             display: block;
             color: #aaa;
-            font-size: 12px;
+            font-size: 11px;
             text-decoration: line-through;
             margin-bottom: 3px;
         }
-
         .product-price {
             color: var(--green-dark);
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 900;
         }
-
         .product-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 14px;
+            margin-top: 13px;
         }
-
         .add-btn {
-            flex: 1;
+            width: 100%;
             border: 0;
             background: var(--green);
-            color: white;
+            color: #fff;
             border-radius: 11px;
-            padding: 12px 8px;
+            padding: 11px 8px;
             cursor: pointer;
-            font-size: 13px;
-            font-weight: 700;
+            font-size: 12px;
+            font-weight: 800;
             transition: .2s;
         }
-
         .add-btn:hover {
             background: var(--green-dark);
         }
-
-        .view-btn {
-            width: 44px;
-            border: 1px solid var(--border);
-            background: white;
-            border-radius: 11px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-
-        /* =========================
-           EMPTY
-        ========================= */
-
         .empty-products {
             grid-column: 1 / -1;
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--muted);
-            background: white;
+            background: #fff;
+            border: 1px solid var(--border);
             border-radius: 18px;
+            text-align: center;
+            padding: 70px 20px;
+            color: var(--muted);
         }
-
         /* =========================
            BOTTOM CART
         ========================= */
-
         .bottom-cart {
             position: fixed;
             bottom: 18px;
             left: 50%;
             transform: translateX(-50%);
             width: min(650px, calc(100% - 30px));
-            background: white;
+            background: #fff;
             border: 1px solid var(--border);
             box-shadow: 0 10px 35px rgba(0,0,0,.14);
             border-radius: 18px;
@@ -415,111 +433,99 @@
             justify-content: space-between;
             gap: 15px;
         }
-
         .bottom-cart-info {
             display: flex;
             align-items: center;
             gap: 11px;
         }
-
         .bottom-cart-icon {
             width: 43px;
             height: 43px;
             background: var(--green);
-            color: white;
+            color: #fff;
             border-radius: 12px;
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 20px;
+            align-items: center;
+            font-size: 19px;
         }
-
         .bottom-cart-text small {
             display: block;
             color: #888;
-            font-size: 11px;
+            font-size: 10px;
             margin-bottom: 3px;
         }
-
         .bottom-cart-total {
-            font-weight: 900;
             color: var(--green-dark);
             font-size: 16px;
+            font-weight: 900;
             white-space: nowrap;
         }
-
         .bottom-cart-btn {
-            background: var(--green);
-            color: white;
             border: 0;
+            background: var(--green);
+            color: #fff;
             border-radius: 12px;
             padding: 13px 22px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 800;
             white-space: nowrap;
         }
-
         .bottom-cart-btn:hover {
             background: var(--green-dark);
         }
-
         /* =========================
            TOAST
         ========================= */
-
         .toast {
             position: fixed;
             left: 50%;
             bottom: 105px;
             transform: translate(-50%, 20px);
             background: var(--green-dark);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 12px;
-            font-size: 13px;
+            color: #fff;
+            padding: 11px 18px;
+            border-radius: 11px;
+            font-size: 12px;
             opacity: 0;
             visibility: hidden;
             transition: .25s;
             z-index: 3000;
             white-space: nowrap;
         }
-
         .toast.show {
             opacity: 1;
             visibility: visible;
             transform: translate(-50%, 0);
         }
-
         /* =========================
            RESPONSIVE
         ========================= */
-
-        @media (max-width: 1000px) {
+        @media (max-width: 1050px) {
+            .category-list {
+                grid-template-columns: repeat(4, 1fr);
+            }
             .products-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
-
         @media (max-width: 850px) {
-
             .shop-header {
                 display: none;
             }
-
             .mobile-header {
                 display: flex;
                 position: sticky;
                 top: 0;
                 z-index: 1000;
                 height: 64px;
-                background: white;
+                background: #fff;
                 border-bottom: 1px solid var(--border);
                 align-items: center;
                 justify-content: space-between;
                 padding: 0 15px;
             }
-
             .mobile-header-btn {
                 width: 42px;
                 height: 42px;
@@ -527,23 +533,20 @@
                 background: #f3f1ec;
                 border-radius: 12px;
                 cursor: pointer;
-                font-size: 20px;
+                font-size: 19px;
                 color: var(--green);
                 display: flex;
                 align-items: center;
                 justify-content: center;
             }
-
             .mobile-logo {
                 color: var(--green);
                 font-size: 21px;
                 font-weight: 900;
             }
-
             .mobile-cart {
                 position: relative;
             }
-
             .mobile-cart-count {
                 position: absolute;
                 top: -5px;
@@ -552,598 +555,540 @@
                 height: 19px;
                 padding: 0 4px;
                 background: var(--green);
-                color: white;
+                color: #fff;
                 border-radius: 50px;
                 font-size: 10px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
             }
-
             .shop-page {
-                padding-top: 25px;
+                padding: 25px 15px 125px;
             }
-
-            .shop-title h1 {
+            .shop-heading {
+                display: block;
+                margin-bottom: 22px;
+            }
+            .shop-heading h1 {
                 font-size: 25px;
             }
-
+            .product-count {
+                display: block;
+                margin-top: 7px;
+            }
+            .category-section {
+                padding: 15px;
+                border-radius: 16px;
+            }
+            .category-top {
+                margin-bottom: 12px;
+            }
+            .category-hint {
+                display: none;
+            }
+            .category-list {
+                display: flex;
+                overflow-x: auto;
+                gap: 8px;
+                padding-bottom: 3px;
+                scrollbar-width: none;
+            }
+            .category-list::-webkit-scrollbar {
+                display: none;
+            }
+            .category-btn {
+                min-width: 88px;
+                flex-shrink: 0;
+                min-height: 51px;
+            }
+            .shop-tools {
+                margin-bottom: 17px;
+            }
+            .search-box {
+                max-width: none;
+            }
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 13px;
+                gap: 12px;
             }
-
             .product-card {
                 border-radius: 14px;
             }
-
             .product-info {
-                padding: 12px;
+                padding: 11px;
             }
-
             .product-name {
-                font-size: 14px;
-                min-height: 48px;
-                margin-bottom: 8px;
+                font-size: 13px;
+                min-height: 45px;
+                margin-bottom: 7px;
             }
-
             .product-price {
-                font-size: 14px;
+                font-size: 13px;
             }
-
             .old-price {
                 font-size: 10px;
             }
-
             .product-actions {
-                margin-top: 10px;
+                margin-top: 9px;
             }
-
             .add-btn {
                 padding: 10px 5px;
-                font-size: 12px;
+                font-size: 11px;
             }
-
-            .view-btn {
-                width: 40px;
-            }
-
-            .category-bar {
-                justify-content: flex-start;
-                overflow-x: auto;
-                flex-wrap: nowrap;
-                padding-bottom: 5px;
-                margin-bottom: 22px;
-            }
-
-            .category-btn {
-                white-space: nowrap;
-                flex-shrink: 0;
-                padding: 9px 16px;
-                font-size: 12px;
-            }
-        }
-
-        @media (max-width: 480px) {
-
-            .shop-page {
-                padding-left: 12px;
-                padding-right: 12px;
-                padding-bottom: 120px;
-            }
-
-            .shop-title {
-                margin-bottom: 20px;
-            }
-
-            .shop-title h1 {
-                font-size: 23px;
-            }
-
-            .shop-title p {
-                font-size: 12px;
-            }
-
-            .products-grid {
-                gap: 10px;
-            }
-
             .product-badge {
                 top: 8px;
                 right: 8px;
-                padding: 5px 8px;
+                padding: 5px 7px;
                 font-size: 9px;
             }
-
+            .availability {
+                left: 8px;
+                top: 8px;
+                padding: 4px 7px;
+                font-size: 8px;
+            }
+        }
+        @media (max-width: 480px) {
+            .shop-page {
+                padding-left: 11px;
+                padding-right: 11px;
+            }
+            .shop-heading h1 {
+                font-size: 23px;
+            }
+            .shop-heading p {
+                font-size: 12px;
+            }
+            .category-section {
+                margin-left: 0;
+                margin-right: 0;
+            }
+            .category-title {
+                font-size: 14px;
+            }
+            .search-box input {
+                height: 42px;
+                font-size: 12px;
+            }
+            .products-grid {
+                gap: 9px;
+            }
             .product-info {
-                padding: 10px;
+                padding: 9px;
             }
-
             .product-name {
-                font-size: 13px;
-                line-height: 1.6;
+                font-size: 12px;
             }
-
             .product-price {
-                font-size: 13px;
+                font-size: 12px;
             }
-
             .bottom-cart {
                 bottom: 10px;
                 width: calc(100% - 20px);
-                padding: 10px;
+                padding: 9px 10px;
                 border-radius: 15px;
             }
-
             .bottom-cart-icon {
                 width: 39px;
                 height: 39px;
-                font-size: 18px;
+                font-size: 17px;
             }
-
             .bottom-cart-total {
-                font-size: 14px;
+                font-size: 13px;
             }
-
             .bottom-cart-btn {
-                padding: 11px 15px;
-                font-size: 12px;
-            }
-
-            .bottom-cart-text small {
-                font-size: 10px;
+                padding: 11px 14px;
+                font-size: 11px;
             }
         }
     </style>
 </head>
-
 <body>
-
 <!-- =========================
      DESKTOP HEADER
 ========================= -->
-
 <header class="shop-header">
     <div class="shop-header-inner">
-
         <a href="index.html" class="shop-logo">
             NavidTowel
         </a>
-
         <nav class="shop-nav">
-            <a href="index.html">خانه</a>
-            <a href="shop.html" class="active">فروشگاه</a>
-            <a href="#">دسته‌بندی‌ها</a>
-            <a href="#">درباره ما</a>
-            <a href="#">تماس با ما</a>
+            <a href="index.html">
+                خانه
+            </a>
+            <a href="shop.html" class="active">
+                فروشگاه
+            </a>
+            <a href="#">
+                دسته‌بندی‌ها
+            </a>
+            <a href="#">
+                درباره ما
+            </a>
+            <a href="#">
+                تماس با ما
+            </a>
         </nav>
-
         <a href="cart.html" class="header-cart">
             🛒
             <span>سبد خرید</span>
             <span class="cart-count" id="desktopCartCount">0</span>
         </a>
-
     </div>
 </header>
-
-
 <!-- =========================
      MOBILE HEADER
 ========================= -->
-
 <header class="mobile-header">
-
     <button
         class="mobile-header-btn"
-        id="menuBtn"
-        aria-label="باز کردن منو">
+        id="menuBtn">
         ☰
     </button>
-
     <a href="index.html" class="mobile-logo">
         NavidTowel
     </a>
-
-    <a href="cart.html"
-       class="mobile-header-btn mobile-cart"
-       aria-label="سبد خرید">
+    <a
+        href="cart.html"
+        class="mobile-header-btn mobile-cart">
         🛒
-        <span class="mobile-cart-count" id="mobileCartCount">0</span>
+        <span
+            class="mobile-cart-count"
+            id="mobileCartCount">
+            0
+        </span>
     </a>
-
 </header>
-
-
 <!-- =========================
      MOBILE MENU
 ========================= -->
-
 <div class="menu-overlay" id="menuOverlay"></div>
-
 <aside class="mobile-menu" id="mobileMenu">
-
     <div class="mobile-menu-head">
-
         <div class="mobile-menu-logo">
             NavidTowel
         </div>
-
-        <button class="menu-close" id="menuClose">
+        <button
+            class="menu-close"
+            id="menuClose">
             ×
         </button>
-
     </div>
-
     <nav class="mobile-menu-links">
-
         <a href="index.html">
             خانه
         </a>
-
         <a href="shop.html" class="active">
             فروشگاه
         </a>
-
         <a href="#">
             دسته‌بندی‌ها
         </a>
-
         <a href="#">
             درباره ما
         </a>
-
         <a href="#">
             تماس با ما
         </a>
-
         <a href="cart.html">
             سبد خرید
             <span id="menuCartCount">(0)</span>
         </a>
-
-        <a href="shop.html" class="menu-products-btn">
+        <a
+            href="shop.html"
+            class="menu-products-btn">
             مشاهده محصولات
         </a>
-
     </nav>
-
 </aside>
-
-
 <!-- =========================
      SHOP
 ========================= -->
-
 <main class="shop-page">
-
-    <section class="shop-title">
-
-        <h1>
-            فروشگاه حوله
-        </h1>
-
-        <p>
-            انتخابی از حوله‌های باکیفیت برای خانه و استفاده روزمره
-        </p>
-
+    <section class="shop-heading">
+        <div>
+            <h1>
+                فروشگاه
+            </h1>
+            <p>
+                حوله مورد نظرت رو از بین محصولات ما پیدا کن
+            </p>
+        </div>
+        <span
+            class="product-count"
+            id="productCount">
+            0 محصول
+        </span>
     </section>
-
-
-    <!-- CATEGORY FILTER -->
-
-    <div class="category-bar">
-
-        <button
-            class="category-btn active"
-            data-category="all">
-            همه محصولات
-        </button>
-
-        <button
-            class="category-btn"
-            data-category="bath">
-            حوله حمام
-        </button>
-
-        <button
-            class="category-btn"
-            data-category="hand">
-            دست و صورت
-        </button>
-
-        <button
-            class="category-btn"
-            data-category="pool">
-            استخری
-        </button>
-
-        <button
-            class="category-btn"
-            data-category="set">
-            ست حوله
-        </button>
-
+    <!-- =========================
+         CATEGORIES
+    ========================= -->
+    <section class="category-section">
+        <div class="category-top">
+            <div class="category-title">
+                دسته‌بندی محصولات
+            </div>
+            <div class="category-hint">
+                دسته مورد نظر خود را انتخاب کنید
+            </div>
+        </div>
+        <div
+            class="category-list"
+            id="categoryList">
+        </div>
+    </section>
+    <!-- =========================
+         SEARCH
+    ========================= -->
+    <div class="shop-tools">
+        <div class="search-box">
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="جستجوی نام محصول..."
+                autocomplete="off">
+        </div>
     </div>
-
-
-    <!-- PRODUCTS -->
-
+    <!-- =========================
+         PRODUCTS
+    ========================= -->
     <section
         class="products-grid"
         id="productsGrid">
     </section>
-
 </main>
-
-
 <!-- =========================
      BOTTOM CART
 ========================= -->
-
 <div class="bottom-cart">
-
     <div class="bottom-cart-info">
-
         <div class="bottom-cart-icon">
             🛒
         </div>
-
         <div class="bottom-cart-text">
-
             <small>
                 مبلغ قابل پرداخت
             </small>
-
             <div
                 class="bottom-cart-total"
                 id="bottomCartTotal">
                 0 تومان
             </div>
-
         </div>
-
     </div>
-
     <button
         class="bottom-cart-btn"
         onclick="goToCart()">
         ادامه سفارش
     </button>
-
 </div>
-
-
-<!-- TOAST -->
-
 <div
     class="toast"
     id="toast">
     محصول به سبد خرید اضافه شد
 </div>
-
-
 <script src="products.js"></script>
-
 <script>
-
     /* =========================
        CART
     ========================= */
-
     let cart =
         JSON.parse(
             localStorage.getItem("navidTowelCart")
         ) || [];
-
-
+    /* =========================
+       CATEGORIES
+    ========================= */
+    const categories = [
+        {
+            id: "all",
+            name: "همه محصولات"
+        },
+        {
+            id: "men",
+            name: "مردانه"
+        },
+        {
+            id: "women",
+            name: "زنانه"
+        },
+        {
+            id: "kids",
+            name: "بچگانه"
+        },
+        {
+            id: "bath",
+            name: "حمامی"
+        },
+        {
+            id: "pool",
+            name: "استخری"
+        },
+        {
+            id: "meter",
+            name: "متری"
+        },
+        {
+            id: "robe",
+            name: "تن‌پوش"
+        }
+    ];
+    let selectedCategory = "all";
+    let searchText = "";
     /* =========================
        PRICE
     ========================= */
-
     function formatPrice(value) {
-
         return Number(value)
             .toLocaleString("en-US")
             + " تومان";
-
     }
-
-
     /* =========================
-       CART COUNT
+       NORMALIZE CATEGORIES
     ========================= */
-
-    function getCartCount() {
-
-        return cart.reduce(
-            (total, item) =>
-                total + Number(item.quantity || 0),
-            0
-        );
-
-    }
-
-
-    function updateCartUI() {
-
-        const count = getCartCount();
-
-        document.getElementById(
-            "desktopCartCount"
-        ).textContent = count;
-
-        document.getElementById(
-            "mobileCartCount"
-        ).textContent = count;
-
-        document.getElementById(
-            "menuCartCount"
-        ).textContent = "(" + count + ")";
-
-
-        const total = cart.reduce(
-            (sum, item) => {
-
-                return sum +
-                    (Number(item.price) *
-                     Number(item.quantity || 0));
-
-            },
-            0
-        );
-
-
-        document.getElementById(
-            "bottomCartTotal"
-        ).textContent = formatPrice(total);
-
-    }
-
-
-    /* =========================
-       ADD TO CART
-    ========================= */
-
-    function addToCart(id) {
-
-        const product =
-            products.find(
-                item => Number(item.id) === Number(id)
-            );
-
-        if (!product) return;
-
-
-        const existing =
-            cart.find(
-                item => Number(item.id) === Number(id)
-            );
-
-
-        if (existing) {
-
-            existing.quantity =
-                Number(existing.quantity || 0) + 1;
-
-        } else {
-
-            cart.push({
-
-                id: product.id,
-
-                name: product.name,
-
-                price: product.price,
-
-                quantity: 1
-
-            });
-
+    function getProductCategories(product) {
+        if (Array.isArray(product.categories)) {
+            return product.categories;
         }
-
-
-        localStorage.setItem(
-            "navidTowelCart",
-            JSON.stringify(cart)
-        );
-
-
-        updateCartUI();
-
-        showToast();
-
+        if (product.category) {
+            return [product.category];
+        }
+        return [];
     }
-
-
+    /* =========================
+       CATEGORY COUNT
+    ========================= */
+    function getCategoryCount(categoryId) {
+        if (categoryId === "all") {
+            return products.length;
+        }
+        return products.filter(product => {
+            return getProductCategories(product)
+                .includes(categoryId);
+        }).length;
+    }
+    /* =========================
+       RENDER CATEGORY
+    ========================= */
+    function renderCategories() {
+        const container =
+            document.getElementById("categoryList");
+        container.innerHTML =
+            categories.map(category => {
+                const count =
+                    getCategoryCount(category.id);
+                return `
+                    <button
+                        class="category-btn ${
+                            selectedCategory === category.id
+                                ? "active"
+                                : ""
+                        }"
+                        onclick="selectCategory('${category.id}')">
+                        <span class="category-name">
+                            ${category.name}
+                        </span>
+                        <span class="category-number">
+                            ${count} محصول
+                        </span>
+                    </button>
+                `;
+            }).join("");
+    }
+    /* =========================
+       SELECT CATEGORY
+    ========================= */
+    function selectCategory(categoryId) {
+        selectedCategory = categoryId;
+        renderCategories();
+        renderProducts();
+    }
+    /* =========================
+       FILTER PRODUCTS
+    ========================= */
+    function getFilteredProducts() {
+        let result = [...products];
+        if (selectedCategory !== "all") {
+            result =
+                result.filter(product => {
+                    return getProductCategories(product)
+                        .includes(selectedCategory);
+                });
+        }
+        if (searchText.trim()) {
+            const search =
+                searchText
+                    .trim()
+                    .toLowerCase();
+            result =
+                result.filter(product => {
+                    return String(product.name)
+                        .toLowerCase()
+                        .includes(search);
+                });
+        }
+        return result;
+    }
     /* =========================
        RENDER PRODUCTS
     ========================= */
-
-    function renderProducts(category = "all") {
-
+    function renderProducts() {
         const grid =
             document.getElementById(
                 "productsGrid"
             );
-
-
-        let filteredProducts =
-            products;
-
-
-        if (category !== "all") {
-
-            filteredProducts =
-                products.filter(
-                    product =>
-                        product.category === category
-                );
-
-        }
-
-
+        const filteredProducts =
+            getFilteredProducts();
+        document.getElementById(
+            "productCount"
+        ).textContent =
+            filteredProducts.length + " محصول";
         if (!filteredProducts.length) {
-
             grid.innerHTML = `
                 <div class="empty-products">
-                    محصولی در این دسته‌بندی پیدا نشد.
+                    محصولی با این مشخصات پیدا نشد.
                 </div>
             `;
-
             return;
         }
-
-
         grid.innerHTML =
             filteredProducts.map(product => {
-
                 const hasOldPrice =
                     product.oldPrice &&
                     Number(product.oldPrice) >
                     Number(product.price);
-
-
                 return `
-
                     <article class="product-card">
-
                         <div
                             class="product-image"
                             onclick="openProduct(${product.id})">
-
                             ${
                                 product.badge
                                 ?
-                                `<span class="product-badge">
+                                `
+                                <span class="product-badge">
                                     ${product.badge}
-                                </span>`
+                                </span>
+                                `
                                 :
                                 ""
                             }
-
+                            <span class="availability">
+                                موجود
+                            </span>
                             <img
                                 src="${product.image}"
                                 alt="${product.name}"
                                 loading="lazy"
                                 onerror="this.style.display='none'">
-
                         </div>
-
-
                         <div class="product-info">
-
                             <div
                                 class="product-name"
                                 onclick="openProduct(${product.id})">
-
                                 ${product.name}
-
                             </div>
-
-
                             <div class="price-area">
-
                                 ${
                                     hasOldPrice
                                     ?
@@ -1155,212 +1100,183 @@
                                     :
                                     ""
                                 }
-
                                 <div class="product-price">
                                     ${formatPrice(product.price)}
                                 </div>
-
                             </div>
-
-
                             <div class="product-actions">
-
                                 <button
                                     class="add-btn"
                                     onclick="addToCart(${product.id})">
-
                                     افزودن به سبد
-
                                 </button>
-
-
-                                <button
-                                    class="view-btn"
-                                    onclick="openProduct(${product.id})"
-                                    aria-label="مشاهده محصول">
-
-موجود
-
-                                </button>
-
                             </div>
-
                         </div>
-
                     </article>
-
                 `;
-
             }).join("");
-
     }
-
-
+    /* =========================
+       ADD TO CART
+    ========================= */
+    function addToCart(id) {
+        const product =
+            products.find(
+                item =>
+                    Number(item.id) === Number(id)
+            );
+        if (!product) return;
+        const existing =
+            cart.find(
+                item =>
+                    Number(item.id) === Number(id)
+            );
+        if (existing) {
+            existing.quantity =
+                Number(existing.quantity || 0) + 1;
+        } else {
+            cart.push({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                quantity: 1
+            });
+        }
+        localStorage.setItem(
+            "navidTowelCart",
+            JSON.stringify(cart)
+        );
+        updateCartUI();
+        showToast();
+    }
+    /* =========================
+       CART UI
+    ========================= */
+    function getCartCount() {
+        return cart.reduce(
+            (total, item) =>
+                total +
+                Number(item.quantity || 0),
+            0
+        );
+    }
+    function updateCartUI() {
+        const count =
+            getCartCount();
+        document.getElementById(
+            "desktopCartCount"
+        ).textContent = count;
+        document.getElementById(
+            "mobileCartCount"
+        ).textContent = count;
+        document.getElementById(
+            "menuCartCount"
+        ).textContent =
+            "(" + count + ")";
+        const total =
+            cart.reduce(
+                (sum, item) => {
+                    return sum +
+                        Number(item.price) *
+                        Number(item.quantity || 0);
+                },
+                0
+            );
+        document.getElementById(
+            "bottomCartTotal"
+        ).textContent =
+            formatPrice(total);
+    }
     /* =========================
        PRODUCT PAGE
     ========================= */
-
     function openProduct(id) {
-
         window.location.href =
             "product.html?id=" + id;
-
     }
-
-
     /* =========================
-       TOAST
+       SEARCH
     ========================= */
-
-    let toastTimer;
-
-
-    function showToast() {
-
-        const toast =
-            document.getElementById("toast");
-
-
-        toast.classList.add("show");
-
-
-        clearTimeout(toastTimer);
-
-
-        toastTimer =
-            setTimeout(() => {
-
-                toast.classList.remove("show");
-
-            }, 1800);
-
-    }
-
-
+    document
+        .getElementById("searchInput")
+        .addEventListener(
+            "input",
+            function () {
+                searchText =
+                    this.value;
+                renderProducts();
+            }
+        );
     /* =========================
        GO CART
     ========================= */
-
     function goToCart() {
-
         window.location.href =
             "cart.html";
-
     }
-
-
     /* =========================
-       CATEGORY BUTTONS
+       TOAST
     ========================= */
-
-    document
-        .querySelectorAll(".category-btn")
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    document
-                        .querySelectorAll(".category-btn")
-                        .forEach(btn =>
-                            btn.classList.remove("active")
-                        );
-
-
-                    this.classList.add("active");
-
-
-                    renderProducts(
-                        this.dataset.category
-                    );
-
-                }
-            );
-
-        });
-
-
+    let toastTimer;
+    function showToast() {
+        const toast =
+            document.getElementById("toast");
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer =
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 1800);
+    }
     /* =========================
        MOBILE MENU
     ========================= */
-
     const menuBtn =
         document.getElementById("menuBtn");
-
     const menuClose =
         document.getElementById("menuClose");
-
     const menuOverlay =
         document.getElementById("menuOverlay");
-
     const mobileMenu =
         document.getElementById("mobileMenu");
-
-
     function openMenu() {
-
         mobileMenu.classList.add("active");
-
         menuOverlay.classList.add("active");
-
         document.body.style.overflow =
             "hidden";
-
     }
-
-
     function closeMenu() {
-
         mobileMenu.classList.remove("active");
-
         menuOverlay.classList.remove("active");
-
         document.body.style.overflow =
             "";
-
     }
-
-
     menuBtn.addEventListener(
         "click",
         openMenu
     );
-
-
     menuClose.addEventListener(
         "click",
         closeMenu
     );
-
-
     menuOverlay.addEventListener(
         "click",
         closeMenu
     );
-
-
     document
         .querySelectorAll(".mobile-menu-links a")
         .forEach(link => {
-
             link.addEventListener(
                 "click",
                 closeMenu
             );
-
         });
-
-
     /* =========================
-       INITIAL LOAD
+       INITIAL
     ========================= */
-
+    renderCategories();
     renderProducts();
-
     updateCartUI();
-
 </script>
-
 </body>
 </html>
