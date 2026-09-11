@@ -515,386 +515,76 @@
     font-size: 9px;
 }
 
-/* =========================================================
-   HERO + IMAGE SLIDER
-========================================================= */
+/* Hero image */
 
-.home-page .hero {
-    min-height: auto;
-    display: block;
-    background:
-        radial-gradient(
-            circle at 12% 18%,
-            rgba(183,154,91,.11),
-            transparent 28%
-        ),
-        var(--cream);
-    padding: 28px 0 55px;
-}
-
-/* کانتینر Hero */
-
-.home-page .hero-slider-section > .container {
-    width: min(1180px, 92%);
-    margin-left: auto;
-    margin-right: auto;
-}
-
-
-/* =========================================================
-   IMAGE SLIDER
-========================================================= */
-
-.home-page .hero-slider {
+.home-page .hero-visual {
     position: relative;
-    width: 100%;
-    height: min(62vh, 620px);
-    min-height: 360px;
-
+    height: 540px;
     overflow: hidden;
-
-    border-radius: 28px;
-
-    background: #e9eee9;
-
-    box-shadow:
-        0 25px 65px rgba(30,50,38,.14);
+    border-radius: 30px;
+    background: #ddd5c5;
+    box-shadow: 0 30px 70px rgba(30,50,38,.14);
 }
 
-
-/* هر عکس */
-
-.home-page .hero-slide {
-    position: absolute;
-
-    inset: 0;
-
+.home-page .hero-visual img {
     width: 100%;
     height: 100%;
-
-    opacity: 0;
-    visibility: hidden;
-
-    transition:
-        opacity .65s ease,
-        visibility .65s ease;
-}
-
-
-/* عکس فعال */
-
-.home-page .hero-slide.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-
-/* خود عکس */
-
-.home-page .hero-slide img {
-    width: 100%;
-    height: 100%;
-
     display: block;
-
     object-fit: cover;
 }
 
-
-/* =========================================================
-   SLIDER ARROWS
-========================================================= */
-
-.home-page .hero-slider-arrow {
+.home-page .hero-overlay {
     position: absolute;
-
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    z-index: 10;
-
-    width: 48px;
-    height: 48px;
-
-    border: 1px solid rgba(255,255,255,.7);
-
-    border-radius: 50%;
-
-    background: rgba(255,255,255,.9);
-
-    color: var(--green);
-
-    font-size: 21px;
-    font-weight: bold;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 8px 25px rgba(0,0,0,.15);
-
-    transition:
-        transform .2s ease,
-        background .2s ease;
+    inset: 0;
+    background:
+        linear-gradient(
+            to top,
+            rgba(20,35,27,.75),
+            transparent 65%
+        );
 }
 
-
-/* فلش سمت راست */
-
-.home-page .hero-slider-prev {
-    right: 20px;
-}
-
-
-/* فلش سمت چپ */
-
-.home-page .hero-slider-next {
-    left: 20px;
-}
-
-
-/* هاور فلش */
-
-.home-page .hero-slider-arrow:hover {
-    background: white;
-
-    transform:
-        translateY(-50%)
-        scale(1.08);
-}
-
-
-/* =========================================================
-   SLIDER DOTS
-========================================================= */
-
-.home-page .hero-slider-dots {
+.home-page .hero-photo-text {
     position: absolute;
-
-    left: 50%;
-    bottom: 18px;
-
-    transform: translateX(-50%);
-
-    z-index: 10;
-
-    display: flex;
-    align-items: center;
-
-    gap: 7px;
-
-    padding: 7px 10px;
-
-    border-radius: 30px;
-
-    background: rgba(0,0,0,.22);
-
-    backdrop-filter: blur(7px);
+    right: 30px;
+    bottom: 30px;
+    z-index: 2;
+    color: white;
 }
 
-
-/* نقطه */
-
-.home-page .hero-dot {
-    width: 8px;
-    height: 8px;
-
-    padding: 0;
-
-    border: 0;
-
-    border-radius: 50%;
-
-    background: rgba(255,255,255,.65);
-
-    cursor: pointer;
-
-    transition:
-        width .25s ease,
-        background .25s ease;
+.home-page .hero-photo-text span {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 2px;
+    opacity: .75;
 }
 
-
-/* نقطه فعال */
-
-.home-page .hero-dot.active {
-    width: 25px;
-
-    border-radius: 20px;
-
-    background: white;
+.home-page .hero-photo-text strong {
+    display: block;
+    font-size: 32px;
+    line-height: 1.3;
 }
 
-
-/* =========================================================
-   TEXT UNDER IMAGE
-========================================================= */
-
-.home-page .hero-text-under {
-    width: 100%;
-    max-width: 850px;
-
-    margin: 0 auto;
-
-    padding-top: 48px;
-
-    text-align: center;
+.home-page .hero-badge {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 3;
+    padding: 11px 14px;
+    background: rgba(255,255,255,.93);
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.13);
 }
 
-
-.home-page .hero-text-under .hero-buttons {
-    justify-content: center;
-}
-
-
-.home-page .hero-text-under .hero-mini-info {
-    justify-content: center;
-}
-
-
-/* متن Hero */
-
-.home-page .hero-text {
-    padding-right: 0;
-}
-
-
-.home-page .hero h1 {
-    color: var(--green-dark);
-
-    font-size: clamp(40px, 5vw, 62px);
-
-    line-height: 1.25;
-
-    letter-spacing: -2.5px;
-
-    margin: 0 0 20px;
-}
-
-
-.home-page .hero p {
-    max-width: 600px;
-
-    margin: 0 auto 28px;
-
+.home-page .hero-badge small {
+    display: block;
     color: var(--muted);
-
-    font-size: 15px;
+    font-size: 8px;
 }
 
-
-/* =========================================================
-   HERO MOBILE
-========================================================= */
-
-@media (max-width: 800px) {
-
-    .home-page .hero {
-        min-height: auto;
-
-        padding:
-            15px 0
-            40px;
-    }
-
-    .home-page .hero-slider-section > .container {
-        width: 94%;
-    }
-
-    .home-page .hero-slider {
-        height: 52vh;
-
-        min-height: 270px;
-
-        border-radius: 20px;
-    }
-
-    .home-page .hero-slider-arrow {
-        width: 42px;
-        height: 42px;
-
-        font-size: 18px;
-    }
-
-    .home-page .hero-slider-prev {
-        right: 12px;
-    }
-
-    .home-page .hero-slider-next {
-        left: 12px;
-    }
-
-    .home-page .hero-slider-dots {
-        bottom: 12px;
-    }
-
-    .home-page .hero-text-under {
-        padding-top: 32px;
-    }
-
-    .home-page .hero h1 {
-        font-size: 38px;
-
-        letter-spacing: -1.5px;
-    }
-
-    .home-page .hero p {
-        font-size: 13px;
-    }
-
-    .home-page .hero-text-under .hero-mini-info {
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 480px) {
-
-    .home-page .hero {
-        padding-top: 10px;
-    }
-
-    .home-page .hero-slider {
-        height: 43vh;
-
-        min-height: 230px;
-
-        border-radius: 17px;
-    }
-
-    .home-page .hero-slider-arrow {
-        width: 36px;
-        height: 36px;
-
-        font-size: 16px;
-    }
-
-    .home-page .hero-slider-prev {
-        right: 9px;
-    }
-
-    .home-page .hero-slider-next {
-        left: 9px;
-    }
-
-    .home-page .hero h1 {
-        font-size: 31px;
-    }
-
-    .home-page .hero p {
-        font-size: 12px;
-    }
-
+.home-page .hero-badge strong {
+    color: var(--green);
+    font-size: 11px;
 }
 
 /* =========================================================
@@ -1582,6 +1272,7 @@
     }
 }
 
+@media (max-width: 800px) {
 
     .home-page .header,
     .home-page .header-inner {
@@ -1615,6 +1306,22 @@
     .home-page .hero {
         min-height: auto;
     }
+
+    .home-page .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 40px 0 55px;
+    }
+
+    .home-page .hero-text {
+        order: 1;
+    }
+
+    .home-page .hero-visual {
+        order: 2;
+        height: 420px;
+    }
+
     .home-page .hero h1 {
         font-size: 43px;
     }
@@ -1823,4 +1530,267 @@
     .home-page .hero-mini-info {
         gap: 10px;
     }
+}
+/* ================================================= */
+/* =============== HERO IMAGE SLIDER ============== */
+/* ================================================= */
+
+.home-page .hero-slider-section {
+    padding-top: 25px;
+    padding-bottom: 50px;
+}
+
+.home-page .hero-slider-section > .container {
+    width: 100%;
+}
+
+
+/* خود کادر عکس */
+
+.home-page .hero-slider {
+    position: relative;
+    width: 100%;
+    height: min(62vh, 620px);
+    min-height: 330px;
+    overflow: hidden;
+    border-radius: 28px;
+    background: #e9eee9;
+    box-shadow: 0 18px 45px rgba(30, 50, 40, 0.10);
+}
+
+
+/* هر اسلاید */
+
+.home-page .hero-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        opacity 0.65s ease,
+        visibility 0.65s ease;
+}
+
+
+/* عکس فعال */
+
+.home-page .hero-slide.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/* خود عکس */
+
+.home-page .hero-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* دکمه‌های راست و چپ */
+
+.home-page .hero-slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+
+    width: 48px;
+    height: 48px;
+
+    border: 1px solid rgba(255,255,255,0.65);
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.88);
+    color: #294737;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+
+/* دکمه سمت راست */
+
+.home-page .hero-slider-prev {
+    right: 20px;
+}
+
+
+/* دکمه سمت چپ */
+
+.home-page .hero-slider-next {
+    left: 20px;
+}
+
+
+/* حرکت هنگام هاور */
+
+.home-page .hero-slider-arrow:hover {
+    transform:
+        translateY(-50%)
+        scale(1.08);
+
+    background: #ffffff;
+}
+
+
+/* نقطه‌های پایین */
+
+.home-page .hero-slider-dots {
+    position: absolute;
+    z-index: 6;
+
+    bottom: 18px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    gap: 8px;
+
+    padding: 7px 10px;
+
+    border-radius: 50px;
+
+    background: rgba(0,0,0,0.20);
+
+    backdrop-filter: blur(6px);
+}
+
+
+/* هر نقطه */
+
+.home-page .hero-dot {
+    width: 8px;
+    height: 8px;
+
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.65);
+
+    cursor: pointer;
+
+    transition:
+        width 0.25s ease,
+        background 0.25s ease;
+}
+
+
+/* نقطه فعال */
+
+.home-page .hero-dot.active {
+    width: 25px;
+    border-radius: 20px;
+    background: #ffffff;
+}
+
+
+/* متن زیر عکس */
+
+.home-page .hero-text-under {
+    width: 100%;
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    padding-top: 48px;
+
+    text-align: center;
+}
+
+
+/* دکمه‌ها وسط */
+
+.home-page .hero-text-under .hero-buttons {
+    justify-content: center;
+}
+
+
+/* اطلاعات کوچک */
+
+.home-page .hero-text-under .hero-mini-info {
+    justify-content: center;
+}
+
+
+/* ================================================= */
+/* ================== MOBILE ======================= */
+/* ================================================= */
+
+@media (max-width: 768px) {
+
+    .home-page .hero-slider-section {
+        padding-top: 15px;
+        padding-bottom: 35px;
+    }
+
+    .home-page .hero-slider {
+        height: 48vh;
+        min-height: 260px;
+        border-radius: 20px;
+    }
+
+    .home-page .hero-slider-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+
+    .home-page .hero-slider-prev {
+        right: 12px;
+    }
+
+    .home-page .hero-slider-next {
+        left: 12px;
+    }
+
+    .home-page .hero-slider-dots {
+        bottom: 12px;
+    }
+
+    .home-page .hero-text-under {
+        padding-top: 32px;
+        text-align: center;
+    }
+
+    .home-page .hero-text-under .hero-mini-info {
+        flex-wrap: wrap;
+    }
+
+}
+
+
+/* موبایل خیلی کوچک */
+
+@media (max-width: 480px) {
+
+    .home-page .hero-slider {
+        height: 42vh;
+        min-height: 230px;
+        border-radius: 16px;
+    }
+
+    .home-page .hero-slider-arrow {
+        width: 36px;
+        height: 36px;
+    }
+
 }
