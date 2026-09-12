@@ -4,8 +4,9 @@ const products =
 
     // =========================
 
-    {
+
         
+    {
     id: 1,
     name: "حوله حمام لوکس آریا",
     price: 1290000,
@@ -16,6 +17,12 @@ const products =
 
     image: "images/bath-luxury-aria.webp",
 
+    images: [
+        "images/bath-luxury-aria.webp",
+        "images/bath-luxury-aria-2.webp",
+        "images/bath-luxury-aria-3.webp"
+    ],
+
     description: "حوله حمام نرم و باکیفیت با جذب آب بالا، مناسب استفاده روزمره.",
 
     quality: "درجه یک",
@@ -23,10 +30,9 @@ const products =
     country: "ترکیه",
     origin: "خارجی",
     use: "حمام و استفاده روزمره",
-
     brand: "آریا",
     size: "70×140"
- },
+}
 
     {
         id: 2,
