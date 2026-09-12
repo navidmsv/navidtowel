@@ -58,7 +58,7 @@
     height: 78px;
     position: sticky;
     top: 0;
-    z-index: 10000;
+    z-index: 1000;
     background: rgba(252, 250, 245, .94);
     border-bottom: 1px solid rgba(229, 223, 210, .8);
     backdrop-filter: blur(18px);
@@ -66,8 +66,6 @@
 }
 .home-page .header-inner {
     height: 78px;
-    position: relative;
-    z-index: 10001;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -87,8 +85,6 @@
    DESKTOP NAV
 ========================================================= */
 .home-page .nav {
-    position: relative;
-    z-index: 10002;
     display: flex;
     align-items: center;
     gap: 28px;
@@ -121,34 +117,33 @@
 }
 /* =========================================================
    CATEGORY DROPDOWN
-   HOVER + OPEN STATE
+   CLICK + HOVER
 ========================================================= */
 .home-page .nav-category {
     position: relative;
-    z-index: 10003;
     height: 78px;
     display: flex;
     align-items: center;
 }
 .home-page .nav-category-btn {
-    position: relative;
-    z-index: 10004;
     border: 0;
-    background: transparent;
+    background: none;
     display: flex;
     align-items: center;
     gap: 6px;
     cursor: pointer;
     padding: 10px 0;
-    color: var(--text);
 }
 .home-page .nav-category-btn span {
     color: var(--gold);
     font-size: 18px;
-    line-height: 1;
     transition: transform .2s ease;
 }
-.home-page .nav-category:hover .nav-category-btn,
+/* حالت hover */
+.home-page .nav-category:hover .nav-category-btn {
+    color: var(--green);
+}
+/* حالت باز شده با کلیک */
 .home-page .nav-category.open .nav-category-btn {
     color: var(--green);
 }
@@ -160,13 +155,12 @@
     position: absolute;
     top: 66px;
     right: -18px;
-    z-index: 10010;
     width: 220px;
     padding: 9px;
     background: var(--white);
     border: 1px solid var(--border);
     border-radius: 15px;
-    box-shadow: 0 20px 55px rgba(30, 50, 38, .16);
+    box-shadow: var(--shadow);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -176,7 +170,9 @@
         visibility .22s ease,
         transform .22s ease;
 }
+/* باز شدن با hover */
 .home-page .nav-category:hover .category-dropdown,
+/* باز شدن با click */
 .home-page .nav-category.open .category-dropdown {
     opacity: 1;
     visibility: visible;
@@ -188,11 +184,7 @@
     padding: 10px 13px;
     border-radius: 9px;
     font-size: 12px;
-    color: var(--text);
-    white-space: nowrap;
-    transition:
-        background .2s ease,
-        color .2s ease;
+    transition: .2s;
 }
 .home-page .category-dropdown a:hover {
     background: var(--green-soft);
@@ -204,8 +196,6 @@
 .home-page .header-actions {
     display: flex;
     align-items: center;
-    position: relative;
-    z-index: 10003;
 }
 .home-page .cart-btn {
     border: 0;
@@ -2493,5 +2483,4 @@
     .home-page .mobile-side-bottom .mobile-bottom-button:active {
         transform: scale(.97);
     }
-}
- 
+} 
