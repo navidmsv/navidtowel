@@ -1,57 +1,59 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
-
     <title>تکمیل سفارش | NavidTowel</title>
-
     <link rel="stylesheet" href="style.css">
-
-
     <style>
-
         .checkout-page {
             min-height: 100vh;
             padding: 105px 0 120px;
             background: var(--cream-2);
         }
-
         .checkout-title {
             text-align: center;
             margin-bottom: 30px;
         }
-
         .checkout-title h1 {
             margin: 0 0 5px;
             font-size: 28px;
             line-height: 1.4;
         }
-
         .checkout-title p {
             margin: 0;
             color: #777;
             font-size: 13px;
         }
-
         .checkout-layout {
             display: grid;
             grid-template-columns: minmax(0, 1.5fr) minmax(320px, .8fr);
             gap: 24px;
             align-items: start;
         }
-
         .checkout-card {
             background: #fff;
             border: 1px solid #e8e4dc;
             border-radius: 16px;
             padding: 25px;
         }
-
+        /* ==============================
+           خلاصه سفارش
+        ============================== */
+        .order-summary {
+            position: sticky;
+            top: 90px;
+            background: var(--green-soft);
+            border: 1px solid rgba(41, 71, 55, .18);
+        }
+        .order-summary .checkout-card-title {
+            border-bottom-color: rgba(41, 71, 55, .15);
+        }
+        .order-summary .checkout-card-title .title-icon {
+            border-color: var(--green);
+            color: var(--green);
+        }
         .checkout-card-title {
             display: flex;
             align-items: center;
@@ -60,7 +62,6 @@
             padding-bottom: 15px;
             border-bottom: 1px solid #eee;
         }
-
         .checkout-card-title .title-icon {
             width: 34px;
             height: 34px;
@@ -70,39 +71,33 @@
             align-items: center;
             justify-content: center;
             font-size: 16px;
+            flex-shrink: 0;
         }
-
         .checkout-card-title h2 {
             margin: 0;
             font-size: 18px;
         }
-
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
         }
-
         .form-group {
             display: flex;
             flex-direction: column;
             gap: 7px;
         }
-
         .form-group.full {
             grid-column: 1 / -1;
         }
-
         .form-group label {
             font-size: 13px;
             font-weight: 600;
             color: #333;
         }
-
         .required {
             color: #777;
         }
-
         .form-group input,
         .form-group select,
         .form-group textarea {
@@ -118,39 +113,44 @@
             outline: none;
             transition: border-color .2s, box-shadow .2s;
         }
-
         .form-group textarea {
             min-height: 95px;
             resize: vertical;
             line-height: 1.8;
         }
-
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-            border-color: #222;
-            box-shadow: 0 0 0 3px rgba(0,0,0,.04);
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(41, 71, 55, .06);
         }
-
+        /* ==============================
+           توضیح شماره موبایل
+        ============================== */
+        .field-help {
+            margin-top: -1px;
+            color: #888;
+            font-size: 10px;
+            line-height: 1.7;
+        }
+        /* ==============================
+           ارسال و پرداخت
+        ============================== */
         .shipping-section {
             margin-top: 28px;
         }
-
         .shipping-options {
             display: grid;
             gap: 11px;
         }
-
         .shipping-option {
             position: relative;
         }
-
         .shipping-option input {
             position: absolute;
             opacity: 0;
             pointer-events: none;
         }
-
         .shipping-label {
             display: flex;
             align-items: center;
@@ -161,23 +161,20 @@
             border-radius: 12px;
             cursor: pointer;
             transition: .2s;
+            background: #fff;
         }
-
         .shipping-label:hover {
             border-color: #aaa;
         }
-
         .shipping-option input:checked + .shipping-label {
-            border-color: #222;
-            box-shadow: 0 0 0 1px #222;
+            border-color: var(--green);
+            box-shadow: 0 0 0 1px var(--green);
         }
-
         .shipping-main {
             display: flex;
             align-items: center;
             gap: 11px;
         }
-
         .shipping-radio {
             width: 18px;
             height: 18px;
@@ -188,20 +185,17 @@
             justify-content: center;
             flex-shrink: 0;
         }
-
         .shipping-option input:checked + .shipping-label .shipping-radio::after {
             content: "";
             width: 8px;
             height: 8px;
-            background: #222;
+            background: var(--green);
             border-radius: 50%;
         }
-
         .shipping-name {
             font-size: 13px;
             font-weight: 700;
         }
-
         .shipping-description {
             display: block;
             margin-top: 4px;
@@ -209,18 +203,14 @@
             font-size: 11px;
             font-weight: normal;
         }
-
         .shipping-price {
             font-size: 12px;
             font-weight: 700;
             white-space: nowrap;
         }
-
-        .order-summary {
-            position: sticky;
-            top: 90px;
-        }
-
+        /* ==============================
+           محصولات
+        ============================== */
         .order-items {
             display: flex;
             flex-direction: column;
@@ -229,19 +219,16 @@
             overflow-y: auto;
             padding-left: 2px;
         }
-
         .checkout-product {
             display: flex;
             align-items: center;
             gap: 11px;
             padding-bottom: 13px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba(41, 71, 55, .12);
         }
-
         .checkout-product:last-child {
             border-bottom: 0;
         }
-
         .checkout-product-image {
             width: 60px;
             height: 60px;
@@ -250,18 +237,15 @@
             background: #f3f1ed;
             flex-shrink: 0;
         }
-
         .checkout-product-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
         .checkout-product-info {
             min-width: 0;
             flex: 1;
         }
-
         .checkout-product-name {
             font-size: 12px;
             font-weight: 700;
@@ -270,24 +254,23 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-
         .checkout-product-quantity {
             color: #888;
             font-size: 11px;
         }
-
         .checkout-product-price {
             font-size: 12px;
             font-weight: 700;
             white-space: nowrap;
         }
-
+        /* ==============================
+           خلاصه مبالغ
+        ============================== */
         .summary-lines {
             margin-top: 18px;
             padding-top: 17px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid rgba(41, 71, 55, .15);
         }
-
         .summary-line {
             display: flex;
             justify-content: space-between;
@@ -296,15 +279,26 @@
             margin-bottom: 12px;
             font-size: 13px;
         }
-
         .summary-line span:first-child {
-            color: #666;
+            color: #566158;
         }
-
         .summary-line span:last-child {
             font-weight: 600;
+            color: var(--green-dark);
+            text-align: left;
         }
-
+        .summary-payment {
+            padding: 10px 0;
+            border-top: 1px dashed rgba(41, 71, 55, .18);
+            border-bottom: 1px dashed rgba(41, 71, 55, .18);
+        }
+        .summary-payment span:last-child {
+            color: var(--green);
+            font-weight: 800;
+        }
+        .summary-discount span:last-child {
+            color: #9a3d3d;
+        }
         .summary-total {
             display: flex;
             justify-content: space-between;
@@ -312,42 +306,40 @@
             gap: 15px;
             margin-top: 17px;
             padding-top: 17px;
-            border-top: 1px solid #ddd;
+            border-top: 1px solid rgba(41, 71, 55, .22);
         }
-
         .summary-total span:first-child {
             font-size: 14px;
             font-weight: 700;
+            color: var(--green-dark);
         }
-
         .summary-total span:last-child {
             font-size: 18px;
             font-weight: 800;
+            color: var(--green-dark);
         }
-
         .currency {
             font-size: 10px;
             color: #777;
             margin-right: 3px;
         }
-
         .payment-note {
             margin-top: 15px;
             padding: 11px 13px;
-            background: #f7f6f3;
+            background: rgba(255, 255, 255, .65);
+            border: 1px solid rgba(41, 71, 55, .10);
             border-radius: 9px;
-            color: #777;
+            color: #667067;
             font-size: 11px;
             line-height: 1.8;
         }
-
         .checkout-submit {
             width: 100%;
             border: 0;
             border-radius: 11px;
             padding: 14px;
             margin-top: 17px;
-            background: #222;
+            background: var(--green);
             color: #fff;
             font-family: Tahoma, Arial, sans-serif;
             font-size: 14px;
@@ -355,21 +347,20 @@
             cursor: pointer;
             transition: .2s;
         }
-
         .checkout-submit:hover {
-            background: #000;
+            background: var(--green-dark);
         }
-
         .checkout-submit:disabled {
             opacity: .5;
             cursor: not-allowed;
         }
-
+        /* ==============================
+           سبد خالی
+        ============================== */
         .checkout-empty {
             text-align: center;
             padding: 40px 20px;
         }
-
         .checkout-empty-icon {
             width: 55px;
             height: 55px;
@@ -381,18 +372,15 @@
             margin: 0 auto 15px;
             font-size: 22px;
         }
-
         .checkout-empty h2 {
             margin: 0 0 8px;
             font-size: 18px;
         }
-
         .checkout-empty p {
             margin: 0 0 18px;
             color: #777;
             font-size: 12px;
         }
-
         .checkout-empty a {
             display: inline-block;
             padding: 11px 20px;
@@ -401,7 +389,9 @@
             border-radius: 9px;
             font-size: 12px;
         }
-
+        /* ==============================
+           پیام
+        ============================== */
         .checkout-message {
             display: none;
             margin-top: 13px;
@@ -413,17 +403,19 @@
             line-height: 1.8;
             text-align: center;
         }
-
+        /* ==============================
+           موفقیت
+        ============================== */
         .checkout-success {
             display: none;
             text-align: center;
             padding: 35px 20px;
         }
-
         .success-icon {
             width: 65px;
             height: 65px;
-            border: 2px solid #222;
+            border: 2px solid var(--green);
+            color: var(--green);
             border-radius: 50%;
             margin: 0 auto 18px;
             display: flex;
@@ -431,18 +423,15 @@
             justify-content: center;
             font-size: 28px;
         }
-
         .checkout-success h2 {
             margin: 0 0 8px;
             font-size: 21px;
         }
-
         .checkout-success p {
             margin: 0 0 20px;
             color: #777;
             font-size: 12px;
         }
-
         .tracking-box {
             max-width: 330px;
             margin: 0 auto 20px;
@@ -451,14 +440,12 @@
             border-radius: 12px;
             background: #fafafa;
         }
-
         .tracking-label {
             display: block;
             color: #777;
             font-size: 11px;
             margin-bottom: 7px;
         }
-
         .tracking-code {
             display: block;
             font-size: 24px;
@@ -466,14 +453,12 @@
             letter-spacing: 2px;
             direction: ltr;
         }
-
         .success-actions {
             display: flex;
             justify-content: center;
             gap: 10px;
             flex-wrap: wrap;
         }
-
         .success-actions a {
             display: inline-block;
             padding: 11px 18px;
@@ -481,554 +466,352 @@
             font-size: 12px;
             text-decoration: none;
         }
-
         .success-home {
-            background: #222;
+            background: var(--green);
             color: #fff;
         }
-
         .success-shop {
             background: #eee;
             color: #222;
         }
-
         @media (max-width: 850px) {
-
             .checkout-layout {
                 grid-template-columns: 1fr;
             }
-
             .order-summary {
                 position: static;
             }
-
         }
-
         @media (max-width: 600px) {
-
             .checkout-page {
                 padding: 92px 0 100px;
             }
-
             .checkout-title {
                 margin-bottom: 20px;
             }
-
             .checkout-title h1 {
                 font-size: 23px;
             }
-
             .checkout-title p {
                 font-size: 11px;
             }
-
             .checkout-card {
                 padding: 17px;
                 border-radius: 13px;
             }
-
             .form-grid {
                 grid-template-columns: 1fr;
                 gap: 13px;
             }
-
             .form-group.full {
                 grid-column: auto;
             }
-
             .checkout-card-title {
                 margin-bottom: 18px;
             }
-
             .checkout-card-title h2 {
                 font-size: 16px;
             }
-
             .shipping-label {
                 padding: 13px;
             }
-
+            .summary-line {
+                font-size: 12px;
+            }
+            .summary-total span:last-child {
+                font-size: 16px;
+            }
         }
-
     </style>
-
 </head>
-
-
 <body class="home-page">
-
-
 <header class="header">
-
     <div class="container header-inner">
-
         <button class="mobile-menu-button"
                 id="mobileMenuButton"
                 aria-label="منو">
-
             <span></span>
             <span></span>
             <span></span>
-
         </button>
-
-
         <a href="index.html"
            class="logo">
-
             Navid<span>Towel</span>
-
         </a>
-
-
         <nav class="nav">
-
             <a href="index.html">خانه</a>
-
             <a href="shop.html">فروشگاه</a>
-
-
             <div class="nav-category">
-
-                <button class="nav-category-btn">
-
+                <button class="nav-category-btn"
+                        type="button">
                     دسته‌بندی‌ها
-
                     <span>⌄</span>
-
                 </button>
-
-
                 <div class="category-dropdown">
-
                     <a href="shop.html?category=men">
                         حوله مردانه
                     </a>
-
                     <a href="shop.html?category=women">
                         حوله زنانه
                     </a>
-
                     <a href="shop.html?category=kids">
                         حوله بچگانه
                     </a>
-
                     <a href="shop.html?category=bath">
                         حوله حمامی
                     </a>
-
                     <a href="shop.html?category=pool">
                         حوله استخری
                     </a>
-
                     <a href="shop.html?category=meter">
                         حوله متری
                     </a>
-
                     <a href="shop.html?category=robe">
                         تن‌پوش
                     </a>
-
                 </div>
-
             </div>
-
-
             <a href="index.html#about">
                 درباره ما
             </a>
-
             <a href="index.html#contact">
                 تماس با ما
             </a>
-
         </nav>
-
-
         <div class="header-actions">
-
             <a href="index.html"
                class="cart-btn"
                style="text-decoration:none;">
-
                 ⌂
-
                 <span>
                     خانه
                 </span>
-
             </a>
-
         </div>
-
     </div>
-
 </header>
-
-
 <div class="mobile-menu-overlay"
      id="mobileMenuOverlay">
 </div>
-
-
 <aside class="mobile-side-menu"
        id="mobileSideMenu">
-
-
     <div class="mobile-side-header">
-
         <div class="mobile-side-brand">
-
             <div class="mobile-side-logo">
                 N
             </div>
-
             <div>
-
                 <strong>
                     NavidTowel
                 </strong>
-
                 <span>
                     فروشگاه حوله و کالای خواب
                 </span>
-
             </div>
-
         </div>
-
-
         <button type="button"
                 class="mobile-side-close"
                 id="mobileMenuClose"
                 aria-label="بستن منو">
-
             ×
-
         </button>
-
     </div>
-
-
     <nav class="mobile-side-links">
-
-
         <a href="index.html"
            class="mobile-side-link">
-
             <span class="side-icon">
                 ⌂
             </span>
-
             <span>
                 صفحه اصلی
             </span>
-
         </a>
-
-
         <div class="mobile-side-category">
-
-
             <button type="button"
                     class="mobile-side-link mobile-side-category-button"
                     id="mobileCategoryButton">
-
                 <span class="side-icon">
                     ☰
                 </span>
-
                 <span>
                     دسته‌بندی‌ها
                 </span>
-
                 <span class="side-arrow"
                       id="mobileCategoryArrow">
-
                     ⌄
-
                 </span>
-
             </button>
-
-
             <div class="mobile-side-category-list"
                  id="mobileCategoryList">
-
-
                 <a href="shop.html?category=men">
                     مردانه
                 </a>
-
                 <a href="shop.html?category=women">
                     زنانه
                 </a>
-
                 <a href="shop.html?category=kids">
                     بچگانه
                 </a>
-
                 <a href="shop.html?category=bath">
                     حمامی
                 </a>
-
                 <a href="shop.html?category=pool">
                     استخری
                 </a>
-
                 <a href="shop.html?category=meter">
                     متری
                 </a>
-
                 <a href="shop.html?category=robe">
                     تن‌پوش
                 </a>
-
             </div>
-
         </div>
-
-
         <a href="discount.html"
            class="mobile-side-link mobile-side-discount">
-
             <span class="side-icon">
                 %
             </span>
-
             <span>
                 تخفیفات
             </span>
-
             <span class="discount-badge">
                 ویژه
             </span>
-
         </a>
-
-
         <a href="tracking.html"
            class="mobile-side-link">
-
             <span class="side-icon">
                 ⌕
             </span>
-
             <span>
                 پیگیری سفارش
             </span>
-
         </a>
-
-
         <a href="index.html#about"
            class="mobile-side-link">
-
             <span class="side-icon">
                 i
             </span>
-
             <span>
                 درباره ما
             </span>
-
         </a>
-
-
         <a href="index.html#contact"
            class="mobile-side-link">
-
             <span class="side-icon">
                 ☏
             </span>
-
             <span>
                 تماس با ما
             </span>
-
         </a>
-
     </nav>
-
-
     <div class="mobile-side-bottom">
-
-
         <a href="shop.html"
            class="mobile-bottom-button">
-
             <span>
                 ▦
             </span>
-
             <small>
                 همه محصولات
             </small>
-
         </a>
-
-
         <a href="cart.html"
            class="mobile-bottom-button">
-
             <span>
                 □
             </span>
-
             <small>
                 سبد خرید
             </small>
-
         </a>
-
-
         <a href="https://instagram.com/navidtowel"
            target="_blank"
            rel="noopener noreferrer"
            class="mobile-bottom-button">
-
             <span>
                 ◎
             </span>
-
             <small>
                 اینستاگرام
             </small>
-
         </a>
-
     </div>
-
 </aside>
-
-
 <main class="checkout-page">
-
-
     <div class="container">
-
-
         <div class="checkout-title">
-
             <h1>
                 تکمیل سفارش
             </h1>
-
             <p>
                 اطلاعات گیرنده و روش ارسال را وارد کنید
             </p>
-
         </div>
-
-
         <div id="emptyCheckout"
              class="checkout-card checkout-empty"
              style="display:none;">
-
             <div class="checkout-empty-icon">
                 □
             </div>
-
             <h2>
                 سبد خرید شما خالی است
             </h2>
-
             <p>
                 برای ادامه ابتدا محصولی به سبد خرید اضافه کنید.
             </p>
-
             <a href="shop.html">
                 مشاهده محصولات
             </a>
-
         </div>
-
-
         <div id="checkoutContent"
              class="checkout-layout">
-
-
             <section class="checkout-card">
-
-
                 <div class="checkout-card-title">
-
                     <div class="title-icon">
                         i
                     </div>
-
                     <h2>
                         اطلاعات گیرنده
                     </h2>
-
                 </div>
-
-
                 <form id="checkoutForm">
-
-
                     <div class="form-grid">
-
-
                         <div class="form-group">
-
                             <label for="firstName">
-
                                 نام
-
                                 <span class="required">
                                     *
                                 </span>
-
                             </label>
-
-
                             <input type="text"
                                    id="firstName"
                                    name="firstName"
                                    autocomplete="given-name"
                                    placeholder="نام"
                                    required>
-
                         </div>
-
-
                         <div class="form-group">
-
                             <label for="lastName">
-
                                 نام خانوادگی
-
                                 <span class="required">
                                     *
                                 </span>
-
                             </label>
-
-
                             <input type="text"
                                    id="lastName"
                                    name="lastName"
                                    autocomplete="family-name"
                                    placeholder="نام خانوادگی"
                                    required>
-
                         </div>
-
-
                         <div class="form-group">
-
                             <label for="mobile">
-
                                 شماره موبایل
-
                                 <span class="required">
                                     *
                                 </span>
-
                             </label>
-
-
                             <input type="tel"
                                    id="mobile"
                                    name="mobile"
@@ -1037,198 +820,76 @@
                                    placeholder="مثلاً 09123456789"
                                    maxlength="11"
                                    required>
-
+                            <div class="field-help">
+                                لطفاً شماره‌ای وارد کنید که فعال باشد تا کارشناسان فروش در سریع‌ترین زمان با شما تماس بگیرند.
+                            </div>
                         </div>
-
-
                         <div class="form-group">
-
                             <label for="province">
-
                                 استان
-
                                 <span class="required">
                                     *
                                 </span>
-
                             </label>
-
-
                             <select id="province"
                                     name="province"
                                     required>
-
-
                                 <option value="">
                                     انتخاب استان
                                 </option>
-
-
-                                <option>
-                                    آذربایجان شرقی
-                                </option>
-
-                                <option>
-                                    آذربایجان غربی
-                                </option>
-
-                                <option>
-                                    اردبیل
-                                </option>
-
-                                <option>
-                                    اصفهان
-                                </option>
-
-                                <option>
-                                    البرز
-                                </option>
-
-                                <option>
-                                    ایلام
-                                </option>
-
-                                <option>
-                                    بوشهر
-                                </option>
-
-                                <option>
-                                    تهران
-                                </option>
-
-                                <option>
-                                    چهارمحال و بختیاری
-                                </option>
-
-                                <option>
-                                    خراسان جنوبی
-                                </option>
-
-                                <option>
-                                    خراسان رضوی
-                                </option>
-
-                                <option>
-                                    خراسان شمالی
-                                </option>
-
-                                <option>
-                                    خوزستان
-                                </option>
-
-                                <option>
-                                    زنجان
-                                </option>
-
-                                <option>
-                                    سمنان
-                                </option>
-
-                                <option>
-                                    سیستان و بلوچستان
-                                </option>
-
-                                <option>
-                                    فارس
-                                </option>
-
-                                <option>
-                                    قزوین
-                                </option>
-
-                                <option>
-                                    قم
-                                </option>
-
-                                <option>
-                                    کردستان
-                                </option>
-
-                                <option>
-                                    کرمان
-                                </option>
-
-                                <option>
-                                    کرمانشاه
-                                </option>
-
-                                <option>
-                                    کهگیلویه و بویراحمد
-                                </option>
-
-                                <option>
-                                    گلستان
-                                </option>
-
-                                <option>
-                                    گیلان
-                                </option>
-
-                                <option>
-                                    لرستان
-                                </option>
-
-                                <option>
-                                    مازندران
-                                </option>
-
-                                <option>
-                                    مرکزی
-                                </option>
-
-                                <option>
-                                    هرمزگان
-                                </option>
-
-                                <option>
-                                    همدان
-                                </option>
-
-                                <option>
-                                    یزد
-                                </option>
-
-
+                                <option>آذربایجان شرقی</option>
+                                <option>آذربایجان غربی</option>
+                                <option>اردبیل</option>
+                                <option>اصفهان</option>
+                                <option>البرز</option>
+                                <option>ایلام</option>
+                                <option>بوشهر</option>
+                                <option>تهران</option>
+                                <option>چهارمحال و بختیاری</option>
+                                <option>خراسان جنوبی</option>
+                                <option>خراسان رضوی</option>
+                                <option>خراسان شمالی</option>
+                                <option>خوزستان</option>
+                                <option>زنجان</option>
+                                <option>سمنان</option>
+                                <option>سیستان و بلوچستان</option>
+                                <option>فارس</option>
+                                <option>قزوین</option>
+                                <option>قم</option>
+                                <option>کردستان</option>
+                                <option>کرمان</option>
+                                <option>کرمانشاه</option>
+                                <option>کهگیلویه و بویراحمد</option>
+                                <option>گلستان</option>
+                                <option>گیلان</option>
+                                <option>لرستان</option>
+                                <option>مازندران</option>
+                                <option>مرکزی</option>
+                                <option>هرمزگان</option>
+                                <option>همدان</option>
+                                <option>یزد</option>
                             </select>
-
                         </div>
-
-
                         <div class="form-group">
-
                             <label for="city">
-
                                 شهر
-
                                 <span class="required">
                                     *
                                 </span>
-
                             </label>
-
-
                             <input type="text"
                                    id="city"
                                    name="city"
                                    placeholder="مثلاً آبادان"
                                    required>
-
                         </div>
-
-
                         <div class="form-group">
-
                             <label for="postalCode">
-
                                 کد پستی
-
                                 <span class="required">
                                     *
                                 </span>
-
                             </label>
-
-
                             <input type="text"
                                    id="postalCode"
                                    name="postalCode"
@@ -1236,854 +897,567 @@
                                    maxlength="10"
                                    placeholder="کد پستی ۱۰ رقمی"
                                    required>
-
                         </div>
-
-
                         <div class="form-group full">
-
                             <label for="address">
-
                                 آدرس کامل
-
                                 <span class="required">
                                     *
                                 </span>
-
                             </label>
-
-
                             <textarea id="address"
                                       name="address"
                                       autocomplete="street-address"
                                       placeholder="استان، شهر، خیابان، کوچه، پلاک، واحد..."
                                       required></textarea>
-
                         </div>
-
-
                         <div class="form-group full">
-
                             <label for="note">
-
                                 توضیحات سفارش
-
                                 <span style="color:#999;">
                                     (اختیاری)
                                 </span>
-
                             </label>
-
-
                             <textarea id="note"
                                       name="note"
                                       placeholder="اگر توضیحی درباره سفارش یا تحویل دارید بنویسید..."></textarea>
-
                         </div>
-
-
                     </div>
-
-
+                    <!-- ==========================
+                         روش ارسال
+                    =========================== -->
                     <div class="shipping-section">
-
-
                         <div class="checkout-card-title">
-
                             <div class="title-icon">
                                 →
                             </div>
-
                             <h2>
                                 روش ارسال
                             </h2>
-
                         </div>
-
-
                         <div class="shipping-options">
-
-
                             <div class="shipping-option">
-
-
                                 <input type="radio"
                                        id="shippingPost"
                                        name="shipping"
                                        value="پست"
                                        data-cost="0"
                                        checked>
-
-
                                 <label class="shipping-label"
                                        for="shippingPost">
-
-
                                     <div class="shipping-main">
-
                                         <span class="shipping-radio"></span>
-
-
                                         <div>
-
                                             <span class="shipping-name">
                                                 پست
                                             </span>
-
                                             <span class="shipping-description">
                                                 هزینه ارسال بر اساس مقصد محاسبه می‌شود
                                             </span>
-
                                         </div>
-
                                     </div>
-
-
                                     <span class="shipping-price">
                                         محاسبه بعدی
                                     </span>
-
-
                                 </label>
-
                             </div>
-
-
                             <div class="shipping-option">
-
-
                                 <input type="radio"
                                        id="shippingTipax"
                                        name="shipping"
                                        value="تیپاکس"
                                        data-cost="0">
-
-
                                 <label class="shipping-label"
                                        for="shippingTipax">
-
-
                                     <div class="shipping-main">
-
                                         <span class="shipping-radio"></span>
-
-
                                         <div>
-
                                             <span class="shipping-name">
                                                 تیپاکس
                                             </span>
-
                                             <span class="shipping-description">
                                                 هزینه ارسال بر اساس مقصد محاسبه می‌شود
                                             </span>
-
                                         </div>
-
                                     </div>
-
-
                                     <span class="shipping-price">
                                         محاسبه بعدی
                                     </span>
-
-
                                 </label>
-
                             </div>
-
-
                         </div>
-
                     </div>
-
-
+                    <!-- ==========================
+                         روش پرداخت
+                    =========================== -->
+                    <div class="shipping-section">
+                        <div class="checkout-card-title">
+                            <div class="title-icon">
+                                $
+                            </div>
+                            <h2>
+                                روش پرداخت
+                            </h2>
+                        </div>
+                        <div class="shipping-options">
+                            <div class="shipping-option">
+                                <input type="radio"
+                                       id="paymentCard"
+                                       name="paymentMethod"
+                                       value="کارت‌به‌کارت"
+                                       checked>
+                                <label class="shipping-label"
+                                       for="paymentCard">
+                                    <div class="shipping-main">
+                                        <span class="shipping-radio"></span>
+                                        <div>
+                                            <span class="shipping-name">
+                                                کارت‌به‌کارت
+                                            </span>
+                                            <span class="shipping-description">
+                                                اطلاعات پرداخت پس از ثبت سفارش اعلام می‌شود
+                                            </span>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="shipping-option">
+                                <input type="radio"
+                                       id="paymentGateway"
+                                       name="paymentMethod"
+                                       value="پرداخت آنلاین">
+                                <label class="shipping-label"
+                                       for="paymentGateway">
+                                    <div class="shipping-main">
+                                        <span class="shipping-radio"></span>
+                                        <div>
+                                            <span class="shipping-name">
+                                                پرداخت آنلاین
+                                            </span>
+                                            <span class="shipping-description">
+                                                پرداخت از طریق درگاه بانکی
+                                            </span>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </form>
-
             </section>
-
-
+            <!-- ==============================
+                 خلاصه سفارش
+            =============================== -->
             <aside class="checkout-card order-summary">
-
-
                 <div class="checkout-card-title">
-
                     <div class="title-icon">
-                        □
+                        $
                     </div>
-
                     <h2>
                         خلاصه سفارش
                     </h2>
-
                 </div>
-
-
                 <div id="checkoutItems"
                      class="order-items">
                 </div>
-
-
                 <div class="summary-lines">
-
-
                     <div class="summary-line">
-
                         <span>
                             جمع محصولات
                         </span>
-
                         <span id="checkoutSubtotal">
-                            ۰ تومان
+                            0 تومان
                         </span>
-
                     </div>
-
-
-                    <div class="summary-line"
+                    <div class="summary-line summary-discount"
                          id="discountRow"
                          style="display:none;">
-
                         <span>
                             تخفیف
                         </span>
-
                         <span id="checkoutDiscount">
-                            ۰ تومان
+                            0 تومان
                         </span>
-
                     </div>
-
-
                     <div class="summary-line">
-
                         <span>
                             هزینه ارسال
                         </span>
-
                         <span id="checkoutShipping">
                             محاسبه بعدی
                         </span>
-
                     </div>
-
-
+                    <div class="summary-line summary-payment">
+                        <span>
+                            روش پرداخت
+                        </span>
+                        <span id="summaryPaymentMethod">
+                            کارت‌به‌کارت
+                        </span>
+                    </div>
                     <div class="summary-total">
-
                         <span>
                             مبلغ قابل پرداخت
                         </span>
-
                         <span id="checkoutTotal">
-
-                            ۰
-
+                            0
                             <span class="currency">
                                 تومان
                             </span>
-
                         </span>
-
                     </div>
-
-
                 </div>
-
-
                 <div class="payment-note">
-
-                    در حالت تست، با زدن دکمه زیر سفارش مستقیماً در سیستم ثبت می‌شود.
-                    در مرحله بعد این دکمه به درگاه پرداخت متصل می‌شود.
-
+                    روش پرداخت انتخاب‌شده همراه سفارش برای فروشگاه ارسال می‌شود.
+                    در صورت انتخاب کارت‌به‌کارت، اطلاعات پرداخت پس از بررسی سفارش اعلام خواهد شد.
                 </div>
-
-
                 <button type="button"
                         class="checkout-submit"
                         id="submitOrder">
-
                     ثبت سفارش و دریافت کد پیگیری
-
                 </button>
-
-
                 <div class="checkout-message"
                      id="checkoutMessage">
                 </div>
-
-
             </aside>
-
-
         </div>
-
-
+        <!-- ==============================
+             موفقیت
+        =============================== -->
         <div id="successBox"
              class="checkout-card checkout-success">
-
-
             <div class="success-icon">
                 ✓
             </div>
-
-
             <h2>
                 سفارش شما ثبت شد
             </h2>
-
-
             <p>
-
                 اطلاعات سفارش با موفقیت ثبت شد.
                 کد پیگیری خود را نگه دارید.
-
             </p>
-
-
             <div class="tracking-box">
-
                 <span class="tracking-label">
                     کد پیگیری سفارش
                 </span>
-
-
                 <span id="trackingCode"
                       class="tracking-code">
                 </span>
-
             </div>
-
-
             <div class="success-actions">
-
-
                 <a href="index.html"
                    class="success-home">
-
                     صفحه اصلی
-
                 </a>
-
-
                 <a href="shop.html"
                    class="success-shop">
-
                     ادامه خرید
-
                 </a>
-
-
             </div>
-
-
         </div>
-
     </div>
-
 </main>
-
-
 <footer class="footer">
-
-
     <div class="container">
-
-
         <div class="footer-grid">
-
-
             <div class="footer-brand">
-
                 <a href="index.html"
                    class="logo">
-
                     Navid<span>Towel</span>
-
                 </a>
-
-
                 <p>
                     فروشگاه حوله و کالای خواب
                 </p>
-
             </div>
-
-
             <div>
-
                 <h4>
                     دسترسی سریع
                 </h4>
-
-
                 <a href="index.html">
                     خانه
                 </a>
-
-
                 <a href="shop.html">
                     فروشگاه
                 </a>
-
-
                 <a href="cart.html">
                     سبد خرید
                 </a>
-
             </div>
-
-
             <div>
-
                 <h4>
                     ارتباط با ما
                 </h4>
-
-
                 <p>
                     تلفن: 09398707122
                 </p>
-
-
                 <p>
                     آبادان، مجتمع کنزالمال، کنز ۵
                 </p>
-
-
                 <p>
                     اینستاگرام: @navidtowel
                 </p>
-
             </div>
-
-
         </div>
-
-
         <div class="footer-bottom">
-
             © NavidTowel - تمامی حقوق محفوظ است.
-
         </div>
-
     </div>
-
 </footer>
-
-
 <script src="products.js"></script>
-
 <script src="script.js"></script>
-
-
 <script>
-
 document.addEventListener(
     "DOMContentLoaded",
     function () {
-
-
         /* =================================
            Google Apps Script
         ================================= */
-
         const GOOGLE_SCRIPT_URL =
             "https://script.google.com/macros/s/AKfycbyyg20MikWIqNtE5KKuQrczOMT_qp9B5gwqaBc7FbZsRcH8Ymje80ee202ymZhpFORf1w/exec";
-
-
         const cartKey =
             "navidTowelCart";
-
-
         let cart = [];
-
-
         try {
-
             cart =
                 JSON.parse(
                     localStorage.getItem(cartKey)
                 ) || [];
-
         } catch (error) {
-
             cart = [];
-
         }
-
-
         const emptyCheckout =
             document.getElementById(
                 "emptyCheckout"
             );
-
-
         const checkoutContent =
             document.getElementById(
                 "checkoutContent"
             );
-
-
         const successBox =
             document.getElementById(
                 "successBox"
             );
-
-
         /* =================================
            بررسی سبد خرید
         ================================= */
-
         if (!cart.length) {
-
             emptyCheckout.style.display =
                 "block";
-
             checkoutContent.style.display =
                 "none";
-
             return;
-
         }
-
-
         /* =================================
            قیمت
+           اعداد انگلیسی
         ================================= */
-
         function formatPrice(number) {
-
             return Number(number || 0)
-                .toLocaleString("fa-IR");
-
+                .toLocaleString("en-US");
         }
-
-
         /* =================================
            پیدا کردن لیست محصولات
         ================================= */
-
         function getProductsArray() {
-
             if (
                 Array.isArray(
                     window.products
                 )
             ) {
-
                 return window.products;
-
             }
-
-
             if (
                 Array.isArray(
                     window.productList
                 )
             ) {
-
                 return window.productList;
-
             }
-
-
             if (
                 Array.isArray(
                     window.allProducts
                 )
             ) {
-
                 return window.allProducts;
-
             }
-
-
             return [];
-
         }
-
-
         const products =
             getProductsArray();
-
-
         /* =================================
            پیدا کردن محصول
         ================================= */
-
         function findProduct(item) {
-
             return products.find(
                 function (product) {
-
                     return String(
                         product.id
                     ) === String(
                         item.id
                     );
-
                 }
             ) || null;
-
         }
-
-
         /* =================================
            قیمت محصول
         ================================= */
-
         function getItemPrice(item) {
-
             const product =
                 findProduct(item);
-
-
             if (
                 product &&
                 product.price != null
             ) {
-
                 return Number(
                     product.price
                 ) || 0;
-
             }
-
-
             return Number(
                 item.price
             ) || 0;
-
         }
-
-
         /* =================================
            قیمت قدیمی
         ================================= */
-
         function getItemOldPrice(item) {
-
             const product =
                 findProduct(item);
-
-
             if (
                 product &&
                 product.oldPrice != null
             ) {
-
                 return Number(
                     product.oldPrice
                 ) || 0;
-
             }
-
-
             return Number(
                 item.oldPrice
             ) || 0;
-
         }
-
-
         /* =================================
            تصویر
         ================================= */
-
         function getItemImage(item) {
-
             const product =
                 findProduct(item);
-
-
             if (
                 product &&
                 product.image
             ) {
-
                 return product.image;
-
             }
-
-
             return item.image || "";
-
         }
-
-
         /* =================================
            نام محصول
         ================================= */
-
         function getItemName(item) {
-
             const product =
                 findProduct(item);
-
-
             if (
                 product &&
                 product.name
             ) {
-
                 return product.name;
-
             }
-
-
             return item.name || "محصول";
-
         }
-
-
         /* =================================
            محاسبه قیمت
         ================================= */
-
         function calculateTotals() {
-
             let subtotal = 0;
-
             let oldTotal = 0;
-
-
             cart.forEach(
                 function (item) {
-
-
                     const quantity =
                         Number(
                             item.quantity
                         ) || 1;
-
-
                     const price =
                         getItemPrice(item);
-
-
                     const oldPrice =
                         getItemOldPrice(item);
-
-
                     subtotal +=
                         price * quantity;
-
-
                     oldTotal +=
                         (
                             oldPrice > price
                                 ? oldPrice
                                 : price
                         ) * quantity;
-
-
                 }
             );
-
-
             const discount =
                 Math.max(
                     0,
                     oldTotal - subtotal
                 );
-
-
             const selectedShipping =
                 document.querySelector(
                     'input[name="shipping"]:checked'
                 );
-
-
             const shippingCost =
                 selectedShipping
-
                     ? Number(
                         selectedShipping.dataset.cost || 0
                     )
-
                     : 0;
-
-
             const total =
                 subtotal +
                 shippingCost;
-
-
             return {
-
                 subtotal:
                     subtotal,
-
                 oldTotal:
                     oldTotal,
-
                 discount:
                     discount,
-
                 shippingCost:
                     shippingCost,
-
                 total:
                     total
-
             };
-
         }
-
-
+        /* =================================
+           روش پرداخت انتخاب‌شده
+        ================================= */
+        function getPaymentMethod() {
+            return (
+                document.querySelector(
+                    'input[name="paymentMethod"]:checked'
+                )?.value
+            ) || "کارت‌به‌کارت";
+        }
         /* =================================
            نمایش کالاها
         ================================= */
-
         function renderItems() {
-
-
             const container =
                 document.getElementById(
                     "checkoutItems"
                 );
-
-
             container.innerHTML = "";
-
-
             cart.forEach(
                 function (item) {
-
-
                     const quantity =
                         Number(
                             item.quantity
                         ) || 1;
-
-
                     const price =
                         getItemPrice(item);
-
-
                     const image =
                         getItemImage(item);
-
-
                     const name =
                         getItemName(item);
-
-
                     const itemElement =
                         document.createElement(
                             "div"
                         );
-
-
                     itemElement.className =
                         "checkout-product";
-
-
                     let imageHTML = "";
-
-
                     if (image) {
-
                         imageHTML =
                             '<img src="' +
                             image +
@@ -2094,1125 +1468,688 @@ document.addEventListener(
                                     ""
                                 ) +
                             '">';
-
                     } else {
-
                         imageHTML =
                             '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">□</div>';
-
                     }
-
-
                     itemElement.innerHTML =
-
                         '<div class="checkout-product-image">' +
-
                             imageHTML +
-
                         '</div>' +
-
-
                         '<div class="checkout-product-info">' +
-
                             '<div class="checkout-product-name">' +
-
                                 name +
-
                             '</div>' +
-
-
                             '<div class="checkout-product-quantity">' +
-
                                 'تعداد: ' +
-
                                 quantity.toLocaleString(
-                                    "fa-IR"
+                                    "en-US"
                                 ) +
-
                             '</div>' +
-
                         '</div>' +
-
-
                         '<div class="checkout-product-price">' +
-
                             formatPrice(
                                 price *
                                 quantity
                             ) +
-
                             ' تومان' +
-
                         '</div>';
-
-
                     container.appendChild(
                         itemElement
                     );
-
                 }
             );
-
         }
-
-
         /* =================================
            بروزرسانی خلاصه
         ================================= */
-
         function updateSummary() {
-
-
             const totals =
                 calculateTotals();
-
-
             document.getElementById(
                 "checkoutSubtotal"
             ).textContent =
-
                 formatPrice(
                     totals.subtotal
                 ) +
-
                 " تومان";
-
-
             const discountRow =
                 document.getElementById(
                     "discountRow"
                 );
-
-
             if (
                 totals.discount > 0
             ) {
-
                 discountRow.style.display =
                     "flex";
-
-
                 document.getElementById(
                     "checkoutDiscount"
                 ).textContent =
-
                     formatPrice(
                         totals.discount
                     ) +
-
                     " تومان";
-
-
             } else {
-
                 discountRow.style.display =
                     "none";
-
             }
-
-
             if (
                 totals.shippingCost > 0
             ) {
-
                 document.getElementById(
                     "checkoutShipping"
                 ).textContent =
-
                     formatPrice(
                         totals.shippingCost
                     ) +
-
                     " تومان";
-
-
             } else {
-
                 document.getElementById(
                     "checkoutShipping"
                 ).textContent =
                     "محاسبه بعدی";
-
             }
-
-
+            document.getElementById(
+                "summaryPaymentMethod"
+            ).textContent =
+                getPaymentMethod();
             document.getElementById(
                 "checkoutTotal"
             ).innerHTML =
-
                 formatPrice(
                     totals.total
                 ) +
-
                 ' <span class="currency">تومان</span>';
-
         }
-
-
         renderItems();
-
         updateSummary();
-
-
         /* =================================
            ذخیره فرم
         ================================= */
-
         function saveCheckoutData() {
-
-
             const data = {
-
-
                 firstName:
-
                     document.getElementById(
                         "firstName"
                     ).value.trim(),
-
-
                 lastName:
-
                     document.getElementById(
                         "lastName"
                     ).value.trim(),
-
-
                 mobile:
-
                     document.getElementById(
                         "mobile"
                     ).value.trim(),
-
-
                 province:
-
                     document.getElementById(
                         "province"
                     ).value,
-
-
                 city:
-
                     document.getElementById(
                         "city"
                     ).value.trim(),
-
-
                 postalCode:
-
                     document.getElementById(
                         "postalCode"
                     ).value.trim(),
-
-
                 address:
-
                     document.getElementById(
                         "address"
                     ).value.trim(),
-
-
                 note:
-
                     document.getElementById(
                         "note"
                     ).value.trim(),
-
-
                 shipping:
-
                     document.querySelector(
                         'input[name="shipping"]:checked'
-                    )?.value || "پست"
-
+                    )?.value || "پست",
+                paymentMethod:
+                    document.querySelector(
+                        'input[name="paymentMethod"]:checked'
+                    )?.value || "کارت‌به‌کارت"
             };
-
-
             localStorage.setItem(
-
                 "navidTowelCheckout",
-
                 JSON.stringify(data)
-
             );
-
-
             return data;
-
         }
-
-
         /* =================================
            بازیابی فرم
         ================================= */
-
         function loadCheckoutData() {
-
-
             let saved = null;
-
-
             try {
-
                 saved =
                     JSON.parse(
                         localStorage.getItem(
                             "navidTowelCheckout"
                         )
                     );
-
             } catch (error) {
-
                 saved = null;
-
             }
-
-
             if (!saved) {
                 return;
             }
-
-
             document.getElementById(
                 "firstName"
             ).value =
                 saved.firstName || "";
-
-
             document.getElementById(
                 "lastName"
             ).value =
                 saved.lastName || "";
-
-
             document.getElementById(
                 "mobile"
             ).value =
                 saved.mobile || "";
-
-
             document.getElementById(
                 "province"
             ).value =
                 saved.province || "";
-
-
             document.getElementById(
                 "city"
             ).value =
                 saved.city || "";
-
-
             document.getElementById(
                 "postalCode"
             ).value =
                 saved.postalCode || "";
-
-
             document.getElementById(
                 "address"
             ).value =
                 saved.address || "";
-
-
             document.getElementById(
                 "note"
             ).value =
                 saved.note || "";
-
-
             if (saved.shipping) {
-
-
                 const shippingInput =
                     document.querySelector(
-
                         'input[name="shipping"][value="' +
                         saved.shipping +
                         '"]'
-
                     );
-
-
                 if (shippingInput) {
-
                     shippingInput.checked =
                         true;
-
                 }
-
             }
-
-
+            if (saved.paymentMethod) {
+                const paymentInput =
+                    document.querySelector(
+                        'input[name="paymentMethod"][value="' +
+                        saved.paymentMethod +
+                        '"]'
+                    );
+                if (paymentInput) {
+                    paymentInput.checked =
+                        true;
+                }
+            }
             updateSummary();
-
         }
-
-
         loadCheckoutData();
-
-
         /* =================================
            ذخیره خودکار فرم
         ================================= */
-
         document.getElementById(
             "checkoutForm"
         ).addEventListener(
             "input",
             saveCheckoutData
         );
-
-
         document.getElementById(
             "checkoutForm"
         ).addEventListener(
             "change",
             function () {
-
                 saveCheckoutData();
-
                 updateSummary();
-
             }
         );
-
-
         /* =================================
            تغییر روش ارسال
         ================================= */
-
         document.querySelectorAll(
             'input[name="shipping"]'
         ).forEach(
             function (input) {
-
-
                 input.addEventListener(
                     "change",
                     function () {
-
                         saveCheckoutData();
-
                         updateSummary();
-
                     }
                 );
-
             }
         );
-
-
+        /* =================================
+           تغییر روش پرداخت
+        ================================= */
+        document.querySelectorAll(
+            'input[name="paymentMethod"]'
+        ).forEach(
+            function (input) {
+                input.addEventListener(
+                    "change",
+                    function () {
+                        saveCheckoutData();
+                        updateSummary();
+                    }
+                );
+            }
+        );
         /* =================================
            شماره سفارش
         ================================= */
-
         function createOrderNumber() {
-
-
             const now =
                 new Date();
-
-
             const date =
-
                 now.getFullYear()
                     .toString()
                     .slice(-2)
-
                 +
-
                 String(
                     now.getMonth() + 1
                 ).padStart(
                     2,
                     "0"
                 )
-
                 +
-
                 String(
                     now.getDate()
                 ).padStart(
                     2,
                     "0"
                 );
-
-
             const random =
                 Math.floor(
                     1000 +
                     Math.random() *
                     9000
                 );
-
-
             return (
-
                 "NT-" +
-
                 date +
-
                 "-" +
-
                 random
-
             );
-
         }
-
-
         /* =================================
            کد پیگیری
         ================================= */
-
         function createTrackingCode() {
-
-
             const random =
                 Math.floor(
                     100000 +
                     Math.random() *
                     900000
                 );
-
-
             return (
                 "NT" +
                 random
             );
-
         }
-
-
         /* =================================
            ساخت متن محصولات
         ================================= */
-
         function createProductsText() {
-
-
             const list = [];
-
-
             cart.forEach(
                 function (item) {
-
-
                     const name =
                         getItemName(item);
-
-
                     const quantity =
                         Number(
                             item.quantity
                         ) || 1;
-
-
                     const price =
                         getItemPrice(item);
-
-
                     const itemTotal =
                         price *
                         quantity;
-
-
                     list.push(
-
                         name +
-
                         " × " +
-
                         quantity +
-
                         " = " +
-
                         formatPrice(
                             itemTotal
                         ) +
-
                         " تومان"
-
                     );
-
                 }
             );
-
-
             return list.join("\n");
-
         }
-
-
         /* =================================
            ارسال سفارش به Apps Script
-           
-           روش جدید:
-           GET
            ================================= */
-
         function sendOrderToGoogle(
             orderData
         ) {
-
-
             return new Promise(
                 function (
                     resolve,
                     reject
                 ) {
-
-
                     try {
-
-
                         const customer =
                             orderData.customer;
-
-
                         const totals =
                             orderData.totals;
-
-
                         const productsText =
                             createProductsText();
-
-
                         const params =
                             new URLSearchParams();
-
-
                         params.set(
                             "firstName",
                             customer.firstName || ""
                         );
-
-
                         params.set(
                             "lastName",
                             customer.lastName || ""
                         );
-
-
                         params.set(
                             "mobile",
                             customer.mobile || ""
                         );
-
-
                         params.set(
                             "province",
                             customer.province || ""
                         );
-
-
                         params.set(
                             "city",
                             customer.city || ""
                         );
-
-
                         params.set(
                             "postalCode",
                             customer.postalCode || ""
                         );
-
-
                         params.set(
                             "address",
                             customer.address || ""
                         );
-
-
                         params.set(
                             "shipping",
                             customer.shipping || ""
                         );
-
-
+                        params.set(
+                            "paymentMethod",
+                            customer.paymentMethod || "کارت‌به‌کارت"
+                        );
                         params.set(
                             "note",
                             customer.note || ""
                         );
-
-
                         params.set(
                             "products",
                             productsText
                         );
-
-
                         params.set(
                             "subtotal",
                             String(
                                 totals.subtotal || 0
                             )
                         );
-
-
                         params.set(
                             "shippingCost",
                             String(
                                 totals.shippingCost || 0
                             )
                         );
-
-
+                        params.set(
+                            "discount",
+                            String(
+                                totals.discount || 0
+                            )
+                        );
                         params.set(
                             "total",
                             String(
                                 totals.total || 0
                             )
                         );
-
-
                         params.set(
                             "orderNumber",
                             orderData.orderNumber
                         );
-
-
                         params.set(
                             "trackingCode",
                             orderData.trackingCode
                         );
-
-
                         const url =
-
                             GOOGLE_SCRIPT_URL +
-
                             "?" +
-
                             params.toString();
-
-
                         console.log(
                             "NavidTowel order URL:",
                             url
                         );
-
-
-                        /*
-
-                           iframe مخفی برای
-                           اجرای درخواست GET
-
-                        */
-
                         const iframe =
                             document.createElement(
                                 "iframe"
                             );
-
-
                         iframe.style.display =
                             "none";
-
-
                         iframe.src =
                             url;
-
-
                         document.body.appendChild(
                             iframe
                         );
-
-
-                        /*
-
-                           Apps Script درخواست را
-                           دریافت و اجرا می‌کند.
-
-                           چون پاسخ Cross-Origin
-                           قابل خواندن نیست،
-                           بعد از چند ثانیه
-                           ادامه می‌دهیم.
-
-                        */
-
                         setTimeout(
                             function () {
-
-
                                 try {
-
                                     if (
                                         iframe.parentNode
                                     ) {
-
                                         iframe.parentNode
                                             .removeChild(
                                                 iframe
                                             );
-
                                     }
-
                                 } catch (error) {}
-
-
                                 resolve(true);
-
-
                             },
                             4000
                         );
-
-
                     } catch (error) {
-
-
                         reject(error);
-
                     }
-
                 }
             );
-
         }
-
-
         /* =================================
            دکمه ثبت سفارش
         ================================= */
-
         document.getElementById(
             "submitOrder"
         ).addEventListener(
             "click",
             async function () {
-
-
                 const button =
                     this;
-
-
                 const form =
                     document.getElementById(
                         "checkoutForm"
                     );
-
-
                 const message =
                     document.getElementById(
                         "checkoutMessage"
                     );
-
-
                 /* -------------------------
                    بررسی فرم
                 ------------------------- */
-
                 if (
                     !form.checkValidity()
                 ) {
-
                     form.reportValidity();
-
                     return;
-
                 }
-
-
                 /* -------------------------
                    موبایل
                 ------------------------- */
-
                 const mobile =
                     document.getElementById(
                         "mobile"
                     ).value.trim();
-
-
                 if (
                     !/^09\d{9}$/.test(
                         mobile
                     )
                 ) {
-
-
                     message.style.display =
                         "block";
-
-
                     message.textContent =
                         "شماره موبایل واردشده صحیح نیست.";
-
-
                     document.getElementById(
                         "mobile"
                     ).focus();
-
-
                     return;
-
                 }
-
-
                 /* -------------------------
                    کد پستی
                 ------------------------- */
-
                 const postalCode =
                     document.getElementById(
                         "postalCode"
                     ).value.trim();
-
-
                 if (
                     !/^\d{10}$/.test(
                         postalCode
                     )
                 ) {
-
-
                     message.style.display =
                         "block";
-
-
                     message.textContent =
                         "کد پستی باید دقیقاً ۱۰ رقم باشد.";
-
-
                     document.getElementById(
                         "postalCode"
                     ).focus();
-
-
                     return;
-
                 }
-
-
                 /* -------------------------
                    اطلاعات مشتری
                 ------------------------- */
-
                 const checkoutData =
                     saveCheckoutData();
-
-
                 /* -------------------------
                    مبالغ
                 ------------------------- */
-
                 const totals =
                     calculateTotals();
-
-
                 /* -------------------------
                    شماره سفارش
                 ------------------------- */
-
                 const orderNumber =
                     createOrderNumber();
-
-
                 /* -------------------------
                    کد پیگیری
                 ------------------------- */
-
                 const trackingCode =
                     createTrackingCode();
-
-
                 /* -------------------------
                    ساخت سفارش
                 ------------------------- */
-
                 const orderData = {
-
-
                     orderNumber:
                         orderNumber,
-
-
                     trackingCode:
                         trackingCode,
-
-
                     status:
                         "NEW",
-
-
                     customer:
                         checkoutData,
-
-
                     items:
                         cart,
-
-
                     totals:
                         totals,
-
-
                     createdAt:
                         new Date()
                             .toISOString()
-
                 };
-
-
                 /* -------------------------
                    ذخیره موقت
                 ------------------------- */
-
                 localStorage.setItem(
-
                     "navidTowelPendingOrder",
-
                     JSON.stringify(
                         orderData
                     )
-
                 );
-
-
                 button.disabled =
                     true;
-
-
                 button.textContent =
                     "در حال ثبت سفارش...";
-
-
                 message.style.display =
                     "block";
-
-
                 message.textContent =
                     "در حال ارسال اطلاعات سفارش...";
-
-
                 try {
-
-
-                    /*
-
-                       ارسال به Google Apps Script
-
-                       Apps Script خودش:
-
-                       1. Sheet
-                       2. Telegram
-
-                       را انجام می‌دهد.
-
-                    */
-
                     await sendOrderToGoogle(
                         orderData
                     );
-
-
                     /* -------------------------
                        آخرین سفارش
                     ------------------------- */
-
                     localStorage.setItem(
-
                         "navidTowelLastOrder",
-
                         JSON.stringify(
                             orderData
                         )
-
                     );
-
-
                     /* -------------------------
                        حذف سفارش موقت
                     ------------------------- */
-
                     localStorage.removeItem(
-
                         "navidTowelPendingOrder"
-
                     );
-
-
                     /* -------------------------
                        خالی کردن سبد
                     ------------------------- */
-
                     localStorage.removeItem(
                         cartKey
                     );
-
-
                     cart = [];
-
-
                     /* -------------------------
                        نمایش موفقیت
                     ------------------------- */
-
                     checkoutContent.style.display =
                         "none";
-
-
                     emptyCheckout.style.display =
                         "none";
-
-
                     successBox.style.display =
                         "block";
-
-
                     document.getElementById(
                         "trackingCode"
                     ).textContent =
                         trackingCode;
-
-
                     window.scrollTo({
-
                         top: 0,
-
                         behavior: "smooth"
-
                     });
-
-
                 } catch (error) {
-
-
                     console.error(
                         "NavidTowel order error:",
                         error
                     );
-
-
                     message.style.display =
                         "block";
-
-
                     message.textContent =
                         "ثبت سفارش انجام نشد. اطلاعات شما پاک نشده؛ دوباره تلاش کنید.";
-
-
                     button.disabled =
                         false;
-
-
                     button.textContent =
                         "ثبت سفارش و دریافت کد پیگیری";
-
                 }
-
             }
         );
-
     }
-
 );
-
 </script>
-
-
 </body>
-
 </html>
