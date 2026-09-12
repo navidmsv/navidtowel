@@ -3,1294 +3,1768 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>محصول | NavidTowel</title>
-<link rel="stylesheet" href="style.css">
-<style>
-    /* =========================================================
-       NAVIDTOWEL — PRODUCT PAGE
-    ========================================================= */
-    .product-page-body {
-        margin: 0;
-        padding: 0;
-        background: #fcfaf5;
-        color: #20251f;
-        font-family: Tahoma, Arial, sans-serif;
-    }
-    .product-page-body *,
-    .product-page-body *::before,
-    .product-page-body *::after {
-        box-sizing: border-box;
-    }
-    /* =========================
-       HEADER
-    ========================= */
-    .product-page-body .header {
-        height: 78px;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        background: rgba(252, 250, 245, .94);
-        border-bottom: 1px solid rgba(229, 223, 210, .8);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
-    }
-    .product-page-body .header-inner {
-        width: min(1180px, 92%);
-        height: 78px;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 25px;
-    }
-    .product-page-body .logo {
-        color: #294737;
-        font-size: 25px;
-        font-weight: 900;
-        letter-spacing: -1.3px;
-        white-space: nowrap;
-        text-decoration: none;
-    }
-    .product-page-body .logo span {
-        color: #b79a5b;
-    }
-    /* =========================
-       DESKTOP NAV
-    ========================= */
-    .product-page-body .nav {
-        display: flex;
-        align-items: center;
-        gap: 28px;
-    }
-    .product-page-body .nav a {
-        position: relative;
-        padding: 28px 0;
-        color: #20251f;
-        text-decoration: none;
-        font-size: 13px;
-        font-weight: bold;
-    }
-    .product-page-body .nav a::after {
-        content: "";
-        position: absolute;
-        right: 0;
-        bottom: 17px;
-        width: 0;
-        height: 2px;
-        background: #b79a5b;
-        transition: .25s;
-    }
-    .product-page-body .nav a:hover {
-        color: #294737;
-    }
-    .product-page-body .nav a:hover::after {
-        width: 100%;
-    }
-    /* =========================
-       HEADER ACTIONS
-    ========================= */
-    .product-page-body .header-actions {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-    .product-page-body .all-products-btn {
-        min-height: 42px;
-        padding: 0 14px;
-        border-radius: 11px;
-        background: #f0eee6;
-        color: #294737;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 11px;
-        font-weight: bold;
-        text-decoration: none;
-        transition: .2s;
-    }
-    .product-page-body .all-products-btn:hover {
-        background: #e9eee9;
-        transform: translateY(-2px);
-    }
-    .product-page-body .cart-btn {
-        border: 0;
-        background: #294737;
-        color: white;
-        min-height: 42px;
-        padding: 0 15px;
-        border-radius: 11px;
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        font-size: 12px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: .2s;
-    }
-    .product-page-body .cart-btn:hover {
-        background: #1d3428;
-        transform: translateY(-2px);
-    }
-    .product-page-body .cart-btn span {
-        min-width: 21px;
-        height: 21px;
-        border-radius: 50%;
-        background: #b79a5b;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 10px;
-    }
-    /* =========================
-       MOBILE MENU BUTTON
-    ========================= */
-    .product-page-body .mobile-menu-button {
-        display: none;
-        width: 42px;
-        height: 42px;
-        border: 1px solid #e5dfd2;
-        border-radius: 11px;
-        background: white;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        gap: 5px;
-        cursor: pointer;
-        position: relative;
-        z-index: 10001;
-    }
-    .product-page-body .mobile-menu-button span {
-        width: 19px;
-        height: 2px;
-        background: #294737;
-        border-radius: 5px;
-    }
-    /* =========================
-       MOBILE MENU
-    ========================= */
-    .product-page-body .mobile-menu-overlay {
-        position: fixed;
-        inset: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(20, 30, 24, .45);
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        z-index: 9998;
-        transition: opacity .25s ease, visibility .25s ease;
-    }
-    .product-page-body .mobile-menu-overlay.active {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-    }
-    .product-page-body .mobile-side-menu {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        bottom: 10px;
-        width: 286px;
-        max-width: calc(100vw - 20px);
-        display: flex;
-        flex-direction: column;
-        background: #fcfaf5;
-        border: 1px solid rgba(183,154,91,.25);
-        border-radius: 22px;
-        box-shadow: 0 25px 70px rgba(20,40,28,.25);
-        overflow: hidden;
-        transform: translateX(calc(100% + 30px));
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        z-index: 9999;
-        transition:
-            transform .32s cubic-bezier(.22,.61,.36,1),
-            opacity .25s ease,
-            visibility .25s ease;
-    }
-    .product-page-body .mobile-side-menu.active {
-        transform: translateX(0);
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-    }
-    .product-page-body .mobile-side-header {
-        min-height: 76px;
-        flex-shrink: 0;
-        padding: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid #e5dfd2;
-        background: linear-gradient(135deg, #f7f3ea, #fcfaf5);
-    }
-    .product-page-body .mobile-side-brand {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-        min-width: 0;
-    }
-    .product-page-body .mobile-side-logo {
-        width: 39px;
-        height: 39px;
-        flex: 0 0 39px;
-        border-radius: 13px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #294737;
-        color: white;
-        font-family: Georgia, serif;
-        font-size: 21px;
-        font-weight: bold;
-        box-shadow: 0 7px 18px rgba(41,71,55,.20);
-    }
-    .product-page-body .mobile-side-brand strong {
-        display: block;
-        color: #1d3428;
-        font-size: 14px;
-        line-height: 1.3;
-    }
-    .product-page-body .mobile-side-brand span {
-        display: block;
-        margin-top: 3px;
-        color: #777b73;
-        font-size: 9px;
-        white-space: nowrap;
-    }
-    .product-page-body .mobile-side-close {
-        width: 34px;
-        height: 34px;
-        flex-shrink: 0;
-        border: 1px solid #e5dfd2;
-        border-radius: 11px;
-        background: white;
-        color: #294737;
-        font-size: 23px;
-        line-height: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-    }
-    .product-page-body .mobile-side-links {
-        flex: 1;
-        padding: 13px 12px;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-    .product-page-body .mobile-side-link {
-        width: 100%;
-        min-height: 47px;
-        margin-bottom: 5px;
-        padding: 0 13px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        border: 0;
-        border-radius: 13px;
-        background: transparent;
-        color: #20251f;
-        font-family: Tahoma, Arial, sans-serif;
-        font-size: 12px;
-        font-weight: 500;
-        text-decoration: none;
-        cursor: pointer;
-        transition: background .2s ease, color .2s ease, transform .2s ease;
-    }
-    .product-page-body .mobile-side-link:hover {
-        background: #e9eee9;
-        color: #294737;
-        transform: translateX(-2px);
-    }
-    .product-page-body .side-icon {
-        width: 31px;
-        height: 31px;
-        flex: 0 0 31px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #f0eee6;
-        color: #294737;
-        font-size: 15px;
-    }
-    .product-page-body .mobile-side-link:hover .side-icon {
-        background: #294737;
-        color: white;
-    }
-    .product-page-body .mobile-side-category {
-        margin-bottom: 5px;
-    }
-    .product-page-body .side-arrow {
-        margin-right: auto;
-        color: #777b73;
-        font-size: 17px;
-        transition: transform .25s ease;
-    }
-    .product-page-body .mobile-side-category-button.active .side-arrow {
-        transform: rotate(180deg);
-    }
-    .product-page-body .mobile-side-category-list {
-        display: none;
-        padding: 3px 12px 8px;
-    }
-    .product-page-body .mobile-side-category-list.active {
-        display: block;
-    }
-    .product-page-body .mobile-side-category-list a {
-        display: block;
-        padding: 9px 48px 9px 12px;
-        color: #777b73;
-        text-decoration: none;
-        font-size: 12px;
-        border-radius: 9px;
-    }
-    .product-page-body .mobile-side-category-list a:hover {
-        color: #294737;
-        background: #e9eee9;
-    }
-    .product-page-body .mobile-side-discount {
-        background: #f7f0df;
-    }
-    .product-page-body .mobile-side-discount:hover {
-        background: #eee3cc;
-    }
-    .product-page-body .discount-badge {
-        margin-right: auto;
-        padding: 3px 7px;
-        border-radius: 20px;
-        background: #b79a5b;
-        color: white;
-        font-size: 9px;
-        font-weight: bold;
-    }
-    .product-page-body .mobile-side-bottom {
-        flex-shrink: 0;
-        padding: 9px;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 5px;
-        border-top: 1px solid #e5dfd2;
-        background: #f7f3ea;
-    }
-    .product-page-body .mobile-bottom-button {
-        min-height: 57px;
-        padding: 7px 3px;
-        border-radius: 13px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-        background: #294737;
-        border: 1px solid #294737;
-        color: white;
-        text-decoration: none;
-        transition: .2s ease;
-    }
-    .product-page-body .mobile-bottom-button:hover {
-        background: #1d3428;
-        border-color: #1d3428;
-        transform: translateY(-2px);
-    }
-    .product-page-body .mobile-bottom-button span {
-        font-size: 18px;
-        line-height: 1;
-        color: white;
-    }
-    .product-page-body .mobile-bottom-button small {
-        font-size: 9px;
-        color: rgba(255,255,255,.9);
-        white-space: nowrap;
-    }
-    /* =========================
-       PRODUCT PAGE
-    ========================= */
-    .product-page {
-        width: min(1180px, 92%);
-        margin: 0 auto;
-        padding: 42px 0 90px;
-    }
-    .product-navigation {
-        display: flex;
-        align-items: center;
-        gap: 9px;
-        margin-bottom: 28px;
-    }
-    .product-navigation a {
-        min-height: 42px;
-        padding: 0 15px;
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        border-radius: 11px;
-        background: #f0eee6;
-        color: #294737;
-        text-decoration: none;
-        font-size: 11px;
-        font-weight: bold;
-        transition: .2s;
-    }
-    .product-navigation a:hover {
-        background: #e9eee9;
-        transform: translateY(-2px);
-    }
-    .back-arrow {
-        font-size: 18px;
-    }
-    /* =========================
-       PRODUCT DETAIL
-    ========================= */
-    .product-detail {
-        display: grid;
-        grid-template-columns: 1.03fr .97fr;
-        gap: 60px;
-        align-items: center;
-    }
-    .product-image-box {
-        position: relative;
-        overflow: hidden;
-        border-radius: 26px;
-        background: #eee9dd;
-        border: 1px solid #e5dfd2;
-        box-shadow: 0 25px 60px rgba(30,50,38,.10);
-    }
-    .product-image-box::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        background: linear-gradient(
-            to top,
-            rgba(20,35,27,.08),
-            transparent 35%
-        );
-    }
-    .product-image-box img {
-        width: 100%;
-        height: 570px;
-        display: block;
-        object-fit: cover;
-    }
-    .product-info {
-        padding: 8px 0;
-    }
-    .product-badge {
-        display: inline-flex;
-        align-items: center;
-        min-height: 30px;
-        padding: 0 12px;
-        border-radius: 30px;
-        background: #e9eee9;
-        color: #294737;
-        font-size: 10px;
-        font-weight: bold;
-        margin-bottom: 15px;
-    }
-    .product-info h1 {
-        color: #1d3428;
-        font-size: clamp(30px, 4vw, 46px);
-        line-height: 1.35;
-        letter-spacing: -1.5px;
-        margin: 0 0 15px;
-    }
-    .product-price {
-        color: #294737;
-        font-size: 29px;
-        font-weight: 900;
-        margin: 20px 0;
-    }
-    .old-price {
-        color: #999;
-        text-decoration: line-through;
-        font-size: 15px;
-        margin-right: 10px;
-        font-weight: 500;
-    }
-    .product-description {
-        color: #777b73;
-        font-size: 13px;
-        line-height: 2.15;
-        margin: 0 0 25px;
-    }
-    .product-specs {
-        padding: 9px 0;
-        margin-bottom: 24px;
-        border-top: 1px solid #e5dfd2;
-        border-bottom: 1px solid #e5dfd2;
-    }
-    .spec-row {
-        min-height: 42px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-    }
-    .spec-row span {
-        color: #777b73;
-        font-size: 11px;
-    }
-    .spec-row strong {
-        color: #294737;
-        font-size: 11px;
-    }
-    /* =========================
-       QUANTITY
-    ========================= */
-    .quantity-box {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        margin-bottom: 15px;
-    }
-    .quantity-box button {
-        width: 43px;
-        height: 43px;
-        border: 1px solid #e5dfd2;
-        border-radius: 11px;
-        background: #f0eee6;
-        color: #294737;
-        font-size: 20px;
-        cursor: pointer;
-        transition: .2s;
-    }
-    .quantity-box button:hover {
-        background: #e9eee9;
-        border-color: #294737;
-    }
-    .quantity-box input {
-        width: 62px;
-        height: 43px;
-        text-align: center;
-        border: 1px solid #e5dfd2;
-        border-radius: 11px;
-        background: white;
-        color: #294737;
-        font-size: 15px;
-        font-weight: bold;
-        outline: none;
-    }
-    .quantity-box > span {
-        margin-right: 7px;
-        color: #777b73;
-        font-size: 10px;
-    }
-    /* =========================
-       ADD CART
-    ========================= */
-    .add-product-btn {
-        width: 100%;
-        min-height: 53px;
-        border: 0;
-        border-radius: 13px;
-        background: #294737;
-        color: white;
-        font-family: Tahoma, Arial, sans-serif;
-        font-size: 13px;
-        font-weight: 800;
-        cursor: pointer;
-        box-shadow: 0 12px 25px rgba(41,71,55,.16);
-        transition: .2s;
-    }
-    .add-product-btn:hover {
-        background: #1d3428;
-        transform: translateY(-2px);
-        box-shadow: 0 15px 30px rgba(41,71,55,.22);
-    }
-    /* =========================
-       SIMILAR PRODUCTS
-    ========================= */
-    .similar-products {
-        margin-top: 100px;
-        padding-top: 65px;
-        border-top: 1px solid #e5dfd2;
-    }
-    .similar-products-head {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        margin-bottom: 25px;
-    }
-    .similar-products-label {
-        display: block;
-        color: #b79a5b;
-        font-size: 9px;
-        font-weight: 900;
-        letter-spacing: 1.5px;
-        margin-bottom: 3px;
-    }
-    .similar-products h2 {
-        color: #1d3428;
-        font-size: 27px;
-        margin: 0;
-    }
-    .similar-products-subtitle {
-        color: #777b73;
-        font-size: 10px;
-    }
-    .similar-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 17px;
-    }
-    .similar-card {
-        overflow: hidden;
-        background: white;
-        border: 1px solid #e5dfd2;
-        border-radius: 17px;
-        cursor: pointer;
-        transition: .25s;
-    }
-    .similar-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 45px rgba(30,50,38,.10);
-    }
-    .similar-card img {
-        width: 100%;
-        height: 240px;
-        display: block;
-        object-fit: cover;
-        background: #eee9dd;
-    }
-    .similar-card-content {
-        padding: 14px;
-    }
-    .similar-card h3 {
-        color: #20251f;
-        font-size: 13px;
-        margin: 0 0 8px;
-    }
-    .similar-price {
-        color: #294737;
-        font-size: 12px;
-        font-weight: 900;
-    }
-    /* =========================
-       CART MODAL
-    ========================= */
-    .product-page-body .cartModal {
-        position: fixed;
-        inset: 0;
-        z-index: 5000;
-        background: rgba(0,0,0,.55);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-    }
-    .product-page-body .cartModal.active {
-        display: flex;
-    }
-    .product-page-body .cartBox {
-        width: min(500px, 100%);
-        max-height: 85vh;
-        overflow-y: auto;
-        padding: 25px;
-        background: #fcfaf5;
-        border-radius: 20px;
-    }
-    .product-page-body .closeCart {
-        border: 0;
-        background: transparent;
-        font-size: 25px;
-        cursor: pointer;
-    }
-    .product-page-body .cartFooter {
-        margin-top: 15px;
-        padding-top: 18px;
-        border-top: 1px solid #e5dfd2;
-    }
-    .product-page-body .cartTotal {
-        color: #294737;
-        font-weight: 900;
-        margin-right: 10px;
-    }
-    .product-page-body .checkout {
-        width: 100%;
-        border: 0;
-        padding: 13px;
-        margin-top: 15px;
-        border-radius: 9px;
-        background: #294737;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-    }
-    /* =========================
-       MOBILE
-    ========================= */
-    @media (max-width: 900px) {
-        .product-page-body .nav,
-        .product-page-body .all-products-btn {
-            display: none;
+
+    <title>محصول | NavidTowel</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* =========================================================
+           NAVIDTOWEL — PRODUCT PAGE
+        ========================================================= */
+
+        .product-page-body {
+            margin: 0;
+            padding: 0;
+            background: #fcfaf5;
+            color: #20251f;
+            font-family: Tahoma, Arial, sans-serif;
         }
-        .product-page-body .mobile-menu-button {
+
+        .product-page-body *,
+        .product-page-body *::before,
+        .product-page-body *::after {
+            box-sizing: border-box;
+        }
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
+        .product-page-body .header {
+            height: 78px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(252, 250, 245, .94);
+            border-bottom: 1px solid rgba(229, 223, 210, .8);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+
+        .product-page-body .header-inner {
+            width: min(1180px, 92%);
+            height: 78px;
+            margin: 0 auto;
             display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
         }
-        .product-page-body .header,
-        .product-page-body .header-inner {
-            height: 68px;
-        }
-        .product-page-body .header-inner {
-            width: 94%;
-            gap: 10px;
-        }
+
         .product-page-body .logo {
-            font-size: 22px;
+            color: #294737;
+            font-size: 25px;
+            font-weight: 900;
+            letter-spacing: -1.3px;
+            white-space: nowrap;
+            text-decoration: none;
         }
-        .product-page-body .product-page {
-            width: 94%;
-            padding-top: 25px;
+
+        .product-page-body .logo span {
+            color: #b79a5b;
         }
-        .product-detail {
-            grid-template-columns: 1fr;
-            gap: 32px;
+
+        /* =========================================================
+           DESKTOP NAV
+        ========================================================= */
+
+        .product-page-body .nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
         }
-        .product-image-box img {
-            height: 480px;
+
+        .product-page-body .nav a {
+            position: relative;
+            padding: 28px 0;
+            color: #20251f;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
         }
-        .similar-grid {
-            grid-template-columns: repeat(2, 1fr);
+
+        .product-page-body .nav a::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            bottom: 17px;
+            width: 0;
+            height: 2px;
+            background: #b79a5b;
+            transition: .25s;
         }
-    }
-    @media (max-width: 600px) {
-        .product-page-body .header-actions .cart-btn span {
-            display: none;
+
+        .product-page-body .nav a:hover {
+            color: #294737;
         }
+
+        .product-page-body .nav a:hover::after {
+            width: 100%;
+        }
+
+        /* =========================================================
+           HEADER ACTIONS
+        ========================================================= */
+
+        .product-page-body .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .product-page-body .all-products-btn {
+            min-height: 42px;
+            padding: 0 14px;
+            border-radius: 11px;
+            background: #f0eee6;
+            color: #294737;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: .2s;
+        }
+
+        .product-page-body .all-products-btn:hover {
+            background: #e9eee9;
+            transform: translateY(-2px);
+        }
+
         .product-page-body .cart-btn {
-            padding: 0 12px;
+            border: 0;
+            background: #294737;
+            color: white;
+            min-height: 42px;
+            padding: 0 15px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .2s;
         }
-        .product-page {
-            width: 94%;
-            padding: 20px 0 60px;
+
+        .product-page-body .cart-btn:hover {
+            background: #1d3428;
+            transform: translateY(-2px);
         }
-        .product-navigation {
-            margin-bottom: 20px;
-        }
-        .product-navigation a {
-            min-height: 39px;
-            padding: 0 11px;
+
+        .product-page-body .cart-btn .cartCount {
+            min-width: 21px;
+            height: 21px;
+            padding: 0 5px;
+            border-radius: 50%;
+            background: #b79a5b;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             font-size: 10px;
         }
-        .product-image-box {
-            border-radius: 20px;
+
+        /* =========================================================
+           MOBILE MENU BUTTON
+        ========================================================= */
+
+        .product-page-body .mobile-menu-button {
+            display: none;
+            width: 42px;
+            height: 42px;
+            border: 1px solid #e5dfd2;
+            border-radius: 11px;
+            background: white;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            position: relative;
+            z-index: 10001;
         }
-        .product-image-box img {
-            height: 380px;
+
+        .product-page-body .mobile-menu-button span {
+            width: 19px;
+            height: 2px;
+            background: #294737;
+            border-radius: 5px;
         }
-        .product-info h1 {
-            font-size: 29px;
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================= */
+
+        .product-page-body .mobile-menu-overlay {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(20, 30, 24, .45);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            z-index: 9998;
+            transition: opacity .25s ease, visibility .25s ease;
         }
-        .product-price {
-            font-size: 25px;
+
+        .product-page-body .mobile-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
         }
-        .product-description {
-            font-size: 12px;
+
+        .product-page-body .mobile-side-menu {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            bottom: 10px;
+            width: 286px;
+            max-width: calc(100vw - 20px);
+            display: flex;
+            flex-direction: column;
+            background: #fcfaf5;
+            border: 1px solid rgba(183,154,91,.25);
+            border-radius: 22px;
+            box-shadow: 0 25px 70px rgba(20,40,28,.25);
+            overflow: hidden;
+            transform: translateX(calc(100% + 30px));
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            z-index: 9999;
+            transition:
+                transform .32s cubic-bezier(.22,.61,.36,1),
+                opacity .25s ease,
+                visibility .25s ease;
         }
-        .similar-products {
-            margin-top: 70px;
-            padding-top: 45px;
+
+        .product-page-body .mobile-side-menu.active {
+            transform: translateX(0);
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
         }
-        .similar-products-head {
+
+        .product-page-body .mobile-side-header {
+            min-height: 76px;
+            flex-shrink: 0;
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e5dfd2;
+            background: linear-gradient(135deg, #f7f3ea, #fcfaf5);
+        }
+
+        .product-page-body .mobile-side-brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            min-width: 0;
+        }
+
+        .product-page-body .mobile-side-logo {
+            width: 39px;
+            height: 39px;
+            flex: 0 0 39px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #294737;
+            color: white;
+            font-family: Georgia, serif;
+            font-size: 21px;
+            font-weight: bold;
+            box-shadow: 0 7px 18px rgba(41,71,55,.20);
+        }
+
+        .product-page-body .mobile-side-brand strong {
             display: block;
+            color: #1d3428;
+            font-size: 14px;
+            line-height: 1.3;
         }
-        .similar-products-subtitle {
+
+        .product-page-body .mobile-side-brand span {
             display: block;
-            margin-top: 5px;
+            margin-top: 3px;
+            color: #777b73;
+            font-size: 9px;
+            white-space: nowrap;
         }
-        .similar-products h2 {
+
+        .product-page-body .mobile-side-close {
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            border: 1px solid #e5dfd2;
+            border-radius: 11px;
+            background: white;
+            color: #294737;
             font-size: 23px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
         }
-        .similar-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+
+        .product-page-body .mobile-side-links {
+            flex: 1;
+            padding: 13px 12px;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
-        .similar-card img {
-            height: 180px;
+
+        .product-page-body .mobile-side-link {
+            width: 100%;
+            min-height: 47px;
+            margin-bottom: 5px;
+            padding: 0 13px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 0;
+            border-radius: 13px;
+            background: transparent;
+            color: #20251f;
+            font-family: Tahoma, Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background .2s ease, color .2s ease, transform .2s ease;
         }
-        .similar-card-content {
-            padding: 11px;
+
+        .product-page-body .mobile-side-link:hover {
+            background: #e9eee9;
+            color: #294737;
+            transform: translateX(-2px);
         }
-        .similar-card h3 {
+
+        .product-page-body .side-icon {
+            width: 31px;
+            height: 31px;
+            flex: 0 0 31px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0eee6;
+            color: #294737;
+            font-size: 15px;
+        }
+
+        .product-page-body .mobile-side-link:hover .side-icon {
+            background: #294737;
+            color: white;
+        }
+
+        .product-page-body .mobile-side-category {
+            margin-bottom: 5px;
+        }
+
+        .product-page-body .side-arrow {
+            margin-right: auto;
+            color: #777b73;
+            font-size: 17px;
+            transition: transform .25s ease;
+        }
+
+        .product-page-body .mobile-side-category-button.active .side-arrow {
+            transform: rotate(180deg);
+        }
+
+        .product-page-body .mobile-side-category-list {
+            display: none;
+            padding: 3px 12px 8px;
+        }
+
+        .product-page-body .mobile-side-category-list.active {
+            display: block;
+        }
+
+        .product-page-body .mobile-side-category-list a {
+            display: block;
+            padding: 9px 48px 9px 12px;
+            color: #777b73;
+            text-decoration: none;
+            font-size: 12px;
+            border-radius: 9px;
+        }
+
+        .product-page-body .mobile-side-category-list a:hover {
+            color: #294737;
+            background: #e9eee9;
+        }
+
+        .product-page-body .mobile-side-discount {
+            background: #f7f0df;
+        }
+
+        .product-page-body .discount-badge {
+            margin-right: auto;
+            padding: 3px 7px;
+            border-radius: 20px;
+            background: #b79a5b;
+            color: white;
+            font-size: 9px;
+            font-weight: bold;
+        }
+
+        .product-page-body .mobile-side-bottom {
+            flex-shrink: 0;
+            padding: 9px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            border-top: 1px solid #e5dfd2;
+            background: #f7f3ea;
+        }
+
+        .product-page-body .mobile-bottom-button {
+            min-height: 57px;
+            padding: 7px 3px;
+            border-radius: 13px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            background: #294737;
+            border: 1px solid #294737;
+            color: white;
+            text-decoration: none;
+            transition: .2s ease;
+        }
+
+        .product-page-body .mobile-bottom-button:hover {
+            background: #1d3428;
+            border-color: #1d3428;
+            transform: translateY(-2px);
+        }
+
+        .product-page-body .mobile-bottom-button span {
+            font-size: 18px;
+            line-height: 1;
+            color: white;
+        }
+
+        .product-page-body .mobile-bottom-button small {
+            font-size: 9px;
+            color: rgba(255,255,255,.9);
+            white-space: nowrap;
+        }
+
+        /* =========================================================
+           PRODUCT PAGE
+        ========================================================= */
+
+        .product-page {
+            width: min(1180px, 92%);
+            margin: 0 auto;
+            padding: 30px 0 85px;
+        }
+
+        .product-navigation {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 25px;
+        }
+
+        .product-navigation a {
+            min-height: 40px;
+            padding: 0 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            border-radius: 11px;
+            background: #f0eee6;
+            color: #294737;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: bold;
+            transition: .2s;
+        }
+
+        .product-navigation a:hover {
+            background: #e9eee9;
+            transform: translateY(-2px);
+        }
+
+        .back-arrow {
+            font-size: 18px;
+        }
+
+        /* =========================================================
+           PRODUCT DETAIL
+        ========================================================= */
+
+        .product-detail {
+            display: grid;
+            grid-template-columns: 1.03fr .97fr;
+            gap: 55px;
+            align-items: center;
+        }
+
+        .product-image-box {
+            position: relative;
+            overflow: hidden;
+            border-radius: 26px;
+            background: #eee9dd;
+            border: 1px solid #e5dfd2;
+            box-shadow: 0 25px 60px rgba(30,50,38,.10);
+        }
+
+        .product-image-box::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(
+                to top,
+                rgba(20,35,27,.08),
+                transparent 35%
+            );
+        }
+
+        .product-image-box img {
+            width: 100%;
+            height: 540px;
+            display: block;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 8px 0;
+        }
+
+        .product-badge {
+            display: inline-flex;
+            align-items: center;
+            min-height: 30px;
+            padding: 0 12px;
+            border-radius: 30px;
+            background: #e9eee9;
+            color: #294737;
+            font-size: 10px;
+            font-weight: bold;
+            margin-bottom: 14px;
+        }
+
+        .product-info h1 {
+            color: #1d3428;
+            font-size: clamp(30px, 4vw, 44px);
+            line-height: 1.35;
+            letter-spacing: -1.5px;
+            margin: 0 0 12px;
+        }
+
+        .product-price {
+            color: #294737;
+            font-size: 28px;
+            font-weight: 900;
+            margin: 18px 0;
+        }
+
+        .old-price {
+            color: #999;
+            text-decoration: line-through;
+            font-size: 14px;
+            margin-right: 10px;
+            font-weight: 500;
+        }
+
+        .product-description {
+            color: #777b73;
+            font-size: 13px;
+            line-height: 2.15;
+            margin: 0 0 22px;
+        }
+
+        /* =========================================================
+           PRODUCT SPECS
+        ========================================================= */
+
+        .product-specs {
+            padding: 5px 0;
+            margin-bottom: 22px;
+            border-top: 1px solid #e5dfd2;
+            border-bottom: 1px solid #e5dfd2;
+        }
+
+        .spec-row {
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            border-bottom: 1px solid rgba(229,223,210,.55);
+        }
+
+        .spec-row:last-child {
+            border-bottom: 0;
+        }
+
+        .spec-row span {
+            color: #777b73;
             font-size: 11px;
         }
-        .similar-price {
+
+        .spec-row strong {
+            color: #294737;
+            font-size: 11px;
+            text-align: left;
+        }
+
+        .spec-row.is-hidden {
+            display: none;
+        }
+
+        /* =========================================================
+           QUANTITY
+        ========================================================= */
+
+        .quantity-box {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 15px;
+        }
+
+        .quantity-box button {
+            width: 43px;
+            height: 43px;
+            border: 1px solid #e5dfd2;
+            border-radius: 11px;
+            background: #f0eee6;
+            color: #294737;
+            font-size: 20px;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .quantity-box button:hover {
+            background: #e9eee9;
+            border-color: #294737;
+        }
+
+        .quantity-box input {
+            width: 62px;
+            height: 43px;
+            text-align: center;
+            border: 1px solid #e5dfd2;
+            border-radius: 11px;
+            background: white;
+            color: #294737;
+            font-size: 15px;
+            font-weight: bold;
+            outline: none;
+        }
+
+        .quantity-box > span {
+            margin-right: 7px;
+            color: #777b73;
             font-size: 10px;
         }
-    }
-    @media (max-width: 360px) {
-        .product-page-body .mobile-side-menu {
-            width: 274px;
+
+        /* =========================================================
+           ADD CART
+        ========================================================= */
+
+        .add-product-btn {
+            width: 100%;
+            min-height: 53px;
+            border: 0;
+            border-radius: 13px;
+            background: #294737;
+            color: white;
+            font-family: Tahoma, Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 12px 25px rgba(41,71,55,.16);
+            transition: .2s;
         }
-        .product-page-body .mobile-side-bottom {
-            gap: 4px;
-            padding: 8px;
+
+        .add-product-btn:hover {
+            background: #1d3428;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(41,71,55,.22);
         }
-    }
-</style>
+
+        /* =========================================================
+           SIMILAR PRODUCTS
+        ========================================================= */
+
+        .similar-products {
+            margin-top: 85px;
+            padding-top: 55px;
+            border-top: 1px solid #e5dfd2;
+        }
+
+        .similar-products-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .similar-products-label {
+            display: block;
+            color: #b79a5b;
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            margin-bottom: 3px;
+        }
+
+        .similar-products h2 {
+            color: #1d3428;
+            font-size: 27px;
+            margin: 0;
+        }
+
+        .similar-products-subtitle {
+            color: #777b73;
+            font-size: 10px;
+        }
+
+        .similar-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 17px;
+        }
+
+        .similar-card {
+            overflow: hidden;
+            background: white;
+            border: 1px solid #e5dfd2;
+            border-radius: 17px;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .similar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 45px rgba(30,50,38,.10);
+        }
+
+        .similar-card img {
+            width: 100%;
+            height: 230px;
+            display: block;
+            object-fit: cover;
+            background: #eee9dd;
+        }
+
+        .similar-card-content {
+            padding: 14px;
+        }
+
+        .similar-card h3 {
+            color: #20251f;
+            font-size: 13px;
+            margin: 0 0 8px;
+        }
+
+        .similar-price {
+            color: #294737;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        .product-footer {
+            background: #294737;
+            color: white;
+            margin-top: 0;
+        }
+
+        .product-footer-inner {
+            width: min(1180px, 92%);
+            margin: 0 auto;
+            padding: 48px 0 28px;
+            display: grid;
+            grid-template-columns: 1.3fr 1fr 1fr;
+            gap: 45px;
+        }
+
+        .footer-brand h3 {
+            margin: 0 0 12px;
+            font-size: 22px;
+            color: white;
+        }
+
+        .footer-brand h3 span {
+            color: #d2b875;
+        }
+
+        .footer-brand p {
+            max-width: 390px;
+            margin: 0;
+            color: rgba(255,255,255,.72);
+            font-size: 11px;
+            line-height: 2.2;
+        }
+
+        .footer-column h4 {
+            margin: 0 0 15px;
+            color: #d2b875;
+            font-size: 12px;
+        }
+
+        .footer-column a,
+        .footer-column p {
+            display: block;
+            margin: 0 0 9px;
+            color: rgba(255,255,255,.75);
+            text-decoration: none;
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .product-footer-bottom {
+            width: min(1180px, 92%);
+            margin: 0 auto;
+            padding: 17px 0;
+            border-top: 1px solid rgba(255,255,255,.12);
+            color: rgba(255,255,255,.5);
+            font-size: 9px;
+            text-align: center;
+        }
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .product-page-body .nav,
+            .product-page-body .all-products-btn {
+                display: none;
+            }
+
+            .product-page-body .mobile-menu-button {
+                display: flex;
+            }
+
+            .product-page-body .header,
+            .product-page-body .header-inner {
+                height: 68px;
+            }
+
+            .product-page-body .header-inner {
+                width: 94%;
+                gap: 10px;
+            }
+
+            .product-page-body .logo {
+                font-size: 22px;
+            }
+
+            .product-page {
+                width: 94%;
+                padding-top: 23px;
+            }
+
+            .product-detail {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .product-image-box img {
+                height: 480px;
+            }
+
+            .similar-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .product-footer-inner {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .product-page-body .header-actions .cart-btn {
+                padding: 0 12px;
+            }
+
+            .product-page-body .header-actions .cart-btn > :not(.cartCount) {
+                font-size: 0;
+            }
+
+            .product-page-body .header-actions .cart-btn::before {
+                content: "🛒";
+                font-size: 15px;
+            }
+
+            .product-page {
+                width: 94%;
+                padding: 20px 0 60px;
+            }
+
+            .product-navigation {
+                margin-bottom: 18px;
+            }
+
+            .product-navigation a {
+                min-height: 39px;
+                padding: 0 11px;
+                font-size: 10px;
+            }
+
+            .product-image-box {
+                border-radius: 20px;
+            }
+
+            .product-image-box img {
+                height: 380px;
+            }
+
+            .product-info h1 {
+                font-size: 29px;
+            }
+
+            .product-price {
+                font-size: 25px;
+            }
+
+            .product-description {
+                font-size: 12px;
+            }
+
+            .similar-products {
+                margin-top: 65px;
+                padding-top: 42px;
+            }
+
+            .similar-products-head {
+                display: block;
+            }
+
+            .similar-products-subtitle {
+                display: block;
+                margin-top: 5px;
+            }
+
+            .similar-products h2 {
+                font-size: 23px;
+            }
+
+            .similar-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .similar-card img {
+                height: 175px;
+            }
+
+            .similar-card-content {
+                padding: 11px;
+            }
+
+            .similar-card h3 {
+                font-size: 11px;
+            }
+
+            .similar-price {
+                font-size: 10px;
+            }
+
+            .product-footer-inner {
+                grid-template-columns: 1fr;
+                gap: 25px;
+                padding: 38px 0 25px;
+            }
+
+            .footer-brand {
+                grid-column: auto;
+            }
+        }
+
+        @media (max-width: 360px) {
+
+            .product-page-body .mobile-side-menu {
+                width: 274px;
+            }
+
+            .product-page-body .mobile-side-bottom {
+                gap: 4px;
+                padding: 8px;
+            }
+        }
+    </style>
 </head>
+
 <body class="product-page-body">
+
 <!-- =========================================================
      HEADER
 ========================================================= -->
+
 <header class="header">
-<div class="header-inner">
-    <!-- منوی موبایل -->
-    <button
-        type="button"
-        class="mobile-menu-button"
-        id="mobileMenuButton"
-        aria-label="باز کردن منو">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-    <a href="index.html" class="logo">
-        Navid<span>Towel</span>
-    </a>
-    <nav class="nav">
-        <a href="index.html#home">
-            خانه
-        </a>
-        <a href="shop.html">
-            فروشگاه
-        </a>
-        <a href="index.html#categories">
-            دسته‌بندی‌ها
-        </a>
-        <a href="index.html#about">
-            درباره ما
-        </a>
-        <a href="index.html#contact">
-            تماس با ما
-        </a>
-    </nav>
-    <div class="header-actions">
-        <a
-            href="shop.html"
-            class="all-products-btn">
-            🛍️ همه محصولات
-        </a>
+    <div class="header-inner">
+
         <button
             type="button"
-            class="cart-btn openCart">
-            🛒 سبد خرید
-            <span class="cartCount">
-                0
-            </span>
+            class="mobile-menu-button"
+            id="mobileMenuButton"
+            aria-label="باز کردن منو">
+            <span></span>
+            <span></span>
+            <span></span>
         </button>
+
+        <a href="index.html" class="logo">
+            Navid<span>Towel</span>
+        </a>
+
+        <nav class="nav">
+            <a href="index.html">خانه</a>
+            <a href="shop.html">فروشگاه</a>
+
+            <a href="shop.html">
+                دسته‌بندی‌ها
+            </a>
+
+            <a href="index.html#about">
+                درباره ما
+            </a>
+
+            <a href="index.html#contact">
+                تماس با ما
+            </a>
+        </nav>
+
+        <div class="header-actions">
+
+            <a
+                href="shop.html"
+                class="all-products-btn">
+                🛍️ همه محصولات
+            </a>
+
+            <button
+                type="button"
+                class="cart-btn openCart">
+                🛒
+                <span>سبد خرید</span>
+                <b class="cartCount">0</b>
+            </button>
+
+        </div>
     </div>
-</div>
 </header>
+
 <!-- =========================================================
      MOBILE SIDE MENU
 ========================================================= -->
+
 <div
     class="mobile-menu-overlay"
     id="mobileMenuOverlay">
 </div>
+
 <aside
     class="mobile-side-menu"
     id="mobileSideMenu">
-<div class="mobile-side-header">
-    <div class="mobile-side-brand">
-        <div class="mobile-side-logo">
-            N
-        </div>
-        <div>
-            <strong>
-                NavidTowel
-            </strong>
-            <span>
-                فروشگاه حوله و کالای خواب
-            </span>
-        </div>
-    </div>
-    <button
-        type="button"
-        class="mobile-side-close"
-        id="mobileMenuClose"
-        aria-label="بستن منو">
-        ×
-    </button>
-</div>
-<nav class="mobile-side-links">
-    <a
-        href="index.html"
-        class="mobile-side-link">
-        <span class="side-icon">
-            ⌂
-        </span>
-        <span>
-            صفحه اصلی
-        </span>
-    </a>
-    <div class="mobile-side-category">
-        <button
-            type="button"
-            class="mobile-side-link mobile-side-category-button"
-            id="mobileCategoryButton">
-            <span class="side-icon">
-                ☰
-            </span>
-            <span>
-                دسته‌بندی‌ها
-            </span>
-            <span
-                class="side-arrow"
-                id="mobileCategoryArrow">
-                ⌄
-            </span>
-        </button>
-        <div
-            class="mobile-side-category-list"
-            id="mobileCategoryList">
-            <a href="shop.html?category=men">
-                مردانه
-            </a>
-            <a href="shop.html?category=women">
-                زنانه
-            </a>
-            <a href="shop.html?category=kids">
-                بچگانه
-            </a>
-            <a href="shop.html?category=bath">
-                حمامی
-            </a>
-            <a href="shop.html?category=pool">
-                استخری
-            </a>
-            <a href="shop.html?category=meter">
-                متری
-            </a>
-            <a href="shop.html?category=robe">
-                تن‌پوش
-            </a>
-        </div>
-    </div>
-    <a
-        href="discount.html"
-        class="mobile-side-link mobile-side-discount">
-        <span class="side-icon">
-            %
-        </span>
-        <span>
-            تخفیفات
-        </span>
-        <span class="discount-badge">
-            ویژه
-        </span>
-    </a>
-    <a
-        href="tracking.html"
-        class="mobile-side-link">
-        <span class="side-icon">
-            ⌕
-        </span>
-        <span>
-            پیگیری سفارش
-        </span>
-    </a>
-    <a
-        href="index.html#about"
-        class="mobile-side-link">
-        <span class="side-icon">
-            i
-        </span>
-        <span>
-            درباره ما
-        </span>
-    </a>
-    <a
-        href="index.html#contact"
-        class="mobile-side-link">
-        <span class="side-icon">
-            ☏
-        </span>
-        <span>
-            تماس با ما
-        </span>
-    </a>
-</nav>
-<div class="mobile-side-bottom">
-    <a
-        href="shop.html"
-        class="mobile-bottom-button">
-        <span>
-            ▦
-        </span>
-        <small>
-            همه محصولات
-        </small>
-    </a>
-    <a
-        href="cart.html"
-        class="mobile-bottom-button">
-        <span>
-            🛒
-        </span>
-        <small>
-            سبد خرید
-        </small>
-    </a>
-    <a
-        href="https://instagram.com/navidtowel"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="mobile-bottom-button">
-        <span>
-            ◎
-        </span>
-        <small>
-            اینستاگرام
-        </small>
-    </a>
-</div>
-</aside>
-<!-- =========================================================
-     PRODUCT PAGE
-========================================================= -->
-<main class="product-page">
-<div class="product-navigation">
-    <a href="javascript:history.back()">
-        <span class="back-arrow">
-            →
-        </span>
-        بازگشت
-    </a>
-    <a href="shop.html">
-        همه محصولات
-    </a>
-</div>
-<section class="product-detail">
-    <div class="product-image-box">
-        <img
-            id="productImage"
-            src=""
-            alt="">
-    </div>
-    <div class="product-info">
-        <span
-            id="productBadge"
-            class="product-badge">
-        </span>
-        <h1 id="productName">
-            در حال بارگذاری...
-        </h1>
-        <div
-            id="productPrice"
-            class="product-price">
-        </div>
-        <p
-            id="productDescription"
-            class="product-description">
-        </p>
-        <div class="product-specs">
-            <div class="spec-row">
-                <span>
-                    دسته‌بندی
-                </span>
-                <strong id="productCategory">
-                </strong>
+
+    <div class="mobile-side-header">
+
+        <div class="mobile-side-brand">
+
+            <div class="mobile-side-logo">
+                N
             </div>
-            <div class="spec-row">
-                <span>
-                    کیفیت
-                </span>
+
+            <div>
                 <strong>
-                    درجه یک
+                    NavidTowel
                 </strong>
-            </div>
-            <div class="spec-row">
+
                 <span>
-                    مناسب برای
+                    فروشگاه حوله و کالای خواب
                 </span>
-                <strong id="productUse">
-                </strong>
+            </div>
+
+        </div>
+
+        <button
+            type="button"
+            class="mobile-side-close"
+            id="mobileMenuClose"
+            aria-label="بستن منو">
+            ×
+        </button>
+
+    </div>
+
+    <nav class="mobile-side-links">
+
+        <a
+            href="index.html"
+            class="mobile-side-link">
+
+            <span class="side-icon">
+                ⌂
+            </span>
+
+            <span>
+                صفحه اصلی
+            </span>
+
+        </a>
+
+        <div class="mobile-side-category">
+
+            <button
+                type="button"
+                class="mobile-side-link mobile-side-category-button"
+                id="mobileCategoryButton">
+
+                <span class="side-icon">
+                    ☰
+                </span>
+
+                <span>
+                    دسته‌بندی‌ها
+                </span>
+
+                <span class="side-arrow">
+                    ⌄
+                </span>
+
+            </button>
+
+            <div
+                class="mobile-side-category-list"
+                id="mobileCategoryList">
+
+                <a href="shop.html?category=men">
+                    مردانه
+                </a>
+
+                <a href="shop.html?category=women">
+                    زنانه
+                </a>
+
+                <a href="shop.html?category=kids">
+                    بچگانه
+                </a>
+
+                <a href="shop.html?category=bath">
+                    حمامی
+                </a>
+
+                <a href="shop.html?category=pool">
+                    استخری
+                </a>
+
+                <a href="shop.html?category=meter">
+                    متری
+                </a>
+
+                <a href="shop.html?category=robe">
+                    تن‌پوش
+                </a>
+
             </div>
         </div>
-        <div class="quantity-box">
-            <button
-                type="button"
-                onclick="changeQuantity(-1)">
-                −
-            </button>
-            <input
-                id="quantity"
-                type="number"
-                value="1"
-                min="1">
-            <button
-                type="button"
-                onclick="changeQuantity(1)">
-                +
-            </button>
+
+        <a
+            href="discount.html"
+            class="mobile-side-link mobile-side-discount">
+
+            <span class="side-icon">
+                %
+            </span>
+
             <span>
-                تعداد
+                تخفیفات
             </span>
-        </div>
-        <button
-            class="add-product-btn"
-            type="button"
-            onclick="addCurrentProduct()">
-            افزودن به سبد خرید
-        </button>
-    </div>
-</section>
-<section class="similar-products">
-    <div class="similar-products-head">
-        <div>
-            <span class="similar-products-label">
-                YOU MAY ALSO LIKE
+
+            <span class="discount-badge">
+                ویژه
             </span>
-            <h2>
-                محصولات مشابه
-            </h2>
-        </div>
-        <span class="similar-products-subtitle">
-            انتخاب‌های بیشتر برای شما
-        </span>
+
+        </a>
+
+        <a
+            href="tracking.html"
+            class="mobile-side-link">
+
+            <span class="side-icon">
+                ⌕
+            </span>
+
+            <span>
+                پیگیری سفارش
+            </span>
+
+        </a>
+
+        <a
+            href="index.html#about"
+            class="mobile-side-link">
+
+            <span class="side-icon">
+                i
+            </span>
+
+            <span>
+                درباره ما
+            </span>
+
+        </a>
+
+        <a
+            href="index.html#contact"
+            class="mobile-side-link">
+
+            <span class="side-icon">
+                ☏
+            </span>
+
+            <span>
+                تماس با ما
+            </span>
+
+        </a>
+
+    </nav>
+
+    <div class="mobile-side-bottom">
+
+        <a
+            href="shop.html"
+            class="mobile-bottom-button">
+
+            <span>
+                ▦
+            </span>
+
+            <small>
+                همه محصولات
+            </small>
+
+        </a>
+
+        <a
+            href="cart.html"
+            class="mobile-bottom-button">
+
+            <span>
+                🛒
+            </span>
+
+            <small>
+                سبد خرید
+            </small>
+
+        </a>
+
+        <a
+            href="https://instagram.com/navidtowel"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mobile-bottom-button">
+
+            <span>
+                ◎
+            </span>
+
+            <small>
+                اینستاگرام
+            </small>
+
+        </a>
+
     </div>
-    <div
-        id="similarProducts"
-        class="similar-grid">
-    </div>
-</section>
-</main>
+
+</aside>
+
 <!-- =========================================================
-     CART MODAL
+     PRODUCT
 ========================================================= -->
-<div class="cartModal">
-<div class="cartBox">
-    <button
-        class="closeCart"
-        type="button">
-        ×
-    </button>
-    <h2>
-        سبد خرید
-    </h2>
-    <div class="cartItems">
+
+<main class="product-page">
+
+    <div class="product-navigation">
+
+        <a href="javascript:history.back()">
+            <span class="back-arrow">
+                →
+            </span>
+
+            بازگشت
+        </a>
+
+        <a href="shop.html">
+            همه محصولات
+        </a>
+
     </div>
-    <div class="cartFooter">
-        <strong>
-            مجموع:
-        </strong>
-        <span class="cartTotal">
-            ۰ تومان
-        </span>
-        <button
-            class="checkout"
-            type="button">
-            ثبت سفارش
-        </button>
+
+    <section class="product-detail">
+
+        <div class="product-image-box">
+
+            <img
+                id="productImage"
+                src=""
+                alt="">
+
+        </div>
+
+        <div class="product-info">
+
+            <span
+                id="productBadge"
+                class="product-badge">
+            </span>
+
+            <h1 id="productName">
+                در حال بارگذاری...
+            </h1>
+
+            <div
+                id="productPrice"
+                class="product-price">
+            </div>
+
+            <p
+                id="productDescription"
+                class="product-description">
+            </p>
+
+            <!-- مشخصات محصول -->
+            <div
+                class="product-specs"
+                id="productSpecs">
+
+                <div
+                    class="spec-row"
+                    data-spec="category">
+
+                    <span>
+                        دسته‌بندی
+                    </span>
+
+                    <strong id="productCategory"></strong>
+
+                </div>
+
+                <div
+                    class="spec-row"
+                    data-spec="quality">
+
+                    <span>
+                        کیفیت
+                    </span>
+
+                    <strong id="productQuality"></strong>
+
+                </div>
+
+                <div
+                    class="spec-row"
+                    data-spec="use">
+
+                    <span>
+                        مناسب برای
+                    </span>
+
+                    <strong id="productUse"></strong>
+
+                </div>
+
+                <div
+                    class="spec-row"
+                    data-spec="material">
+
+                    <span>
+                        جنس
+                    </span>
+
+                    <strong id="productMaterial"></strong>
+
+                </div>
+
+                <div
+                    class="spec-row"
+                    data-spec="country">
+
+                    <span>
+                        کشور سازنده
+                    </span>
+
+                    <strong id="productCountry"></strong>
+
+                </div>
+
+            </div>
+
+            <!-- تعداد -->
+            <div class="quantity-box">
+
+                <button
+                    type="button"
+                    onclick="changeQuantity(-1)">
+                    −
+                </button>
+
+                <input
+                    id="quantity"
+                    type="number"
+                    value="1"
+                    min="1">
+
+                <button
+                    type="button"
+                    onclick="changeQuantity(1)">
+                    +
+                </button>
+
+                <span>
+                    تعداد
+                </span>
+
+            </div>
+
+            <!-- افزودن به سبد -->
+            <button
+                class="add-product-btn"
+                type="button"
+                onclick="addCurrentProduct()">
+
+                افزودن به سبد خرید
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- =====================================================
+         SIMILAR PRODUCTS
+    ====================================================== -->
+
+    <section class="similar-products">
+
+        <div class="similar-products-head">
+
+            <div>
+
+                <span class="similar-products-label">
+                    YOU MAY ALSO LIKE
+                </span>
+
+                <h2>
+                    محصولات مشابه
+                </h2>
+
+            </div>
+
+            <span class="similar-products-subtitle">
+                انتخاب‌های بیشتر برای شما
+            </span>
+
+        </div>
+
+        <div
+            id="similarProducts"
+            class="similar-grid">
+        </div>
+
+    </section>
+
+</main>
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="product-footer">
+
+    <div class="product-footer-inner">
+
+        <div class="footer-brand">
+
+            <h3>
+                Navid<span>Towel</span>
+            </h3>
+
+            <p>
+                فروشگاه حوله و کالای خواب با ارائه محصولات
+                ایرانی و خارجی، با هدف فراهم کردن انتخابی
+                باکیفیت و مناسب برای شما.
+            </p>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h4>
+                دسترسی سریع
+            </h4>
+
+            <a href="index.html">
+                صفحه اصلی
+            </a>
+
+            <a href="shop.html">
+                فروشگاه
+            </a>
+
+            <a href="cart.html">
+                سبد خرید
+            </a>
+
+            <a href="tracking.html">
+                پیگیری سفارش
+            </a>
+
+        </div>
+
+        <div class="footer-column">
+
+            <h4>
+                ارتباط با ما
+            </h4>
+
+            <p>
+                📍 خرمشهر
+            </p>
+
+            <a href="https://instagram.com/navidtowel"
+               target="_blank"
+               rel="noopener noreferrer">
+                ◎ اینستاگرام NavidTowel
+            </a>
+
+            <a href="index.html#contact">
+                ☏ تماس با ما
+            </a>
+
+        </div>
+
     </div>
-</div>
-</div>
+
+    <div class="product-footer-bottom">
+        © 2026 NavidTowel — تمامی حقوق محفوظ است.
+    </div>
+
+</footer>
+
 <!-- =========================================================
      SCRIPTS
 ========================================================= -->
+
 <script src="products.js"></script>
 <script src="script.js"></script>
+
 <script>
+
 let currentProduct = null;
-/* =========================
+
+/* =========================================================
    MOBILE MENU
-========================= */
+========================================================= */
+
 const mobileMenuButton =
     document.getElementById("mobileMenuButton");
+
 const mobileMenu =
     document.getElementById("mobileSideMenu");
+
 const mobileMenuOverlay =
     document.getElementById("mobileMenuOverlay");
+
 const mobileMenuClose =
     document.getElementById("mobileMenuClose");
+
 function openMobileMenu() {
+
     if (!mobileMenu) return;
+
     mobileMenu.classList.add("active");
+
     if (mobileMenuOverlay) {
         mobileMenuOverlay.classList.add("active");
     }
-    document.body.classList.add("menu-open");
+
+    document.body.style.overflow = "hidden";
 }
+
 function closeMobileMenu() {
+
     if (!mobileMenu) return;
+
     mobileMenu.classList.remove("active");
+
     if (mobileMenuOverlay) {
         mobileMenuOverlay.classList.remove("active");
     }
-    document.body.classList.remove("menu-open");
+
+    document.body.style.overflow = "";
 }
+
 mobileMenuButton?.addEventListener(
     "click",
     openMobileMenu
 );
+
 mobileMenuClose?.addEventListener(
     "click",
     closeMobileMenu
 );
+
 mobileMenuOverlay?.addEventListener(
     "click",
     closeMobileMenu
 );
-/* =========================
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Escape") {
+            closeMobileMenu();
+        }
+
+    }
+);
+
+/* =========================================================
    MOBILE CATEGORIES
-========================= */
+========================================================= */
+
 const mobileCategoryButton =
     document.getElementById(
         "mobileCategoryButton"
     );
+
 const mobileCategoryList =
     document.getElementById(
         "mobileCategoryList"
     );
+
 mobileCategoryButton?.addEventListener(
     "click",
-    () => {
+    function() {
+
         mobileCategoryButton.classList.toggle(
             "active"
         );
+
         mobileCategoryList?.classList.toggle(
             "active"
         );
+
     }
 );
+
 document
     .querySelectorAll(".mobile-side-menu a")
-    .forEach(link => {
+    .forEach(function(link) {
+
         link.addEventListener(
             "click",
             closeMobileMenu
         );
+
     });
-/* =========================
+
+/* =========================================================
    PRICE
-========================= */
+========================================================= */
+
 function productFormatPrice(price) {
+
     return Number(price).toLocaleString("fa-IR")
         + " تومان";
+
 }
-/* =========================
+
+/* =========================================================
+   SET SPEC
+   اگر مقدار وجود نداشته باشد ردیف کامل مخفی می‌شود
+========================================================= */
+
+function setProductSpec(
+    specName,
+    elementId,
+    value
+) {
+
+    const row =
+        document.querySelector(
+            '[data-spec="' + specName + '"]'
+        );
+
+    const element =
+        document.getElementById(elementId);
+
+    if (!row || !element) return;
+
+    if (
+        value === undefined ||
+        value === null ||
+        String(value).trim() === ""
+    ) {
+
+        row.classList.add("is-hidden");
+        element.textContent = "";
+
+        return;
+    }
+
+    element.textContent = value;
+
+    row.classList.remove("is-hidden");
+}
+
+/* =========================================================
    LOAD PRODUCT
-========================= */
+========================================================= */
+
 function loadProduct() {
+
     const params =
         new URLSearchParams(
             window.location.search
         );
+
     const id =
         Number(
             params.get("id")
         );
-    currentProduct =
-        products.find(
-            product =>
-                product.id === id
-        );
-    if (!currentProduct) {
+
+    if (
+        !Array.isArray(products)
+    ) {
+
         document.querySelector(
             ".product-page"
         ).innerHTML = `
@@ -1299,8 +1773,9 @@ function loadProduct() {
                 padding:80px 20px;
             ">
                 <h2>
-                    محصول پیدا نشد
+                    محصولات بارگذاری نشدند
                 </h2>
+
                 <a
                     href="shop.html"
                     style="
@@ -1316,33 +1791,92 @@ function loadProduct() {
                 </a>
             </div>
         `;
+
         return;
     }
+
+    currentProduct =
+        products.find(
+            product =>
+                Number(product.id) === id
+        );
+
+    if (!currentProduct) {
+
+        document.querySelector(
+            ".product-page"
+        ).innerHTML = `
+            <div style="
+                text-align:center;
+                padding:80px 20px;
+            ">
+
+                <h2>
+                    محصول پیدا نشد
+                </h2>
+
+                <a
+                    href="shop.html"
+                    style="
+                        display:inline-block;
+                        margin-top:20px;
+                        padding:12px 20px;
+                        border-radius:10px;
+                        background:#294737;
+                        color:white;
+                        text-decoration:none;
+                    ">
+                    بازگشت به فروشگاه
+                </a>
+
+            </div>
+        `;
+
+        return;
+    }
+
     document.title =
         currentProduct.name +
         " | NavidTowel";
+
+    /* نام */
     document.getElementById(
         "productName"
     ).textContent =
         currentProduct.name;
+
+    /* برچسب */
+    const badge =
+        currentProduct.badge ||
+        "محصول";
+
     document.getElementById(
         "productBadge"
     ).textContent =
-        currentProduct.badge ||
-        "محصول";
-    document.getElementById(
-        "productImage"
-    ).src =
-        currentProduct.image;
-    document.getElementById(
-        "productImage"
-    ).alt =
+        badge;
+
+    /* عکس */
+    const image =
+        document.getElementById(
+            "productImage"
+        );
+
+    image.src =
+        currentProduct.image || "";
+
+    image.alt =
         currentProduct.name;
+
+    /* قیمت */
     let priceHTML =
         productFormatPrice(
             currentProduct.price
         );
-    if (currentProduct.oldPrice) {
+
+    if (
+        currentProduct.oldPrice
+    ) {
+
         priceHTML += `
             <span class="old-price">
                 ${productFormatPrice(
@@ -1350,17 +1884,27 @@ function loadProduct() {
                 )}
             </span>
         `;
+
     }
+
     document.getElementById(
         "productPrice"
     ).innerHTML =
         priceHTML;
+
+    /* توضیحات */
     document.getElementById(
         "productDescription"
     ).textContent =
         currentProduct.description ||
         "حوله‌ای باکیفیت، نرم و لطیف، مناسب استفاده روزمره و هدیه.";
+
+    /* =====================================================
+       دسته‌بندی
+    ====================================================== */
+
     const categories = {
+
         bath: "حوله حمام",
         hand: "حوله دست و صورت",
         pool: "حوله استخری",
@@ -1370,154 +1914,342 @@ function loadProduct() {
         kids: "حوله بچگانه",
         meter: "حوله متری",
         robe: "تن‌پوش"
+
     };
-    document.getElementById(
-        "productCategory"
-    ).textContent =
+
+    setProductSpec(
+        "category",
+        "productCategory",
         categories[
             currentProduct.category
-        ] ||
-        "حوله";
-    const uses = {
-        bath: "حمام و استفاده روزمره",
-        hand: "دست و صورت",
-        pool: "استخر و سفر",
-        set: "استفاده خانوادگی",
-        men: "استفاده روزمره",
-        women: "استفاده روزمره",
-        kids: "کودکان",
-        meter: "استفاده خانگی",
-        robe: "حمام و خانه"
-    };
-    document.getElementById(
-        "productUse"
-    ).textContent =
-        uses[
-            currentProduct.category
-        ] ||
-        "استفاده روزمره";
+        ]
+    );
+
+    /* =====================================================
+       کیفیت
+       اگر در products.js تعریف نشده باشد نمایش داده نمی‌شود
+    ====================================================== */
+
+    setProductSpec(
+        "quality",
+        "productQuality",
+        currentProduct.quality
+    );
+
+    /* =====================================================
+       مناسب برای
+    ====================================================== */
+
+    let productUse =
+        currentProduct.use;
+
+    if (
+        !productUse &&
+        currentProduct.category
+    ) {
+
+        const uses = {
+
+            bath: "حمام و استفاده روزمره",
+            hand: "دست و صورت",
+            pool: "استخر و سفر",
+            set: "استفاده خانوادگی",
+            men: "استفاده روزمره",
+            women: "استفاده روزمره",
+            kids: "کودکان",
+            meter: "استفاده خانگی",
+            robe: "حمام و خانه"
+
+        };
+
+        productUse =
+            uses[
+                currentProduct.category
+            ];
+
+    }
+
+    setProductSpec(
+        "use",
+        "productUse",
+        productUse
+    );
+
+    /* =====================================================
+       جنس
+    ====================================================== */
+
+    setProductSpec(
+        "material",
+        "productMaterial",
+        currentProduct.material
+    );
+
+    /* =====================================================
+       کشور سازنده
+    ====================================================== */
+
+    setProductSpec(
+        "country",
+        "productCountry",
+        currentProduct.country
+    );
+
+    /* =====================================================
+       محصولات مشابه
+    ====================================================== */
+
     loadSimilarProducts();
+
 }
-/* =========================
+
+/* =========================================================
    QUANTITY
-========================= */
+========================================================= */
+
 function changeQuantity(amount) {
+
     const input =
         document.getElementById(
             "quantity"
         );
+
+    if (!input) return;
+
     let value =
-        Number(input.value) +
-        amount;
+        Number(input.value) || 1;
+
+    value += amount;
+
     if (value < 1) {
         value = 1;
     }
+
     input.value =
         value;
 }
-/* =========================
-   ADD TO CART
-========================= */
+
+/* =========================================================
+   ADD CURRENT PRODUCT
+   مستقیم اضافه می‌شود
+   هیچ Modal باز نمی‌شود
+   فقط نوتیفیکیشن مشترک سایت
+========================================================= */
+
 function addCurrentProduct() {
+
     if (!currentProduct) {
         return;
     }
-    const quantity =
+
+    const input =
+        document.getElementById(
+            "quantity"
+        );
+
+    let quantity =
         Number(
-            document.getElementById(
-                "quantity"
-            ).value
+            input?.value
         ) || 1;
+
+    if (quantity < 1) {
+        quantity = 1;
+    }
+
+    /*
+       ابتدا از تابع اصلی سایت استفاده می‌کنیم
+       تا همان notification مشترک نمایش داده شود.
+    */
+
+    if (
+        typeof addToCart ===
+        "function"
+    ) {
+
+        addToCart(
+            currentProduct.id
+        );
+
+        /*
+           addToCart یک عدد اضافه کرده.
+           اگر کاربر مثلاً 4 عدد انتخاب کرده،
+           سه عدد باقی‌مانده را مستقیم به همان آیتم اضافه می‌کنیم.
+        */
+
+        if (quantity > 1) {
+
+            let cart =
+                JSON.parse(
+                    localStorage.getItem(
+                        "navidTowelCart"
+                    )
+                ) || [];
+
+            const item =
+                cart.find(
+                    item =>
+                        Number(item.id) ===
+                        Number(currentProduct.id)
+                );
+
+            if (item) {
+
+                item.quantity +=
+                    quantity - 1;
+
+                localStorage.setItem(
+                    "navidTowelCart",
+                    JSON.stringify(cart)
+                );
+
+                if (
+                    typeof renderCart ===
+                    "function"
+                ) {
+                    renderCart();
+                }
+
+                if (
+                    typeof updateBottomCart ===
+                    "function"
+                ) {
+                    updateBottomCart();
+                }
+
+            }
+
+        }
+
+        return;
+    }
+
+    /*
+       فقط برای زمانی که script.js لود نشده باشد.
+    */
+
     let cart =
         JSON.parse(
             localStorage.getItem(
                 "navidTowelCart"
             )
         ) || [];
+
     const existing =
         cart.find(
             item =>
-                item.id ===
-                currentProduct.id
+                Number(item.id) ===
+                Number(currentProduct.id)
         );
+
     if (existing) {
+
         existing.quantity +=
             quantity;
+
     } else {
+
         cart.push({
+
             id:
                 currentProduct.id,
+
             name:
                 currentProduct.name,
+
             price:
                 currentProduct.price,
+
             quantity:
                 quantity
+
         });
+
     }
+
     localStorage.setItem(
         "navidTowelCart",
         JSON.stringify(cart)
     );
-    if (
-        typeof renderCart ===
-        "function"
-    ) {
-        renderCart();
-    }
-    if (
-        typeof openCart ===
-        "function"
-    ) {
-        openCart();
-    }
+
 }
-/* =========================
+
+/* =========================================================
    SIMILAR PRODUCTS
-========================= */
+========================================================= */
+
 function loadSimilarProducts() {
+
     const container =
         document.getElementById(
             "similarProducts"
         );
+
+    if (
+        !container ||
+        !currentProduct
+    ) {
+        return;
+    }
+
     const similar =
         products
             .filter(
                 product =>
-                    product.id !==
-                    currentProduct.id
+                    Number(product.id) !==
+                    Number(currentProduct.id)
             )
             .slice(0, 4);
+
     container.innerHTML =
         similar.map(
             product => `
+
                 <div
                     class="similar-card"
                     onclick="
                         window.location.href =
                         'product.html?id=${product.id}'
                     ">
+
                     <img
-                        src="${product.image}"
+                        src="${product.image || ""}"
                         alt="${product.name}">
+
                     <div class="similar-card-content">
+
                         <h3>
                             ${product.name}
                         </h3>
+
                         <div class="similar-price">
                             ${productFormatPrice(
                                 product.price
                             )}
                         </div>
+
                     </div>
+
                 </div>
+
             `
         ).join("");
+
 }
-/* =========================
+
+/* =========================================================
    START
-========================= */
-loadProduct();
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadProduct();
+
+    }
+);
+
 </script>
+
 </body>
 </html>
