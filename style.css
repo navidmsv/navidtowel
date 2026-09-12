@@ -220,26 +220,39 @@
 /* =========================================================
    MOBILE MENU BUTTON
 ========================================================= */
-.home-page .mobile-menu-button {
-    display: none;
-    width: 42px;
-    height: 42px;
-    border: 1px solid var(--border);
-    border-radius: 11px;
-    background: white;
+.home-page .mobile-menu-bottom a {
+    flex: 1;
+    min-height: 48px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    position: relative;
-    z-index: 10001;
-}
-.home-page .mobile-menu-button span {
-    width: 19px;
-    height: 2px;
+    gap: 7px;
+
     background: var(--green);
-    border-radius: 5px;
+    color: #fff;
+
+    border: 1px solid var(--green);
+    border-radius: 13px;
+
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+
+    transition:
+        background .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.home-page .mobile-menu-bottom a:hover {
+    background: var(--dark-green);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(41, 71, 55, .18);
+}
+
+.home-page .mobile-menu-bottom a:active {
+    transform: scale(.97);
 }
 /* =========================================================
    MOBILE SIDE MENU
