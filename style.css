@@ -480,7 +480,7 @@
     border-top: 1px solid #e5dfd2;
     background: #f7f3ea;
 }
-..home-page .mobile-bottom-button {
+.home-page .mobile-bottom-button {
     min-height: 57px;
     padding: 7px 3px;
     border-radius: 13px;
@@ -489,38 +489,16 @@
     align-items: center;
     justify-content: center;
     gap: 4px;
-
-    background: #294737;
-    border: 1px solid #294737;
-    color: #ffffff;
-
+    background: white;
+    border: 1px solid #e5dfd2;
+    color: #294737;
     text-decoration: none;
     transition: .2s ease;
-    box-shadow: 0 5px 14px rgba(41, 71, 55, .12);
 }
-
 .home-page .mobile-bottom-button:hover {
     transform: translateY(-2px);
-    background: #1d3428;
-    border-color: #1d3428;
-    box-shadow: 0 8px 18px rgba(41, 71, 55, .20);
-}
-
-.home-page .mobile-bottom-button:active {
-    transform: scale(.97);
-}
-
-.home-page .mobile-bottom-button span {
-    font-size: 18px;
-    line-height: 1;
-    color: #ffffff;
-}
-
-.home-page .mobile-bottom-button small {
-    font-size: 9px;
-    color: rgba(255,255,255,.85);
-    white-space: nowrap;
-}
+    background: #e9eee9;
+    border-color: #294737;
 }
 .home-page .mobile-bottom-button span {
     font-size: 18px;
