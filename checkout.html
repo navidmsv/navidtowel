@@ -1504,17 +1504,8 @@ function sendOrderToGoogle(orderData) {
                     "NEW",
                 customer:
                     checkoutData,
-               items:
-    cart.map(function(item) {
-        return {
-            id: item.id,
-            name: getItemName(item),
-            price: getItemPrice(item),
-            oldPrice: getItemOldPrice(item),
-            image: getItemImage(item),
-            quantity: Number(item.quantity) || 1
-        };
-    }),
+              items:
+    cart,
                 totals:
                     totals,
                 createdAt:
