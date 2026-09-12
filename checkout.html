@@ -1340,33 +1340,89 @@ document.addEventListener("DOMContentLoaded", function () {
     /* =========================================
        ارسال سفارش به Google Apps Script
        ========================================= */
-    async function sendOrderToGoogle(orderData) {
-        const response =
-            await fetch(
-                GOOGLE_SCRIPT_URL,
-                {
-                    method: "POST",
-                    mode: "no-cors",
-                    redirect: "follow",
-                    headers: {
-                        "Content-Type":
-                            "text/plain;charset=utf-8"
-                    },
-                    body:
-                        JSON.stringify(
-                            orderData
-                        )
-                }
-            );
+function sendOrderToGoogle(orderData) {
+
+    return new Promise(function(resolve) {
+
+        var iframe =
+            document.createElement("iframe");
+
+        iframe.name =
+            "navidOrderFrame_" +
+            Date.now();
+
+        iframe.style.display =
+            "none";
+
+        document.body.appendChild(
+            iframe
+        );
+
+
+        var form =
+            document.createElement("form");
+
+        form.method =
+            "POST";
+
+        form.action =
+            GOOGLE_SCRIPT_URL;
+
+        form.target =
+            iframe.name;
+
+        form.style.display =
+            "none";
+
+
+        var input =
+            document.createElement("input");
+
+        input.type =
+            "hidden";
+
+        input.name =
+            "payload";
+
+        input.value =
+            JSON.stringify(orderData);
+
+
+        form.appendChild(
+            input
+        );
+
+
+        document.body.appendChild(
+            form
+        );
+
+
+        form.submit();
+
+
         /*
-         * چون no-cors استفاده می‌کنیم،
-         * مرورگر اجازه خواندن پاسخ Google
-         * را نمی‌دهد.
-         *
-         * اگر fetch بدون خطا تمام شود،
-         * ادامه می‌دهیم.
+         * Google Apps Script پاسخ قابل خواندن
+         * توسط مرورگر نیست؛ بنابراین بعد از
+         * ارسال موفق فرم، کمی صبر می‌کنیم.
          */
-        return true;
+
+        setTimeout(function() {
+
+            try {
+                document.body.removeChild(form);
+            } catch (e) {}
+
+            try {
+                document.body.removeChild(iframe);
+            } catch (e) {}
+
+            resolve(true);
+
+        }, 2500);
+
+    });
+}
     }
     /* =========================================
        ثبت سفارش
