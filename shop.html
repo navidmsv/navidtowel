@@ -23,8 +23,7 @@
 
     .shop-page *,
     .bottom-cart,
-    .bottom-cart *,
-    .toast {
+    .bottom-cart * {
       font-family: Tahoma, Arial, sans-serif;
     }
 
@@ -464,50 +463,7 @@
     }
 
     /* =========================================================
-       SHOP TOAST
-    ========================================================= */
-
-    .toast {
-      position: fixed;
-
-      left: 50%;
-      bottom: 95px;
-
-      transform:
-        translateX(-50%)
-        translateY(20px);
-
-      background: var(--green);
-      color: #fff;
-
-      padding: 12px 20px;
-
-      border-radius: 12px;
-
-      opacity: 0;
-      visibility: hidden;
-
-      transition: .25s ease;
-
-      z-index: 3000;
-
-      font-size: 13px;
-
-      box-shadow:
-        0 12px 30px rgba(0, 0, 0, .16);
-    }
-
-    .toast.show {
-      opacity: 1;
-      visibility: visible;
-
-      transform:
-        translateX(-50%)
-        translateY(0);
-    }
-
-    /* =========================================================
-       MOBILE
+       RESPONSIVE
     ========================================================= */
 
     @media (max-width: 1000px) {
@@ -622,6 +578,7 @@
       }
 
     }
+
   </style>
 </head>
 
@@ -636,7 +593,6 @@
   <header class="header">
 
     <div class="container header-inner">
-
 
       <button
         class="mobile-menu-button"
@@ -746,7 +702,6 @@
         </button>
 
       </div>
-
 
     </div>
 
@@ -1045,10 +1000,6 @@
 
 
 
-    <!-- =====================================================
-         CATEGORIES
-    ===================================================== -->
-
     <section class="category-section">
 
 
@@ -1075,10 +1026,6 @@
 
 
 
-    <!-- =====================================================
-         SEARCH
-    ===================================================== -->
-
     <div class="shop-tools">
 
       <div class="search-box">
@@ -1094,10 +1041,6 @@
     </div>
 
 
-
-    <!-- =====================================================
-         PRODUCTS
-    ===================================================== -->
 
     <section
       class="products-grid"
@@ -1115,9 +1058,7 @@
 
   <div class="bottom-cart">
 
-
     <div class="bottom-cart-info">
-
 
       <div class="bottom-cart-icon">
         🛒
@@ -1140,7 +1081,6 @@
 
       </div>
 
-
     </div>
 
 
@@ -1152,21 +1092,6 @@
       ادامه سفارش
 
     </button>
-
-
-  </div>
-
-
-
-  <!-- =========================================================
-       TOAST
-  ========================================================= -->
-
-  <div
-    class="toast"
-    id="toast">
-
-    محصول به سبد خرید اضافه شد
 
   </div>
 
@@ -1180,9 +1105,7 @@
     class="footer"
     id="contact">
 
-
     <div class="container">
-
 
       <div class="footer-grid">
 
@@ -1277,7 +1200,6 @@
         </span>
 
       </div>
-
 
     </div>
 
@@ -1428,6 +1350,7 @@
         return;
       }
 
+
       container.innerHTML =
         categories.map(category => {
 
@@ -1435,6 +1358,7 @@
             getCategoryCount(
               category.id
             );
+
 
           return `
 
@@ -1483,7 +1407,7 @@
 
 
     /* =========================================================
-       FILTER PRODUCTS
+       FILTER
     ========================================================= */
 
     function getFilteredProducts() {
@@ -1491,6 +1415,7 @@
       if (typeof products === "undefined") {
         return [];
       }
+
 
       return products.filter(product => {
 
@@ -1522,7 +1447,7 @@
 
 
     /* =========================================================
-       RENDER SHOP PRODUCTS
+       RENDER PRODUCTS
     ========================================================= */
 
     function renderShopProducts() {
@@ -1532,14 +1457,17 @@
           "productsGrid"
         );
 
+
       const count =
         document.getElementById(
           "productCount"
         );
 
+
       if (!grid) {
         return;
       }
+
 
       const filtered =
         getFilteredProducts();
@@ -1548,7 +1476,9 @@
       if (count) {
 
         count.textContent =
-          filtered.length.toLocaleString("fa-IR")
+          filtered.length.toLocaleString(
+            "fa-IR"
+          )
           + " محصول";
 
       }
@@ -1630,9 +1560,7 @@
 
 
                 <div class="product-availability">
-
                   موجود
-
                 </div>
 
 
@@ -1721,7 +1649,7 @@
 
 
     /* =========================================================
-       ADD TO CART
+       ADD PRODUCT TO CART
     ========================================================= */
 
     function addShopProductToCart(id) {
@@ -1764,11 +1692,6 @@
         );
 
       } else {
-
-
-        /*
-         * پشتیبان
-         */
 
         let cart =
           JSON.parse(
@@ -1825,21 +1748,10 @@
 
 
       /*
-       * آپدیت فوری Shop
+       * آپدیت فوری اطلاعات Shop
        */
 
       updateShopCartUI();
-
-
-      /*
-       * نوتیفیکیشن
-       */
-
-      showShopToast(
-        "«" +
-        product.name +
-        "» به سبد خرید اضافه شد"
-      );
 
     }
 
@@ -1870,6 +1782,7 @@
           Number(
             item.quantity || 0
           );
+
 
         const price =
           Number(
@@ -1902,10 +1815,6 @@
       }
 
 
-      /*
-       * همه شمارنده‌های سبد
-       */
-
       document
         .querySelectorAll(
           ".cartCount"
@@ -1919,10 +1828,6 @@
 
         });
 
-
-      /*
-       * نوار پایین
-       */
 
       const bottomCart =
         document.querySelector(
@@ -1983,75 +1888,13 @@
       } else {
 
         /*
-         * اگر خالی باشد،
-         * همین صفحه فروشگاه باز می‌ماند.
+         * سبد خالی است؛
+         * کاربر همین صفحه را می‌بیند.
          */
 
-        showShopToast(
-          "سبد خرید شما خالی است"
-        );
-
-      }
-
-    }
-
-
-
-    /* =========================================================
-       TOAST
-    ========================================================= */
-
-    function showShopToast(message) {
-
-      const toast =
-        document.getElementById(
-          "toast"
-        );
-
-
-      if (!toast) {
         return;
+
       }
-
-
-      toast.textContent =
-        message ||
-        "محصول به سبد خرید اضافه شد";
-
-
-      toast.classList.remove(
-        "show"
-      );
-
-
-      /*
-       * ری‌استارت انیمیشن
-       */
-
-      void toast.offsetWidth;
-
-
-      toast.classList.add(
-        "show"
-      );
-
-
-      clearTimeout(
-        window.shopToastTimer
-      );
-
-
-      window.shopToastTimer =
-        setTimeout(
-          function () {
-
-            toast.classList.remove(
-              "show"
-            );
-
-          },
-          2000
-        );
 
     }
 
@@ -2260,9 +2103,9 @@
 
 
 
-    /*
-     * اگر سبد از تب یا صفحه دیگری تغییر کرد
-     */
+    /* =========================================================
+       SYNC CART BETWEEN TABS/PAGES
+    ========================================================= */
 
     window.addEventListener(
       "storage",
