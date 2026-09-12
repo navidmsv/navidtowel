@@ -5,15 +5,28 @@ const products =
     // =========================
 
     {
-        id: 1,
-        name: "حوله حمام لوکس آریا",
-        price: 1290000,
-        oldPrice: 1590000,
-        badge: "پرفروش",
-        categories: ["bath", "men", "women"],
-        image: "images/bath-luxury-aria.webp",
-        description: "حوله حمام نرم و باکیفیت با جذب آب بالا، مناسب استفاده روزمره."
-    },
+        
+    id: 1,
+    name: "حوله حمام لوکس آریا",
+    price: 1290000,
+    oldPrice: 1590000,
+    badge: "پرفروش",
+
+    categories: ["bath", "men", "women"],
+
+    image: "images/bath-luxury-aria.webp",
+
+    description: "حوله حمام نرم و باکیفیت با جذب آب بالا، مناسب استفاده روزمره.",
+
+    quality: "درجه یک",
+    material: "پنبه",
+    country: "ترکیه",
+    origin: "خارجی",
+    use: "حمام و استفاده روزمره",
+
+    brand: "آریا",
+    size: "70×140"
+ },
 
     {
         id: 2,
