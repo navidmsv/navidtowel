@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,903 +7,83 @@
     <title>محصول | NavidTowel</title>
 
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        /* =========================================================
-           NAVIDTOWEL — PRODUCT PAGE
-           فقط استایل مخصوص محتوای صفحه محصول
-           هدر و فوتر از style.css اصلی سایت استفاده می‌کنند.
-        ========================================================= */
-
-        .product-page-body {
-            margin: 0;
-            padding: 0;
-            background: #fcfaf5;
-            color: #20251f;
-            font-family: Tahoma, Arial, sans-serif;
-        }
-
-        .product-page-body *,
-        .product-page-body *::before,
-        .product-page-body *::after {
-            box-sizing: border-box;
-        }
-
-
-        /* =========================================================
-           PRODUCT PAGE
-        ========================================================= */
-
-        .product-page {
-            width: min(1180px, 92%);
-            margin: 0 auto;
-            padding: 35px 0 80px;
-        }
-
-
-        /* =========================================================
-           NAVIGATION
-        ========================================================= */
-
-        .product-navigation {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 25px;
-        }
-
-        .product-navigation a {
-            min-height: 40px;
-            padding: 0 14px;
-
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-
-            border-radius: 10px;
-
-            background: #f0eee6;
-            color: #294737;
-
-            text-decoration: none;
-
-            font-size: 11px;
-            font-weight: bold;
-
-            transition: .2s ease;
-        }
-
-        .product-navigation a:hover {
-            background: #e9eee9;
-            transform: translateY(-2px);
-        }
-
-        .back-arrow {
-            font-size: 17px;
-        }
-
-
-        /* =========================================================
-           PRODUCT DETAIL
-        ========================================================= */
-
-        .product-detail {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-
-            gap: 45px;
-
-            align-items: center;
-        }
-
-
-        /* =========================================================
-           IMAGE
-        ========================================================= */
-
-        .product-image-box {
-            position: relative;
-
-            overflow: hidden;
-
-            border-radius: 22px;
-
-            background: #eee9dd;
-
-            border: 1px solid #e5dfd2;
-
-            box-shadow:
-                0 20px 50px rgba(30, 50, 38, .09);
-        }
-
-        .product-image-box img {
-            width: 100%;
-            height: 520px;
-
-            display: block;
-
-            object-fit: cover;
-        }
-
-
-        /* =========================================================
-           PRODUCT INFO
-        ========================================================= */
-
-        .product-info {
-            padding: 5px 0;
-        }
-
-
-        /* BADGE */
-
-        .product-badge {
-            display: inline-flex;
-
-            align-items: center;
-
-            min-height: 28px;
-
-            padding: 0 11px;
-
-            margin-bottom: 12px;
-
-            border-radius: 30px;
-
-            background: #e9eee9;
-
-            color: #294737;
-
-            font-size: 10px;
-
-            font-weight: bold;
-        }
-
-
-        /* TITLE */
-
-        .product-info h1 {
-            margin: 0 0 12px;
-
-            color: #1d3428;
-
-            font-size: 32px;
-
-            line-height: 1.5;
-
-            letter-spacing: -.8px;
-        }
-
-
-        /* PRICE */
-
-        .product-price {
-            display: flex;
-
-            align-items: center;
-
-            flex-wrap: wrap;
-
-            gap: 7px;
-
-            margin: 13px 0 16px;
-
-            color: #294737;
-
-            font-size: 24px;
-
-            font-weight: 900;
-        }
-
-        .old-price {
-            color: #999;
-
-            text-decoration: line-through;
-
-            font-size: 13px;
-
-            font-weight: 500;
-        }
-
-
-        /* DESCRIPTION */
-
-        .product-description {
-            margin: 0 0 18px;
-
-            color: #777b73;
-
-            font-size: 12px;
-
-            line-height: 2;
-
-        }
-
-
-        /* =========================================================
-           TAGS
-        ========================================================= */
-
-        .product-tags {
-            display: flex;
-
-            flex-wrap: wrap;
-
-            gap: 6px;
-
-            margin-bottom: 18px;
-        }
-
-        .product-tag {
-            display: inline-flex;
-
-            align-items: center;
-            justify-content: center;
-
-            min-height: 27px;
-
-            padding: 0 10px;
-
-            border-radius: 20px;
-
-            background: #f0eee6;
-
-            border: 1px solid #e5dfd2;
-
-            color: #294737;
-
-            font-size: 9px;
-
-            font-weight: bold;
-        }
-
-        .product-tag.badge-tag {
-            background: #294737;
-            border-color: #294737;
-            color: white;
-        }
-
-
-        /* =========================================================
-           PRODUCT SPECS
-        ========================================================= */
-
-        .product-specs {
-            margin-bottom: 20px;
-
-            padding: 5px 0;
-
-            border-top: 1px solid #e5dfd2;
-            border-bottom: 1px solid #e5dfd2;
-        }
-
-        .spec-row {
-            min-height: 40px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 20px;
-
-            border-bottom: 1px solid rgba(229, 223, 210, .65);
-        }
-
-        .spec-row:last-child {
-            border-bottom: 0;
-        }
-
-        .spec-row span {
-            color: #777b73;
-
-            font-size: 10px;
-        }
-
-        .spec-row strong {
-            color: #294737;
-
-            font-size: 10px;
-
-            text-align: left;
-        }
-
-
-        /* =========================================================
-           QUANTITY
-        ========================================================= */
-
-        .quantity-box {
-            display: flex;
-
-            align-items: center;
-
-            gap: 6px;
-
-            margin-bottom: 13px;
-        }
-
-        .quantity-box button {
-            width: 40px;
-            height: 40px;
-
-            border: 1px solid #e5dfd2;
-
-            border-radius: 10px;
-
-            background: #f0eee6;
-
-            color: #294737;
-
-            font-size: 19px;
-
-            cursor: pointer;
-
-            transition: .2s ease;
-        }
-
-        .quantity-box button:hover {
-            background: #e9eee9;
-
-            border-color: #294737;
-        }
-
-        .quantity-box input {
-            width: 58px;
-            height: 40px;
-
-            border: 1px solid #e5dfd2;
-
-            border-radius: 10px;
-
-            background: white;
-
-            color: #294737;
-
-            text-align: center;
-
-            font-size: 13px;
-
-            font-weight: bold;
-
-            outline: none;
-        }
-
-        .quantity-box > span {
-            margin-right: 6px;
-
-            color: #777b73;
-
-            font-size: 9px;
-        }
-
-
-        /* =========================================================
-           ADD TO CART
-        ========================================================= */
-
-        .add-product-btn {
-            width: 100%;
-
-            min-height: 50px;
-
-            border: 0;
-
-            border-radius: 12px;
-
-            background: #294737;
-
-            color: white;
-
-            font-family: Tahoma, Arial, sans-serif;
-
-            font-size: 12px;
-
-            font-weight: 800;
-
-            cursor: pointer;
-
-            box-shadow:
-                0 10px 22px rgba(41, 71, 55, .15);
-
-            transition: .2s ease;
-        }
-
-        .add-product-btn:hover {
-            background: #1d3428;
-
-            transform: translateY(-2px);
-        }
-
-
-        /* =========================================================
-           SIMILAR PRODUCTS
-        ========================================================= */
-
-        .similar-products {
-            margin-top: 85px;
-
-            padding-top: 55px;
-
-            border-top: 1px solid #e5dfd2;
-        }
-
-        .similar-products-head {
-            display: flex;
-
-            align-items: flex-end;
-
-            justify-content: space-between;
-
-            margin-bottom: 22px;
-        }
-
-        .similar-products-label {
-            display: block;
-
-            margin-bottom: 3px;
-
-            color: #b79a5b;
-
-            font-size: 8px;
-
-            font-weight: 900;
-
-            letter-spacing: 1.4px;
-        }
-
-        .similar-products h2 {
-            margin: 0;
-
-            color: #1d3428;
-
-            font-size: 23px;
-        }
-
-        .similar-products-subtitle {
-            color: #777b73;
-
-            font-size: 9px;
-        }
-
-        .similar-grid {
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
-            gap: 15px;
-        }
-
-        .similar-card {
-            overflow: hidden;
-
-            background: white;
-
-            border: 1px solid #e5dfd2;
-
-            border-radius: 15px;
-
-            cursor: pointer;
-
-            transition: .25s ease;
-        }
-
-        .similar-card:hover {
-            transform: translateY(-4px);
-
-            box-shadow:
-                0 18px 40px rgba(30, 50, 38, .09);
-        }
-
-        .similar-card img {
-            width: 100%;
-
-            height: 215px;
-
-            display: block;
-
-            object-fit: cover;
-
-            background: #eee9dd;
-        }
-
-        .similar-card-content {
-            padding: 12px;
-        }
-
-        .similar-card h3 {
-            margin: 0 0 7px;
-
-            color: #20251f;
-
-            font-size: 12px;
-
-            line-height: 1.7;
-        }
-
-        .similar-price {
-            color: #294737;
-
-            font-size: 11px;
-
-            font-weight: 900;
-        }
-
-
-        /* =========================================================
-           MOBILE
-        ========================================================= */
-
-        @media (max-width: 900px) {
-
-            .product-page {
-                width: 94%;
-
-                padding-top: 25px;
-            }
-
-            .product-detail {
-                grid-template-columns: 1fr;
-
-                gap: 28px;
-            }
-
-            .product-image-box img {
-                height: 460px;
-            }
-
-            .similar-grid {
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-        }
-
-
-        @media (max-width: 600px) {
-
-            .product-page {
-                width: 94%;
-
-                padding-top: 20px;
-
-                padding-bottom: 60px;
-            }
-
-            .product-navigation {
-                margin-bottom: 18px;
-            }
-
-            .product-navigation a {
-                min-height: 37px;
-
-                padding: 0 10px;
-
-                font-size: 9px;
-            }
-
-            .product-image-box {
-                border-radius: 18px;
-            }
-
-            .product-image-box img {
-                height: 380px;
-            }
-
-            .product-info h1 {
-                font-size: 25px;
-
-                letter-spacing: -.5px;
-            }
-
-            .product-price {
-                font-size: 21px;
-            }
-
-            .product-description {
-                font-size: 11px;
-            }
-
-            .similar-products {
-                margin-top: 60px;
-
-                padding-top: 40px;
-            }
-
-            .similar-products-head {
-                display: block;
-            }
-
-            .similar-products-subtitle {
-                display: block;
-
-                margin-top: 5px;
-            }
-
-            .similar-products h2 {
-                font-size: 21px;
-            }
-
-            .similar-grid {
-                gap: 9px;
-            }
-
-            .similar-card img {
-                height: 175px;
-            }
-
-            .similar-card-content {
-                padding: 10px;
-            }
-
-            .similar-card h3 {
-                font-size: 10px;
-            }
-
-            .similar-price {
-                font-size: 9px;
-            }
-        }
-    </style>
 </head>
 
+<body class="home-page product-page">
 
-<body class="product-page-body">
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
+<header class="header">
 
-    <!-- =========================================================
-         HEADER
-         دقیقاً از هدر اصلی سایت استفاده می‌کنیم
-    ========================================================= -->
+    <div class="container header-inner">
 
-    <header class="header">
+        <button
+            class="mobile-menu-button"
+            id="mobileMenuButton"
+            aria-label="منو">
 
-        <div class="container header-inner">
+            <span></span>
+            <span></span>
+            <span></span>
 
-            <button
-                type="button"
-                class="mobile-menu-button"
-                id="mobileMenuButton"
-                aria-label="منو">
-
-                <span></span>
-                <span></span>
-                <span></span>
-
-            </button>
+        </button>
 
 
-            <a
-                href="index.html"
-                class="logo">
+        <a href="index.html" class="logo">
+            Navid<span>Towel</span>
+        </a>
 
-                Navid<span>Towel</span>
 
+        <nav class="nav">
+
+            <a href="index.html">
+                خانه
+            </a>
+
+            <a href="shop.html">
+                فروشگاه
             </a>
 
 
-            <nav class="nav">
-
-                <a href="index.html">
-                    خانه
-                </a>
-
-                <a href="shop.html">
-                    فروشگاه
-                </a>
-
-
-                <div class="nav-category">
-
-                    <button
-                        type="button"
-                        class="nav-category-btn">
-
-                        دسته‌بندی‌ها
-
-                        <span>
-                            ⌄
-                        </span>
-
-                    </button>
-
-
-                    <div class="category-dropdown">
-
-                        <a href="shop.html?category=men">
-                            حوله مردانه
-                        </a>
-
-                        <a href="shop.html?category=women">
-                            حوله زنانه
-                        </a>
-
-                        <a href="shop.html?category=kids">
-                            حوله بچگانه
-                        </a>
-
-                        <a href="shop.html?category=bath">
-                            حوله حمامی
-                        </a>
-
-                        <a href="shop.html?category=pool">
-                            حوله استخری
-                        </a>
-
-                        <a href="shop.html?category=meter">
-                            حوله متری
-                        </a>
-
-                        <a href="shop.html?category=robe">
-                            تن‌پوش
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <a href="index.html#about">
-                    درباره ما
-                </a>
-
-                <a href="index.html#contact">
-                    تماس با ما
-                </a>
-
-            </nav>
-
-
-            <div class="header-actions">
+            <div class="nav-category">
 
                 <button
-                    type="button"
-                    class="cart-btn openCart">
+                    class="nav-category-btn"
+                    type="button">
 
-                    🛒
+                    دسته‌بندی‌ها
 
-                    <span>
-                        سبد خرید
-                    </span>
-
-                    <b class="cartCount">
-                        0
-                    </b>
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </header>
-
-
-
-    <!-- =========================================================
-         MOBILE MENU
-         این بخش با script.js اصلی کار می‌کند.
-    ========================================================= -->
-
-    <div
-        class="mobile-menu-overlay"
-        id="mobileMenuOverlay">
-    </div>
-
-
-    <aside
-        class="mobile-side-menu"
-        id="mobileSideMenu">
-
-
-        <div class="mobile-side-header">
-
-            <div class="mobile-side-brand">
-
-                <div class="mobile-side-logo">
-                    N
-                </div>
-
-                <div>
-
-                    <strong>
-                        NavidTowel
-                    </strong>
-
-                    <span>
-                        فروشگاه حوله و کالای خواب
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <button
-                type="button"
-                class="mobile-side-close"
-                id="mobileMenuClose"
-                aria-label="بستن منو">
-
-                ×
-
-            </button>
-
-        </div>
-
-
-        <nav class="mobile-side-links">
-
-
-            <a
-                href="index.html"
-                class="mobile-side-link">
-
-                <span class="side-icon">
-                    ⌂
-                </span>
-
-                <span>
-                    صفحه اصلی
-                </span>
-
-            </a>
-
-
-            <div class="mobile-side-category">
-
-                <button
-                    type="button"
-                    class="mobile-side-link mobile-side-category-button"
-                    id="mobileCategoryButton">
-
-                    <span class="side-icon">
-                        ☰
-                    </span>
-
-                    <span>
-                        دسته‌بندی‌ها
-                    </span>
-
-                    <span
-                        class="side-arrow"
-                        id="mobileCategoryArrow">
-
-                        ⌄
-
-                    </span>
+                    <span>⌄</span>
 
                 </button>
 
 
-                <div
-                    class="mobile-side-category-list"
-                    id="mobileCategoryList">
+                <div class="category-dropdown">
 
                     <a href="shop.html?category=men">
-                        مردانه
+                        حوله مردانه
                     </a>
 
                     <a href="shop.html?category=women">
-                        زنانه
+                        حوله زنانه
                     </a>
 
                     <a href="shop.html?category=kids">
-                        بچگانه
+                        حوله بچگانه
                     </a>
 
                     <a href="shop.html?category=bath">
-                        حمامی
+                        حوله حمامی
                     </a>
 
                     <a href="shop.html?category=pool">
-                        استخری
+                        حوله استخری
                     </a>
 
                     <a href="shop.html?category=meter">
-                        متری
+                        حوله متری
                     </a>
 
                     <a href="shop.html?category=robe">
@@ -916,269 +95,521 @@
             </div>
 
 
-            <a
-                href="discount.html"
-                class="mobile-side-link mobile-side-discount">
-
-                <span class="side-icon">
-                    %
-                </span>
-
-                <span>
-                    تخفیفات
-                </span>
-
-                <span class="discount-badge">
-                    ویژه
-                </span>
-
+            <a href="index.html#about">
+                درباره ما
             </a>
 
-
-            <a
-                href="tracking.html"
-                class="mobile-side-link">
-
-                <span class="side-icon">
-                    ⌕
-                </span>
-
-                <span>
-                    پیگیری سفارش
-                </span>
-
-            </a>
-
-
-            <a
-                href="index.html#about"
-                class="mobile-side-link">
-
-                <span class="side-icon">
-                    i
-                </span>
-
-                <span>
-                    درباره ما
-                </span>
-
-            </a>
-
-
-            <a
-                href="index.html#contact"
-                class="mobile-side-link">
-
-                <span class="side-icon">
-                    ☏
-                </span>
-
-                <span>
-                    تماس با ما
-                </span>
-
+            <a href="index.html#contact">
+                تماس با ما
             </a>
 
         </nav>
 
 
-        <div class="mobile-side-bottom">
+        <div class="header-actions">
 
-            <a
-                href="shop.html"
-                class="mobile-bottom-button">
+            <button
+                type="button"
+                class="cart-btn openCart">
 
-                <span>
-                    ▦
-                </span>
-
-                <small>
-                    همه محصولات
-                </small>
-
-            </a>
-
-
-            <a
-                href="cart.html"
-                class="mobile-bottom-button">
+                🛒
 
                 <span>
-                    🛒
-                </span>
-
-                <small>
                     سبد خرید
-                </small>
-
-            </a>
-
-
-            <a
-                href="https://instagram.com/navidtowel"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="mobile-bottom-button">
-
-                <span>
-                    ◎
                 </span>
 
-                <small>
-                    اینستاگرام
-                </small>
+                <b class="cartCount">
+                    ۰
+                </b>
 
-            </a>
+            </button>
 
         </div>
 
-    </aside>
+    </div>
+
+</header>
 
 
+<!-- =====================================================
+     MOBILE MENU
+===================================================== -->
 
-    <!-- =========================================================
-         PRODUCT
-    ========================================================= -->
+<div
+    class="mobile-menu-overlay"
+    id="mobileMenuOverlay">
+</div>
 
-    <main class="product-page">
 
+<aside
+    class="mobile-side-menu"
+    id="mobileSideMenu">
 
-        <div class="product-navigation">
+    <div class="mobile-side-header">
 
-            <a href="javascript:history.back()">
+        <div class="mobile-side-brand">
 
-                <span class="back-arrow">
-                    →
+            <div class="mobile-side-logo">
+                N
+            </div>
+
+            <div>
+
+                <strong>
+                    NavidTowel
+                </strong>
+
+                <span>
+                    فروشگاه حوله و کالای خواب
                 </span>
 
-                بازگشت
+            </div>
 
+        </div>
+
+
+        <button
+            type="button"
+            class="mobile-side-close"
+            id="mobileMenuClose"
+            aria-label="بستن منو">
+
+            ×
+
+        </button>
+
+    </div>
+
+
+    <nav class="mobile-side-links">
+
+        <a
+            href="index.html"
+            class="mobile-side-link">
+
+            <span class="side-icon">
+                ⌂
+            </span>
+
+            <span>
+                صفحه اصلی
+            </span>
+
+        </a>
+
+
+        <div class="mobile-side-category">
+
+            <button
+                type="button"
+                class="mobile-side-link mobile-side-category-button"
+                id="mobileCategoryButton">
+
+                <span class="side-icon">
+                    ☰
+                </span>
+
+                <span>
+                    دسته‌بندی‌ها
+                </span>
+
+                <span
+                    class="side-arrow"
+                    id="mobileCategoryArrow">
+
+                    ⌄
+
+                </span>
+
+            </button>
+
+
+            <div
+                class="mobile-side-category-list"
+                id="mobileCategoryList">
+
+                <a href="shop.html?category=men">
+                    مردانه
+                </a>
+
+                <a href="shop.html?category=women">
+                    زنانه
+                </a>
+
+                <a href="shop.html?category=kids">
+                    بچگانه
+                </a>
+
+                <a href="shop.html?category=bath">
+                    حمامی
+                </a>
+
+                <a href="shop.html?category=pool">
+                    استخری
+                </a>
+
+                <a href="shop.html?category=meter">
+                    متری
+                </a>
+
+                <a href="shop.html?category=robe">
+                    تن‌پوش
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="discount.html"
+            class="mobile-side-link mobile-side-discount">
+
+            <span class="side-icon">
+                %
+            </span>
+
+            <span>
+                تخفیفات
+            </span>
+
+            <span class="discount-badge">
+                ویژه
+            </span>
+
+        </a>
+
+
+        <a
+            href="tracking.html"
+            class="mobile-side-link">
+
+            <span class="side-icon">
+                ⌕
+            </span>
+
+            <span>
+                پیگیری سفارش
+            </span>
+
+        </a>
+
+
+        <a
+            href="index.html#about"
+            class="mobile-side-link">
+
+            <span class="side-icon">
+                i
+            </span>
+
+            <span>
+                درباره ما
+            </span>
+
+        </a>
+
+
+        <a
+            href="index.html#contact"
+            class="mobile-side-link">
+
+            <span class="side-icon">
+                ☏
+            </span>
+
+            <span>
+                تماس با ما
+            </span>
+
+        </a>
+
+    </nav>
+
+
+    <div class="mobile-side-bottom">
+
+        <a
+            href="shop.html"
+            class="mobile-bottom-button">
+
+            <span>
+                ▦
+            </span>
+
+            <small>
+                همه محصولات
+            </small>
+
+        </a>
+
+
+        <a
+            href="cart.html"
+            class="mobile-bottom-button">
+
+            <span>
+                🛒
+            </span>
+
+            <small>
+                سبد خرید
+            </small>
+
+        </a>
+
+
+        <a
+            href="https://instagram.com/navidtowel"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mobile-bottom-button">
+
+            <span>
+                ◎
+            </span>
+
+            <small>
+                اینستاگرام
+            </small>
+
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- =====================================================
+     PRODUCT
+===================================================== -->
+
+<main class="product-main">
+
+    <div class="container">
+
+
+        <!-- BREADCRUMB -->
+
+        <div class="product-breadcrumb">
+
+            <a href="index.html">
+                خانه
             </a>
 
+            <span>
+                /
+            </span>
 
             <a href="shop.html">
-                همه محصولات
+                فروشگاه
             </a>
+
+            <span>
+                /
+            </span>
+
+            <strong id="breadcrumbProduct">
+                محصول
+            </strong>
 
         </div>
 
 
+        <!-- PRODUCT HERO -->
 
-        <section class="product-detail">
+        <section
+            class="product-detail"
+            id="productDetail">
 
 
-            <!-- IMAGE -->
+            <!-- IMAGE SIDE -->
 
-            <div class="product-image-box">
+            <div class="product-gallery">
 
-                <img
-                    id="productImage"
-                    src=""
-                    alt="">
+
+                <div
+                    class="product-main-image"
+                    id="productMainImage">
+
+                    <span
+                        class="product-image-badge"
+                        id="productBadge"
+                        hidden>
+                    </span>
+
+                    <img
+                        id="mainProductImage"
+                        src=""
+                        alt="">
+
+
+                    <button
+                        type="button"
+                        class="product-gallery-arrow product-gallery-prev"
+                        id="productPrev"
+                        aria-label="تصویر قبلی">
+
+                        →
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="product-gallery-arrow product-gallery-next"
+                        id="productNext"
+                        aria-label="تصویر بعدی">
+
+                        ←
+
+                    </button>
+
+                </div>
+
+
+                <div
+                    class="product-thumbnails"
+                    id="productThumbnails">
+                </div>
+
+
+                <div
+                    class="product-gallery-dots"
+                    id="productGalleryDots">
+                </div>
 
             </div>
 
 
+            <!-- INFO SIDE -->
 
-            <!-- INFO -->
-
-            <div class="product-info">
-
-
-                <span
-                    id="productBadge"
-                    class="product-badge">
-
-                </span>
+            <div class="product-detail-info">
 
 
-                <h1 id="productName">
-                    در حال بارگذاری...
+                <div
+                    class="product-category-tags"
+                    id="productCategories">
+                </div>
+
+
+                <h1
+                    class="product-detail-title"
+                    id="productTitle">
+
+                    محصول
+
                 </h1>
 
 
                 <div
-                    id="productPrice"
-                    class="product-price">
-
+                    class="product-detail-description"
+                    id="productDescription">
                 </div>
 
-
-                <p
-                    id="productDescription"
-                    class="product-description">
-
-                </p>
-
-
-
-                <!-- TAGS -->
 
                 <div
-                    id="productTags"
-                    class="product-tags">
+                    class="product-price-box"
+                    id="productPriceBox">
+
+                    <div class="product-price-current">
+                        <span id="productPrice">
+                            -
+                        </span>
+                    </div>
+
+                    <div
+                        class="product-price-old"
+                        id="productOldPrice">
+                    </div>
 
                 </div>
 
-
-
-                <!-- SPECS -->
 
                 <div
-                    id="productSpecs"
-                    class="product-specs">
-
+                    class="product-discount-text"
+                    id="productDiscount">
                 </div>
-
 
 
                 <!-- QUANTITY -->
 
-                <div class="quantity-box">
+                <div class="product-buy-row">
+
+                    <div class="product-quantity">
+
+                        <button
+                            type="button"
+                            id="quantityPlus">
+
+                            +
+
+                        </button>
+
+                        <span id="productQuantity">
+                            ۱
+                        </span>
+
+                        <button
+                            type="button"
+                            id="quantityMinus">
+
+                            −
+
+                        </button>
+
+                    </div>
+
 
                     <button
                         type="button"
-                        onclick="changeQuantity(-1)">
+                        class="product-add-button"
+                        id="productAddButton">
 
-                        −
+                        <span>
+                            🛒
+                        </span>
 
-                    </button>
-
-
-                    <input
-                        id="quantity"
-                        type="number"
-                        value="1"
-                        min="1">
-
-
-                    <button
-                        type="button"
-                        onclick="changeQuantity(1)">
-
-                        +
+                        افزودن به سبد خرید
 
                     </button>
-
-
-                    <span>
-                        تعداد
-                    </span>
 
                 </div>
 
 
+                <div class="product-trust-row">
 
-                <!-- ADD -->
+                    <div>
 
-                <button
-                    class="add-product-btn"
-                    type="button"
-                    onclick="addCurrentProduct()">
+                        <span>
+                            ✓
+                        </span>
 
-                    افزودن به سبد خرید
+                        تضمین کیفیت
 
-                </button>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            ✓
+                        </span>
+
+                        ارسال مطمئن
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            ✓
+                        </span>
+
+                        خرید امن
+
+                    </div>
+
+                </div>
 
 
             </div>
@@ -1186,1094 +617,894 @@
         </section>
 
 
+        <!-- OPTIONAL SPECS -->
 
-        <!-- =====================================================
-             SIMILAR PRODUCTS
-        ===================================================== -->
+        <section
+            class="product-spec-section"
+            id="productSpecsSection"
+            hidden>
 
-        <section class="similar-products">
+            <div class="product-section-heading">
 
-
-            <div class="similar-products-head">
-
-                <div>
-
-                    <span class="similar-products-label">
-                        YOU MAY ALSO LIKE
-                    </span>
-
-                    <h2>
-                        محصولات مشابه
-                    </h2>
-
-                </div>
-
-
-                <span class="similar-products-subtitle">
-                    انتخاب‌های بیشتر برای شما
+                <span>
+                    مشخصات محصول
                 </span>
+
+                <h2>
+                    جزئیات بیشتر
+                </h2>
 
             </div>
 
 
             <div
-                id="similarProducts"
-                class="similar-grid">
-
+                class="product-spec-grid"
+                id="productSpecs">
             </div>
 
         </section>
 
 
-    </main>
+        <!-- SIMILAR PRODUCTS -->
 
+        <section
+            class="product-related-section"
+            id="relatedSection">
 
+            <div class="product-section-heading">
 
-    <!-- =========================================================
-         FOOTER
-         فوتر واقعی سایت
-    ========================================================= -->
+                <span>
+                    پیشنهاد NavidTowel
+                </span>
 
-    <footer
-        class="footer"
-        id="contact">
-
-        <div class="container">
-
-
-            <div class="footer-grid">
-
-
-                <div class="footer-brand">
-
-                    <a
-                        href="index.html"
-                        class="logo">
-
-                        Navid<span>Towel</span>
-
-                    </a>
-
-                    <p>
-                        حوله‌های باکیفیت برای زندگی روزمره.
-                    </p>
-
-                </div>
-
-
-                <div>
-
-                    <h3>
-                        فروشگاه
-                    </h3>
-
-                    <a href="shop.html">
-                        همه محصولات
-                    </a>
-
-                    <a href="index.html#categories">
-                        دسته‌بندی‌ها
-                    </a>
-
-                    <a href="index.html#shop">
-                        محصولات منتخب
-                    </a>
-
-                </div>
-
-
-                <div>
-
-                    <h3>
-                        راهنما
-                    </h3>
-
-                    <a href="index.html#about">
-                        درباره ما
-                    </a>
-
-                    <a href="#">
-                        قوانین و مقررات
-                    </a>
-
-                    <a href="#">
-                        روش‌های ارسال
-                    </a>
-
-                </div>
-
-
-                <div>
-
-                    <h3>
-                        تماس
-                    </h3>
-
-                    <p>
-                        خرمشهر
-                    </p>
-
-                    <p>
-                        Instagram: @navidtowel
-                    </p>
-
-                </div>
-
+                <h2>
+                    محصولات مشابه
+                </h2>
 
             </div>
 
 
-            <div class="footer-bottom">
+            <div
+                class="product-related-grid"
+                id="relatedProducts">
+            </div>
 
-                <span>
-                    © 2026 NavidTowel
-                </span>
+        </section>
 
-                <span>
-                    تمامی حقوق محفوظ است.
-                </span>
+    </div>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer
+    class="footer"
+    id="contact">
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+
+            <div class="footer-brand">
+
+                <a
+                    href="index.html"
+                    class="logo">
+
+                    Navid<span>Towel</span>
+
+                </a>
+
+                <p>
+                    حوله‌های باکیفیت برای زندگی روزمره.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    فروشگاه
+                </h3>
+
+                <a href="shop.html">
+                    همه محصولات
+                </a>
+
+                <a href="index.html#categories">
+                    دسته‌بندی‌ها
+                </a>
+
+                <a href="index.html#shop">
+                    محصولات منتخب
+                </a>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    راهنما
+                </h3>
+
+                <a href="index.html#about">
+                    درباره ما
+                </a>
+
+                <a href="#">
+                    قوانین و مقررات
+                </a>
+
+                <a href="#">
+                    روش‌های ارسال
+                </a>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    تماس
+                </h3>
+
+                <p>
+                    تلفن: 09121234567
+                </p>
+
+                <p>
+                    Instagram: @navidtowel
+                </p>
 
             </div>
 
 
         </div>
 
-    </footer>
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 NavidTowel
+            </span>
+
+            <span>
+                تمامی حقوق محفوظ است.
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
 
 
+<!-- =====================================================
+     SCRIPTS
+===================================================== -->
 
-    <!-- =========================================================
-         SCRIPTS
-    ========================================================= -->
-
-    <script src="products.js"></script>
-
-    <script src="script.js"></script>
+<script src="products.js"></script>
+<script src="script.js"></script>
 
 
-    <script>
+<script>
 
-        let currentProduct = null;
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* =====================================================
+       FIND PRODUCT
+    ===================================================== */
+
+    const params = new URLSearchParams(window.location.search);
+
+    const productId = Number(params.get("id"));
+
+    const product =
+        typeof products !== "undefined"
+            ? products.find(item => item.id === productId)
+            : null;
 
 
-        /* =====================================================
-           PRICE
-        ===================================================== */
+    if (!product) {
 
-        function productFormatPrice(price) {
+        document.title = "محصول پیدا نشد | NavidTowel";
 
-            return Number(price).toLocaleString("fa-IR")
-                + " تومان";
+        document.getElementById("productDetail").innerHTML = `
+            <div class="product-not-found">
 
+                <div class="product-not-found-icon">
+                    ?
+                </div>
+
+                <h1>
+                    محصول پیدا نشد
+                </h1>
+
+                <p>
+                    محصول موردنظر وجود ندارد یا حذف شده است.
+                </p>
+
+                <a
+                    href="shop.html"
+                    class="product-back-shop">
+
+                    بازگشت به فروشگاه
+
+                </a>
+
+            </div>
+        `;
+
+        document.getElementById("productSpecsSection").hidden = true;
+        document.getElementById("relatedSection").hidden = true;
+
+        return;
+    }
+
+
+    /* =====================================================
+       TITLE
+    ===================================================== */
+
+    document.title =
+        product.name + " | NavidTowel";
+
+
+    document.getElementById("breadcrumbProduct").textContent =
+        product.name;
+
+
+    document.getElementById("productTitle").textContent =
+        product.name;
+
+
+    /* =====================================================
+       BADGE
+    ===================================================== */
+
+    const badge =
+        document.getElementById("productBadge");
+
+
+    if (product.badge) {
+
+        badge.textContent =
+            product.badge;
+
+        badge.hidden = false;
+
+    }
+
+
+    /* =====================================================
+       DESCRIPTION
+    ===================================================== */
+
+    const description =
+        document.getElementById("productDescription");
+
+
+    if (product.description) {
+
+        description.textContent =
+            product.description;
+
+        description.hidden = false;
+
+    } else {
+
+        description.hidden = true;
+
+    }
+
+
+    /* =====================================================
+       PRICE
+    ===================================================== */
+
+    const price =
+        Number(product.price || 0);
+
+
+    document.getElementById("productPrice").textContent =
+        price.toLocaleString("fa-IR") + " تومان";
+
+
+    const oldPriceElement =
+        document.getElementById("productOldPrice");
+
+
+    const discountElement =
+        document.getElementById("productDiscount");
+
+
+    if (
+        product.oldPrice &&
+        Number(product.oldPrice) > price
+    ) {
+
+        const oldPrice =
+            Number(product.oldPrice);
+
+
+        oldPriceElement.textContent =
+            oldPrice.toLocaleString("fa-IR") + " تومان";
+
+
+        const discount =
+            Math.round(
+                ((oldPrice - price) / oldPrice) * 100
+            );
+
+
+        discountElement.textContent =
+            discount.toLocaleString("fa-IR") +
+            "٪ تخفیف";
+
+
+    } else {
+
+        oldPriceElement.textContent = "";
+        discountElement.textContent = "";
+
+    }
+
+
+    /* =====================================================
+       CATEGORIES
+    ===================================================== */
+
+    const categoryNames = {
+
+        bath: "حمامی",
+        hand: "دست و صورت",
+        pool: "استخری",
+        set: "ست",
+        men: "مردانه",
+        women: "زنانه",
+        kids: "بچگانه",
+        meter: "متری",
+        robe: "تن‌پوش"
+
+    };
+
+
+    const categoriesElement =
+        document.getElementById("productCategories");
+
+
+    if (
+        Array.isArray(product.categories) &&
+        product.categories.length
+    ) {
+
+        categoriesElement.innerHTML =
+            product.categories
+                .filter(category => categoryNames[category])
+                .map(category => `
+                    <a
+                        href="shop.html?category=${encodeURIComponent(category)}">
+
+                        ${categoryNames[category]}
+
+                    </a>
+                `)
+                .join("");
+
+    }
+
+
+    /* =====================================================
+       GALLERY
+    ===================================================== */
+
+    let galleryImages = [];
+
+
+    if (
+        Array.isArray(product.images) &&
+        product.images.length
+    ) {
+
+        galleryImages =
+            product.images.filter(Boolean);
+
+    }
+
+
+    if (!galleryImages.length && product.image) {
+
+        galleryImages = [
+            product.image
+        ];
+
+    }
+
+
+    let currentImage = 0;
+
+
+    const mainImage =
+        document.getElementById("mainProductImage");
+
+
+    const thumbnails =
+        document.getElementById("productThumbnails");
+
+
+    const dots =
+        document.getElementById("productGalleryDots");
+
+
+    const prevButton =
+        document.getElementById("productPrev");
+
+
+    const nextButton =
+        document.getElementById("productNext");
+
+
+    function renderGallery() {
+
+        if (!galleryImages.length) {
+
+            mainImage.style.display = "none";
+
+            prevButton.style.display = "none";
+            nextButton.style.display = "none";
+
+            thumbnails.innerHTML = "";
+            dots.innerHTML = "";
+
+            return;
         }
 
 
+        if (currentImage >= galleryImages.length) {
+            currentImage = 0;
+        }
 
-        /* =====================================================
-           CATEGORY NAMES
-        ===================================================== */
 
-        const categoryNames = {
+        mainImage.src =
+            galleryImages[currentImage];
 
-            bath: "حمامی",
+        mainImage.alt =
+            product.name;
 
-            hand: "دست و صورت",
 
-            pool: "استخری",
+        if (galleryImages.length <= 1) {
 
-            set: "ست",
+            prevButton.style.display = "none";
+            nextButton.style.display = "none";
 
-            men: "مردانه",
+            thumbnails.innerHTML = "";
+            dots.innerHTML = "";
 
-            women: "زنانه",
+            return;
+        }
 
-            kids: "بچگانه",
 
-            meter: "متری",
+        prevButton.style.display = "flex";
+        nextButton.style.display = "flex";
 
-            robe: "تن‌پوش"
 
-        };
+        thumbnails.innerHTML =
+            galleryImages.map((image, index) => `
+                <button
+                    type="button"
+                    class="product-thumbnail ${
+                        index === currentImage
+                            ? "active"
+                            : ""
+                    }"
+                    data-index="${index}">
 
+                    <img
+                        src="${image}"
+                        alt="${product.name} ${index + 1}">
 
+                </button>
+            `).join("");
 
-        /* =====================================================
-           PRODUCT SPEC DEFINITIONS
-           
-           هر وقت داخل products.js این موارد را برای محصول
-           تعریف کردی، اینجا خودکار نمایش داده می‌شوند.
-           
-           اگر مقدار وجود نداشته باشد، ردیف اصلاً ساخته نمی‌شود.
-        ===================================================== */
 
-        const specDefinitions = [
+        dots.innerHTML =
+            galleryImages.map((image, index) => `
+                <button
+                    type="button"
+                    class="product-gallery-dot ${
+                        index === currentImage
+                            ? "active"
+                            : ""
+                    }"
+                    data-index="${index}"
+                    aria-label="تصویر ${index + 1}">
+                </button>
+            `).join("");
 
-            {
-                key: "quality",
-                label: "کیفیت"
-            },
 
-            {
-                key: "material",
-                label: "جنس"
-            },
+        thumbnails
+            .querySelectorAll(".product-thumbnail")
+            .forEach(button => {
 
-            {
-                key: "country",
-                label: "ساخت کشور"
-            },
+                button.addEventListener("click", function () {
 
-            {
-                key: "origin",
-                label: "نوع کالا"
-            },
+                    currentImage =
+                        Number(this.dataset.index);
 
-            {
-                key: "use",
-                label: "مناسب برای"
-            },
+                    renderGallery();
 
-            {
-                key: "brand",
-                label: "برند"
-            },
-
-            {
-                key: "size",
-                label: "سایز"
-            },
-
-            {
-                key: "type",
-                label: "نوع محصول"
-            },
-
-            {
-                key: "weight",
-                label: "وزن"
-            },
-
-            {
-                key: "dimensions",
-                label: "ابعاد"
-            },
-
-            {
-                key: "color",
-                label: "رنگ"
-            }
-
-        ];
-
-
-
-        /* =====================================================
-           LOAD PRODUCT SPECS
-        ===================================================== */
-
-        function loadProductSpecs(product) {
-
-            const container =
-                document.getElementById("productSpecs");
-
-            if (!container) {
-                return;
-            }
-
-
-            let html = "";
-
-
-            /* -------------------------------------------------
-               دسته‌بندی از categories خوانده می‌شود.
-               چون products.js فعلی categories دارد.
-            ------------------------------------------------- */
-
-            if (
-                Array.isArray(product.categories) &&
-                product.categories.length
-            ) {
-
-                const categoryText =
-                    product.categories
-                        .map(category => {
-
-                            return categoryNames[category]
-                                || category;
-
-                        })
-                        .join("، ");
-
-
-                if (categoryText) {
-
-                    html += `
-
-                        <div class="spec-row">
-
-                            <span>
-                                دسته‌بندی
-                            </span>
-
-                            <strong>
-                                ${categoryText}
-                            </strong>
-
-                        </div>
-
-                    `;
-
-                }
-
-            }
-
-
-            /* -------------------------------------------------
-               مشخصات تعریف‌شده در خود محصول
-            ------------------------------------------------- */
-
-            specDefinitions.forEach(spec => {
-
-                let value = product[spec.key];
-
-
-                /* پشتیبانی از ساختار جدید:
-                   
-                   specs: {
-                       quality: "...",
-                       material: "..."
-                   }
-                */
-
-                if (
-                    !value &&
-                    product.specs &&
-                    typeof product.specs === "object"
-                ) {
-
-                    value =
-                        product.specs[spec.key];
-
-                }
-
-
-                /* اگر مقدار وجود نداشت،
-                   کل ردیف ساخته نمی‌شود. */
-
-                if (
-                    value === undefined ||
-                    value === null ||
-                    String(value).trim() === ""
-                ) {
-
-                    return;
-
-                }
-
-
-                html += `
-
-                    <div class="spec-row">
-
-                        <span>
-                            ${spec.label}
-                        </span>
-
-                        <strong>
-                            ${String(value)}
-                        </strong>
-
-                    </div>
-
-                `;
+                });
 
             });
 
 
-            container.innerHTML = html;
+        dots
+            .querySelectorAll(".product-gallery-dot")
+            .forEach(button => {
 
+                button.addEventListener("click", function () {
 
-            /* اگر هیچ مشخصاتی نبود،
-               خود باکس هم دیده نشود. */
+                    currentImage =
+                        Number(this.dataset.index);
 
-            if (!html.trim()) {
-
-                container.style.display = "none";
-
-            } else {
-
-                container.style.display = "";
-
-            }
-
-        }
-
-
-
-        /* =====================================================
-           LOAD PRODUCT TAGS
-        ===================================================== */
-
-        function loadProductTags(product) {
-
-            const container =
-                document.getElementById("productTags");
-
-            if (!container) {
-                return;
-            }
-
-
-            const tags = [];
-
-
-            /* badge */
-
-            if (
-                product.badge &&
-                String(product.badge).trim()
-            ) {
-
-                tags.push({
-
-                    text: product.badge,
-
-                    badge: true
+                    renderGallery();
 
                 });
 
-            }
+            });
+
+    }
 
 
-            /* categories */
+    prevButton.addEventListener("click", function () {
 
-            if (
-                Array.isArray(product.categories)
-            ) {
+        if (galleryImages.length <= 1) return;
 
-                product.categories.forEach(category => {
+        currentImage--;
 
-                    const text =
-                        categoryNames[category]
-                        || category;
-
-                    if (
-                        text &&
-                        !tags.some(
-                            tag =>
-                                tag.text === text
-                        )
-                    ) {
-
-                        tags.push({
-
-                            text: text,
-
-                            badge: false
-
-                        });
-
-                    }
-
-                });
-
-            }
-
-
-            container.innerHTML =
-                tags.map(tag => `
-
-                    <span class="
-                        product-tag
-                        ${tag.badge ? "badge-tag" : ""}
-                    ">
-                        ${tag.text}
-                    </span>
-
-                `).join("");
-
-
-            if (!tags.length) {
-
-                container.style.display = "none";
-
-            } else {
-
-                container.style.display = "";
-
-            }
-
+        if (currentImage < 0) {
+            currentImage =
+                galleryImages.length - 1;
         }
 
+        renderGallery();
 
+    });
 
-        /* =====================================================
-           LOAD PRODUCT
-        ===================================================== */
 
-        function loadProduct() {
+    nextButton.addEventListener("click", function () {
 
-            const params =
-                new URLSearchParams(
-                    window.location.search
-                );
+        if (galleryImages.length <= 1) return;
 
+        currentImage++;
 
-            const id =
-                Number(params.get("id"));
+        if (
+            currentImage >=
+            galleryImages.length
+        ) {
+            currentImage = 0;
+        }
 
+        renderGallery();
 
-            currentProduct =
-                products.find(
-                    product =>
-                        Number(product.id) === id
-                );
+    });
 
 
-            /* -------------------------------------------------
-               PRODUCT NOT FOUND
-            ------------------------------------------------- */
+    renderGallery();
 
-            if (!currentProduct) {
 
-                document.querySelector(
-                    ".product-page"
-                ).innerHTML = `
+    /* =====================================================
+       OPTIONAL SPECS
+    ===================================================== */
 
-                    <div style="
-                        text-align:center;
-                        padding:80px 20px;
-                    ">
+    const specs = [
 
-                        <h2 style="
-                            color:#294737;
-                            font-size:22px;
-                            margin:0;
-                        ">
-                            محصول پیدا نشد
-                        </h2>
+        ["کیفیت", product.quality],
+        ["جنس", product.material],
+        ["کشور تولید", product.country],
+        ["مبدأ", product.origin],
+        ["مناسب برای", product.use],
+        ["برند", product.brand],
+        ["سایز", product.size],
+        ["نوع", product.type],
+        ["وزن", product.weight],
+        ["ابعاد", product.dimensions],
+        ["رنگ", product.color]
 
+    ];
 
-                        <a
-                            href="shop.html"
-                            style="
-                                display:inline-flex;
-                                align-items:center;
-                                justify-content:center;
-                                margin-top:20px;
-                                padding:11px 20px;
-                                border-radius:10px;
-                                background:#294737;
-                                color:white;
-                                text-decoration:none;
-                                font-size:11px;
-                                font-weight:bold;
-                            ">
 
-                            بازگشت به فروشگاه
+    const validSpecs =
+        specs.filter(item => {
 
-                        </a>
-
-                    </div>
-
-                `;
-
-                return;
-
-            }
-
-
-
-            /* TITLE */
-
-            document.title =
-                currentProduct.name
-                + " | NavidTowel";
-
-
-
-            /* NAME */
-
-            document.getElementById(
-                "productName"
-            ).textContent =
-                currentProduct.name;
-
-
-
-            /* BADGE */
-
-            const badge =
-                document.getElementById(
-                    "productBadge"
-                );
-
-
-            if (
-                currentProduct.badge
-            ) {
-
-                badge.textContent =
-                    currentProduct.badge;
-
-                badge.style.display =
-                    "inline-flex";
-
-            } else {
-
-                badge.style.display =
-                    "none";
-
-            }
-
-
-
-            /* IMAGE */
-
-            const image =
-                document.getElementById(
-                    "productImage"
-                );
-
-
-            image.src =
-                currentProduct.image;
-
-            image.alt =
-                currentProduct.name;
-
-
-
-            /* PRICE */
-
-            let priceHTML =
-                productFormatPrice(
-                    currentProduct.price
-                );
-
-
-            if (
-                currentProduct.oldPrice
-            ) {
-
-                priceHTML += `
-
-                    <span class="old-price">
-
-                        ${productFormatPrice(
-                            currentProduct.oldPrice
-                        )}
-
-                    </span>
-
-                `;
-
-            }
-
-
-            document.getElementById(
-                "productPrice"
-            ).innerHTML =
-                priceHTML;
-
-
-
-            /* DESCRIPTION */
-
-            document.getElementById(
-                "productDescription"
-            ).textContent =
-                currentProduct.description
-                || "";
-
-
-
-            /* TAGS */
-
-            loadProductTags(
-                currentProduct
+            return (
+                item[1] !== undefined &&
+                item[1] !== null &&
+                String(item[1]).trim() !== ""
             );
 
+        });
 
 
-            /* SPECS */
-
-            loadProductSpecs(
-                currentProduct
-            );
+    const specsSection =
+        document.getElementById("productSpecsSection");
 
 
-
-            /* SIMILAR */
-
-            loadSimilarProducts();
-
-        }
+    const specsContainer =
+        document.getElementById("productSpecs");
 
 
+    if (validSpecs.length) {
 
-        /* =====================================================
-           QUANTITY
-        ===================================================== */
-
-        function changeQuantity(amount) {
-
-            const input =
-                document.getElementById(
-                    "quantity"
-                );
+        specsSection.hidden = false;
 
 
-            let value =
-                Number(input.value)
-                + Number(amount);
+        specsContainer.innerHTML =
+            validSpecs.map(spec => `
+
+                <div class="product-spec-item">
+
+                    <span>
+                        ${spec[0]}
+                    </span>
+
+                    <strong>
+                        ${spec[1]}
+                    </strong>
+
+                </div>
+
+            `).join("");
+
+    } else {
+
+        specsSection.hidden = true;
+
+    }
 
 
-            if (value < 1) {
-                value = 1;
-            }
+    /* =====================================================
+       QUANTITY
+    ===================================================== */
+
+    let quantity = 1;
 
 
-            input.value =
-                value;
-
-        }
+    const quantityElement =
+        document.getElementById("productQuantity");
 
 
+    document
+        .getElementById("quantityPlus")
+        .addEventListener("click", function () {
 
-        /* =====================================================
-           ADD TO CART
-           
-           مهم:
-           اینجا سبد خرید را باز نمی‌کنیم.
-           
-           فقط محصول را اضافه می‌کنیم و نوتیفیکیشن
-           اصلی script.js را اجرا می‌کنیم.
-        ===================================================== */
+            quantity++;
 
-        function addCurrentProduct() {
+            quantityElement.textContent =
+                quantity.toLocaleString("fa-IR");
 
-            if (!currentProduct) {
+        });
+
+
+    document
+        .getElementById("quantityMinus")
+        .addEventListener("click", function () {
+
+            if (quantity <= 1) return;
+
+            quantity--;
+
+            quantityElement.textContent =
+                quantity.toLocaleString("fa-IR");
+
+        });
+
+
+    /* =====================================================
+       ADD TO CART
+       USE EXISTING CART SYSTEM
+    ===================================================== */
+
+    document
+        .getElementById("productAddButton")
+        .addEventListener("click", function () {
+
+            if (typeof addToCart !== "function") {
                 return;
             }
 
 
-            const input =
-                document.getElementById(
-                    "quantity"
-                );
-
-
-            const quantity =
-                Math.max(
-                    1,
-                    Number(input.value) || 1
-                );
-
-
-            /*
-               از تابع اصلی سایت استفاده می‌کنیم.
-               این باعث می‌شود همان نوتیفیکیشن
-               بقیه صفحات نمایش داده شود.
-            */
-
-            if (
-                typeof addToCart === "function"
+            for (
+                let i = 0;
+                i < quantity;
+                i++
             ) {
 
-                /*
-                   ابتدا یک عدد اضافه می‌کنیم.
-                */
+                addToCart(product.id);
 
-                addToCart(
-                    currentProduct.id
-                );
+            }
+
+        });
 
 
-                /*
-                   اگر کاربر بیشتر از یکی خواسته،
-                   تعداد باقی‌مانده را مستقیم
-                   به همان آیتم اضافه می‌کنیم.
-                */
+    /* =====================================================
+       RELATED PRODUCTS
+    ===================================================== */
 
-                if (quantity > 1) {
-
-                    let cart =
-                        JSON.parse(
-                            localStorage.getItem(
-                                "navidTowelCart"
-                            )
-                        ) || [];
+    const relatedContainer =
+        document.getElementById("relatedProducts");
 
 
-                    const item =
-                        cart.find(
-                            product =>
-                                Number(product.id)
-                                ===
-                                Number(currentProduct.id)
-                        );
+    if (
+        typeof products !== "undefined" &&
+        Array.isArray(products)
+    ) {
 
+        let related =
+            products.filter(item => {
 
-                    if (item) {
-
-                        item.quantity =
-                            Number(item.quantity || 1)
-                            + (quantity - 1);
-
-
-                        localStorage.setItem(
-                            "navidTowelCart",
-                            JSON.stringify(cart)
-                        );
-
-
-                        if (
-                            typeof renderCart ===
-                            "function"
-                        ) {
-
-                            renderCart();
-
-                        }
-
-                    }
-
+                if (item.id === product.id) {
+                    return false;
                 }
 
 
-                /*
-                   عمداً openCart() نداریم.
-                   پس پنجره سبد خرید باز نمی‌شود.
-                */
-
-                return;
-
-            }
+                if (
+                    !Array.isArray(product.categories) ||
+                    !Array.isArray(item.categories)
+                ) {
+                    return false;
+                }
 
 
-
-            /*
-               فقط برای مواقعی که script.js
-               لود نشده باشد.
-            */
-
-            let cart =
-                JSON.parse(
-                    localStorage.getItem(
-                        "navidTowelCart"
-                    )
-                ) || [];
-
-
-            const existing =
-                cart.find(
-                    item =>
-                        Number(item.id)
-                        ===
-                        Number(currentProduct.id)
+                return product.categories.some(category =>
+                    item.categories.includes(category)
                 );
 
-
-            if (existing) {
-
-                existing.quantity =
-                    Number(existing.quantity || 0)
-                    + quantity;
-
-            } else {
-
-                cart.push({
-
-                    id:
-                        currentProduct.id,
-
-                    name:
-                        currentProduct.name,
-
-                    price:
-                        currentProduct.price,
-
-                    image:
-                        currentProduct.image,
-
-                    quantity:
-                        quantity
-
-                });
-
-            }
+            });
 
 
-            localStorage.setItem(
-                "navidTowelCart",
-                JSON.stringify(cart)
-            );
+        related =
+            related.slice(0, 4);
 
 
-            if (
-                typeof renderCart ===
-                "function"
-            ) {
+        if (!related.length) {
 
-                renderCart();
-
-            }
+            related =
+                products
+                    .filter(item =>
+                        item.id !== product.id
+                    )
+                    .slice(0, 4);
 
         }
 
 
+        relatedContainer.innerHTML =
+            related.map(item => `
 
-        /* =====================================================
-           SIMILAR PRODUCTS
-        ===================================================== */
+                <article
+                    class="product-related-card"
+                    data-id="${item.id}">
 
-        function loadSimilarProducts() {
+                    <div class="product-related-image">
 
-            const container =
-                document.getElementById(
-                    "similarProducts"
-                );
-
-
-            if (!container) {
-                return;
-            }
-
-
-            const currentCategories =
-                Array.isArray(
-                    currentProduct.categories
-                )
-                    ? currentProduct.categories
-                    : [];
-
-
-            /*
-               اول محصولاتی را پیدا می‌کنیم
-               که حداقل یک دسته مشترک دارند.
-            */
-
-            let similar =
-                products
-                    .filter(product => {
-
-                        if (
-                            Number(product.id)
-                            ===
-                            Number(currentProduct.id)
-                        ) {
-
-                            return false;
-
+                        ${
+                            item.badge
+                            ? `
+                                <span class="badge">
+                                    ${item.badge}
+                                </span>
+                            `
+                            : ""
                         }
 
 
-                        if (
-                            !Array.isArray(
-                                product.categories
-                            )
-                        ) {
-
-                            return false;
-
+                        ${
+                            item.image
+                            ? `
+                                <img
+                                    src="${item.image}"
+                                    alt="${item.name}">
+                            `
+                            : ""
                         }
 
-
-                        return product.categories
-                            .some(category =>
-                                currentCategories
-                                    .includes(category)
-                            );
-
-                    })
-                    .slice(0, 4);
+                    </div>
 
 
-            /*
-               اگر مشابه کافی نبود،
-               از محصولات دیگر پر می‌کنیم.
-            */
+                    <div class="product-related-info">
 
-            if (similar.length < 4) {
-
-                const remaining =
-                    products
-                        .filter(product => {
-
-                            return (
-                                Number(product.id)
-                                !==
-                                Number(currentProduct.id)
-                                &&
-                                !similar.some(
-                                    item =>
-                                        Number(item.id)
-                                        ===
-                                        Number(product.id)
-                                )
-                            );
-
-                        })
-                        .slice(
-                            0,
-                            4 - similar.length
-                        );
+                        <h3>
+                            ${item.name}
+                        </h3>
 
 
-                similar =
-                    similar.concat(
-                        remaining
-                    );
+                        <div class="product-related-bottom">
 
-            }
+                            <strong>
+                                ${Number(item.price || 0)
+                                    .toLocaleString("fa-IR")}
+                                تومان
+                            </strong>
 
 
-            container.innerHTML =
-                similar.map(product => `
+                            <button
+                                type="button"
+                                class="product-related-cart"
+                                data-cart-id="${item.id}">
 
-                    <div
-                        class="similar-card"
-                        onclick="
-                            window.location.href =
-                            'product.html?id=${product.id}'
-                        ">
+                                افزودن
 
-                        <img
-                            src="${product.image}"
-                            alt="${product.name}">
-
-                        <div class="similar-card-content">
-
-                            <h3>
-                                ${product.name}
-                            </h3>
-
-                            <div class="similar-price">
-
-                                ${productFormatPrice(
-                                    product.price
-                                )}
-
-                            </div>
+                            </button>
 
                         </div>
 
                     </div>
 
-                `).join("");
+                </article>
 
-        }
+            `).join("");
 
 
+        relatedContainer
+            .querySelectorAll(".product-related-card")
+            .forEach(card => {
 
-        /* =====================================================
-           START
-        ===================================================== */
+                card.addEventListener("click", function (event) {
 
-        loadProduct();
+                    if (
+                        event.target.closest(
+                            ".product-related-cart"
+                        )
+                    ) {
+                        return;
+                    }
 
-    </script>
+
+                    window.location.href =
+                        "product.html?id=" +
+                        this.dataset.id;
+
+                });
+
+            });
+
+
+        relatedContainer
+            .querySelectorAll(".product-related-cart")
+            .forEach(button => {
+
+                button.addEventListener("click", function (event) {
+
+                    event.stopPropagation();
+
+
+                    if (
+                        typeof addToCart !== "function"
+                    ) {
+                        return;
+                    }
+
+
+                    addToCart(
+                        Number(this.dataset.cartId)
+                    );
+
+                });
+
+            });
+
+    }
+
+});
+
+</script>
 
 </body>
 </html>
