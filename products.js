@@ -1,38 +1,31 @@
 const products = 
 [
     // ======================
-
     // =========================
 
-
-        
     {
-    id: 1,
-    name: "حوله حمام لوکس آریا",
-    price: 1290000,
-    oldPrice: 1590000,
-    badge: "پرفروش",
-
-    categories: ["bath", "men", "women"],
-
-    image: "images/bath-luxury-aria.webp",
-
-    images: [
-        "images/bath-luxury-aria.webp",
-        "images/bath-luxury-aria-2.webp",
-        "images/bath-luxury-aria-3.webp"
-    ],
-
-    description: "حوله حمام نرم و باکیفیت با جذب آب بالا، مناسب استفاده روزمره.",
-
-    quality: "درجه یک",
-    material: "پنبه",
-    country: "ترکیه",
-    origin: "خارجی",
-    use: "حمام و استفاده روزمره",
-    brand: "آریا",
-    size: "70×140"
-},
+        id: 1,
+        name: "حوله حمام لوکس آریا",
+        price: 1290000,
+        oldPrice: 1590000,
+        badge: "پرفروش",
+        categories: ["bath", "men", "women"],
+        image: "images/bath-luxury-aria.webp",
+        images: [
+            "images/bath-luxury-aria.webp",
+            "images/bath-luxury-aria-2.webp",
+            "images/bath-luxury-aria-3.webp"
+        ],
+        colors: [],
+        description: "حوله حمام نرم و باکیفیت با جذب آب بالا، مناسب استفاده روزمره.",
+        quality: "درجه یک",
+        material: "پنبه",
+        country: "ترکیه",
+        origin: "خارجی",
+        use: "حمام و استفاده روزمره",
+        brand: "آریا",
+        size: "70×140"
+    },
 
     {
         id: 2,
@@ -42,6 +35,7 @@ const products =
         badge: "محبوب",
         categories: ["bath", "men", "women"],
         image: "images/bath-hotel.webp",
+        colors: [],
         description: "حوله حمام با بافت متراکم و لطافت بالا، مناسب استفاده شخصی و هتلی."
     },
 
@@ -53,6 +47,7 @@ const products =
         badge: "پیشنهاد ویژه",
         categories: ["bath", "men", "women"],
         image: "images/bath-classic.webp",
+        colors: [],
         description: "حوله‌ای کاربردی و نرم با جذب مناسب برای استفاده روزانه."
     },
 
@@ -64,6 +59,7 @@ const products =
         badge: "محبوب",
         categories: ["bath", "men", "women"],
         image: "images/hand-face.webp",
+        colors: [],
         description: "حوله سبک و لطیف مناسب دست و صورت با جذب آب مناسب."
     },
 
@@ -75,6 +71,7 @@ const products =
         badge: "جدید",
         categories: ["bath", "women"],
         image: "images/guest-towel.webp",
+        colors: [],
         description: "حوله مهمان زیبا و ظریف، مناسب سرویس بهداشتی و پذیرایی."
     },
 
@@ -86,6 +83,7 @@ const products =
         badge: "ویژه",
         categories: ["bath", "men", "women"],
         image: "images/towel-set.webp",
+        colors: [],
         description: "ست کامل حوله دو نفره مناسب استفاده خانوادگی و هدیه."
     },
 
@@ -101,6 +99,7 @@ const products =
         badge: "پرفروش",
         categories: ["men", "bath"],
         image: "images/men-bath.webp",
+        colors: [],
         description: "حوله حمام مردانه با طراحی ساده، ضخامت مناسب و جذب آب بالا."
     },
 
@@ -112,6 +111,7 @@ const products =
         badge: "جدید",
         categories: ["men", "pool"],
         image: "images/men-pool.webp",
+        colors: [],
         description: "حوله استخری سبک و کاربردی مناسب ورزش و استخر."
     },
 
@@ -123,6 +123,7 @@ const products =
         badge: "ویژه",
         categories: ["men", "robe"],
         image: "images/men-robe.webp",
+        colors: [],
         description: "تن‌پوش حوله‌ای مردانه با طراحی راحت و جذب آب مناسب."
     },
 
@@ -134,6 +135,7 @@ const products =
         badge: "محبوب",
         categories: ["men", "bath"],
         image: "images/men-set.webp",
+        colors: [],
         description: "ست حوله مردانه مناسب استفاده روزمره و هدیه."
     },
 
@@ -149,6 +151,7 @@ const products =
         badge: "پرفروش",
         categories: ["women", "bath"],
         image: "images/women-bath.webp",
+        colors: [],
         description: "حوله حمام زنانه لطیف با طراحی زیبا و جذب آب بالا."
     },
 
@@ -160,6 +163,7 @@ const products =
         badge: "جدید",
         categories: ["women", "robe"],
         image: "images/women-robe.webp",
+        colors: [],
         description: "تن‌پوش زنانه نرم و راحت مناسب استفاده بعد از حمام."
     },
 
@@ -171,6 +175,7 @@ const products =
         badge: "محبوب",
         categories: ["women", "pool"],
         image: "images/women-pool.webp",
+        colors: [],
         description: "حوله استخری زنانه سبک و لطیف مناسب استخر و سفر."
     },
 
@@ -182,6 +187,7 @@ const products =
         badge: "ویژه",
         categories: ["women", "bath"],
         image: "images/women-set.webp",
+        colors: [],
         description: "ست حوله زنانه زیبا و باکیفیت مناسب استفاده شخصی و هدیه."
     },
 
@@ -197,6 +203,7 @@ const products =
         badge: "محبوب",
         categories: ["kids", "bath"],
         image: "images/kids-towel.webp",
+        colors: [],
         description: "حوله کودک نرم و لطیف با طراحی جذاب و مناسب پوست حساس."
     },
 
@@ -208,6 +215,7 @@ const products =
         badge: "جدید",
         categories: ["kids", "bath"],
         image: "images/baby-hooded.webp",
+        colors: [],
         description: "حوله کلاه‌دار نرم و لطیف مناسب نوزاد و کودک."
     },
 
@@ -219,6 +227,7 @@ const products =
         badge: "محبوب",
         categories: ["kids", "women"],
         image: "images/kids-girl.webp",
+        colors: [],
         description: "حوله کودکانه با طراحی شاد و لطافت مناسب برای کودکان."
     },
 
@@ -230,6 +239,7 @@ const products =
         badge: "محبوب",
         categories: ["kids", "men"],
         image: "images/kids-boy.webp",
+        colors: [],
         description: "حوله کودکانه سبک و نرم مناسب استفاده روزمره."
     },
 
@@ -241,6 +251,7 @@ const products =
         badge: "ویژه",
         categories: ["kids", "robe"],
         image: "images/kids-robe.webp",
+        colors: [],
         description: "تن‌پوش بچگانه نرم و راحت مناسب بعد از حمام."
     },
 
@@ -256,6 +267,7 @@ const products =
         badge: "پرفروش",
         categories: ["pool", "men", "women"],
         image: "images/pool-towel.webp",
+        colors: [],
         description: "حوله استخری سبک و جاذب مناسب استخر، باشگاه و سفر."
     },
 
@@ -267,6 +279,7 @@ const products =
         badge: "جدید",
         categories: ["pool", "men", "women"],
         image: "images/pool-large.webp",
+        colors: [],
         description: "حوله استخری بزرگ با پوشش مناسب و جذب آب بالا."
     },
 
@@ -278,6 +291,7 @@ const products =
         badge: "محبوب",
         categories: ["pool", "men", "women"],
         image: "images/pool-pattern.webp",
+        colors: [],
         description: "حوله استخری طرح‌دار با ظاهر جذاب و بافت نرم."
     },
 
@@ -289,6 +303,7 @@ const products =
         badge: "جدید",
         categories: ["pool", "kids"],
         image: "images/pool-kids.webp",
+        colors: [],
         description: "حوله استخری کودک سبک و لطیف با طراحی مناسب کودکان."
     },
 
@@ -304,6 +319,7 @@ const products =
         badge: "اقتصادی",
         categories: ["meter", "bath"],
         image: "images/meter-simple.webp",
+        colors: [],
         description: "حوله متری ساده مناسب دوخت انواع حوله و محصولات سفارشی."
     },
 
@@ -315,6 +331,7 @@ const products =
         badge: "محبوب",
         categories: ["meter", "bath"],
         image: "images/meter-hotel.webp",
+        colors: [],
         description: "پارچه حوله‌ای متری با کیفیت مناسب برای تولید محصولات حوله‌ای."
     },
 
@@ -326,6 +343,7 @@ const products =
         badge: "ویژه",
         categories: ["meter", "bath"],
         image: "images/meter-luxury.webp",
+        colors: [],
         description: "پارچه حوله‌ای متری با ضخامت و لطافت بالاتر."
     },
 
@@ -341,6 +359,7 @@ const products =
         badge: "پرفروش",
         categories: ["robe", "men", "women"],
         image: "images/hooded-robe.webp",
+        colors: [],
         description: "تن‌پوش حوله‌ای کلاه‌دار مناسب استفاده بعد از حمام و استخر."
     },
 
@@ -352,6 +371,7 @@ const products =
         badge: "ویژه",
         categories: ["robe", "men", "women"],
         image: "images/luxury-robe.webp",
+        colors: [],
         description: "تن‌پوش حوله‌ای لوکس با بافت نرم، ضخامت مناسب و طراحی شیک."
     }
 ];
