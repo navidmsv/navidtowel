@@ -6,7 +6,7 @@ const products =
         price: 88888888,
         oldPrice: 1590000,
         badge: "پرفروش",
-        categories: ["bath", "men", "women"], "men", "women"], "men", "women"],
+        categories: ["bath", "men", "women"], "men", "women"], "men", "women"], "men", "women"],
         images: [
             "images/bath-luxury-aria.webp",
             "images/bath-luxury-aria-2.webp",
