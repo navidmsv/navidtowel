@@ -3,10 +3,10 @@ const products =
     {
         id: 1,
         name: "حوله حمام لوکس آریا",
-        price: 1234567,
+        price: 88888888,
         oldPrice: 1590000,
         badge: "پرفروش",
-        categories: ["bath", "men", "women"], "men", "women"],
+        categories: ["bath", "men", "women"], "men", "women"], "men", "women"],
         images: [
             "images/bath-luxury-aria.webp",
             "images/bath-luxury-aria-2.webp",
