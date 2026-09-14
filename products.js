@@ -347,4 +347,24 @@ const products =
         colors: [],
         description: "تن‌پوش حوله‌ای لوکس با بافت نرم، ضخامت مناسب و طراحی شیک."
     }
+
+  {
+    id: 29,
+    name: "کلاه حوله ای",
+    price: 12345678,
+    oldPrice: 0,
+    categories: ["had"],
+    image: "0",
+    images: [],
+    description: "کلاه حمام سه کوش جنس عالی",
+    quality: "",
+    material: "",
+    country: "",
+    origin: "",
+    use: "",
+    brand: "",
+    size: "",
+    colors: [{"name":"ابی","stock":12}],
+    active: true
+  },
 ];
