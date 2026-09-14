@@ -6,7 +6,7 @@ const products =
         price: 88888888,
         oldPrice: 1590000,
         badge: "پرفروش",
-        categories: ["bath", "men", "women"], "men", "women"], "men", "women"], "men", "women"],
+        categories: ["bath", "men", "women"],
         images: [
             "images/bath-luxury-aria.webp",
             "images/bath-luxury-aria-2.webp",
@@ -29,7 +29,7 @@ const products =
         price: 22222222,
         oldPrice: 1190000,
         badge: "محبوب",
-        categories: ["bath", "men", "women"], "men", "women"],
+        categories: ["bath", "men", "women"],
         image: "images/bath-hotel.webp",
         colors: [],
         description: "حوله حمام با بافت متراکم و لطافت بالا، مناسب استفاده شخصی و هتلی."
