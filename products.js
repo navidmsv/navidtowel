@@ -26,10 +26,10 @@ const products =
     {
         id: 2,
         name: "حوله حمام هتلی",
-        price: 990000,
+        price: 22222222,
         oldPrice: 1190000,
         badge: "محبوب",
-        categories: ["bath", "men", "women"],
+        categories: ["bath", "men", "women"], "men", "women"],
         image: "images/bath-hotel.webp",
         colors: [],
         description: "حوله حمام با بافت متراکم و لطافت بالا، مناسب استفاده شخصی و هتلی."
