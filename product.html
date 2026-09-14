@@ -797,12 +797,7 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    /* =====================================================
-       FIND PRODUCT
-    ===================================================== */
-
     const params = new URLSearchParams(window.location.search);
-
     const productId = Number(params.get("id"));
 
     const product =
@@ -810,34 +805,23 @@ document.addEventListener("DOMContentLoaded", function () {
             ? products.find(item => item.id === productId)
             : null;
 
-
     if (!product) {
 
         document.title = "محصول پیدا نشد | NavidTowel";
 
         document.getElementById("productDetail").innerHTML = `
             <div class="product-not-found">
+                <div class="product-not-found-icon">?</div>
 
-                <div class="product-not-found-icon">
-                    ?
-                </div>
-
-                <h1>
-                    محصول پیدا نشد
-                </h1>
+                <h1>محصول پیدا نشد</h1>
 
                 <p>
                     محصول موردنظر وجود ندارد یا حذف شده است.
                 </p>
 
-                <a
-                    href="shop.html"
-                    class="product-back-shop">
-
+                <a href="shop.html" class="product-back-shop">
                     بازگشت به فروشگاه
-
                 </a>
-
             </div>
         `;
 
@@ -852,13 +836,10 @@ document.addEventListener("DOMContentLoaded", function () {
        TITLE
     ===================================================== */
 
-    document.title =
-        product.name + " | NavidTowel";
-
+    document.title = product.name + " | NavidTowel";
 
     document.getElementById("breadcrumbProduct").textContent =
         product.name;
-
 
     document.getElementById("productTitle").textContent =
         product.name;
@@ -868,15 +849,11 @@ document.addEventListener("DOMContentLoaded", function () {
        BADGE
     ===================================================== */
 
-    const badge =
-        document.getElementById("productBadge");
-
+    const badge = document.getElementById("productBadge");
 
     if (product.badge) {
 
-        badge.textContent =
-            product.badge;
-
+        badge.textContent = product.badge;
         badge.hidden = false;
 
     }
@@ -889,12 +866,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const description =
         document.getElementById("productDescription");
 
-
     if (product.description) {
 
-        description.textContent =
-            product.description;
-
+        description.textContent = product.description;
         description.hidden = false;
 
     } else {
@@ -908,45 +882,34 @@ document.addEventListener("DOMContentLoaded", function () {
        PRICE
     ===================================================== */
 
-    const price =
-        Number(product.price || 0);
-
+    const price = Number(product.price || 0);
 
     document.getElementById("productPrice").textContent =
         price.toLocaleString("fa-IR") + " تومان";
 
-
     const oldPriceElement =
         document.getElementById("productOldPrice");
 
-
     const discountElement =
         document.getElementById("productDiscount");
-
 
     if (
         product.oldPrice &&
         Number(product.oldPrice) > price
     ) {
 
-        const oldPrice =
-            Number(product.oldPrice);
-
+        const oldPrice = Number(product.oldPrice);
 
         oldPriceElement.textContent =
             oldPrice.toLocaleString("fa-IR") + " تومان";
-
 
         const discount =
             Math.round(
                 ((oldPrice - price) / oldPrice) * 100
             );
 
-
         discountElement.textContent =
-            discount.toLocaleString("fa-IR") +
-            "٪ تخفیف";
-
+            discount.toLocaleString("fa-IR") + "٪ تخفیف";
 
     } else {
 
@@ -974,10 +937,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     };
 
-
     const categoriesElement =
         document.getElementById("productCategories");
-
 
     if (
         Array.isArray(product.categories) &&
@@ -988,11 +949,8 @@ document.addEventListener("DOMContentLoaded", function () {
             product.categories
                 .filter(category => categoryNames[category])
                 .map(category => `
-                    <a
-                        href="shop.html?category=${encodeURIComponent(category)}">
-
+                    <a href="shop.html?category=${encodeURIComponent(category)}">
                         ${categoryNames[category]}
-
                     </a>
                 `)
                 .join("");
@@ -1006,7 +964,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let galleryImages = [];
 
-
     if (
         Array.isArray(product.images) &&
         product.images.length
@@ -1017,7 +974,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-
     if (!galleryImages.length && product.image) {
 
         galleryImages = [
@@ -1026,25 +982,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-
     let currentImage = 0;
-
 
     const mainImage =
         document.getElementById("mainProductImage");
 
-
     const thumbnails =
         document.getElementById("productThumbnails");
-
 
     const dots =
         document.getElementById("productGalleryDots");
 
-
     const prevButton =
         document.getElementById("productPrev");
-
 
     const nextButton =
         document.getElementById("productNext");
@@ -1065,11 +1015,9 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-
         if (currentImage >= galleryImages.length) {
             currentImage = 0;
         }
-
 
         mainImage.src =
             galleryImages[currentImage];
@@ -1087,6 +1035,7 @@ document.addEventListener("DOMContentLoaded", function () {
             dots.innerHTML = "";
 
             return;
+
         }
 
 
@@ -1184,10 +1133,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         currentImage++;
 
-        if (
-            currentImage >=
-            galleryImages.length
-        ) {
+        if (currentImage >= galleryImages.length) {
             currentImage = 0;
         }
 
@@ -1197,6 +1143,463 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     renderGallery();
+
+
+    /* =====================================================
+       COLOR SYSTEM
+    ===================================================== */
+
+    let selectedColor = null;
+
+    const colors =
+        Array.isArray(product.colors)
+            ? product.colors
+            : [];
+
+
+    function normalizeText(value) {
+
+        return String(value || "")
+            .toLowerCase()
+            .replace(/ي/g, "ی")
+            .replace(/ى/g, "ی")
+            .replace(/ك/g, "ک")
+            .replace(/\s+/g, "")
+            .replace(/[-_]/g, "");
+
+    }
+
+
+    function getColorCSS(name) {
+
+        const n = normalizeText(name);
+
+        const colorMap = {
+
+            "ابی": "#2196f3",
+            "آبی": "#2196f3",
+
+            "قرمز": "#e53935",
+            "سبز": "#43a047",
+            "زرد": "#fbc02d",
+            "نارنجی": "#fb8c00",
+
+            "صورتی": "#ec407a",
+            "بنفش": "#8e44ad",
+            "بنفشروشن": "#ba68c8",
+
+            "مشکی": "#111111",
+            "سیاه": "#111111",
+
+            "سفید": "#ffffff",
+            "سفیدچرک": "#eeeeee",
+
+            "طوسی": "#9e9e9e",
+            "خاکستری": "#777777",
+
+            "کرم": "#e8d5b5",
+            "قهوهای": "#795548",
+            "قهوه‌ای": "#795548",
+
+            "سرمهای": "#9c27b0",
+            "طلایی": "#d4af37",
+            "نقرهای": "#c0c0c0",
+            "نقره‌ای": "#c0c0c0",
+
+            "فیروزهای": "#26a69a",
+            "فیروزه‌ای": "#26a69a",
+
+            "سبزروشن": "#66bb6a",
+            "سبزتیره": "#1b5e20",
+
+            "آبیروشن": "#64b5f6",
+            "آبیتیره": "#0d47a1",
+
+            "سرمهای": "#c2185b"
+
+        };
+
+        return colorMap[n] || "#cccccc";
+
+    }
+
+
+    /* =====================================================
+       COLOR UI STYLE
+    ===================================================== */
+
+    const colorStyle = document.createElement("style");
+
+    colorStyle.textContent = `
+
+        .product-color-box {
+            margin-top: 18px;
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+        .product-color-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            min-height: 28px;
+        }
+
+        .product-color-title {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .product-color-stock-message {
+            font-size: 13px;
+            font-weight: 700;
+            opacity: 0;
+            transform: translateY(-3px);
+            transition: .25s ease;
+            color: #16803c;
+        }
+
+        .product-color-stock-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product-total-stock {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 10px;
+            color: #777;
+            background: #f5f5f5;
+            border-radius: 20px;
+            padding: 4px 8px;
+        }
+
+        .product-colors {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            align-items: center;
+        }
+
+        .product-color-option {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            padding: 2px;
+            background: #fff;
+            cursor: pointer;
+            position: relative;
+            transition: .2s ease;
+        }
+
+        .product-color-option:hover {
+            transform: scale(1.08);
+        }
+
+        .product-color-option.selected {
+            border-color: #111;
+            transform: scale(1.08);
+        }
+
+        .product-color-circle {
+            width: 100%;
+            height: 100%;
+            display: block;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,.08);
+        }
+
+        .product-color-check {
+            position: absolute;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 900;
+            text-shadow:
+                0 1px 3px rgba(0,0,0,.8),
+                0 0 3px rgba(0,0,0,.8);
+        }
+
+        .product-color-option.selected .product-color-check {
+            display: flex;
+        }
+
+        .product-color-option.unavailable {
+            opacity: .35;
+            cursor: not-allowed;
+        }
+
+        .product-color-option.unavailable::after {
+            content: "";
+            position: absolute;
+            width: 38px;
+            height: 2px;
+            background: #c62828;
+            left: -4px;
+            top: 15px;
+            transform: rotate(45deg);
+        }
+
+        .product-no-color {
+            font-size: 13px;
+            color: #777;
+        }
+
+        .product-related-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+            gap: 14px !important;
+        }
+
+        .product-related-card {
+            transform: scale(.92);
+            transform-origin: center;
+        }
+
+        @media (max-width: 800px) {
+
+            .product-related-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 8px !important;
+            }
+
+            .product-related-card {
+                transform: scale(.96);
+            }
+
+        }
+
+    `;
+
+    document.head.appendChild(colorStyle);
+
+
+    /* =====================================================
+       CREATE COLOR UI
+    ===================================================== */
+
+    const buyRow =
+        document.querySelector(".product-buy-row");
+
+
+    const colorBox =
+        document.createElement("div");
+
+    colorBox.className =
+        "product-color-box";
+
+
+    if (colors.length) {
+
+        const totalStock =
+            colors.reduce(
+                (sum, color) =>
+                    sum + Math.max(0, Number(color.stock || 0)),
+                0
+            );
+
+
+        colorBox.innerHTML = `
+
+            <div class="product-color-head">
+
+                <span class="product-color-title">
+                    انتخاب رنگ
+                </span>
+
+                <span
+                    class="product-color-stock-message"
+                    id="selectedColorStock">
+                </span>
+
+            </div>
+
+            <span class="product-total-stock">
+                موجودی کل: ${totalStock.toLocaleString("fa-IR")}
+            </span>
+
+            <div
+                class="product-colors"
+                id="productColors">
+            </div>
+
+        `;
+
+
+        const colorsContainer =
+            colorBox.querySelector("#productColors");
+
+
+        colors.forEach((color, index) => {
+
+            const colorName =
+                String(color.name || "").trim();
+
+            const stock =
+                Math.max(0, Number(color.stock || 0));
+
+
+            const button =
+                document.createElement("button");
+
+            button.type = "button";
+
+            button.className =
+                "product-color-option" +
+                (stock <= 0
+                    ? " unavailable"
+                    : "");
+
+            button.dataset.color =
+                colorName;
+
+            button.dataset.stock =
+                stock;
+
+
+            button.innerHTML = `
+
+                <span
+                    class="product-color-circle"
+                    style="background:${getColorCSS(colorName)}">
+                </span>
+
+                <span class="product-color-check">
+                    ✓
+                </span>
+
+            `;
+
+
+            button.title =
+                colorName +
+                " - موجودی: " +
+                stock.toLocaleString("fa-IR");
+
+
+            if (stock > 0) {
+
+                button.addEventListener("click", function () {
+
+                    selectedColor =
+                        this.dataset.color;
+
+
+                    colorsContainer
+                        .querySelectorAll(".product-color-option")
+                        .forEach(item => {
+
+                            item.classList.remove("selected");
+
+                        });
+
+
+                    this.classList.add("selected");
+
+
+                    /* -----------------------------------------
+                       SHOW SELECTED COLOR STOCK
+                    ----------------------------------------- */
+
+                    const stockMessage =
+                        document.getElementById(
+                            "selectedColorStock"
+                        );
+
+
+                    stockMessage.textContent =
+                        "موجودی " +
+                        selectedColor +
+                        ": " +
+                        stock.toLocaleString("fa-IR");
+
+
+                    stockMessage.classList.add("show");
+
+
+                    clearTimeout(
+                        stockMessage._timer
+                    );
+
+
+                    stockMessage._timer =
+                        setTimeout(function () {
+
+                            stockMessage.classList.remove(
+                                "show"
+                            );
+
+                        }, 3000);
+
+
+                    /* -----------------------------------------
+                       FIND IMAGE BY COLOR NAME
+                    ----------------------------------------- */
+
+                    const wantedColor =
+                        normalizeText(selectedColor);
+
+
+                    const imageIndex =
+                        galleryImages.findIndex(image => {
+
+                            const fileName =
+                                String(image)
+                                    .split("/")
+                                    .pop()
+                                    .split("?")[0]
+                                    .toLowerCase();
+
+
+                            const normalizedFileName =
+                                normalizeText(fileName);
+
+
+                            return normalizedFileName
+                                .includes(wantedColor);
+
+                        });
+
+
+                    if (imageIndex !== -1) {
+
+                        currentImage =
+                            imageIndex;
+
+                        renderGallery();
+
+                    }
+
+                });
+
+            }
+
+
+            colorsContainer.appendChild(button);
+
+        });
+
+
+    } else {
+
+        colorBox.innerHTML = `
+            <span class="product-no-color">
+                این محصول رنگ‌بندی ندارد
+            </span>
+        `;
+
+    }
+
+
+    buyRow.parentNode.insertBefore(
+        colorBox,
+        buyRow
+    );
 
 
     /* =====================================================
@@ -1214,8 +1617,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ["سایز", product.size],
         ["نوع", product.type],
         ["وزن", product.weight],
-        ["ابعاد", product.dimensions],
-        ["رنگ", product.color]
+        ["ابعاد", product.dimensions]
 
     ];
 
@@ -1235,7 +1637,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const specsSection =
         document.getElementById("productSpecsSection");
 
-
     const specsContainer =
         document.getElementById("productSpecs");
 
@@ -1243,7 +1644,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (validSpecs.length) {
 
         specsSection.hidden = false;
-
 
         specsContainer.innerHTML =
             validSpecs.map(spec => `
@@ -1275,7 +1675,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let quantity = 1;
 
-
     const quantityElement =
         document.getElementById("productQuantity");
 
@@ -1283,6 +1682,26 @@ document.addEventListener("DOMContentLoaded", function () {
     document
         .getElementById("quantityPlus")
         .addEventListener("click", function () {
+
+            let maxStock = Infinity;
+
+            if (selectedColor && colors.length) {
+
+                const selected =
+                    colors.find(
+                        item =>
+                            normalizeText(item.name) ===
+                            normalizeText(selectedColor)
+                    );
+
+                if (selected) {
+                    maxStock =
+                        Math.max(0, Number(selected.stock || 0));
+                }
+
+            }
+
+            if (quantity >= maxStock) return;
 
             quantity++;
 
@@ -1308,7 +1727,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* =====================================================
        ADD TO CART
-       USE EXISTING CART SYSTEM
     ===================================================== */
 
     document
@@ -1320,13 +1738,67 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
 
-            for (
-                let i = 0;
-                i < quantity;
-                i++
-            ) {
+            /* محصول رنگ دارد، پس باید رنگ انتخاب شود */
 
-                addToCart(product.id);
+            if (colors.length && !selectedColor) {
+
+                alert("لطفاً رنگ محصول را انتخاب کنید.");
+
+                return;
+
+            }
+
+
+            /* بررسی موجودی */
+
+            if (selectedColor) {
+
+                const selected =
+                    colors.find(
+                        item =>
+                            normalizeText(item.name) ===
+                            normalizeText(selectedColor)
+                    );
+
+
+                if (!selected) return;
+
+
+                const stock =
+                    Math.max(
+                        0,
+                        Number(selected.stock || 0)
+                    );
+
+
+                if (stock <= 0) {
+
+                    alert("این رنگ ناموجود است.");
+
+                    return;
+
+                }
+
+
+                if (quantity > stock) {
+
+                    alert(
+                        "تعداد انتخابی بیشتر از موجودی این رنگ است."
+                    );
+
+                    return;
+
+                }
+
+            }
+
+
+            for (let i = 0; i < quantity; i++) {
+
+                addToCart(
+                    product.id,
+                    selectedColor || null
+                );
 
             }
 
@@ -1362,25 +1834,47 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                return product.categories.some(category =>
-                    item.categories.includes(category)
+                return product.categories.some(
+                    category =>
+                        item.categories.includes(category)
                 );
 
             });
 
 
+        /* دو ردیف */
+
         related =
-            related.slice(0, 4);
+            related.slice(0, 8);
 
 
-        if (!related.length) {
+        if (related.length < 8) {
+
+            const extra =
+                products.filter(item => {
+
+                    if (item.id === product.id) {
+                        return false;
+                    }
+
+                    if (related.some(
+                        r => r.id === item.id
+                    )) {
+                        return false;
+                    }
+
+                    return true;
+
+                });
+
 
             related =
-                products
-                    .filter(item =>
-                        item.id !== product.id
+                related.concat(
+                    extra.slice(
+                        0,
+                        8 - related.length
                     )
-                    .slice(0, 4);
+                );
 
         }
 
@@ -1403,7 +1897,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             `
                             : ""
                         }
-
 
                         ${
                             item.image
@@ -1456,22 +1949,25 @@ document.addEventListener("DOMContentLoaded", function () {
             .querySelectorAll(".product-related-card")
             .forEach(card => {
 
-                card.addEventListener("click", function (event) {
+                card.addEventListener(
+                    "click",
+                    function (event) {
 
-                    if (
-                        event.target.closest(
-                            ".product-related-cart"
-                        )
-                    ) {
-                        return;
+                        if (
+                            event.target.closest(
+                                ".product-related-cart"
+                            )
+                        ) {
+                            return;
+                        }
+
+
+                        window.location.href =
+                            "product.html?id=" +
+                            this.dataset.id;
+
                     }
-
-
-                    window.location.href =
-                        "product.html?id=" +
-                        this.dataset.id;
-
-                });
+                );
 
             });
 
@@ -1480,23 +1976,61 @@ document.addEventListener("DOMContentLoaded", function () {
             .querySelectorAll(".product-related-cart")
             .forEach(button => {
 
-                button.addEventListener("click", function (event) {
+                button.addEventListener(
+                    "click",
+                    function (event) {
 
-                    event.stopPropagation();
+                        event.stopPropagation();
 
 
-                    if (
-                        typeof addToCart !== "function"
-                    ) {
-                        return;
+                        if (
+                            typeof addToCart !== "function"
+                        ) {
+                            return;
+                        }
+
+
+                        const relatedProduct =
+                            products.find(
+                                item =>
+                                    item.id ===
+                                    Number(
+                                        this.dataset.cartId
+                                    )
+                            );
+
+
+                        if (!relatedProduct) return;
+
+
+                        /*
+                         * اگر محصول مشابه رنگ دارد،
+                         * مستقیماً اضافه نکن.
+                         */
+
+                        if (
+                            Array.isArray(
+                                relatedProduct.colors
+                            ) &&
+                            relatedProduct.colors.length
+                        ) {
+
+                            window.location.href =
+                                "product.html?id=" +
+                                relatedProduct.id;
+
+                            return;
+
+                        }
+
+
+                        addToCart(
+                            relatedProduct.id,
+                            null
+                        );
+
                     }
-
-
-                    addToCart(
-                        Number(this.dataset.cartId)
-                    );
-
-                });
+                );
 
             });
 
@@ -1505,6 +2039,3 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 </script>
-
-</body>
-</html>
