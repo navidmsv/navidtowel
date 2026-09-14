@@ -30,7 +30,7 @@ const products =
         oldPrice: 1190000,
         badge: "محبوب",
         categories: ["bath", "men", "women"],
-        image: "images/bath-hotel.webp",
+        image: "/images/products/product-2-1789428879936.jpg",
         colors: [],
         description: "حوله حمام با بافت متراکم و لطافت بالا، مناسب استفاده شخصی و هتلی."
     },
