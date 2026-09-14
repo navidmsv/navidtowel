@@ -346,7 +346,7 @@ const products =
         image: "images/luxury-robe.webp",
         colors: [],
         description: "تن‌پوش حوله‌ای لوکس با بافت نرم، ضخامت مناسب و طراحی شیک."
-    }
+    },
 
   {
     id: 29,
