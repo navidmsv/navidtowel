@@ -1897,7 +1897,7 @@ window.addEventListener(
 );
 
 /* =========================================================
-   MOBILE SIDE MENU
+   MOBILE SIDE MENU — iPhone Safari FIX
 ========================================================= */
 
 function setupMobileMenu() {
@@ -1938,25 +1938,46 @@ function setupMobileMenu() {
             "mobileCategoryButton"
         );
 
+
+    /* =====================================================
+       OPEN
+    ===================================================== */
+
     function openSideMenu() {
 
         if (!menu) {
             return;
         }
 
-        menu.classList.add(
-            "active"
-        );
+        /* باز کردن منو */
+        menu.classList.add("active");
 
         if (overlay) {
-            overlay.classList.add(
-                "active"
-            );
+            overlay.classList.add("active");
         }
 
-        document.body.style.overflow =
-            "hidden";
+        /*
+         * خیلی مهم:
+         * این کلاس قبلاً وجود نداشت.
+         * با اضافه شدنش CSS می‌تواند bottom-cart
+         * را هنگام باز بودن منو کاملاً مخفی کند.
+         */
+        document.body.classList.add("menu-open");
+
+        /*
+         * جلوگیری از اسکرول صفحه
+         */
+        document.body.style.overflow = "hidden";
+
+        document.documentElement.classList.add(
+            "menu-open"
+        );
     }
+
+
+    /* =====================================================
+       CLOSE
+    ===================================================== */
 
     function closeSideMenu() {
 
@@ -1964,19 +1985,33 @@ function setupMobileMenu() {
             return;
         }
 
-        menu.classList.remove(
-            "active"
-        );
+        menu.classList.remove("active");
 
         if (overlay) {
-            overlay.classList.remove(
-                "active"
-            );
+            overlay.classList.remove("active");
         }
 
-        document.body.style.overflow =
-            "";
+        /*
+         * بستن وضعیت menu-open
+         */
+        document.body.classList.remove(
+            "menu-open"
+        );
+
+        document.documentElement.classList.remove(
+            "menu-open"
+        );
+
+        /*
+         * برگرداندن اسکرول
+         */
+        document.body.style.overflow = "";
     }
+
+
+    /* =====================================================
+       OPEN BUTTON
+    ===================================================== */
 
     if (openBtn) {
 
@@ -1985,27 +2020,52 @@ function setupMobileMenu() {
             function (event) {
 
                 event.preventDefault();
+                event.stopPropagation();
 
                 openSideMenu();
             }
         );
     }
 
+
+    /* =====================================================
+       CLOSE BUTTON
+    ===================================================== */
+
     if (closeBtn) {
 
         closeBtn.addEventListener(
             "click",
-            closeSideMenu
+            function (event) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                closeSideMenu();
+            }
         );
     }
+
+
+    /* =====================================================
+       OVERLAY
+    ===================================================== */
 
     if (overlay) {
 
         overlay.addEventListener(
             "click",
-            closeSideMenu
+            function () {
+
+                closeSideMenu();
+            }
         );
     }
+
+
+    /* =====================================================
+       ESC
+    ===================================================== */
 
     document.addEventListener(
         "keydown",
@@ -2019,6 +2079,11 @@ function setupMobileMenu() {
         }
     );
 
+
+    /* =====================================================
+       CATEGORY
+    ===================================================== */
+
     if (
         categoryButton &&
         category
@@ -2026,7 +2091,9 @@ function setupMobileMenu() {
 
         categoryButton.addEventListener(
             "click",
-            function () {
+            function (event) {
+
+                event.preventDefault();
 
                 category.classList.toggle(
                     "open"
@@ -2034,6 +2101,11 @@ function setupMobileMenu() {
             }
         );
     }
+
+
+    /* =====================================================
+       MENU LINKS
+    ===================================================== */
 
     if (menu) {
 
@@ -2053,7 +2125,6 @@ function setupMobileMenu() {
         );
     }
 }
-
 /* =========================================================
    INITIALIZE
 ========================================================= */
