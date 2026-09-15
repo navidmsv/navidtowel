@@ -2149,4 +2149,4 @@ document.addEventListener(
 
         setupMobileMenu();
     }
-);
+);گ
