@@ -199,17 +199,32 @@
 }
 .back-shop-btn:hover{background:#1d3428}
 .cart-toast{
-    position:fixed;left:50%;bottom:90px;transform:translate(-50%,15px);
-    background:rgba(40,55,46,.94);color:#fff;padding:9px 15px;border-radius:10px;
-    font-size:11px;opacity:0;visibility:hidden;transition:.25s ease;
-    z-index:100000;pointer-events:none;
+    position:fixed;
+    top:95px;
+    left:50%;
+    bottom:auto;
+    transform:translateX(-50%) translateY(-10px);
+    background:rgba(40,55,46,.94);
+    color:#fff;
+    padding:9px 15px;
+    border-radius:10px;
+    font-size:11px;
+    width:max-content;
+    max-width:calc(100% - 30px);
+    box-sizing:border-box;
+    text-align:center;
+    white-space:nowrap;
+    opacity:0;
+    visibility:hidden;
+    transition:.25s ease;
+    z-index:100000;
+    pointer-events:none;
 }
-.cart-toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
-.mobile-menu-btn,.mobile-cart-btn,.mobile-menu,.mobile-menu-overlay{display:none}
-.mobile-header-actions{display:none}
-.mobile-small-btn{
-    width:42px;height:42px;border-radius:12px;display:flex;align-items:center;
-    justify-content:center;text-decoration:none;box-sizing:border-box;transition:.2s ease;
+
+.cart-toast.show{
+    opacity:1;
+    visibility:visible;
+    transform:translateX(-50%) translateY(0);
 }
 .mobile-small-btn svg{width:19px;height:19px}
 .mobile-small-btn:first-child{background:#e9eee9;color:#294737}
