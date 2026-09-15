@@ -4386,3 +4386,54 @@ html body .out-of-stock {
         z-index: 2147483647 !important;
     }
 }
+/* =========================================================
+   NAVIDTOWEL — MOBILE MENU / BOTTOM CART
+========================================================= */
+
+@media (max-width: 800px) {
+
+    html body .bottom-cart,
+    html body .bottom-cart.active {
+        position: fixed !important;
+        left: 10px !important;
+        right: 10px !important;
+        bottom: 10px !important;
+        top: auto !important;
+        width: auto !important;
+        margin: 0 !important;
+        z-index: 1000 !important;
+    }
+
+
+    /*
+       وقتی منو باز است:
+       نوار مبلغ کاملاً حذف می‌شود.
+       این از z-index مطمئن‌تر است،
+       مخصوصاً روی Safari آیفون.
+    */
+
+    html body.menu-open .bottom-cart,
+    html body.menu-open .bottom-cart.active {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+
+
+    /*
+       منو
+    */
+
+    html body.menu-open #mobileSideMenu,
+    html body.menu-open #mobileMenuOverlay {
+        position: fixed !important;
+        z-index: 2147483647 !important;
+    }
+
+
+    html body.menu-open #mobileMenuOverlay {
+        inset: 0 !important;
+    }
+
+}
