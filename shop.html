@@ -1097,13 +1097,23 @@ const shopCategories = [
 
 function getShopProducts() {
 
-  if (!Array.isArray(window.products)) {
-    console.error("products.js لود نشده یا products آرایه نیست.");
-    return [];
+  // products.js فعلی با const products تعریف شده
+  if (typeof products !== "undefined" && Array.isArray(products)) {
+    return products;
   }
 
-  return window.products;
+  // پشتیبان
+  if (Array.isArray(window.products)) {
+    return window.products;
+  }
 
+  if (Array.isArray(window.PRODUCTS)) {
+    return window.PRODUCTS;
+  }
+
+  console.error("products.js لود نشده یا آرایه products پیدا نشد.");
+
+  return [];
 }
 
 /* =========================================================
