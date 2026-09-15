@@ -13,13 +13,13 @@
     padding-top:20px;
 }
 /* =====================================================
-   CATEGORY TAGS
+   CATEGORY TAGS - ABOVE IMAGE
 ===================================================== */
 .product-category-tags-top{
     display:flex;
     flex-wrap:wrap;
     gap:5px;
-    margin:0 0 10px;
+    margin:0 0 9px;
     align-items:center;
 }
 .product-category-tags-top a{
@@ -27,9 +27,9 @@
     align-items:center;
     justify-content:center;
     padding:4px 8px;
-    border-radius:18px;
+    border-radius:20px;
     background:#f3f3f1;
-    color:#666;
+    color:#555;
     font-size:9px;
     line-height:1;
     text-decoration:none;
@@ -50,6 +50,9 @@
     gap:34px;
     align-items:start;
 }
+/* =====================================================
+   GALLERY
+===================================================== */
 .product-gallery{
     min-width:0;
 }
@@ -58,12 +61,30 @@
     overflow:hidden;
     border-radius:18px;
 }
+.product-main-image img{
+    display:block;
+    width:100%;
+    height:auto;
+    object-fit:contain;
+}
+/* =====================================================
+   INFO
+===================================================== */
 .product-detail-info{
     min-width:0;
     display:flex;
     flex-direction:column;
 }
-/* ترتیب اصلی */
+/*
+ترتیب دقیق:
+اسم
+رنگ/سایز
+قیمت
+تخفیف
+توضیحات
+تعداد + افزودن
+اعتماد
+*/
 .product-detail-title{
     order:1;
     margin:0 0 12px !important;
@@ -87,14 +108,14 @@
     order:7;
 }
 /* =====================================================
-   OPTIONS BOX
+   COLOR + SIZE BOX
 ===================================================== */
 .product-options-box{
     background:#fafafa;
     border:1px solid #e9e9e9;
     border-radius:14px;
     padding:11px 13px;
-    margin:0 0 13px;
+    margin:0 0 15px;
 }
 .product-options-row{
     display:flex;
@@ -112,7 +133,7 @@
     gap:6px;
     margin-bottom:7px;
     color:#333;
-    font-size:10px;
+    font-size:11px;
     font-weight:800;
 }
 .product-option-title::before{
@@ -124,6 +145,7 @@
 }
 /* =====================================================
    COLORS
+   دقیقاً همان رنگ‌های کارت
 ===================================================== */
 .product-color-list{
     display:flex;
@@ -142,27 +164,27 @@
     height:27px;
     padding:3px;
     border-radius:50%;
-    border:1.5px solid #d4d4d4;
+    border:1px solid #d7d7d7;
     background:#fff;
     cursor:pointer;
     transition:.2s ease;
 }
 .product-color-option:hover{
-    transform:scale(1.08);
+    transform:scale(1.06);
 }
 .product-color-option.selected{
-    border-color:#111;
+    border-color:#222;
     box-shadow:
-        0 0 0 2px #fff,
-        0 0 0 3px #222;
-    transform:scale(1.06);
+        0 0 0 1px #fff,
+        0 0 0 2px #222;
+    transform:scale(1.05);
 }
 .product-color-circle{
     display:block;
     width:100%;
     height:100%;
     border-radius:50%;
-    border:1px solid rgba(0,0,0,.13);
+    border:1px solid rgba(0,0,0,.12);
 }
 .product-color-check{
     position:absolute;
@@ -175,8 +197,8 @@
     font-weight:900;
     pointer-events:none;
     text-shadow:
-        0 1px 3px #000,
-        0 0 4px #000;
+        0 1px 2px #000,
+        0 0 3px #000;
 }
 .product-color-item.selected .product-color-check{
     display:flex;
@@ -188,14 +210,13 @@
     content:"";
     position:absolute;
     width:34px;
-    height:2px;
+    height:1.5px;
     background:#d32f2f;
     top:13px;
     right:-3px;
     transform:rotate(45deg);
     pointer-events:none;
 }
-/* موجودی بالای همان رنگ */
 .product-color-stock-label{
     position:absolute;
     bottom:calc(100% + 7px);
@@ -236,7 +257,7 @@
     border-radius:20px;
     background:#ededeb;
     color:#666;
-    font-size:8px;
+    font-size:9px;
     font-weight:600;
 }
 /* =====================================================
@@ -245,14 +266,14 @@
 .product-size-list{
     display:flex;
     flex-wrap:wrap;
-    gap:5px;
+    gap:6px;
 }
 .product-size-option{
-    min-width:40px;
-    height:29px;
+    min-width:42px;
+    height:30px;
     padding:0 9px;
     border:1px solid #d9d9d9;
-    border-radius:7px;
+    border-radius:8px;
     background:#fff;
     color:#333;
     font-size:10px;
@@ -272,24 +293,23 @@
    PRICE
 ===================================================== */
 .product-price-box{
-    margin-top:0;
+    margin-top:2px;
 }
 .product-price-current{
     font-size:21px;
     font-weight:900;
 }
 .product-price-old{
-    font-size:11px;
+    font-size:12px;
     color:#999;
     text-decoration:line-through;
     margin-top:3px;
 }
 .product-discount-text{
-    font-size:10px;
+    font-size:11px;
     color:#c62828;
     font-weight:700;
-    margin-top:3px;
-    margin-bottom:7px;
+    margin-top:4px;
 }
 /* =====================================================
    BUY ROW
@@ -297,73 +317,8 @@
 .product-buy-row{
     display:flex;
     align-items:center;
-    gap:9px;
-    margin-top:12px;
-}
-.product-quantity{
-    display:flex;
-    align-items:center;
-    height:42px;
-    border:1px solid #dedede;
-    border-radius:10px;
-    overflow:hidden;
-    background:#fff;
-    flex-shrink:0;
-}
-.product-quantity button{
-    width:32px;
-    height:100%;
-    border:0;
-    background:#f6f6f6;
-    color:#333;
-    font-size:16px;
-    cursor:pointer;
-}
-.product-quantity span{
-    min-width:27px;
-    text-align:center;
-    font-size:11px;
-    font-weight:800;
-}
-.product-add-button{
-    flex:1;
-    height:42px;
-    border:0;
-    border-radius:10px;
-    background:#222;
-    color:#fff;
-    font-family:inherit;
-    font-size:11px;
-    font-weight:800;
-    cursor:pointer;
-    transition:.2s ease;
-}
-.product-add-button:hover{
-    background:#111;
-}
-.product-add-button span{
-    margin-left:4px;
-}
-/* =====================================================
-   TRUST
-===================================================== */
-.product-trust-row{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:8px;
-    margin-top:12px;
-    padding-top:10px;
-    border-top:1px solid #eee;
-}
-.product-trust-row div{
-    font-size:9px;
-    color:#777;
-}
-.product-trust-row span{
-    color:#43a047;
-    font-weight:900;
-    margin-left:3px;
+    gap:10px;
+    margin-top:15px;
 }
 /* =====================================================
    RELATED
@@ -424,14 +379,14 @@
     }
     .product-color-item,
     .product-color-option{
-        width:27px;
-        height:27px;
+        width:26px;
+        height:26px;
     }
     .product-color-item{
-        flex-basis:27px;
+        flex-basis:26px;
     }
     .product-color-stock-label{
-        font-size:8px;
+        font-size:9px;
     }
     .product-size-option{
         height:29px;
@@ -439,20 +394,7 @@
         font-size:10px;
     }
     .product-buy-row{
-        gap:7px;
-    }
-    .product-quantity{
-        height:40px;
-    }
-    .product-quantity button{
-        width:29px;
-    }
-    .product-add-button{
-        height:40px;
-        font-size:10px;
-    }
-    .product-trust-row div{
-        font-size:8px;
+        margin-top:14px;
     }
 }
 </style>
@@ -483,10 +425,8 @@ Navid<span>Towel</span>
 <a href="shop.html?category=robe">تن‌پوش</a>
 </div>
 </div>
-
-درباره ما
-تماس با ما
-
+<a href="index.html#about">درباره ما</a>
+<a href="index.html#contact">تماس با ما</a>
 </nav>
 <div class="header-actions">
 <button type="button" class="cart-btn openCart">
@@ -507,9 +447,10 @@ Navid<span>Towel</span>
 <span>فروشگاه حوله و کالای خواب</span>
 </div>
 </div>
-
-×
-
+<button type="button"
+class="mobile-side-close"
+id="mobileMenuClose"
+aria-label="بستن منو">×</button>
 </div>
 <nav class="mobile-side-links">
 <a href="index.html" class="mobile-side-link">
@@ -517,22 +458,21 @@ Navid<span>Towel</span>
 <span>صفحه اصلی</span>
 </a>
 <div class="mobile-side-category">
-
-☰
-دسته‌بندی‌ها
-⌄
-
+<button type="button"
+class="mobile-side-link mobile-side-category-button"
+id="mobileCategoryButton">
+<span class="side-icon">☰</span>
+<span>دسته‌بندی‌ها</span>
+<span class="side-arrow" id="mobileCategoryArrow">⌄</span>
 </button>
 <div class="mobile-side-category-list" id="mobileCategoryList">
-
-مردانه
-زنانه
-بچگانه
-حمامی
-استخری
-متری
-تن‌پوش
-
+<a href="shop.html?category=men">مردانه</a>
+<a href="shop.html?category=women">زنانه</a>
+<a href="shop.html?category=kids">بچگانه</a>
+<a href="shop.html?category=bath">حمامی</a>
+<a href="shop.html?category=pool">استخری</a>
+<a href="shop.html?category=meter">متری</a>
+<a href="shop.html?category=robe">تن‌پوش</a>
 </div>
 </div>
 <a href="discount.html" class="mobile-side-link mobile-side-discount">
@@ -562,9 +502,13 @@ Navid<span>Towel</span>
 <span>🛒</span>
 <small>سبد خرید</small>
 </a>
-
-◎
-اینستاگرام
+<a href="https://instagram.com/navidtowel"
+target="_blank"
+rel="noopener noreferrer"
+class="mobile-bottom-button">
+<span>◎</span>
+<small>اینستاگرام</small>
+</a>
 </div>
 </aside>
 <main class="product-main">
@@ -577,43 +521,41 @@ Navid<span>Towel</span>
 <strong id="breadcrumbProduct">محصول</strong>
 </div>
 <!-- دسته بندی بالای عکس -->
-<div class="product-category-tags-top"
-id="productCategories"></div>
-<section class="product-detail"
-id="productDetail">
+<div class="product-category-tags-top" id="productCategories"></div>
+<section class="product-detail" id="productDetail">
 <!-- =====================================================
      IMAGE
 ===================================================== -->
 <div class="product-gallery">
-<div class="product-main-image"
-id="productMainImage">
-
-→
-
-←
-
+<div class="product-main-image" id="productMainImage">
+<span class="product-image-badge"
+id="productBadge"
+hidden></span>
+<img id="mainProductImage" src="" alt="">
+<button type="button"
+class="product-gallery-arrow product-gallery-prev"
+id="productPrev"
+aria-label="تصویر قبلی">→</button>
+<button type="button"
+class="product-gallery-arrow product-gallery-next"
+id="productNext"
+aria-label="تصویر بعدی">←</button>
 </div>
-<div class="product-thumbnails"
-id="productThumbnails"></div>
-<div class="product-gallery-dots"
-id="productGalleryDots"></div>
+<div class="product-thumbnails" id="productThumbnails"></div>
+<div class="product-gallery-dots" id="productGalleryDots"></div>
 </div>
 <!-- =====================================================
      INFO
 ===================================================== -->
 <div class="product-detail-info">
 <h1 class="product-detail-title"
-id="productTitle">
-محصول
-</h1>
+id="productTitle">محصول</h1>
 <!-- رنگ و سایز -->
-<div class="product-options-box"
-id="productOptions">
+<div class="product-options-box" id="productOptions">
 <div class="product-options-row"></div>
 </div>
 <!-- قیمت -->
-<div class="product-price-box"
-id="productPriceBox">
+<div class="product-price-box" id="productPriceBox">
 <div class="product-price-current">
 <span id="productPrice">-</span>
 </div>
@@ -625,21 +567,18 @@ id="productDiscount"></div>
 <!-- توضیحات -->
 <div class="product-detail-description"
 id="productDescription"></div>
-<!-- خرید -->
+<!-- تعداد و افزودن به سبد - پایین نوشته ها -->
 <div class="product-buy-row">
 <div class="product-quantity">
-
-+
-<span id="productQuantity">
-۱
-</span>
-
-−
+<button type="button" id="quantityPlus">+</button>
+<span id="productQuantity">۱</span>
+<button type="button" id="quantityMinus">−</button>
 </div>
-
-🛒
+<button type="button"
+class="product-add-button"
+id="productAddButton">
+<span>🛒</span>
 افزودن به سبد خرید
-
 </button>
 </div>
 <div class="product-trust-row">
@@ -685,151 +624,87 @@ id="relatedProducts"></div>
 </section>
 </div>
 </main>
-<footer class="footer"
-id="contact">
+<footer class="footer" id="contact">
 <div class="container">
 <div class="footer-grid">
 <div class="footer-brand">
-
-NavidTowel
+<a href="index.html" class="logo">
+Navid<span>Towel</span>
+</a>
 <p>
 حوله‌های باکیفیت برای زندگی روزمره.
 </p>
 </div>
 <div>
 <h3>فروشگاه</h3>
-<a href="shop.html">
-همه محصولات
-</a>
-<a href="index.html#categories">
-دسته‌بندی‌ها
-</a>
-<a href="index.html#shop">
-محصولات منتخب
-</a>
+<a href="shop.html">همه محصولات</a>
+<a href="index.html#categories">دسته‌بندی‌ها</a>
+<a href="index.html#shop">محصولات منتخب</a>
 </div>
 <div>
 <h3>راهنما</h3>
-<a href="index.html#about">
-درباره ما
-</a>
-<a href="#">
-قوانین و مقررات
-</a>
-<a href="#">
-روش‌های ارسال
-</a>
+<a href="index.html#about">درباره ما</a>
+<a href="#">قوانین و مقررات</a>
+<a href="#">روش‌های ارسال</a>
 </div>
 <div>
 <h3>تماس</h3>
-<p>
-تلفن: 09398707122
-</p>
-<p>
-Instagram: @navidtowel
-</p>
+<p>تلفن: 09398707122</p>
+<p>Instagram: @navidtowel</p>
 </div>
 </div>
 <div class="footer-bottom">
-<span>
-© 2026 NavidTowel
-</span>
-<span>
-تمامی حقوق محفوظ است.
-</span>
+<span>© 2026 NavidTowel</span>
+<span>تمامی حقوق محفوظ است.</span>
 </div>
 </div>
 </footer>
 <script src="products.js"></script>
 <script src="script.js"></script>
 <script>
-document.addEventListener(
-"DOMContentLoaded",
-function(){
-const params =
-new URLSearchParams(
-location.search
-);
-const productId =
-Number(
-params.get("id")
-);
-const product =
-typeof products !== "undefined"
-?
-products.find(
-item =>
-item.id === productId
-)
-:
-null;
+document.addEventListener("DOMContentLoaded",function(){
+const params=new URLSearchParams(location.search);
+const productId=Number(params.get("id"));
+const product=
+typeof products!=="undefined"
+?products.find(item=>item.id===productId)
+:null;
 if(!product){
-document.title =
-"محصول پیدا نشد | NavidTowel";
-document.getElementById(
-"productDetail"
-).innerHTML = `
+document.title="محصول پیدا نشد | NavidTowel";
+document.getElementById("productDetail").innerHTML=`
 <div class="product-not-found">
-<div class="product-not-found-icon">
-?
-</div>
-<h1>
-محصول پیدا نشد
-</h1>
-<p>
-محصول موردنظر وجود ندارد یا حذف شده است.
-</p>
-<a href="shop.html"
-class="product-back-shop">
+<div class="product-not-found-icon">?</div>
+<h1>محصول پیدا نشد</h1>
+<p>محصول موردنظر وجود ندارد یا حذف شده است.</p>
+<a href="shop.html" class="product-back-shop">
 بازگشت به فروشگاه
 </a>
-</div>
-`;
-document.getElementById(
-"productSpecsSection"
-).hidden=true;
-document.getElementById(
-"relatedSection"
-).hidden=true;
+</div>`;
+document.getElementById("productSpecsSection").hidden=true;
+document.getElementById("relatedSection").hidden=true;
 return;
 }
 /* =====================================================
    BASIC INFO
 ===================================================== */
-document.title =
-product.name +
-" | NavidTowel";
-document.getElementById(
-"breadcrumbProduct"
-).textContent =
-product.name;
-document.getElementById(
-"productTitle"
-).textContent =
-product.name;
-const badge =
-document.getElementById(
-"productBadge"
-);
+document.title=product.name+" | NavidTowel";
+document.getElementById("breadcrumbProduct").textContent=product.name;
+document.getElementById("productTitle").textContent=product.name;
+const badge=document.getElementById("productBadge");
 if(product.badge){
-badge.textContent =
-product.badge;
+badge.textContent=product.badge;
 badge.hidden=false;
 }
-const description =
-document.getElementById(
-"productDescription"
-);
+const description=document.getElementById("productDescription");
 if(product.description){
-description.textContent =
-product.description;
+description.textContent=product.description;
 }else{
 description.hidden=true;
 }
 /* =====================================================
    CATEGORIES
 ===================================================== */
-const categoryNames = {
+const categoryNames={
 bath:"حمامی",
 hand:"دست و صورت",
 pool:"استخری",
@@ -841,79 +716,37 @@ meter:"متری",
 robe:"تن‌پوش",
 had:"کلاه"
 };
-const categoriesElement =
-document.getElementById(
-"productCategories"
-);
-if(
-Array.isArray(
+const categoriesElement=
+document.getElementById("productCategories");
+if(Array.isArray(product.categories)){
+categoriesElement.innerHTML=
 product.categories
-)
-){
-categoriesElement.innerHTML =
-product.categories
-.filter(
-category =>
-categoryNames[category]
-)
-.map(
-category => `
-<a href="shop.html?category=${
-encodeURIComponent(category)
-}">
+.filter(category=>categoryNames[category])
+.map(category=>`
+<a href="shop.html?category=${encodeURIComponent(category)}">
 ${categoryNames[category]}
 </a>
-`
-)
-.join("");
+`).join("");
 }
 /* =====================================================
    PRICE
 ===================================================== */
-const price =
-Number(
-product.price || 0
+const price=Number(product.price||0);
+document.getElementById("productPrice").textContent=
+price.toLocaleString("fa-IR")+" تومان";
+const oldPriceElement=
+document.getElementById("productOldPrice");
+const discountElement=
+document.getElementById("productDiscount");
+if(product.oldPrice&&Number(product.oldPrice)>price){
+const oldPrice=Number(product.oldPrice);
+oldPriceElement.textContent=
+oldPrice.toLocaleString("fa-IR")+" تومان";
+const discount=Math.round(
+((oldPrice-price)/oldPrice)*100
 );
-document.getElementById(
-"productPrice"
-).textContent =
-price.toLocaleString(
-"fa-IR"
-) +
-" تومان";
-const oldPriceElement =
-document.getElementById(
-"productOldPrice"
-);
-const discountElement =
-document.getElementById(
-"productDiscount"
-);
-if(
-product.oldPrice &&
-Number(product.oldPrice) > price
-){
-const oldPrice =
-Number(
-product.oldPrice
-);
-oldPriceElement.textContent =
-oldPrice.toLocaleString(
-"fa-IR"
-) +
-" تومان";
-const discount =
-Math.round(
-(
-(oldPrice-price) /
-oldPrice
-) * 100
-);
-discountElement.textContent =
-discount.toLocaleString(
-"fa-IR"
-) +
-"٪ تخفیف";
+discountElement.textContent=
+discount.toLocaleString("fa-IR")+"٪ تخفیف";
 }else{
 oldPriceElement.textContent="";
 discountElement.textContent="";
@@ -922,211 +755,108 @@ discountElement.textContent="";
    GALLERY
 ===================================================== */
 let galleryImages=[];
-if(
-Array.isArray(product.images) &&
-product.images.length
-){
-galleryImages =
-product.images.filter(
-Boolean
-);
+if(Array.isArray(product.images)&&product.images.length){
+galleryImages=product.images.filter(Boolean);
 }
-if(
-!galleryImages.length &&
-product.image
-){
-galleryImages=[
-product.image
-];
+if(!galleryImages.length&&product.image){
+galleryImages=[product.image];
 }
 let currentImage=0;
-const mainImage =
-document.getElementById(
-"mainProductImage"
-);
-const thumbnails =
-document.getElementById(
-"productThumbnails"
-);
-const dots =
-document.getElementById(
-"productGalleryDots"
-);
-const prevButton =
-document.getElementById(
-"productPrev"
-);
-const nextButton =
-document.getElementById(
-"productNext"
-);
+const mainImage=document.getElementById("mainProductImage");
+const thumbnails=document.getElementById("productThumbnails");
+const dots=document.getElementById("productGalleryDots");
+const prevButton=document.getElementById("productPrev");
+const nextButton=document.getElementById("productNext");
 function renderGallery(){
-if(
-!galleryImages.length
-){
-mainImage.style.display=
-"none";
-prevButton.style.display=
-"none";
-nextButton.style.display=
-"none";
+if(!galleryImages.length){
+mainImage.style.display="none";
+prevButton.style.display="none";
+nextButton.style.display="none";
 thumbnails.innerHTML="";
 dots.innerHTML="";
 return;
 }
-if(
-currentImage >=
-galleryImages.length
-){
+mainImage.style.display="block";
+if(currentImage>=galleryImages.length){
 currentImage=0;
 }
-mainImage.src =
-galleryImages[
-currentImage
-];
-mainImage.alt =
-product.name;
-if(
-galleryImages.length <= 1
-){
-prevButton.style.display=
-"none";
-nextButton.style.display=
-"none";
+mainImage.src=galleryImages[currentImage];
+mainImage.alt=product.name;
+if(galleryImages.length<=1){
+prevButton.style.display="none";
+nextButton.style.display="none";
 thumbnails.innerHTML="";
 dots.innerHTML="";
 return;
 }
-prevButton.style.display=
-"flex";
-nextButton.style.display=
-"flex";
-thumbnails.innerHTML =
-galleryImages
-.map(
-(image,index)=>`
-<button
-type="button"
-class="product-thumbnail ${
-index===currentImage
-?"active"
-:""
-}"
+prevButton.style.display="flex";
+nextButton.style.display="flex";
+thumbnails.innerHTML=
+galleryImages.map((image,index)=>`
+<button type="button"
+class="product-thumbnail ${index===currentImage?"active":""}"
 data-index="${index}">
-<img
-src="${image}"
-alt="${product.name}">
+<img src="${image}" alt="${product.name}">
 </button>
-`
-)
-.join("");
-dots.innerHTML =
-galleryImages
-.map(
-(image,index)=>`
-<button
-type="button"
-class="product-gallery-dot ${
-index===currentImage
-?"active"
-:""
-}"
+`).join("");
+dots.innerHTML=
+galleryImages.map((image,index)=>`
+<button type="button"
+class="product-gallery-dot ${index===currentImage?"active":""}"
 data-index="${index}"
 aria-label="تصویر ${index+1}">
 </button>
-`
-)
-.join("");
-thumbnails
-.querySelectorAll(
-".product-thumbnail"
-)
-.forEach(
-button => {
-button.addEventListener(
-"click",
-function(){
-currentImage =
-Number(
-this.dataset.index
-);
+`).join("");
+thumbnails.querySelectorAll(".product-thumbnail")
+.forEach(button=>{
+button.addEventListener("click",function(){
+currentImage=Number(this.dataset.index);
 renderGallery();
-}
-);
-}
-);
-dots
-.querySelectorAll(
-".product-gallery-dot"
-)
-.forEach(
-button => {
-button.addEventListener(
-"click",
-function(){
-currentImage =
-Number(
-this.dataset.index
-);
+});
+});
+dots.querySelectorAll(".product-gallery-dot")
+.forEach(button=>{
+button.addEventListener("click",function(){
+currentImage=Number(this.dataset.index);
 renderGallery();
+});
+});
 }
-);
-}
-);
-}
-prevButton.addEventListener(
-"click",
-function(){
-if(
-galleryImages.length <= 1
-)return;
+prevButton.addEventListener("click",function(){
+if(galleryImages.length<=1)return;
 currentImage--;
-if(
-currentImage < 0
-){
-currentImage =
-galleryImages.length - 1;
-}
+if(currentImage<0)
+currentImage=galleryImages.length-1;
 renderGallery();
-}
-);
-nextButton.addEventListener(
-"click",
-function(){
-if(
-galleryImages.length <= 1
-)return;
+});
+nextButton.addEventListener("click",function(){
+if(galleryImages.length<=1)return;
 currentImage++;
-if(
-currentImage >=
-galleryImages.length
-){
+if(currentImage>=galleryImages.length)
 currentImage=0;
-}
 renderGallery();
-}
-);
+});
 renderGallery();
 /* =====================================================
    NORMALIZE
 ===================================================== */
 function normalizeText(value){
-return String(value || "")
+return String(value||"")
 .toLowerCase()
 .replace(/ي/g,"ی")
 .replace(/ى/g,"ی")
 .replace(/ك/g,"ک")
+.replace(/ة/g,"ه")
 .replace(/\s+/g,"")
 .replace(/[-_]/g,"");
 }
 /* =====================================================
    COLORS
-   دقیقاً همان رنگ‌های CART
+   همان رنگ‌های استفاده‌شده در کارت
 ===================================================== */
 function getColorCSS(name){
-const n =
-normalizeText(name);
-const map = {
+const n=normalizeText(name);
+const map={
 "ابی":"#2196f3",
 "آبی":"#2196f3",
 "قرمز":"#e53935",
@@ -1150,316 +880,167 @@ const map = {
 "فیروزهای":"#26a69a",
 "فیروزه‌ای":"#26a69a"
 };
-return map[n] || "#ccc";
+return map[n]||"#555";
 }
 /* =====================================================
    OPTIONS
 ===================================================== */
 let selectedColor=null;
-let selectedSize=
-"Free Size";
-const colors =
+let selectedSize="Free Size";
+const colors=
 Array.isArray(product.colors)
-?
-product.colors
-:
-[];
-const sizes =
+?product.colors
+:[];
+const sizes=
 Array.isArray(product.sizes)
-?
-product.sizes.filter(
-size =>
-size !== null &&
-size !== undefined &&
-String(size).trim() !== ""
+?product.sizes.filter(size=>
+size!==null&&
+size!==undefined&&
+String(size).trim()!==""
 )
-:
-[];
-const optionsBox =
-document.getElementById(
-"productOptions"
-);
-const optionsRow =
-document.createElement(
-"div"
-);
-optionsRow.className =
-"product-options-row";
-optionsBox.innerHTML="";
-optionsBox.appendChild(
-optionsRow
-);
+:[];
+const optionsBox=
+document.getElementById("productOptions");
+const optionsRow=
+optionsBox.querySelector(".product-options-row");
+optionsRow.innerHTML="";
 /* =====================================================
-   COLORS
+   COLOR OPTIONS
 ===================================================== */
 if(colors.length){
-const totalStock =
+const totalStock=
 colors.reduce(
 (sum,color)=>
-sum +
-Math.max(
-0,
-Number(
-color.stock || 0
-)
-),
+sum+Math.max(0,Number(color.stock||0)),
 0
 );
-const colorSection =
-document.createElement(
-"div"
-);
-colorSection.className =
-"product-option-section";
-colorSection.innerHTML = `
+const colorSection=document.createElement("div");
+colorSection.className="product-option-section";
+colorSection.innerHTML=`
 <div class="product-option-title">
 رنگ
 <span class="product-color-total">
-موجودی
-${totalStock.toLocaleString("fa-IR")}
+موجودی ${totalStock.toLocaleString("fa-IR")}
 </span>
 </div>
 <div class="product-color-list"></div>
 `;
-optionsRow.appendChild(
-colorSection
-);
-const colorsContainer =
-colorSection.querySelector(
-".product-color-list"
-);
-colors.forEach(
-color => {
-const colorName =
-String(
-color.name || ""
-).trim();
-const stock =
-Math.max(
+optionsRow.appendChild(colorSection);
+const colorsContainer=
+colorSection.querySelector(".product-color-list");
+colors.forEach(color=>{
+const colorName=String(color.name||"").trim();
+const stock=Math.max(
 0,
-Number(
-color.stock || 0
-)
+Number(color.stock||0)
 );
-const item =
-document.createElement(
-"div"
-);
-item.className =
-"product-color-item" +
-(
-stock <= 0
-?
-" unavailable"
-:
-""
-);
-const button =
-document.createElement(
-"button"
-);
+const item=document.createElement("div");
+item.className=
+"product-color-item"+
+(stock<=0?" unavailable":"");
+const button=document.createElement("button");
 button.type="button";
-button.className =
-"product-color-option";
-button.innerHTML = `
-<span
-class="product-color-circle"
-style="background:${getColorCSS(colorName)}">
-</span>
-<span class="product-color-check">
-✓
-</span>
+button.className="product-color-option";
+button.innerHTML=`
+<span class="product-color-circle"
+style="background:${getColorCSS(colorName)}"></span>
+<span class="product-color-check">✓</span>
 `;
-const stockLabel =
-document.createElement(
-"span"
-);
-stockLabel.className =
-"product-color-stock-label";
-stockLabel.textContent =
-colorName +
-" " +
-stock.toLocaleString(
-"fa-IR"
-);
-item.appendChild(
-stockLabel
-);
-item.appendChild(
-button
-);
-colorsContainer.appendChild(
-item
-);
-if(stock > 0){
-button.addEventListener(
-"click",
-function(){
-selectedColor =
-colorName;
+const stockLabel=document.createElement("span");
+stockLabel.className="product-color-stock-label";
+stockLabel.textContent=
+colorName+" "+stock.toLocaleString("fa-IR");
+item.appendChild(stockLabel);
+item.appendChild(button);
+colorsContainer.appendChild(item);
+if(stock>0){
+button.addEventListener("click",function(){
+selectedColor=colorName;
 colorsContainer
-.querySelectorAll(
-".product-color-item"
-)
-.forEach(
-other => {
-other.classList.remove(
-"selected"
-);
-other.classList.remove(
-"show-stock"
-);
-const b =
-other.querySelector(
-".product-color-option"
-);
-if(b){
-b.classList.remove(
-"selected"
-);
+.querySelectorAll(".product-color-item")
+.forEach(other=>{
+other.classList.remove("selected");
+other.classList.remove("show-stock");
+const otherButton=
+other.querySelector(".product-color-option");
+if(otherButton){
+otherButton.classList.remove("selected");
 }
-}
-);
-item.classList.add(
-"selected"
-);
-item.classList.add(
-"show-stock"
-);
-button.classList.add(
-"selected"
-);
-clearTimeout(
-item._stockTimer
-);
-item._stockTimer =
-setTimeout(
-()=>{
-item.classList.remove(
-"show-stock"
-);
-},
-3000
-);
-/* عکس مخصوص رنگ */
-const wantedColor =
-normalizeText(
-selectedColor
-);
-const imageIndex =
-galleryImages.findIndex(
-image => {
-const fileName =
+});
+item.classList.add("selected");
+item.classList.add("show-stock");
+button.classList.add("selected");
+clearTimeout(item._stockTimer);
+item._stockTimer=setTimeout(()=>{
+item.classList.remove("show-stock");
+},3000);
+/* عکس مربوط به رنگ */
+const wantedColor=
+normalizeText(selectedColor);
+const imageIndex=
+galleryImages.findIndex(image=>{
+const fileName=
 String(image)
 .split("/")
 .pop()
 .split("?")[0];
-return normalizeText(
-fileName
-).includes(
-wantedColor
-);
-}
-);
-if(imageIndex !== -1){
-currentImage =
-imageIndex;
+return normalizeText(fileName)
+.includes(wantedColor);
+});
+if(imageIndex!==-1){
+currentImage=imageIndex;
 renderGallery();
 }
+});
 }
-);
-}
-}
-);
+});
 }
 /* =====================================================
-   SIZE
+   SIZE OPTIONS
 ===================================================== */
-const sizeSection =
-document.createElement(
-"div"
-);
-sizeSection.className =
-"product-option-section";
-sizeSection.innerHTML = `
-<div class="product-option-title">
-سایز
-</div>
+const sizeSection=document.createElement("div");
+sizeSection.className="product-option-section";
+sizeSection.innerHTML=`
+<div class="product-option-title">سایز</div>
 <div class="product-size-list"></div>
 `;
-optionsRow.appendChild(
-sizeSection
-);
-const sizeContainer =
-sizeSection.querySelector(
-".product-size-list"
-);
+optionsRow.appendChild(sizeSection);
+const sizeContainer=
+sizeSection.querySelector(".product-size-list");
 if(!sizes.length){
-selectedSize =
-"Free Size";
-const button =
-document.createElement(
-"button"
-);
+selectedSize="Free Size";
+const button=document.createElement("button");
 button.type="button";
-button.className =
-"product-size-option selected";
-button.textContent =
-"آزاد";
-sizeContainer.appendChild(
-button
-);
+button.className="product-size-option selected";
+button.textContent="آزاد";
+sizeContainer.appendChild(button);
 }else{
-sizes.forEach(
-(size,index)=>{
-const sizeValue =
-String(size).trim();
-const button =
-document.createElement(
-"button"
-);
+sizes.forEach((size,index)=>{
+const sizeValue=String(size).trim();
+const button=document.createElement("button");
 button.type="button";
-button.className =
-"product-size-option";
-button.textContent =
-sizeValue;
-if(index === 0){
-selectedSize =
-sizeValue;
-button.classList.add(
-"selected"
-);
+button.className="product-size-option";
+button.textContent=sizeValue;
+if(index===0){
+selectedSize=sizeValue;
+button.classList.add("selected");
 }
-button.addEventListener(
-"click",
-function(){
-selectedSize =
-sizeValue;
+button.addEventListener("click",function(){
+selectedSize=sizeValue;
 sizeContainer
-.querySelectorAll(
-".product-size-option"
-)
-.forEach(
-item =>
-item.classList.remove(
-"selected"
-)
+.querySelectorAll(".product-size-option")
+.forEach(item=>
+item.classList.remove("selected")
 );
-this.classList.add(
-"selected"
-);
-}
-);
-sizeContainer.appendChild(
-button
-);
-}
-);
+this.classList.add("selected");
+});
+sizeContainer.appendChild(button);
+});
 }
 /* =====================================================
    SPECS
 ===================================================== */
-const specs = [
+const specs=[
 ["کیفیت",product.quality],
 ["جنس",product.material],
 ["کشور تولید",product.country],
@@ -1471,290 +1052,152 @@ const specs = [
 ["وزن",product.weight],
 ["ابعاد",product.dimensions]
 ];
-const validSpecs =
-specs.filter(
-item =>
-item[1] !== undefined &&
-item[1] !== null &&
-String(item[1]).trim() !== ""
+const validSpecs=specs.filter(item=>
+item[1]!==undefined&&
+item[1]!==null&&
+String(item[1]).trim()!==""
 );
-const specsSection =
-document.getElementById(
-"productSpecsSection"
-);
-const specsContainer =
-document.getElementById(
-"productSpecs"
-);
+const specsSection=
+document.getElementById("productSpecsSection");
+const specsContainer=
+document.getElementById("productSpecs");
 if(validSpecs.length){
 specsSection.hidden=false;
-specsContainer.innerHTML =
-validSpecs
-.map(
-spec=>`
+specsContainer.innerHTML=
+validSpecs.map(spec=>`
 <div class="product-spec-item">
-<span>
-${spec[0]}
-</span>
-<strong>
-${spec[1]}
-</strong>
+<span>${spec[0]}</span>
+<strong>${spec[1]}</strong>
 </div>
-`
-)
-.join("");
+`).join("");
 }
 /* =====================================================
    QUANTITY
 ===================================================== */
 let quantity=1;
-const quantityElement =
-document.getElementById(
-"productQuantity"
-);
+const quantityElement=
+document.getElementById("productQuantity");
 function getSelectedStock(){
-if(!colors.length)
-return Infinity;
-if(!selectedColor)
-return Infinity;
-const selected =
-colors.find(
-item =>
-normalizeText(
-item.name
-) ===
-normalizeText(
-selectedColor
-)
+if(!colors.length)return Infinity;
+if(!selectedColor)return Infinity;
+const selected=colors.find(item=>
+normalizeText(item.name)===
+normalizeText(selectedColor)
 );
-if(!selected)
-return 0;
+if(!selected)return 0;
 return Math.max(
 0,
-Number(
-selected.stock || 0
-)
+Number(selected.stock||0)
 );
 }
-document
-.getElementById(
-"quantityPlus"
-)
-.addEventListener(
-"click",
-function(){
-const maxStock =
-getSelectedStock();
-if(
-maxStock !== Infinity &&
-quantity >= maxStock
-){
-return;
-}
+document.getElementById("quantityPlus")
+.addEventListener("click",function(){
+const maxStock=getSelectedStock();
+if(quantity>=maxStock)return;
 quantity++;
-quantityElement.textContent =
-quantity.toLocaleString(
-"fa-IR"
-);
-}
-);
-document
-.getElementById(
-"quantityMinus"
-)
-.addEventListener(
-"click",
-function(){
-if(quantity <= 1)
-return;
+quantityElement.textContent=
+quantity.toLocaleString("fa-IR");
+});
+document.getElementById("quantityMinus")
+.addEventListener("click",function(){
+if(quantity<=1)return;
 quantity--;
-quantityElement.textContent =
-quantity.toLocaleString(
-"fa-IR"
-);
-}
-);
+quantityElement.textContent=
+quantity.toLocaleString("fa-IR");
+});
 /* =====================================================
    ADD TO CART
 ===================================================== */
-document
-.getElementById(
-"productAddButton"
-)
-.addEventListener(
-"click",
-function(){
-if(
-typeof addToCart !==
-"function"
-){
-return;
-}
-if(
-colors.length &&
-!selectedColor
-){
-alert(
-"لطفاً رنگ محصول را انتخاب کنید."
-);
+document.getElementById("productAddButton")
+.addEventListener("click",function(){
+if(typeof addToCart!=="function")return;
+if(colors.length&&!selectedColor){
+alert("لطفاً رنگ محصول را انتخاب کنید.");
 return;
 }
 if(selectedColor){
-const selected =
-colors.find(
-item =>
-normalizeText(
-item.name
-) ===
-normalizeText(
-selectedColor
-)
+const selected=colors.find(item=>
+normalizeText(item.name)===
+normalizeText(selectedColor)
 );
-if(!selected)
-return;
-const stock =
-Math.max(
+if(!selected)return;
+const stock=Math.max(
 0,
-Number(
-selected.stock || 0
-)
+Number(selected.stock||0)
 );
-if(stock <= 0){
-alert(
-"این رنگ ناموجود است."
-);
+if(stock<=0){
+alert("این رنگ ناموجود است.");
 return;
 }
-if(quantity > stock){
-alert(
-"تعداد انتخابی بیشتر از موجودی این رنگ است."
-);
+if(quantity>stock){
+alert("تعداد انتخابی بیشتر از موجودی این رنگ است.");
 return;
 }
 }
-for(
-let i=0;
-i<quantity;
-i++
-){
+for(let i=0;i<quantity;i++){
 addToCart(
 product.id,
-selectedColor || null,
+selectedColor||null,
 selectedSize
 );
 }
-}
-);
+});
 /* =====================================================
    RELATED PRODUCTS
 ===================================================== */
-const relatedContainer =
-document.getElementById(
-"relatedProducts"
+const relatedContainer=
+document.getElementById("relatedProducts");
+if(typeof products!=="undefined"&&Array.isArray(products)){
+let related=products.filter(item=>{
+if(item.id===product.id)return false;
+if(
+!Array.isArray(product.categories)||
+!Array.isArray(item.categories)
+)return false;
+return product.categories.some(category=>
+item.categories.includes(category)
 );
-if(
-typeof products !==
-"undefined" &&
-Array.isArray(products)
-){
-let related =
-products.filter(
-item => {
-if(
-item.id ===
-product.id
-){
-return false;
-}
-if(
-!Array.isArray(
-product.categories
-) ||
-!Array.isArray(
-item.categories
-)
-){
-return false;
-}
-return product.categories.some(
-category =>
-item.categories.includes(
-category
-)
-);
-}
-);
-related =
-related.slice(0,8);
-if(
-related.length < 8
-){
-const extra =
-products.filter(
-item => {
-if(
-item.id ===
-product.id
-){
-return false;
-}
+});
+related=related.slice(0,8);
+if(related.length<8){
+const extra=products.filter(item=>{
+if(item.id===product.id)return false;
 return !related.some(
-relatedItem =>
-relatedItem.id ===
-item.id
+relatedItem=>relatedItem.id===item.id
+);
+});
+related=related.concat(
+extra.slice(0,8-related.length)
 );
 }
-);
-related =
-related.concat(
-extra.slice(
-0,
-8 - related.length
-)
-);
-}
-relatedContainer.innerHTML =
-related
-.map(
-item=>`
-<article
-class="product-related-card"
+relatedContainer.innerHTML=
+related.map(item=>`
+<article class="product-related-card"
 data-id="${item.id}">
 <div class="product-related-image">
+${item.badge?
+`<span class="badge">${item.badge}</span>`
+:""}
 ${
-item.badge
+(item.images&&item.images.length)
 ?
-`<span class="badge">
-${item.badge}
-</span>`
+`<img src="${item.images[0]}" alt="${item.name}">`
 :
-""
-}
-${
 item.image
 ?
-`<img
-src="${item.image}"
-alt="${item.name}">`
+`<img src="${item.image}" alt="${item.name}">`
 :
 ""
 }
 </div>
 <div class="product-related-info">
-<h3>
-${item.name}
-</h3>
+<h3>${item.name}</h3>
 <div class="product-related-bottom">
 <strong>
-${Number(
-item.price || 0
-).toLocaleString(
-"fa-IR"
-)}
+${Number(item.price||0).toLocaleString("fa-IR")}
 تومان
 </strong>
-<button
-type="button"
+<button type="button"
 class="product-related-cart"
 data-cart-id="${item.id}">
 افزودن
@@ -1762,94 +1205,51 @@ data-cart-id="${item.id}">
 </div>
 </div>
 </article>
-`
-)
-.join("");
+`).join("");
 relatedContainer
-.querySelectorAll(
-".product-related-card"
-)
-.forEach(
-card => {
-card.addEventListener(
-"click",
-function(event){
-if(
-event.target.closest(
-".product-related-cart"
-)
-){
+.querySelectorAll(".product-related-card")
+.forEach(card=>{
+card.addEventListener("click",function(event){
+if(event.target.closest(".product-related-cart"))
 return;
-}
-location.href =
-"product.html?id=" +
-this.dataset.id;
-}
-);
-}
-);
+location.href=
+"product.html?id="+this.dataset.id;
+});
+});
 relatedContainer
-.querySelectorAll(
-".product-related-cart"
-)
-.forEach(
-button => {
-button.addEventListener(
-"click",
-function(event){
+.querySelectorAll(".product-related-cart")
+.forEach(button=>{
+button.addEventListener("click",function(event){
 event.stopPropagation();
-if(
-typeof addToCart !==
-"function"
-){
-return;
-}
-const relatedProduct =
-products.find(
-item =>
-item.id ===
-Number(
-this.dataset.cartId
-)
+if(typeof addToCart!=="function")return;
+const relatedProduct=
+products.find(item=>
+item.id===Number(this.dataset.cartId)
 );
-if(!relatedProduct)
-return;
+if(!relatedProduct)return;
 if(
-Array.isArray(
-relatedProduct.colors
-) &&
+Array.isArray(relatedProduct.colors)&&
 relatedProduct.colors.length
 ){
-location.href =
-"product.html?id=" +
-relatedProduct.id;
+location.href=
+"product.html?id="+relatedProduct.id;
 return;
 }
-const relatedSizes =
-Array.isArray(
-relatedProduct.sizes
-)
-?
-relatedProduct.sizes
-:
-[];
-const relatedSize =
+const relatedSizes=
+Array.isArray(relatedProduct.sizes)
+?relatedProduct.sizes
+:[];
+const relatedSize=
 relatedSizes.length
-?
-String(
-relatedSizes[0]
-)
-:
-"Free Size";
+?String(relatedSizes[0])
+:"Free Size";
 addToCart(
 relatedProduct.id,
 null,
 relatedSize
 );
-}
-);
-}
-);
+});
+});
 }
 });
 </script>
