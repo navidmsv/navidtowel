@@ -2485,94 +2485,203 @@
     }
 }
 /* =========================================================
-   NAVIDTOWEL — LIQUID GLASS
-   رنگ‌های اصلی سایت دست‌نخورده باقی می‌مانند
+   NAVIDTOWEL — LIQUID GLASS v3
+   شیشه‌ای واقعی — شفاف، نرم، تمیز
+   رنگ‌های اصلی سایت حفظ شده
 ========================================================= */
-/* ---------- GLASS BASE ---------- */
-.home-page .header {
-    background: rgba(252, 250, 245, .72);
-    border-bottom: 1px solid rgba(255,255,255,.58);
-    box-shadow:
-        0 8px 30px rgba(30,50,38,.06),
-        inset 0 1px 0 rgba(255,255,255,.8);
-    backdrop-filter: blur(22px) saturate(125%);
-    -webkit-backdrop-filter: blur(22px) saturate(125%);
+
+
+/* =========================================================
+   BACKGROUND
+   اختلاف کرم و سفید کمی بیشتر شده
+========================================================= */
+
+.home-page {
+    background:
+        linear-gradient(
+            135deg,
+            #f3eee4 0%,
+            #f8f4ec 48%,
+            #fffdf8 100%
+        );
 }
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.home-page .header {
+    background: rgba(255,253,248,.72);
+
+    border-bottom:
+        1px solid rgba(255,255,255,.82);
+
+    box-shadow:
+        0 8px 32px rgba(30,50,38,.07),
+        inset 0 1px 0 rgba(255,255,255,.95);
+
+    backdrop-filter:
+        blur(24px)
+        saturate(135%);
+
+    -webkit-backdrop-filter:
+        blur(24px)
+        saturate(135%);
+}
+
+
+/* =========================================================
+   CATEGORY DROPDOWN
+========================================================= */
+
 .home-page .category-dropdown {
-    background: rgba(252,250,245,.70);
-    border: 1px solid rgba(255,255,255,.65);
+
+    background:
+        rgba(255,253,248,.78);
+
+    border:
+        1px solid rgba(255,255,255,.85);
+
     box-shadow:
         0 18px 45px rgba(30,50,38,.12),
-        inset 0 1px 0 rgba(255,255,255,.8);
-    backdrop-filter: blur(22px) saturate(120%);
-    -webkit-backdrop-filter: blur(22px) saturate(120%);
+        inset 0 1px 0 rgba(255,255,255,.95);
+
+    backdrop-filter:
+        blur(24px)
+        saturate(130%);
+
+    -webkit-backdrop-filter:
+        blur(24px)
+        saturate(130%);
 }
-/* ---------- GREEN BUTTONS ---------- */
+
+
+/* =========================================================
+   GREEN GLASS
+   سبز واقعی — بدون کدر و سوخته شدن
+========================================================= */
+
 .home-page .cart-btn,
 .home-page .btn-primary,
 .home-page .product-add-button,
 .home-page .checkout,
 .home-page .product-back-shop,
 .home-page .selected-products-section .add-cart {
+
     position: relative;
     overflow: hidden;
-    /* همان سبز قبلی */
-    background: rgba(41,71,55,.88);
-    border: 1px solid rgba(255,255,255,.20);
+
+    background:
+        linear-gradient(
+            145deg,
+            #304f3d 0%,
+            #294737 48%,
+            #233e30 100%
+        );
+
+    border:
+        1px solid rgba(255,255,255,.22);
+
     box-shadow:
         0 10px 28px rgba(41,71,55,.18),
         inset 0 1px 0 rgba(255,255,255,.28),
-        inset 0 -1px 0 rgba(0,0,0,.08);
-    backdrop-filter: blur(12px) saturate(125%);
-    -webkit-backdrop-filter: blur(12px) saturate(125%);
+        inset 0 -1px 0 rgba(0,0,0,.10);
+
+    backdrop-filter:
+        blur(10px)
+        saturate(125%);
+
+    -webkit-backdrop-filter:
+        blur(10px)
+        saturate(125%);
 }
-/* نور شیشه‌ای روی دکمه */
+
+
+/* =========================================================
+   GREEN GLASS SHINE
+========================================================= */
+
 .home-page .cart-btn::before,
 .home-page .btn-primary::before,
 .home-page .product-add-button::before,
 .home-page .checkout::before,
 .home-page .product-back-shop::before,
 .home-page .selected-products-section .add-cart::before {
+
     content: "";
+
     position: absolute;
-    top: 0;
+
+    top: -20%;
     left: -120%;
-    width: 70%;
-    height: 100%;
+
+    width: 65%;
+    height: 140%;
+
     background:
         linear-gradient(
             105deg,
-            transparent 0%,
-            rgba(255,255,255,.03) 30%,
-            rgba(255,255,255,.22) 48%,
-            rgba(255,255,255,.04) 62%,
-            transparent 100%
+            transparent 10%,
+            rgba(255,255,255,.02) 30%,
+            rgba(255,255,255,.16) 48%,
+            rgba(255,255,255,.035) 62%,
+            transparent 85%
         );
-    transform: skewX(-18deg);
-    transition: left .65s ease;
+
+    transform:
+        skewX(-18deg);
+
+    transition:
+        left .75s cubic-bezier(.2,.7,.2,1);
+
     pointer-events: none;
 }
+
+
 .home-page .cart-btn:hover::before,
 .home-page .btn-primary:hover::before,
 .home-page .product-add-button:hover::before,
 .home-page .checkout:hover::before,
 .home-page .product-back-shop:hover::before,
 .home-page .selected-products-section .add-cart:hover::before {
+
     left: 150%;
 }
-/* hover فقط کمی شفاف‌تر/روشن‌تر، نه تغییر رنگ */
+
+
+/* =========================================================
+   GREEN HOVER
+========================================================= */
+
 .home-page .cart-btn:hover,
 .home-page .btn-primary:hover,
 .home-page .product-add-button:hover,
 .home-page .checkout:hover,
 .home-page .product-back-shop:hover,
 .home-page .selected-products-section .add-cart:hover {
-    background: rgba(41,71,55,.96);
+
+    background:
+        linear-gradient(
+            145deg,
+            #365a46 0%,
+            #294737 50%,
+            #20382b 100%
+        );
+
     box-shadow:
-        0 14px 32px rgba(41,71,55,.22),
-        inset 0 1px 0 rgba(255,255,255,.32);
+        0 14px 34px rgba(41,71,55,.22),
+        inset 0 1px 0 rgba(255,255,255,.34);
+
+    transform:
+        translateY(-2px);
 }
-/* ---------- WHITE / LIGHT GLASS BUTTONS ---------- */
+
+
+/* =========================================================
+   LIGHT GLASS
+========================================================= */
+
 .home-page .btn-light,
 .home-page .btn-secondary,
 .home-page .slider-button,
@@ -2580,243 +2689,550 @@
 .home-page .mobile-side-close,
 .home-page .hero-slider-arrow,
 .product-gallery-arrow {
-    background: rgba(255,255,255,.52);
-    border: 1px solid rgba(255,255,255,.72);
+
+    background:
+        rgba(255,255,255,.60);
+
+    border:
+        1px solid rgba(255,255,255,.84);
+
     box-shadow:
-        0 9px 25px rgba(30,50,38,.08),
-        inset 0 1px 0 rgba(255,255,255,.85);
-    backdrop-filter: blur(18px) saturate(120%);
-    -webkit-backdrop-filter: blur(18px) saturate(120%);
+        0 8px 25px rgba(30,50,38,.07),
+        inset 0 1px 0 rgba(255,255,255,.98);
+
+    backdrop-filter:
+        blur(18px)
+        saturate(125%);
+
+    -webkit-backdrop-filter:
+        blur(18px)
+        saturate(125%);
 }
+
+
 .home-page .btn-light:hover,
+.home-page .btn-secondary:hover,
 .home-page .slider-button:hover,
 .home-page .mobile-menu-button:hover,
 .home-page .mobile-side-close:hover,
 .home-page .hero-slider-arrow:hover,
 .product-gallery-arrow:hover {
+
+    background:
+        rgba(255,255,255,.72);
+
     box-shadow:
-        0 12px 30px rgba(30,50,38,.12),
-        inset 0 1px 0 rgba(255,255,255,.95);
+        0 12px 30px rgba(30,50,38,.10),
+        inset 0 1px 0 rgba(255,255,255,1);
 }
-/* ---------- HERO BADGE ---------- */
+
+
+/* =========================================================
+   HERO BADGE
+========================================================= */
+
 .home-page .hero-badge {
-    background: rgba(255,255,255,.58);
-    border: 1px solid rgba(255,255,255,.72);
+
+    background:
+        rgba(255,255,255,.64);
+
+    border:
+        1px solid rgba(255,255,255,.84);
+
     box-shadow:
-        0 14px 35px rgba(30,50,38,.12),
-        inset 0 1px 0 rgba(255,255,255,.9);
-    backdrop-filter: blur(18px) saturate(120%);
-    -webkit-backdrop-filter: blur(18px) saturate(120%);
+        0 14px 35px rgba(30,50,38,.10),
+        inset 0 1px 0 rgba(255,255,255,.98);
+
+    backdrop-filter:
+        blur(18px)
+        saturate(125%);
+
+    -webkit-backdrop-filter:
+        blur(18px)
+        saturate(125%);
 }
-/* ---------- CATEGORY CARDS ---------- */
-/* رنگ خود کارت‌ها دقیقاً همان قبلی */
+
+
+/* =========================================================
+   CATEGORY GLASS
+   رنگ اصلی کارت‌ها تغییر نمی‌کند
+========================================================= */
+
 .home-page .category-card {
-    border: 1px solid rgba(255,255,255,.16);
+
+    border:
+        1px solid rgba(255,255,255,.24);
+
     box-shadow:
         0 20px 45px rgba(30,50,38,.12),
-        inset 0 1px 0 rgba(255,255,255,.18);
+        inset 0 1px 0 rgba(255,255,255,.25);
+
+    backdrop-filter:
+        blur(8px);
+
+    -webkit-backdrop-filter:
+        blur(8px);
 }
+
+
 .home-page .category-card:hover {
+
     box-shadow:
         0 25px 55px rgba(30,50,38,.17),
-        inset 0 1px 0 rgba(255,255,255,.25);
+        inset 0 1px 0 rgba(255,255,255,.34);
+
+    transform:
+        translateY(-6px);
 }
-/* ---------- PRODUCT CARDS ---------- */
+
+
+/* =========================================================
+   PRODUCT CARDS
+========================================================= */
+
 .home-page .selected-products-section .product-card,
 .product-related-card {
-    background: rgba(255,255,255,.62);
-    border: 1px solid rgba(255,255,255,.70);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.82),
+            rgba(250,246,238,.66)
+        );
+
+    border:
+        1px solid rgba(255,255,255,.86);
+
     box-shadow:
         0 15px 40px rgba(30,50,38,.07),
-        inset 0 1px 0 rgba(255,255,255,.9);
-    backdrop-filter: blur(14px) saturate(115%);
-    -webkit-backdrop-filter: blur(14px) saturate(115%);
+        inset 0 1px 0 rgba(255,255,255,.98);
+
+    backdrop-filter:
+        blur(18px)
+        saturate(120%);
+
+    -webkit-backdrop-filter:
+        blur(18px)
+        saturate(120%);
 }
+
+
 .home-page .selected-products-section .product-card:hover,
 .product-related-card:hover {
+
     box-shadow:
-        0 20px 45px rgba(30,50,38,.12),
-        inset 0 1px 0 rgba(255,255,255,.95);
+        0 22px 48px rgba(30,50,38,.12),
+        inset 0 1px 0 rgba(255,255,255,1);
+
+    transform:
+        translateY(-5px);
 }
-/* ---------- PRODUCT IMAGE ---------- */
+
+
+/* =========================================================
+   PRODUCT IMAGE
+========================================================= */
+
 .home-page .selected-products-section .product-image,
 .product-related-image,
 .product-main-image {
-    border-color: rgba(255,255,255,.62);
+
+    border-color:
+        rgba(255,255,255,.80);
+
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.8);
+        inset 0 1px 0 rgba(255,255,255,.92);
 }
-/* ---------- PRODUCT DETAIL ---------- */
+
+
+/* =========================================================
+   PRODUCT DETAIL
+========================================================= */
+
 .product-detail {
-    background: rgba(255,255,255,.48);
-    border: 1px solid rgba(255,255,255,.68);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.72),
+            rgba(250,246,238,.58)
+        );
+
+    border:
+        1px solid rgba(255,255,255,.84);
+
     box-shadow:
         0 25px 65px rgba(30,50,38,.09),
-        inset 0 1px 0 rgba(255,255,255,.88);
-    backdrop-filter: blur(22px) saturate(115%);
-    -webkit-backdrop-filter: blur(22px) saturate(115%);
+        inset 0 1px 0 rgba(255,255,255,.98);
+
+    backdrop-filter:
+        blur(24px)
+        saturate(120%);
+
+    -webkit-backdrop-filter:
+        blur(24px)
+        saturate(120%);
 }
-/* ---------- QUANTITY ---------- */
+
+
+/* =========================================================
+   QUANTITY
+========================================================= */
+
 .product-quantity {
-    background: rgba(255,255,255,.52);
-    border: 1px solid rgba(255,255,255,.72);
+
+    background:
+        rgba(255,255,255,.68);
+
+    border:
+        1px solid rgba(255,255,255,.82);
+
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.9),
-        0 7px 20px rgba(30,50,38,.05);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+        0 7px 20px rgba(30,50,38,.05),
+        inset 0 1px 0 rgba(255,255,255,.98);
+
+    backdrop-filter:
+        blur(15px);
+
+    -webkit-backdrop-filter:
+        blur(15px);
 }
-/* ---------- TRUST BOXES ---------- */
+
+
+/* =========================================================
+   TRUST
+========================================================= */
+
 .product-trust-row div {
-    background: rgba(247,243,234,.58);
-    border: 1px solid rgba(255,255,255,.55);
+
+    background:
+        rgba(247,243,234,.70);
+
+    border:
+        1px solid rgba(255,255,255,.68);
+
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.7);
+        inset 0 1px 0 rgba(255,255,255,.88);
 }
-/* ---------- SPEC BOXES ---------- */
+
+
+/* =========================================================
+   SPECS
+========================================================= */
+
 .product-spec-item {
-    background: rgba(255,255,255,.48);
-    border: 1px solid rgba(255,255,255,.68);
+
+    background:
+        rgba(255,255,255,.64);
+
+    border:
+        1px solid rgba(255,255,255,.82);
+
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.85),
-        0 7px 22px rgba(30,50,38,.04);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+        0 7px 22px rgba(30,50,38,.04),
+        inset 0 1px 0 rgba(255,255,255,.98);
+
+    backdrop-filter:
+        blur(15px);
+
+    -webkit-backdrop-filter:
+        blur(15px);
 }
-/* ---------- THUMBNAILS ---------- */
+
+
+/* =========================================================
+   THUMBNAILS
+========================================================= */
+
 .product-thumbnail {
-    background: rgba(255,255,255,.55);
-    border-color: rgba(255,255,255,.72);
+
+    background:
+        rgba(255,255,255,.68);
+
+    border-color:
+        rgba(255,255,255,.84);
+
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.9),
-        0 6px 18px rgba(30,50,38,.05);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+        0 6px 18px rgba(30,50,38,.05),
+        inset 0 1px 0 rgba(255,255,255,.98);
+
+    backdrop-filter:
+        blur(12px);
+
+    -webkit-backdrop-filter:
+        blur(12px);
 }
-/* ---------- PROMO ---------- */
-/* سبز قبلی حفظ می‌شود */
+
+
+/* =========================================================
+   PROMO
+   سبز اصلی حفظ می‌شود
+========================================================= */
+
 .home-page .promo {
-    border: 1px solid rgba(255,255,255,.12);
+
+    border:
+        1px solid rgba(255,255,255,.16);
+
     box-shadow:
         0 25px 55px rgba(30,50,38,.16),
-        inset 0 1px 0 rgba(255,255,255,.13);
+        inset 0 1px 0 rgba(255,255,255,.18);
 }
-/* ---------- ABOUT ---------- */
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
 .home-page .about-box {
-    border: 1px solid rgba(255,255,255,.13);
+
+    border:
+        1px solid rgba(255,255,255,.18);
+
     box-shadow:
         0 25px 60px rgba(30,50,38,.14),
-        inset 0 1px 0 rgba(255,255,255,.16);
+        inset 0 1px 0 rgba(255,255,255,.20);
 }
-/* ---------- REVIEWS ---------- */
+
+
+/* =========================================================
+   REVIEWS
+========================================================= */
+
 .home-page .review {
-    background: rgba(255,255,255,.56);
-    border: 1px solid rgba(255,255,255,.68);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.76),
+            rgba(250,246,238,.60)
+        );
+
+    border:
+        1px solid rgba(255,255,255,.84);
+
     box-shadow:
         0 12px 35px rgba(30,50,38,.06),
-        inset 0 1px 0 rgba(255,255,255,.9);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+        inset 0 1px 0 rgba(255,255,255,.98);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
 }
-/* ---------- MOBILE SIDE MENU ---------- */
+
+
+/* =========================================================
+   MOBILE SIDE MENU
+========================================================= */
+
 .home-page .mobile-side-menu {
-    background: rgba(252,250,245,.72);
-    border: 1px solid rgba(255,255,255,.70);
+
+    background:
+        rgba(255,253,248,.78);
+
+    border:
+        1px solid rgba(255,255,255,.84);
+
     box-shadow:
         0 25px 70px rgba(20,40,28,.20),
-        inset 0 1px 0 rgba(255,255,255,.85);
-    backdrop-filter: blur(24px) saturate(120%);
-    -webkit-backdrop-filter: blur(24px) saturate(120%);
+        inset 0 1px 0 rgba(255,255,255,.98);
+
+    backdrop-filter:
+        blur(25px)
+        saturate(125%);
+
+    -webkit-backdrop-filter:
+        blur(25px)
+        saturate(125%);
 }
+
+
 .home-page .mobile-side-header {
-    background: rgba(247,243,234,.58);
-    border-bottom-color: rgba(255,255,255,.55);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+
+    background:
+        rgba(247,243,234,.68);
+
+    border-bottom-color:
+        rgba(255,255,255,.70);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.8);
+
+    backdrop-filter:
+        blur(16px);
+
+    -webkit-backdrop-filter:
+        blur(16px);
 }
+
+
 .home-page .mobile-side-bottom {
-    background: rgba(247,243,234,.62);
-    border-top-color: rgba(255,255,255,.55);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+
+    background:
+        rgba(247,243,234,.72);
+
+    border-top-color:
+        rgba(255,255,255,.70);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
 }
-/* ---------- MOBILE SIDE NORMAL BUTTONS ---------- */
+
+
+/* =========================================================
+   MOBILE NORMAL BUTTONS
+========================================================= */
+
 .home-page .mobile-bottom-button {
-    background: rgba(255,255,255,.48);
-    border-color: rgba(255,255,255,.68);
+
+    background:
+        rgba(255,255,255,.62);
+
+    border:
+        1px solid rgba(255,255,255,.82);
+
     box-shadow:
         0 7px 18px rgba(30,50,38,.06),
-        inset 0 1px 0 rgba(255,255,255,.85);
-    backdrop-filter: blur(13px);
-    -webkit-backdrop-filter: blur(13px);
+        inset 0 1px 0 rgba(255,255,255,.98);
+
+    backdrop-filter:
+        blur(14px);
+
+    -webkit-backdrop-filter:
+        blur(14px);
 }
-/* ---------- CART MODAL ---------- */
+
+
+/* =========================================================
+   CART MODAL
+========================================================= */
+
 .home-page .cart-modal,
 .home-page .cartModal {
-    background: rgba(20,30,24,.38);
-    backdrop-filter: blur(7px);
-    -webkit-backdrop-filter: blur(7px);
+
+    background:
+        rgba(20,30,24,.38);
+
+    backdrop-filter:
+        blur(8px);
+
+    -webkit-backdrop-filter:
+        blur(8px);
 }
+
+
 .home-page .cart-box {
-    background: rgba(252,250,245,.72);
-    border: 1px solid rgba(255,255,255,.70);
+
+    background:
+        rgba(255,253,248,.80);
+
+    border:
+        1px solid rgba(255,255,255,.86);
+
     box-shadow:
-        0 30px 80px rgba(20,40,28,.20),
-        inset 0 1px 0 rgba(255,255,255,.9);
-    backdrop-filter: blur(25px) saturate(120%);
-    -webkit-backdrop-filter: blur(25px) saturate(120%);
+        0 30px 80px rgba(20,40,28,.22),
+        inset 0 1px 0 rgba(255,255,255,.98);
+
+    backdrop-filter:
+        blur(26px)
+        saturate(125%);
+
+    -webkit-backdrop-filter:
+        blur(26px)
+        saturate(125%);
 }
-/* ---------- CART TOAST ---------- */
+
+
+/* =========================================================
+   CART TOAST
+========================================================= */
+
 .cart-toast {
-    background: rgba(255,255,255,.62);
-    border: 1px solid rgba(255,255,255,.72);
+
+    background:
+        rgba(255,255,255,.78);
+
+    border:
+        1px solid rgba(255,255,255,.86);
+
     box-shadow:
         0 18px 45px rgba(30,50,38,.12),
-        inset 0 1px 0 rgba(255,255,255,.9);
-    backdrop-filter: blur(20px) saturate(120%);
-    -webkit-backdrop-filter: blur(20px) saturate(120%);
+        inset 0 1px 0 rgba(255,255,255,.98);
+
+    backdrop-filter:
+        blur(20px)
+        saturate(120%);
+
+    -webkit-backdrop-filter:
+        blur(20px)
+        saturate(120%);
 }
-/* ---------- HERO SLIDER ---------- */
+
+
+/* =========================================================
+   HERO SLIDER
+========================================================= */
+
 .home-page .hero-slider {
-    border: 1px solid rgba(255,255,255,.35);
+
+    border:
+        1px solid rgba(255,255,255,.45);
+
     box-shadow:
         0 22px 55px rgba(30,50,38,.11),
-        inset 0 1px 0 rgba(255,255,255,.45);
+        inset 0 1px 0 rgba(255,255,255,.55);
 }
+
+
 .home-page .hero-slider-arrow {
-    background: rgba(255,255,255,.48);
-    border-color: rgba(255,255,255,.70);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+
+    background:
+        rgba(255,255,255,.64);
+
+    border-color:
+        rgba(255,255,255,.84);
+
+    box-shadow:
+        0 8px 25px rgba(30,50,38,.09),
+        inset 0 1px 0 rgba(255,255,255,.98);
+
+    backdrop-filter:
+        blur(16px);
+
+    -webkit-backdrop-filter:
+        blur(16px);
 }
-/* ---------- GOLD BADGES ---------- */
+
+
+/* =========================================================
+   GOLD GLASS
+   طلایی همان طلایی قبلی
+========================================================= */
+
 .home-page .badge,
 .product-image-badge,
 .product-related-image .badge,
 .home-page .discount-badge {
-    border: 1px solid rgba(255,255,255,.20);
+
+    border:
+        1px solid rgba(255,255,255,.24);
+
     box-shadow:
         0 8px 22px rgba(183,154,91,.18),
-        inset 0 1px 0 rgba(255,255,255,.25);
+        inset 0 1px 0 rgba(255,255,255,.30);
 }
-/* ---------- GREEN MOBILE BOTTOM ---------- */
-/* همان سبز قبلی؛ فقط شیشه‌ای */
-@media (max-width: 800px) {
-    .home-page .mobile-side-bottom .mobile-bottom-button {
-        background: rgba(41,71,55,.86) !important;
-        border: 1px solid rgba(255,255,255,.20) !important;
-        box-shadow:
-            0 8px 22px rgba(41,71,55,.16),
-            inset 0 1px 0 rgba(255,255,255,.22);
-        backdrop-filter: blur(14px) saturate(120%);
-        -webkit-backdrop-filter: blur(14px);
-    }
-    .home-page .mobile-side-bottom .mobile-bottom-button:hover {
-        background: rgba(29,52,40,.92) !important;
-        border-color: rgba(255,255,255,.25) !important;
-    }
-}
-/* ---------- GLASS HIGHLIGHT ---------- */
+
+
+/* =========================================================
+   GLASS HIGHLIGHT
+   لبه بالایی شیشه
+========================================================= */
+
 .home-page .category-card,
 .home-page .promo,
 .home-page .about-box,
@@ -2824,35 +3240,220 @@
 .home-page .selected-products-section .product-card,
 .home-page .review,
 .product-related-card {
+
     position: relative;
 }
+
+
 .home-page .category-card::after,
 .home-page .promo::after,
+.home-page .about-box::after,
 .home-page .product-detail::after,
 .home-page .selected-products-section .product-card::after,
 .home-page .review::after,
 .product-related-card::after {
+
     content: "";
+
     position: absolute;
+
     top: 0;
     left: 8%;
     right: 8%;
+
     height: 1px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,255,255,.55),
-        transparent
-    );
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255,255,255,.75) 50%,
+            transparent 100%
+        );
+
+    opacity: .8;
+
     pointer-events: none;
 }
-/* ---------- REDUCE MOTION ---------- */
+
+
+/* =========================================================
+   MOBILE — GREEN GLASS
+   این قسمت مهمه:
+   سبز دیگه با پس‌زمینه قاطی نمی‌شود
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .home-page .mobile-side-bottom .mobile-bottom-button {
+
+        background:
+            linear-gradient(
+                145deg,
+                #31523f 0%,
+                #294737 50%,
+                #254131 100%
+            ) !important;
+
+        border:
+            1px solid rgba(255,255,255,.24) !important;
+
+        color:
+            #ffffff !important;
+
+        box-shadow:
+            0 8px 22px rgba(41,71,55,.18),
+            inset 0 1px 0 rgba(255,255,255,.28),
+            inset 0 -1px 0 rgba(0,0,0,.10);
+
+        backdrop-filter:
+            blur(10px);
+
+        -webkit-backdrop-filter:
+            blur(10px);
+    }
+
+
+    .home-page .mobile-side-bottom .mobile-bottom-button:hover {
+
+        background:
+            linear-gradient(
+                145deg,
+                #385c48 0%,
+                #294737 55%,
+                #20382b 100%
+            ) !important;
+
+        border-color:
+            rgba(255,255,255,.30) !important;
+
+        color:
+            #ffffff !important;
+
+        transform:
+            translateY(-2px);
+    }
+
+
+    .home-page .mobile-side-bottom .mobile-bottom-button span,
+    .home-page .mobile-side-bottom .mobile-bottom-button small {
+
+        color:
+            #ffffff !important;
+    }
+
+
+    .home-page .mobile-side-bottom .mobile-bottom-button:active {
+
+        transform:
+            scale(.97);
+    }
+}
+
+
+/* =========================================================
+   MOBILE HEADER GLASS
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .home-page .header {
+
+        background:
+            rgba(255,253,248,.76);
+
+        border-bottom:
+            1px solid rgba(255,255,255,.84);
+
+        box-shadow:
+            0 7px 25px rgba(30,50,38,.07),
+            inset 0 1px 0 rgba(255,255,255,.98);
+
+        backdrop-filter:
+            blur(22px)
+            saturate(130%);
+
+        -webkit-backdrop-filter:
+            blur(22px)
+            saturate(130%);
+    }
+}
+
+
+/* =========================================================
+   SUBTLE GLASS ON PRODUCT PAGE
+========================================================= */
+
+.product-page .product-main {
+
+    background:
+        linear-gradient(
+            135deg,
+            #f3eee4 0%,
+            #f8f4eb 50%,
+            #fffdf8 100%
+        );
+}
+
+
+.product-page .product-main-image {
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.74),
+            rgba(247,243,234,.68)
+        );
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.98),
+        0 8px 25px rgba(30,50,38,.05);
+}
+
+
+/* =========================================================
+   DISCOUNT GLASS
+========================================================= */
+
+.product-discount-text {
+
+    background:
+        rgba(238,227,204,.72);
+
+    border:
+        1px solid rgba(255,255,255,.62);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.75);
+}
+
+
+/* =========================================================
+   GREEN ICON / SMALL ELEMENTS
+========================================================= */
+
+.home-page .benefit-icon {
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+
+/* =========================================================
+   REDUCE MOTION
+========================================================= */
+
 @media (prefers-reduced-motion: reduce) {
+
     .home-page *,
     .home-page *::before,
     .home-page *::after,
     .cart-toast {
-        animation: none !important;
-        transition: none !important;
+
+        animation:
+            none !important;
+
+        transition:
+            none !important;
     }
 }
