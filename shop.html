@@ -212,10 +212,15 @@
     }
 
     .product-availability {
-      color: #56805e;
-      font-size: 12px;
-      margin-bottom: 12px;
-    }
+  color: #56805e;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.product-availability.out-of-stock {
+  color: #d32f2f !important;
+  font-weight: 700;
+}
 
     .product-price-row {
       display: flex;
@@ -270,43 +275,63 @@
 
    .bottom-cart {
   position: fixed !important;
+
   left: 20px !important;
   right: 20px !important;
   bottom: 20px !important;
   top: auto !important;
 
   width: auto !important;
-  max-width: 600px;
+  max-width: 600px !important;
+
   margin: 0 auto !important;
 
-  z-index: 999999 !important;
+  z-index: 2147483647 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+
+  gap: 15px;
+
+  box-sizing: border-box;
 
   background: #fff;
+
   border: 1px solid var(--border);
+
   border-radius: 18px;
-  box-shadow: 0 15px 45px rgba(0, 0, 0, .14);
+
+  box-shadow:
+    0 15px 45px rgba(0, 0, 0, .14);
 
   padding: 12px 14px;
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-
   opacity: 0;
   visibility: hidden;
-  transform: translate3d(0, 20px, 0);
+
+  transform:
+    translate3d(0, 20px, 0);
 
   transition:
     opacity .25s ease,
     visibility .25s ease,
     transform .25s ease;
+
+  /*
+   * مهم:
+   * نوار نسبت به صفحه نمایش ثابت می‌ماند.
+   */
+  contain: layout paint;
 }
 
 .bottom-cart.active {
   opacity: 1;
+
   visibility: visible;
-  transform: translate3d(0, 0, 0);
+
+  transform:
+    translate3d(0, 0, 0);
 }
 
     .bottom-cart-info {
@@ -549,10 +574,19 @@
       }
 
       .bottom-cart {
-        left: 10px;
-        right: 10px;
-        bottom: 10px;
-      }
+  position: fixed !important;
+
+  left: 10px !important;
+  right: 10px !important;
+  bottom: 10px !important;
+  top: auto !important;
+
+  width: auto !important;
+
+  margin: 0 !important;
+
+  z-index: 2147483647 !important;
+}
     }
 
     @media (max-width: 430px) {
@@ -576,6 +610,27 @@
         font-size: 12px;
       }
     }
+    html body .bottom-cart {
+  position: fixed !important;
+  left: 20px !important;
+  right: 20px !important;
+  bottom: 20px !important;
+  top: auto !important;
+
+  margin-left: auto !important;
+  margin-right: auto !important;
+
+  z-index: 2147483647 !important;
+}
+
+@media (max-width: 700px) {
+  html body .bottom-cart {
+    left: 10px !important;
+    right: 10px !important;
+    bottom: 10px !important;
+    top: auto !important;
+  }
+}
   </style>
 </head>
 
@@ -1565,18 +1620,18 @@ function renderShopProducts() {
               ${product.name || "محصول"}
             </h3>
 
-            <div class="product-availability">
+            <div class="product-availability ${
+  stock <= 0 ? "out-of-stock" : ""
+}">
 
-              ${
-                stock > 0
-                  ? "موجودی: " +
-                    stock.toLocaleString(
-                      "fa-IR"
-                    )
-                  : "ناموجود"
-              }
+  ${
+    stock > 0
+      ? "موجودی: " +
+        stock.toLocaleString("fa-IR")
+      : "ناموجود"
+  }
 
-            </div>
+</div>
 
             <div class="product-price-row">
 
