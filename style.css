@@ -4274,3 +4274,115 @@ html body .out-of-stock {
         transition: none !important;
     }
 }
+/* =========================================================
+   NAVIDTOWEL — iPhone Safari + MOBILE MENU FINAL FIX
+   ========================================================= */
+
+/* ---------- FIX HEADER ON iPHONE SAFARI ---------- */
+
+@supports (-webkit-touch-callout: none) {
+    .home-page .header {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 78px !important;
+        z-index: 2147483000 !important;
+
+        transform: translateZ(0) !important;
+        -webkit-transform: translateZ(0) !important;
+
+        /* جلوگیری از باگ sticky + blur در Safari */
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+
+        background: rgba(255, 253, 248, 0.97) !important;
+    }
+
+    .home-page .header-inner {
+        height: 78px !important;
+    }
+
+    /* چون Header از حالت معمول خارج شده */
+    .home-page {
+        padding-top: 78px !important;
+    }
+}
+
+
+/* ---------- MOBILE MENU ALWAYS ABOVE EVERYTHING ---------- */
+
+@media (max-width: 800px) {
+
+    .home-page .mobile-menu,
+    .home-page .mobile-menu-overlay,
+    .home-page .side-menu,
+    .home-page .mobile-nav,
+    .home-page .menu-panel {
+        z-index: 2147483646 !important;
+    }
+
+    /* اگر منوی اصلی با کلاس menu-open فعال می‌شود */
+    body.menu-open .mobile-menu,
+    body.menu-open .mobile-menu-overlay,
+    body.menu-open .side-menu,
+    body.menu-open .mobile-nav,
+    body.menu-open .menu-panel {
+        z-index: 2147483646 !important;
+    }
+
+    /* نوار مبلغ پایین‌تر از منو */
+    html body .bottom-cart,
+    html body .bottom-cart.active {
+        z-index: 2147483000 !important;
+    }
+}
+
+
+/* ---------- SAFARI FIX FOR FIXED ELEMENTS ---------- */
+
+@supports (-webkit-touch-callout: none) {
+    @media (max-width: 800px) {
+
+        html,
+        body {
+            overflow-x: hidden !important;
+            width: 100% !important;
+        }
+
+        .home-page .bottom-cart {
+            position: fixed !important;
+            left: 10px !important;
+            right: 10px !important;
+            bottom: 10px !important;
+            top: auto !important;
+
+            width: auto !important;
+            margin: 0 !important;
+
+            transform: translateZ(0) !important;
+            -webkit-transform: translateZ(0) !important;
+
+            z-index: 2147483000 !important;
+        }
+    }
+}
+
+
+/* ---------- MENU MUST COVER BOTTOM CART ---------- */
+
+@media (max-width: 800px) {
+
+    body.menu-open .bottom-cart {
+        z-index: 999 !important;
+    }
+
+    body.menu-open .mobile-menu,
+    body.menu-open .mobile-menu-overlay,
+    body.menu-open .side-menu,
+    body.menu-open .mobile-nav,
+    body.menu-open .menu-panel {
+        z-index: 2147483647 !important;
+    }
+}
