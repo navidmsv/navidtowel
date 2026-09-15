@@ -3457,3 +3457,79 @@
             none !important;
     }
 }
+/* =========================================================
+   NAVIDTOWEL — GLOBAL FIXED BOTTOM CART FIX
+========================================================= */
+
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* نوار مبلغ همیشه نسبت به صفحه نمایش ثابت باشد */
+html body .bottom-cart {
+    position: fixed !important;
+
+    left: 20px !important;
+    right: 20px !important;
+    bottom: 20px !important;
+    top: auto !important;
+
+    width: auto !important;
+    max-width: 600px !important;
+    height: auto !important;
+    min-height: 66px !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+
+    box-sizing: border-box !important;
+
+    z-index: 2147483647 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    pointer-events: auto !important;
+}
+
+/* وقتی سبد فعال است */
+html body .bottom-cart.active {
+    position: fixed !important;
+
+    left: 20px !important;
+    right: 20px !important;
+    bottom: 20px !important;
+    top: auto !important;
+
+    z-index: 2147483647 !important;
+}
+
+/* موبایل */
+@media (max-width: 700px) {
+
+    html body .bottom-cart,
+    html body .bottom-cart.active {
+
+        position: fixed !important;
+
+        left: 10px !important;
+        right: 10px !important;
+        bottom: 10px !important;
+        top: auto !important;
+
+        width: auto !important;
+        max-width: none !important;
+
+        margin: 0 !important;
+
+        z-index: 2147483647 !important;
+    }
+}
