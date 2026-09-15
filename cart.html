@@ -55,7 +55,7 @@
     gap: 14px;
 }
 /* =========================================================
-   CART PRODUCT
+   PRODUCT
 ========================================================= */
 .cart-product {
     background: #fff;
@@ -81,9 +81,13 @@
     flex-shrink: 0;
     border-radius: 14px;
     overflow: hidden;
-    background: #f1f3ef;
-    border: 1px solid #e1e8e1;
-    cursor: pointer;
+    background: #f4f4f0;
+    border: 1px solid #e8e6df;
+}
+.cart-product-image a {
+    display: block;
+    width: 100%;
+    height: 100%;
 }
 .cart-product-image img {
     width: 100%;
@@ -98,13 +102,16 @@
     min-width: 0;
 }
 .cart-product-info h3 {
-    margin: 0 0 7px;
+    margin: 0 0 8px;
     font-size: 17px;
     color: #252a25;
     line-height: 1.7;
-    cursor: pointer;
 }
-.cart-product-info h3:hover {
+.cart-product-info h3 a {
+    color: inherit;
+    text-decoration: none;
+}
+.cart-product-info h3 a:hover {
     color: #294737;
 }
 .cart-product-price {
@@ -120,33 +127,42 @@
 }
 /* =========================================================
    VARIANTS
+   مینیمال و کم‌رنگ
 ========================================================= */
 .cart-variants {
     display: flex;
-    align-items: center;
     flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 9px;
+    align-items: center;
+    gap: 7px;
+    margin: 7px 0 8px;
 }
-.cart-variant {
+.variant-chip {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    min-height: 27px;
+    min-height: 25px;
     padding: 3px 9px;
-    border-radius: 9px;
-    background: #f7f8f5;
-    border: 1px solid #e4e8e1;
-    color: #62685f;
-    font-size: 11px;
+    border: 1px solid #e8e5de;
+    border-radius: 8px;
+    background: #fbfaf7;
+    color: #77756f;
+    font-size: 10px;
+    line-height: 1;
     box-sizing: border-box;
 }
-.cart-color-dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    border: 1px solid rgba(0,0,0,.08);
+.variant-swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,.10);
     flex-shrink: 0;
+    opacity: .78;
+}
+.variant-label {
+    color: #77756f;
+}
+.variant-size {
+    color: #77756f;
 }
 /* =========================================================
    QUANTITY
@@ -161,19 +177,15 @@
     height: 32px;
     border: 1px solid #dce4dc;
     border-radius: 9px;
-    background: #f1f3ef;
+    background: #f4f6f3;
     color: #294737;
     font-size: 18px;
     cursor: pointer;
     transition: .2s ease;
 }
 .qty-btn:hover {
-    background: #e8eee9;
+    background: #e9eee9;
     border-color: #cbd9cd;
-}
-.qty-btn:disabled {
-    opacity: .4;
-    cursor: not-allowed;
 }
 .qty-number {
     min-width: 25px;
@@ -205,7 +217,7 @@
     transition: .2s ease;
 }
 .remove-product:hover {
-    background: #f5eeee;
+    background: #f3eaea;
     color: #9b5555;
     border-color: #ead6d6;
 }
@@ -307,7 +319,7 @@
     width: 40px;
     height: 40px;
     border-radius: 11px;
-    background: #edf1ed;
+    background: #f1f4f1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -379,7 +391,7 @@
     height: 58px;
     margin: 0 auto 17px;
     border-radius: 17px;
-    background: #edf1ed;
+    background: #f1f4f1;
     color: #294737;
     display: flex;
     align-items: center;
@@ -410,6 +422,30 @@
     background: #1d3428;
 }
 /* =========================================================
+   TOAST
+========================================================= */
+.cart-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 90px;
+    transform: translate(-50%, 15px);
+    background: rgba(40,55,46,.94);
+    color: #fff;
+    padding: 9px 15px;
+    border-radius: 10px;
+    font-size: 11px;
+    opacity: 0;
+    visibility: hidden;
+    transition: .25s ease;
+    z-index: 100000;
+    pointer-events: none;
+}
+.cart-toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+/* =========================================================
    MOBILE HEADER
 ========================================================= */
 .mobile-menu-btn,
@@ -437,7 +473,7 @@
     height: 19px;
 }
 .mobile-small-btn:first-child {
-    background: #edf1ed;
+    background: #e9eee9;
     color: #294737;
 }
 .mobile-small-btn:last-child {
@@ -475,7 +511,7 @@
         height: 42px;
         border: none;
         border-radius: 12px;
-        background: #edf1ed;
+        background: #e9eee9;
         color: #294737;
         cursor: pointer;
         flex-shrink: 0;
@@ -519,6 +555,7 @@
     }
     .cart-product-info {
         flex: 1;
+        min-width: 0;
     }
     .cart-product-info h3 {
         font-size: 14px;
@@ -526,10 +563,18 @@
     .cart-product-price {
         font-size: 12px;
     }
-    .cart-variant {
-        font-size: 10px;
-        min-height: 25px;
+    .cart-variants {
+        margin-top: 5px;
+        gap: 5px;
+    }
+    .variant-chip {
+        min-height: 23px;
         padding: 3px 7px;
+        font-size: 9px;
+    }
+    .variant-swatch {
+        width: 9px;
+        height: 9px;
     }
     .cart-product-controls {
         order: 4;
@@ -764,7 +809,7 @@
 }
 /* =====================================================
    SMALL PHONES
-===================================================== */
+========================================================= */
 @media (max-width: 500px) {
     .cart-page {
         padding-top: 95px;
@@ -790,7 +835,7 @@
 }
 /* =====================================================
    VERY SMALL PHONES
-===================================================== */
+========================================================= */
 @media (max-width: 360px) {
     .mobile-menu-btn,
     .mobile-small-btn {
@@ -812,126 +857,112 @@
 ===================================================== -->
 <header class="header">
 <div class="container header-inner">
-
 <button
-type=“button”
-class=“mobile-menu-btn”
-id=“mobileMenuBtn”
-aria-label=“منو”
-
+    type="button"
+    class="mobile-menu-btn"
+    id="mobileMenuBtn"
+    aria-label="منو"
+>
 <svg
-viewBox=“0 0 24 24”
-fill=“none”
-stroke=“currentColor”
-stroke-width=“1.8”
-stroke-linecap=“round”
-
-<path d="M4 7h16"/>
-<path d="M4 12h16"/>
-<path d="M4 17h16"/>
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    stroke-linecap="round"
+>
+    <path d="M4 7h16"/>
+    <path d="M4 12h16"/>
+    <path d="M4 17h16"/>
 </svg>
 </button>
-
 <a
-href=“index.html”
-class=“logo mobile-header-logo”
-
-Navid<span>Towel</span>
+    href="index.html"
+    class="logo mobile-header-logo"
+>
+    Navid<span>Towel</span>
 </a>
 <div class="mobile-header-actions">
-
 <a
-href=“index.html”
-class=“mobile-small-btn”
-aria-label=“صفحه اصلی”
-
+    href="index.html"
+    class="mobile-small-btn"
+    aria-label="صفحه اصلی"
+>
 <svg
-viewBox=“0 0 24 24”
-fill=“none”
-stroke=“currentColor”
-stroke-width=“1.7”
-stroke-linecap=“round”
-stroke-linejoin=“round”
-
-<path d="M3.5 10.8 12 4l8.5 6.8"/>
-<path d="M5.5 9.8V20h13V9.8"/>
-<path d="M9.5 20v-6h5v6"/>
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+>
+    <path d="M3.5 10.8 12 4l8.5 6.8"/>
+    <path d="M5.5 9.8V20h13V9.8"/>
+    <path d="M9.5 20v-6h5v6"/>
 </svg>
 </a>
-
 <a
-href=“shop.html”
-class=“mobile-small-btn”
-aria-label=“فروشگاه”
-
+    href="shop.html"
+    class="mobile-small-btn"
+    aria-label="فروشگاه"
+>
 <svg
-viewBox=“0 0 24 24”
-fill=“none”
-stroke=“currentColor”
-stroke-width=“1.7”
-stroke-linecap=“round”
-stroke-linejoin=“round”
-
-<path d="M4 8.5h16"/>
-<path d="M5 8.5 6.2 4h11.6L19 8.5"/>
-<path d="M5 8.5v11.5h14V8.5"/>
-<path d="M9 20v-6h6v6"/>
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+>
+    <path d="M4 8.5h16"/>
+    <path d="M5 8.5 6.2 4h11.6L19 8.5"/>
+    <path d="M5 8.5v11.5h14V8.5"/>
+    <path d="M9 20v-6h6v6"/>
 </svg>
 </a>
 </div>
 <nav class="nav">
-
-خانه
-
-فروشگاه
-
+<a href="index.html">خانه</a>
+<a href="shop.html">فروشگاه</a>
 <div class="nav-category">
-
 <button
-type=“button”
-class=“nav-category-btn”
-
-دسته‌بندی‌ها
-<span>⌄</span>
+    type="button"
+    class="nav-category-btn"
+>
+    دسته‌بندی‌ها
+    <span>⌄</span>
 </button>
 <div class="category-dropdown">
-
-حوله مردانه
-حوله زنانه
-حوله بچگانه
-حوله حمامی
-حوله استخری
-حوله متری
-تن‌پوش
-
+<a href="shop.html?category=men">حوله مردانه</a>
+<a href="shop.html?category=women">حوله زنانه</a>
+<a href="shop.html?category=kids">حوله بچگانه</a>
+<a href="shop.html?category=bath">حوله حمامی</a>
+<a href="shop.html?category=pool">حوله استخری</a>
+<a href="shop.html?category=meter">حوله متری</a>
+<a href="shop.html?category=robe">تن‌پوش</a>
 </div>
 </div>
-
-درباره ما
-تماس با ما
-
+<a href="index.html#about">درباره ما</a>
+<a href="index.html#contact">تماس با ما</a>
 </nav>
 <div class="header-actions">
-
 <a
-href=“shop.html”
-class=“all-products-btn”
-
-همه محصولات
-</a>
-
-<button
-type=“button”
-class=“cart-btn”
-onclick=“window.location.href=‘cart.html’”
-
-سبد خرید
-<b
-    class="cartCount"
-    id="headerCartCount"
+    href="shop.html"
+    class="all-products-btn"
 >
-    0
-</b>
+    همه محصولات
+</a>
+<button
+    type="button"
+    class="cart-btn"
+    onclick="window.location.href='cart.html'"
+>
+    سبد خرید
+    <b
+        class="cartCount"
+        id="headerCartCount"
+    >
+        0
+    </b>
 </button>
 </div>
 </div>
@@ -957,14 +988,13 @@ onclick=“window.location.href=‘cart.html’”
 <span>فروشگاه حوله و کالای خواب</span>
 </div>
 </div>
-
 <button
-type=“button”
-class=“mobile-menu-close”
-id=“mobileMenuClose”
-aria-label=“بستن منو”
-
-×
+    type="button"
+    class="mobile-menu-close"
+    id="mobileMenuClose"
+    aria-label="بستن منو"
+>
+    ×
 </button>
 </div>
 <nav class="mobile-menu-links">
@@ -983,17 +1013,14 @@ aria-label=“بستن منو”
     <path d="M9.5 20v-6h5v6"/>
 </svg>
 </span>
-
-صفحه اصلی
-
+<span>صفحه اصلی</span>
 </a>
 <div>
-
 <button
-type=“button”
-class=“mobile-category-button”
-id=“mobileCategoryButton”
-
+    type="button"
+    class="mobile-category-button"
+    id="mobileCategoryButton"
+>
 <span class="side-icon">
 <svg
     viewBox="0 0 24 24"
@@ -1007,42 +1034,35 @@ id=“mobileCategoryButton”
     <path d="M4 18h16"/>
 </svg>
 </span>
-
-دسته‌بندی‌ها
-
+<span>دسته‌بندی‌ها</span>
 <span
-class=“side-arrow”
-id=“mobileCategoryArrow”
-
-⌄
+    class="side-arrow"
+    id="mobileCategoryArrow"
+>
+    ⌄
 </span>
 </button>
 <div
     class="mobile-category-list"
     id="mobileCategoryList"
 >
-
-مردانه
-زنانه
-بچگانه
-حمامی
-استخری
-متری
-تن‌پوش
-
+<a href="shop.html?category=men">مردانه</a>
+<a href="shop.html?category=women">زنانه</a>
+<a href="shop.html?category=kids">بچگانه</a>
+<a href="shop.html?category=bath">حمامی</a>
+<a href="shop.html?category=pool">استخری</a>
+<a href="shop.html?category=meter">متری</a>
+<a href="shop.html?category=robe">تن‌پوش</a>
 </div>
 </div>
-
 <a
-href=“index.html#discount”
-class=“mobile-menu-discount”
-
+    href="index.html#discount"
+    class="mobile-menu-discount"
+>
 <span class="side-icon">
     %
 </span>
-
-تخفیفات
-
+<span>تخفیفات</span>
 <span class="discount-badge">
     ویژه
 </span>
@@ -1060,101 +1080,85 @@ class=“mobile-menu-discount”
     <path d="m16 16 4 4"/>
 </svg>
 </span>
-
-پیگیری سفارش
-
+<span>پیگیری سفارش</span>
 </a>
 <a href="index.html#about">
 <span class="side-icon">
     i
 </span>
-
-درباره ما
-
+<span>درباره ما</span>
 </a>
 <a href="index.html#contact">
 <span class="side-icon">
-
 <svg
-viewBox=“0 0 24 24”
-fill=“none”
-stroke=“currentColor”
-stroke-width=“1.7”
-stroke-linecap=“round”
-stroke-linejoin=“round”
-
-<path d="M5 4h3l2 5-2.2 1.6a15 15 0 0 0 5.6 5.6L15 14l5 2v3c0 1-1 2-2 2C10.3 21 3 13.7 3 6c0-1 1-2 2-2Z"/>
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+>
+    <path d="M5 4h3l2 5-2.2 1.6a15 15 0 0 0 5.6 5.6L15 14l5 2v3c0 1-1 2-2 2C10.3 21 3 13.7 3 6c0-1 1-2 2-2Z"/>
 </svg>
 </span>
-
-تماس با ما
-
+<span>تماس با ما</span>
 </a>
 </nav>
 <div class="mobile-menu-bottom">
 <a href="shop.html">
-
 <svg
-viewBox=“0 0 24 24”
-fill=“none”
-stroke=“currentColor”
-stroke-width=“1.7”
-stroke-linecap=“round”
-stroke-linejoin=“round”
-
-<path d="M4 8.5h16"/>
-<path d="M5 8.5 6.2 4h11.6L19 8.5"/>
-<path d="M5 8.5v11.5h14V8.5"/>
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+>
+    <path d="M4 8.5h16"/>
+    <path d="M5 8.5 6.2 4h11.6L19 8.5"/>
+    <path d="M5 8.5v11.5h14V8.5"/>
 </svg>
-
-همه محصولات
-
+<small>همه محصولات</small>
 </a>
 <a href="cart.html">
-
 <svg
-viewBox=“0 0 24 24”
-fill=“none”
-stroke=“currentColor”
-stroke-width=“1.7”
-stroke-linecap=“round”
-stroke-linejoin=“round”
-
-<path d="M4 5h2l2 11h10l2-8H7"/>
-<circle cx="10" cy="20" r="1"/>
-<circle cx="17" cy="20" r="1"/>
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+>
+    <path d="M4 5h2l2 11h10l2-8H7"/>
+    <circle cx="10" cy="20" r="1"/>
+    <circle cx="17" cy="20" r="1"/>
 </svg>
-
-سبد خرید
-
+<small>سبد خرید</small>
 </a>
-
 <a
-href=“https://instagram.com/navidtowel”
-target=”_blank”
-rel=“noopener noreferrer”
-
+    href="https://instagram.com/navidtowel"
+    target="_blank"
+    rel="noopener noreferrer"
+>
 <svg
-viewBox=“0 0 24 24”
-fill=“none”
-stroke=“currentColor”
-stroke-width=“1.7”
-stroke-linecap=“round”
-stroke-linejoin=“round”
-
-<rect x="4" y="4" width="16" height="16" rx="4"/>
-<circle cx="12" cy="12" r="3.5"/>
-<circle
-    cx="17.5"
-    cy="6.7"
-    r=".8"
-    fill="currentColor"
-    stroke="none"
-/>
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+>
+    <rect x="4" y="4" width="16" height="16" rx="4"/>
+    <circle cx="12" cy="12" r="3.5"/>
+    <circle
+        cx="17.5"
+        cy="6.7"
+        r=".8"
+        fill="currentColor"
+        stroke="none"
+    />
 </svg>
-
-اینستاگرام
-
+<small>اینستاگرام</small>
 </a>
 </div>
 </aside>
@@ -1165,9 +1169,7 @@ stroke-linejoin=“round”
 <div class="container">
 <div class="cart-page-title">
 <h1>سبد خرید</h1>
-<p>
-    محصولات انتخاب‌شده شما
-</p>
+<p>محصولات انتخاب‌شده شما</p>
 </div>
 <div id="cartContent"></div>
 </div>
@@ -1181,24 +1183,21 @@ stroke-linejoin=“round”
 >
 <div class="bottom-cart-info">
 <div class="bottom-cart-icon">
-
 <svg
-viewBox=“0 0 24 24”
-fill=“none”
-stroke=“currentColor”
-stroke-width=“1.7”
-stroke-linecap=“round”
-stroke-linejoin=“round”
-
-<path d="M4 5h2l2 11h10l2-8H7"/>
-<circle cx="10" cy="20" r="1"/>
-<circle cx="17" cy="20" r="1"/>
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+>
+    <path d="M4 5h2l2 11h10l2-8H7"/>
+    <circle cx="10" cy="20" r="1"/>
+    <circle cx="17" cy="20" r="1"/>
 </svg>
 </div>
 <div class="bottom-cart-text">
-<strong>
-    سبد خرید
-</strong>
+<strong>سبد خرید</strong>
 <span>
     <span id="bottomQuantity">0</span>
     کالا
@@ -1207,28 +1206,31 @@ stroke-linejoin=“round”
 </div>
 <div class="bottom-cart-details">
 <div class="bottom-detail">
-<span>
-    مبلغ قابل پرداخت
-</span>
-
+<span>مبلغ قابل پرداخت</span>
 <strong
-class=“bottom-final”
-id=“bottomFinal”
-
-0 تومان
+    class="bottom-final"
+    id="bottomFinal"
+>
+    0 تومان
 </strong>
 </div>
 </div>
-
 <button
-type=“button”
-class=“bottom-checkout”
-id=“bottomCheckout”
-onclick=“goCheckout()”
-
-تکمیل سفارش
+    type="button"
+    class="bottom-checkout"
+    id="bottomCheckout"
+    onclick="goCheckout()"
+>
+    تکمیل سفارش
 </button>
 </div>
+<!-- =====================================================
+     TOAST
+===================================================== -->
+<div
+    class="cart-toast"
+    id="cartToast"
+></div>
 <!-- =====================================================
      FOOTER
 ===================================================== -->
@@ -1239,12 +1241,11 @@ onclick=“goCheckout()”
 <div class="container">
 <div class="footer-grid">
 <div class="footer-brand">
-
 <a
-href=“index.html”
-class=“logo”
-
-Navid<span>Towel</span>
+    href="index.html"
+    class="logo"
+>
+    Navid<span>Towel</span>
 </a>
 <p>
     حوله سرای نوید؛ عرضه انواع حوله و کالای خواب باکیفیت.
@@ -1252,71 +1253,41 @@ Navid<span>Towel</span>
 </div>
 <div>
 <h3>فروشگاه</h3>
-<a href="shop.html">
-    همه محصولات
-</a>
-<a href="shop.html?category=men">
-    حوله مردانه
-</a>
-<a href="shop.html?category=women">
-    حوله زنانه
-</a>
+<a href="shop.html">همه محصولات</a>
+<a href="shop.html?category=men">حوله مردانه</a>
+<a href="shop.html?category=women">حوله زنانه</a>
 </div>
 <div>
 <h3>دسترسی سریع</h3>
-<a href="index.html#about">
-    درباره ما
-</a>
-<a href="index.html#contact">
-    تماس با ما
-</a>
-<a href="cart.html">
-    سبد خرید
-</a>
+<a href="index.html#about">درباره ما</a>
+<a href="index.html#contact">تماس با ما</a>
+<a href="cart.html">سبد خرید</a>
 </div>
 <div>
 <h3>تماس با ما</h3>
-<p>
-    09398707122
-</p>
-<p>
-    آبادان، مجتمع کنزالمال، کنز ۵
-</p>
-<p>
-    Instagram: @navidtowel
-</p>
+<p>09398707122</p>
+<p>آبادان، مجتمع کنزالمال، کنز ۵</p>
+<p>Instagram: @navidtowel</p>
 </div>
 </div>
 <div class="footer-bottom">
-<span>
-    © 2026 NavidTowel
-</span>
-<span>
-    تمامی حقوق محفوظ است.
-</span>
+<span>© 2026 NavidTowel</span>
+<span>تمامی حقوق محفوظ است.</span>
 </div>
 </div>
 </footer>
 <script src="products.js"></script>
 <script>
-/* =========================================================
-   NAVIDTOWEL — CART PAGE
-========================================================= */
+/* =====================================================
+   CART DATA
+===================================================== */
 let cart =
     JSON.parse(
         localStorage.getItem("navidTowelCart")
     ) || [];
-/* =========================================================
-   PRICE
-========================================================= */
-function price(value) {
-    return Number(value || 0)
-        .toLocaleString("fa-IR")
-        + " تومان";
-}
-/* =========================================================
-   NORMALIZE TEXT
-========================================================= */
+/* =====================================================
+   HELPERS
+===================================================== */
 function normalizeText(value) {
     return String(value || "")
         .trim()
@@ -1327,198 +1298,191 @@ function normalizeText(value) {
         .replace(/\s+/g, "")
         .replace(/[-_]/g, "");
 }
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-function escapeHtml(value) {
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+function price(value) {
+    return Number(value || 0)
+        .toLocaleString("en-US")
+        + " تومان";
 }
-/* =========================================================
-   COLOR STYLE
-========================================================= */
-function getColorStyle(color) {
-    const c =
-        normalizeText(color);
-    const colors = {
-        "سفید": "#eee",
-        "ابی": "#9eafbd",
-        "آبی": "#9eafbd",
-        "مشکی": "#454744",
-        "قرمز": "#bd8884",
-        "سبز": "#9cab91",
-        "زرد": "#d8c993",
-        "نارنجی": "#d7a27f",
-        "صورتی": "#d7afb5",
-        "صورتیکالباسی": "#d4afb3",
-        "بنفش": "#aaa0bb",
-        "طوسی": "#aaa9a2",
-        "خاکستری": "#aaa9a2",
-        "قهوهای": "#a88f7b",
-        "قهوه‌ای": "#a88f7b",
-        "کرم": "#d8cdb7",
-        "نسکافهای": "#b7a18a",
-        "نسکافه‌ای": "#b7a18a",
-        "سبزیشمی": "#94aaa0",
-        "سرمهای": "#b7a18a",
-        "طلایی": "#c7b17d",
-        "نقرهای": "#b7b9b8",
-        "نقره‌ای": "#b7b9b8"
-    };
-    return colors[c] || "#c7cbc5";
+function getProduct(id) {
+    return products.find(
+        p => String(p.id) === String(id)
+    );
 }
-/* =========================================================
-   GET PRODUCT IMAGE
-========================================================= */
-function getProductImage(product, selectedColor) {
-    if (!product) {
-        return "";
+function getTotalStock(product) {
+    if (!product) return 0;
+    if (
+        Array.isArray(product.colors) &&
+        product.colors.length
+    ) {
+        return product.colors.reduce(
+            (sum, color) =>
+                sum + Number(color.stock || 0),
+            0
+        );
     }
+    return Number(product.stock || 0);
+}
+function getColorStock(product, color) {
+    if (
+        !product ||
+        !color ||
+        !Array.isArray(product.colors)
+    ) {
+        return getTotalStock(product);
+    }
+    const selected =
+        product.colors.find(
+            c =>
+                normalizeText(c.name) ===
+                normalizeText(color)
+        );
+    return selected
+        ? Number(selected.stock || 0)
+        : 0;
+}
+function getProductImage(product, color) {
+    if (!product) return "";
     const images = [];
+    if (product.image) {
+        images.push(product.image);
+    }
     if (Array.isArray(product.images)) {
         product.images.forEach(img => {
-            if (img) {
+            if (img && !images.includes(img)) {
                 images.push(img);
             }
         });
     }
-    if (product.image) {
-        images.push(product.image);
-    }
     if (!images.length) {
         return "";
     }
-    if (selectedColor) {
-        const colorKey =
-            normalizeText(selectedColor);
+    if (color) {
+        const target =
+            normalizeText(color);
         const matched =
-            images.find(img => {
-                const file =
-                    normalizeText(
-                        String(img)
-                            .split("/")
-                            .pop()
-                    );
-                return file.includes(colorKey);
-            });
+            images.find(img =>
+                normalizeText(
+                    String(img)
+                        .split("/")
+                        .pop()
+                ).includes(target)
+            );
         if (matched) {
             return matched;
         }
     }
     return images[0];
 }
-/* =========================================================
-   PRODUCT KEY
-========================================================= */
-function getCartKey(item) {
+function itemKey(item) {
     return [
         String(item.id),
         normalizeText(item.color || ""),
-        normalizeText(item.size || "")
-    ].join("|");
+        normalizeText(item.size || "Free Size")
+    ].join("__");
 }
-/* =========================================================
-   SAVE
-========================================================= */
 function saveCart() {
     localStorage.setItem(
         "navidTowelCart",
         JSON.stringify(cart)
     );
 }
-/* =========================================================
-   CURRENT PRODUCT PRICE
-========================================================= */
-function getCurrentPrice(product) {
-    return Number(
-        product?.price || 0
-    );
+/* =====================================================
+   COLOR STYLE
+===================================================== */
+function colorToCss(color) {
+    const name =
+        normalizeText(color);
+    const colors = {
+        "ابی": "#9eafb8",
+        "آبی": "#9eafb8",
+        "قرمز": "#b99a98",
+        "سبز": "#9ba99d",
+        "زرد": "#c8bc91",
+        "نارنجی": "#c2a28f",
+        "صورتی": "#c7a9b2",
+        "صورتیکالباسی": "#c8aaa5",
+        "بنفش": "#aea3b6",
+        "مشکی": "#555957",
+        "سفید": "#e5e3dc",
+        "طوسی": "#a7a7a2",
+        "خاکستری": "#a7a7a2",
+        "کرم": "#c8bea9",
+        "قهوهای": "#9c8978",
+        "قهوهایروشن": "#b5a18f",
+        "سرمهای": "#9d8f7d",
+        "طلایی": "#b8a77d",
+        "نقرهای": "#b6b8b7",
+        "فیروزهای": "#94b3b0"
+    };
+    return colors[name] || "#b9b9b3";
 }
-/* =========================================================
-   TOTAL STOCK FOR COLOR
-========================================================= */
-function getColorStock(product, color) {
-    if (
-        !product ||
-        !Array.isArray(product.colors) ||
-        !product.colors.length
-    ) {
-        return Infinity;
-    }
-    const selected =
-        product.colors.find(
-            item =>
-                normalizeText(item.name) ===
-                normalizeText(color)
-        );
-    if (!selected) {
-        return 0;
-    }
-    return Math.max(
-        0,
-        Number(selected.stock || 0)
-    );
-}
-/* =========================================================
-   UPDATE OLD CART DATA
-   Keeps compatibility with previous cart format.
-========================================================= */
-function normalizeCart() {
-    if (!Array.isArray(cart)) {
-        cart = [];
-        return;
-    }
+/* =====================================================
+   MIGRATE / SYNC CART
+===================================================== */
+function syncCart() {
     cart = cart
         .map(item => {
             const product =
-                products.find(
-                    p =>
-                        String(p.id) ===
-                        String(item.id)
-                );
+                getProduct(item.id);
             if (!product) {
                 return null;
             }
+            const quantity =
+                Math.max(
+                    1,
+                    Number(item.quantity || 1)
+                );
+            const color =
+                item.color || null;
+            const size =
+                item.size || "Free Size";
+            const currentPrice =
+                Number(product.price || 0);
+            const image =
+                getProductImage(
+                    product,
+                    color
+                );
             return {
                 id: product.id,
                 name: product.name,
-                color:
-                    item.color ||
-                    null,
-                size:
-                    item.size ||
-                    (
-                        Array.isArray(product.sizes) &&
-                        product.sizes.length
-                            ? String(product.sizes[0])
-                            : "Free Size"
-                    ),
-                quantity:
-                    Math.max(
-                        1,
-                        Number(item.quantity || 1)
-                    ),
-                image:
-                    getProductImage(
-                        product,
-                        item.color
-                    )
+                price: currentPrice,
+                image: image,
+                quantity: quantity,
+                color: color,
+                size: size
             };
         })
         .filter(Boolean);
+    saveCart();
 }
-/* =========================================================
+/* =====================================================
+   TOAST
+===================================================== */
+let toastTimer;
+function showToast(message) {
+    const toast =
+        document.getElementById("cartToast");
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer =
+        setTimeout(
+            () => {
+                toast.classList.remove("show");
+            },
+            1800
+        );
+}
+/* =====================================================
    RENDER CART
-========================================================= */
+===================================================== */
 function renderCart() {
     const content =
         document.getElementById("cartContent");
     if (!content) return;
-    normalizeCart();
+    syncCart();
     if (!cart.length) {
         content.innerHTML = `
             <div class="empty-cart-page">
@@ -1558,19 +1522,17 @@ function renderCart() {
             <div class="cart-products">
                 ${
                     cart
-                        .map((item, index) => {
+                        .map(item => {
                             const product =
-                                products.find(
-                                    p =>
-                                        String(p.id) ===
-                                        String(item.id)
-                                );
+                                getProduct(item.id);
                             if (!product) {
                                 return "";
                             }
                             const currentPrice =
-                                getCurrentPrice(product);
-                            const oldPrice =
+                                Number(
+                                    product.price || 0
+                                );
+                            const currentOldPrice =
                                 Number(
                                     product.oldPrice || 0
                                 );
@@ -1579,96 +1541,102 @@ function renderCart() {
                                     product,
                                     item.color
                                 );
-                            const colorStyle =
+                            const key =
+                                itemKey(item);
+                            const colorChip =
                                 item.color
-                                    ? getColorStyle(item.color)
-                                    : "";
-                            const colorHtml =
-                                item.color
-                                    ? `
-                                        <span class="cart-variant">
-                                            <span
-                                                class="cart-color-dot"
-                                                style="background:${colorStyle};"
-                                            ></span>
-                                            ${escapeHtml(item.color)}
-                                        </span>
-                                    `
-                                    : "";
-                            const sizeHtml =
-                                item.size
-                                    ? `
-                                        <span class="cart-variant">
-                                            سایز:
-                                            ${escapeHtml(item.size)}
-                                        </span>
-                                    `
-                                    : "";
+                                ?
+                                `
+                                <span class="variant-chip">
+                                    <span
+                                        class="variant-swatch"
+                                        style="background:${colorToCss(item.color)}"
+                                    ></span>
+                                    <span class="variant-label">
+                                        ${item.color}
+                                    </span>
+                                </span>
+                                `
+                                :
+                                "";
+                            const sizeChip =
+                                item.size &&
+                                item.size !== "Free Size"
+                                ?
+                                `
+                                <span class="variant-chip">
+                                    <span class="variant-size">
+                                        سایز ${item.size}
+                                    </span>
+                                </span>
+                                `
+                                :
+                                "";
                             return `
                                 <div class="cart-product">
-                                    <div
-                                        class="cart-product-image"
-                                        onclick="openProduct('${product.id}')"
-                                    >
-                                        ${
-                                            image
-                                                ? `
-                                                    <img
-                                                        src="${escapeHtml(image)}"
-                                                        alt="${escapeHtml(product.name)}"
-                                                    >
-                                                `
-                                                : ""
-                                        }
+                                    <div class="cart-product-image">
+                                        <a
+                                            href="product.html?id=${encodeURIComponent(product.id)}"
+                                        >
+                                            <img
+                                                src="${image}"
+                                                alt="${product.name}"
+                                            >
+                                        </a>
                                     </div>
                                     <div class="cart-product-info">
-                                        <h3
-                                            onclick="openProduct('${product.id}')"
-                                        >
-                                            ${escapeHtml(product.name)}
+                                        <h3>
+                                            <a
+                                                href="product.html?id=${encodeURIComponent(product.id)}"
+                                            >
+                                                ${product.name}
+                                            </a>
                                         </h3>
+                                        ${
+                                            colorChip || sizeChip
+                                            ?
+                                            `
+                                            <div class="cart-variants">
+                                                ${colorChip}
+                                                ${sizeChip}
+                                            </div>
+                                            `
+                                            :
+                                            ""
+                                        }
                                         <div>
                                             <span class="cart-product-price">
                                                 ${price(currentPrice)}
                                             </span>
                                             ${
-                                                oldPrice &&
-                                                oldPrice > currentPrice
-                                                    ? `
-                                                        <span class="cart-product-old-price">
-                                                            ${price(oldPrice)}
-                                                        </span>
-                                                    `
-                                                    : ""
+                                                currentOldPrice > currentPrice
+                                                ?
+                                                `
+                                                <span class="cart-product-old-price">
+                                                    ${price(currentOldPrice)}
+                                                </span>
+                                                `
+                                                :
+                                                ""
                                             }
                                         </div>
-                                        ${
-                                            colorHtml || sizeHtml
-                                                ? `
-                                                    <div class="cart-variants">
-                                                        ${colorHtml}
-                                                        ${sizeHtml}
-                                                    </div>
-                                                `
-                                                : ""
-                                        }
                                     </div>
                                     <div class="cart-product-controls">
                                         <button
                                             type="button"
                                             class="qty-btn"
-                                            onclick="changeQuantity(${index}, 1)"
+                                            onclick="changeQuantity('${key}', 1)"
                                             aria-label="افزایش تعداد"
                                         >
                                             +
                                         </button>
                                         <span class="qty-number">
-                                            ${Number(item.quantity).toLocaleString("fa-IR")}
+                                            ${Number(item.quantity).toLocaleString("en-US")}
                                         </span>
                                         <button
                                             type="button"
                                             class="qty-btn"
-                                            onclick="changeQuantity(${index}, -1)"
+                                            onclick="changeQuantity('${key}', -1)"
                                             aria-label="کاهش تعداد"
                                         >
                                             −
@@ -1683,7 +1651,7 @@ function renderCart() {
                                     <button
                                         type="button"
                                         class="remove-product"
-                                        onclick="removeProduct(${index})"
+                                        onclick="removeProduct('${key}')"
                                         aria-label="حذف محصول"
                                     >
                                         ×
@@ -1744,129 +1712,83 @@ function renderCart() {
             </div>
         </div>
     `;
-    saveCart();
     updateSummary();
 }
-/* =========================================================
+/* =====================================================
    CHANGE QUANTITY
-========================================================= */
-function changeQuantity(index, amount) {
+===================================================== */
+function changeQuantity(key, amount) {
     const item =
-        cart[index];
+        cart.find(
+            current =>
+                itemKey(current) === key
+        );
     if (!item) return;
     const product =
-        products.find(
-            p =>
-                String(p.id) ===
-                String(item.id)
-        );
+        getProduct(item.id);
     if (!product) return;
-    const nextQuantity =
-        Number(item.quantity || 0) +
-        Number(amount);
-    /* افزایش */
-    if (amount > 0) {
-        const stock =
+    let maxStock;
+    if (item.color) {
+        maxStock =
             getColorStock(
                 product,
                 item.color
             );
-        if (
-            stock !== Infinity &&
-            nextQuantity > stock
-        ) {
-            showCartMessage(
-                `موجودی این رنگ فقط ${stock.toLocaleString("fa-IR")} عدد است`
-            );
-            return;
-        }
-    }
-    /* کاهش / حذف */
-    if (nextQuantity <= 0) {
-        cart.splice(index, 1);
     } else {
-        item.quantity =
-            nextQuantity;
+        maxStock =
+            getTotalStock(product);
     }
-    saveCart();
-    renderCart();
-}
-/* =========================================================
-   REMOVE
-========================================================= */
-function removeProduct(index) {
-    if (
-        index < 0 ||
-        index >= cart.length
-    ) {
+    const newQuantity =
+        Number(item.quantity) +
+        Number(amount);
+    if (newQuantity <= 0) {
+        cart =
+            cart.filter(
+                current =>
+                    itemKey(current) !== key
+            );
+        saveCart();
+        renderCart();
         return;
     }
-    cart.splice(index, 1);
+    if (
+        maxStock > 0 &&
+        newQuantity > maxStock
+    ) {
+        item.quantity =
+            maxStock;
+        showToast(
+            "بیشتر از موجودی این گزینه نمی‌توانید اضافه کنید."
+        );
+    } else {
+        item.quantity =
+            newQuantity;
+    }
     saveCart();
     renderCart();
 }
-/* =========================================================
-   OPEN PRODUCT
-========================================================= */
-function openProduct(id) {
-    window.location.href =
-        "product.html?id=" + id;
+/* =====================================================
+   REMOVE PRODUCT
+===================================================== */
+function removeProduct(key) {
+    cart =
+        cart.filter(
+            item =>
+                itemKey(item) !== key
+        );
+    saveCart();
+    renderCart();
 }
-/* =========================================================
-   MESSAGE
-========================================================= */
-function showCartMessage(message) {
-    let toast =
-        document.querySelector(".cart-page-toast");
-    if (!toast) {
-        toast =
-            document.createElement("div");
-        toast.className =
-            "cart-page-toast";
-        toast.style.cssText = `
-            position:fixed;
-            left:50%;
-            bottom:95px;
-            transform:translateX(-50%);
-            background:rgba(41,71,55,.94);
-            color:#fff;
-            padding:10px 16px;
-            border-radius:11px;
-            font:12px Tahoma,Arial,sans-serif;
-            z-index:100000;
-            box-shadow:0 8px 25px rgba(0,0,0,.15);
-            opacity:0;
-            transition:.25s ease;
-            pointer-events:none;
-            white-space:nowrap;
-        `;
-        document.body.appendChild(toast);
-    }
-    toast.textContent =
-        message;
-    toast.style.opacity = "1";
-    clearTimeout(
-        window.cartPageToastTimer
-    );
-    window.cartPageToastTimer =
-        setTimeout(() => {
-            toast.style.opacity = "0";
-        }, 2200);
-}
-/* =========================================================
+/* =====================================================
    SUMMARY
-========================================================= */
+===================================================== */
 function updateSummary() {
     let subtotal = 0;
     let discount = 0;
     let quantity = 0;
     cart.forEach(item => {
         const product =
-            products.find(
-                p =>
-                    String(p.id) ===
-                    String(item.id)
-            );
+            getProduct(item.id);
         if (!product) return;
         const itemQuantity =
             Number(item.quantity || 0);
@@ -1880,7 +1802,6 @@ function updateSummary() {
             currentPrice *
             itemQuantity;
         if (
-            oldPrice &&
             oldPrice > currentPrice
         ) {
             discount +=
@@ -1935,29 +1856,33 @@ function updateSummary() {
     }
     if (bottomQuantity) {
         bottomQuantity.textContent =
-            quantity.toLocaleString("fa-IR");
+            quantity.toLocaleString(
+                "en-US"
+            );
     }
     if (headerCartCount) {
         headerCartCount.textContent =
-            quantity.toLocaleString("fa-IR");
+            quantity.toLocaleString(
+                "en-US"
+            );
     }
 }
-/* =========================================================
+/* =====================================================
    CHECKOUT
-========================================================= */
+===================================================== */
 function goCheckout() {
     if (!cart.length) {
-        showCartMessage(
-            "سبد خرید شما خالی است"
+        showToast(
+            "سبد خرید شما خالی است."
         );
         return;
     }
     window.location.href =
         "checkout.html";
 }
-/* =========================================================
+/* =====================================================
    MOBILE MENU
-========================================================= */
+===================================================== */
 const mobileMenuBtn =
     document.getElementById(
         "mobileMenuBtn"
@@ -1981,8 +1906,12 @@ function openMobileMenu() {
     ) {
         return;
     }
-    mobileMenu.classList.add("active");
-    mobileMenuOverlay.classList.add("active");
+    mobileMenu.classList.add(
+        "active"
+    );
+    mobileMenuOverlay.classList.add(
+        "active"
+    );
     document.body.style.overflow =
         "hidden";
 }
@@ -1993,8 +1922,12 @@ function closeMobileMenu() {
     ) {
         return;
     }
-    mobileMenu.classList.remove("active");
-    mobileMenuOverlay.classList.remove("active");
+    mobileMenu.classList.remove(
+        "active"
+    );
+    mobileMenuOverlay.classList.remove(
+        "active"
+    );
     document.body.style.overflow =
         "";
 }
@@ -2026,9 +1959,9 @@ document
             closeMobileMenu
         );
     });
-/* =========================================================
+/* =====================================================
    MOBILE CATEGORIES
-========================================================= */
+===================================================== */
 const mobileCategoryButton =
     document.getElementById(
         "mobileCategoryButton"
@@ -2053,52 +1986,11 @@ if (
         }
     );
 }
-/* =========================================================
-   ESC
-========================================================= */
-document.addEventListener(
-    "keydown",
-    function(event) {
-        if (
-            event.key === "Escape"
-        ) {
-            closeMobileMenu();
-        }
-    }
-);
-/* =========================================================
-   STORAGE SYNC
-========================================================= */
-window.addEventListener(
-    "storage",
-    function(event) {
-        if (
-            event.key !==
-            "navidTowelCart"
-        ) {
-            return;
-        }
-        try {
-            cart =
-                JSON.parse(
-                    event.newValue
-                ) || [];
-        } catch {
-            cart = [];
-        }
-        renderCart();
-    }
-);
-/* =========================================================
+/* =====================================================
    INIT
-========================================================= */
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
-        normalizeCart();
-        renderCart();
-    }
-);
+===================================================== */
+syncCart();
+renderCart();
 </script>
 </body>
 </html>
