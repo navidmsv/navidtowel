@@ -502,9 +502,9 @@
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-                background: rgba(255,255,255,.9) !important;
-                color: #34452f !important;
-                border: 1px solid rgba(52,69,47,.3) !important;
+                background: #d4af37 !important;
+                color: #ffffff !important;
+                border: 1px solid #fff !important;
                 box-shadow:
                     0 3px 10px rgba(52,69,47,.16),
                     inset 0 1px 1px rgba(255,255,255,.9) !important;
