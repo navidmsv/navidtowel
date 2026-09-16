@@ -1031,23 +1031,11 @@
             ================================================= */
 
             .navid-top-buttons .openCart {
-
-                position:
-                    relative;
-
-                background:
-                    #34452f !important;
-
-                color:
-                    #fff !important;
-
-                border-color:
-                    #34452f !important;
-
-                box-shadow:
-                    0 6px 15px rgba(52,69,47,.17);
-
-            }
+    background: #34452f !important;
+    color: #ffffff !important;
+    border-color: #34452f !important;
+    box-shadow: 0 6px 15px rgba(52,69,47,.17) !important;
+}
 
 
             .navid-top-buttons
