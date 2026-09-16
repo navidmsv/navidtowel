@@ -1389,7 +1389,37 @@
 
         }
 
+/* CART — LIQUID GLASS */
+.navid-top-buttons .openCart {
+    background: rgba(255, 255, 255, 0.42) !important;
+    color: #34452f !important;
+    border: 1px solid rgba(255, 255, 255, 0.78) !important;
+    box-shadow:
+        0 8px 25px rgba(52, 69, 47, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(18px) saturate(135%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(135%) !important;
+}
 
+/* حذف دایره طلایی دور آیکون */
+.navid-top-buttons .openCart .cart-icon {
+    background: transparent !important;
+    color: #34452f !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* دایره تعداد — سبز لیکوید گلاس */
+.navid-top-buttons .openCart .cartCount {
+    background: rgba(52, 69, 47, 0.88) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.45) !important;
+    box-shadow:
+        0 4px 12px rgba(52, 69, 47, 0.22),
+        inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+}
         </style>
         `;
 
