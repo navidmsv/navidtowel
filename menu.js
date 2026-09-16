@@ -1,6 +1,7 @@
+```javascript
 /* =========================================================
    NAVIDTOWEL — SHARED HEADER + MOBILE MENU
-   FINAL COMPACT / LUXURY VERSION
+   FINAL — CART PREVIEW FIXED
 ========================================================= */
 
 (function () {
@@ -108,11 +109,12 @@
 
                     <button
                         type="button"
-                        class="cart-btn openCart">
+                        class="cart-btn openCart"
+                        aria-label="سبد خرید">
 
                         <span class="cart-icon">🛒</span>
 
-                        <span>
+                        <span class="cart-label">
                             سبد خرید
                         </span>
 
@@ -128,16 +130,19 @@
 
         </header>
 
+
         <!-- MOBILE OVERLAY -->
         <div
             class="mobile-menu-overlay"
             id="mobileMenuOverlay">
         </div>
 
+
         <!-- MOBILE SIDE MENU -->
         <aside
             class="mobile-side-menu navid-compact-menu"
             id="mobileSideMenu">
+
 
             <!-- MENU HEADER -->
             <div class="mobile-side-header">
@@ -174,6 +179,7 @@
 
             </div>
 
+
             <!-- TOP 3 BUTTONS -->
 
             <div class="navid-top-buttons">
@@ -198,7 +204,8 @@
 
                 <button
                     type="button"
-                    class="navid-mini-button openCart">
+                    class="navid-mini-button openCart"
+                    aria-label="سبد خرید">
 
                     <span class="cart-icon">🛒</span>
 
@@ -211,6 +218,7 @@
                 </button>
 
             </div>
+
 
             <!-- MAIN LINKS -->
 
@@ -242,6 +250,7 @@
                         </span>
 
                     </button>
+
 
                     <div
                         class="mobile-side-category-list"
@@ -279,6 +288,7 @@
 
                 </div>
 
+
                 <!-- DISCOUNT -->
 
                 <a
@@ -299,6 +309,7 @@
 
                 </a>
 
+
                 <!-- TRACKING -->
 
                 <a
@@ -314,6 +325,7 @@
                     </span>
 
                 </a>
+
 
                 <!-- ABOUT -->
 
@@ -332,6 +344,7 @@
                 </a>
 
             </nav>
+
 
             <!-- BOTTOM 3 BUTTONS -->
 
@@ -372,59 +385,142 @@
 
         </aside>
 
-        <!-- CART ICON FIX -->
+
+        <!-- =================================================
+             CART + MENU STYLE FIX
+        ================================================= -->
 
         <style>
 
-        .header-actions .cart-btn .cart-icon {
-            display: inline-flex !important;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            font-size: 18px !important;
-            line-height: 20px !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-        }
-
-        .navid-top-buttons .openCart .cart-icon {
-            display: inline-flex !important;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            font-size: 17px !important;
-            line-height: 20px !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-        }
-
-        /* ---------- HEADER CART ---------- */
+        /* =====================================================
+           HEADER CART
+        ===================================================== */
 
         .header-actions .cart-btn {
 
             position: relative;
 
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            width: 58px !important;
+            height: 52px !important;
 
-            border: 0;
+            min-width: 58px !important;
+            min-height: 52px !important;
+
+            padding: 0 !important;
+
+            border: 1px solid rgba(52,69,47,.12) !important;
+
+            border-radius: 13px !important;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #f1f3ed
+                ) !important;
+
+            color: #34452f !important;
+
+            display: flex !important;
+
+            align-items: center !important;
+            justify-content: center !important;
 
             cursor: pointer;
 
-            transition: .22s ease;
+            box-shadow:
+                0 5px 15px rgba(35,52,40,.08);
+
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease,
+                background .2s ease;
 
         }
+
 
         .header-actions .cart-btn:hover {
 
-            transform: translateY(-2px);
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 8px 20px rgba(35,52,40,.13);
 
         }
 
-        /* ---------- MOBILE MENU ---------- */
+
+        .header-actions .cart-icon {
+
+            display: flex !important;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 24px !important;
+            height: 24px !important;
+
+            font-size: 20px !important;
+
+            line-height: 1 !important;
+
+            visibility: visible !important;
+            opacity: 1 !important;
+
+        }
+
+
+        .header-actions .cart-label {
+
+            display: none !important;
+
+        }
+
+
+        /* HEADER CART NUMBER */
+
+        .header-actions .cartCount {
+
+            position: absolute;
+
+            top: -6px;
+            right: -6px;
+
+            min-width: 20px;
+            height: 20px;
+
+            padding: 0 5px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #34452f;
+
+            color: #ffffff;
+
+            border: 2px solid #ffffff;
+
+            font-family:
+                Arial,
+                sans-serif;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            line-height: 1;
+
+            z-index: 10;
+
+        }
+
+
+        /* =====================================================
+           MOBILE MENU
+        ===================================================== */
 
         @media (max-width: 800px) {
 
@@ -455,6 +551,7 @@
 
             }
 
+
             .navid-compact-menu .mobile-side-header {
 
                 padding:
@@ -462,126 +559,108 @@
 
             }
 
-            .navid-compact-menu
-            .mobile-side-logo {
 
-                width:
-                    42px !important;
+            .navid-compact-menu .mobile-side-logo {
 
-                height:
-                    42px !important;
+                width: 42px !important;
+                height: 42px !important;
 
-                border-radius:
-                    13px !important;
+                border-radius: 13px !important;
 
-                font-size:
-                    18px;
+                font-size: 18px;
 
             }
+
 
             .navid-compact-menu
             .mobile-side-brand strong {
 
-                font-size:
-                    15px;
+                font-size: 15px;
 
             }
+
 
             .navid-compact-menu
             .mobile-side-brand span {
 
-                font-size:
-                    9px;
+                font-size: 9px;
 
             }
 
+
+            /* TOP BUTTONS */
+
             .navid-top-buttons {
 
-                display:
-                    grid;
+                display: grid;
 
                 grid-template-columns:
                     repeat(3, 1fr);
 
-                gap:
-                    6px;
+                gap: 6px;
 
                 padding:
                     10px 12px 7px;
 
             }
 
+
             .navid-mini-button {
 
-                position:
-                    relative;
+                position: relative;
 
-                min-width:
-                    0;
+                min-width: 0;
 
-                height:
-                    55px;
+                height: 55px;
 
                 border:
                     1px solid rgba(52,69,47,.07);
 
-                border-radius:
-                    14px;
+                border-radius: 14px;
 
                 background:
                     rgba(255,255,255,.72);
 
-                color:
-                    #34452f;
+                color: #34452f;
 
-                display:
-                    flex;
+                display: flex;
 
-                flex-direction:
-                    column;
+                flex-direction: column;
 
-                align-items:
-                    center;
+                align-items: center;
 
-                justify-content:
-                    center;
+                justify-content: center;
 
-                gap:
-                    3px;
+                gap: 3px;
 
-                text-decoration:
-                    none;
+                text-decoration: none;
 
-                cursor:
-                    pointer;
+                cursor: pointer;
 
-                transition:
-                    .2s ease;
+                transition: .2s ease;
 
             }
+
 
             .navid-mini-button span {
 
-                font-size:
-                    17px;
+                font-size: 17px;
 
-                line-height:
-                    18px;
+                line-height: 18px;
 
             }
+
 
             .navid-mini-button small {
 
-                font-size:
-                    9px;
+                font-size: 9px;
 
-                font-weight:
-                    700;
+                font-weight: 700;
 
-                white-space:
-                    nowrap;
+                white-space: nowrap;
 
             }
+
 
             .navid-mini-button:hover {
 
@@ -593,77 +672,95 @@
 
             }
 
-            .navid-top-buttons
-            .openCart {
 
-                background:
-                    #34452f;
+            /* MOBILE CART */
 
-                color:
-                    #fff;
+            .navid-top-buttons .openCart {
 
-                border-color:
-                    #34452f;
+                background: #34452f;
+
+                color: #fff;
+
+                border-color: #34452f;
 
                 box-shadow:
                     0 6px 15px rgba(52,69,47,.17);
 
             }
 
+
             .navid-top-buttons
             .openCart:hover {
 
-                background:
-                    #2d3c29;
+                background: #2d3c29;
 
             }
+
+
+            .navid-top-buttons
+            .openCart .cart-icon {
+
+                display: inline-flex !important;
+
+                align-items: center;
+                justify-content: center;
+
+                width: 20px;
+                height: 20px;
+
+                font-size: 17px !important;
+
+                line-height: 20px !important;
+
+                visibility: visible !important;
+                opacity: 1 !important;
+
+            }
+
+
+            /* MOBILE CART NUMBER */
 
             .navid-top-buttons
             .cartCount {
 
-                position:
-                    absolute;
+                position: absolute;
 
-                top:
-                    4px;
+                top: -5px;
+                right: -5px;
 
-                left:
-                    5px;
+                min-width: 19px;
 
-                min-width:
-                    17px;
+                height: 19px;
 
-                height:
-                    17px;
+                padding: 0 4px;
 
-                padding:
-                    0 3px;
+                border-radius: 50%;
 
-                border-radius:
-                    50%;
+                display: flex;
 
-                display:
-                    flex;
+                align-items: center;
+                justify-content: center;
 
-                align-items:
-                    center;
+                background: #fff;
 
-                justify-content:
-                    center;
+                color: #34452f;
 
-                background:
-                    #fff;
+                border: 2px solid #34452f;
 
-                color:
-                    #34452f;
+                font-family:
+                    Arial,
+                    sans-serif;
 
-                font-size:
-                    9px;
+                font-size: 9px;
 
-                font-weight:
-                    800;
+                font-weight: 800;
+
+                line-height: 1;
 
             }
+
+
+            /* MAIN LINKS */
 
             .navid-compact-menu
             .mobile-side-links {
@@ -672,6 +769,7 @@
                     5px 11px 8px !important;
 
             }
+
 
             .navid-compact-menu
             .mobile-side-link {
@@ -690,38 +788,32 @@
 
             }
 
+
             .navid-compact-menu
             .mobile-side-link
             .side-icon {
 
-                width:
-                    32px;
+                width: 32px;
 
-                height:
-                    32px;
+                height: 32px;
 
-                border-radius:
-                    10px;
+                border-radius: 10px;
 
-                display:
-                    inline-flex;
+                display: inline-flex;
 
-                align-items:
-                    center;
+                align-items: center;
 
-                justify-content:
-                    center;
+                justify-content: center;
 
                 background:
                     rgba(52,69,47,.07);
 
-                color:
-                    #34452f;
+                color: #34452f;
 
-                font-size:
-                    14px;
+                font-size: 14px;
 
             }
+
 
             .navid-compact-menu
             .mobile-side-link:hover {
@@ -731,88 +823,84 @@
 
             }
 
+
+            /* CATEGORY */
+
             .navid-compact-menu
             .mobile-side-category-list {
 
                 margin:
                     0 4px 5px;
 
-                border-radius:
-                    12px;
+                border-radius: 12px;
 
                 background:
                     rgba(52,69,47,.035);
 
-                overflow:
-                    hidden;
+                overflow: hidden;
 
             }
+
 
             .navid-compact-menu
             .mobile-side-category-list a {
 
-                min-height:
-                    34px;
+                min-height: 34px;
 
                 padding:
                     7px 14px !important;
 
-                font-size:
-                    12px;
+                font-size: 12px;
 
                 border-bottom:
                     1px solid rgba(52,69,47,.05);
 
             }
 
+
+            /* DISCOUNT */
+
             .navid-compact-menu
             .discount-badge {
 
-                margin-right:
-                    auto;
+                margin-right: auto;
 
                 padding:
                     3px 7px;
 
-                border-radius:
-                    20px;
+                border-radius: 20px;
 
-                background:
-                    #34452f;
+                background: #34452f;
 
-                color:
-                    #fff;
+                color: #fff;
 
-                font-size:
-                    8px;
+                font-size: 8px;
 
-                font-weight:
-                    800;
+                font-weight: 800;
 
             }
 
+
+            /* BOTTOM */
+
             .navid-bottom-buttons {
 
-                display:
-                    grid;
+                display: grid;
 
                 grid-template-columns:
                     repeat(3, 1fr);
 
-                gap:
-                    6px;
+                gap: 6px;
 
                 margin:
                     auto 12px 12px;
 
-                padding:
-                    7px;
+                padding: 7px;
 
                 border:
                     1px solid rgba(255,255,255,.9);
 
-                border-radius:
-                    17px;
+                border-radius: 17px;
 
                 background:
                     rgba(255,255,255,.65);
@@ -822,33 +910,31 @@
 
             }
 
+
             .navid-bottom-buttons
             .navid-mini-button {
 
-                height:
-                    48px;
+                height: 48px;
 
-                border:
-                    0;
+                border: 0;
 
-                background:
-                    transparent;
+                background: transparent;
 
             }
+
 
             .navid-bottom-buttons
             .navid-mini-button span {
 
-                font-size:
-                    16px;
+                font-size: 16px;
 
             }
+
 
             .navid-bottom-buttons
             .navid-mini-button small {
 
-                font-size:
-                    8px;
+                font-size: 8px;
 
             }
 
@@ -858,8 +944,10 @@
         `;
 
         setupMenu();
+        setupCartPreview();
         updateCartCount();
     }
+
 
     /* =====================================================
        MENU LOGIC
@@ -891,6 +979,7 @@
         const desktopCategoryButton =
             document.querySelector(".nav-category-btn");
 
+
         function openMenu() {
 
             if (!menu) return;
@@ -906,6 +995,7 @@
 
             document.body.style.overflow = "hidden";
         }
+
 
         function closeMenu() {
 
@@ -927,12 +1017,17 @@
             }
 
             const arrow =
-                document.getElementById("mobileCategoryArrow");
+                document.getElementById(
+                    "mobileCategoryArrow"
+                );
 
             if (arrow) {
                 arrow.classList.remove("open");
             }
         }
+
+
+        /* MOBILE OPEN */
 
         if (openButton) {
 
@@ -950,6 +1045,9 @@
 
         }
 
+
+        /* CLOSE */
+
         if (closeButton) {
 
             closeButton.addEventListener(
@@ -966,12 +1064,20 @@
 
         }
 
+
+        /* OVERLAY */
+
         if (overlay) {
+
             overlay.addEventListener(
                 "click",
                 closeMenu
             );
+
         }
+
+
+        /* ESC */
 
         document.addEventListener(
             "keydown",
@@ -983,6 +1089,9 @@
 
             }
         );
+
+
+        /* MOBILE CATEGORY */
 
         if (
             categoryButton &&
@@ -1018,6 +1127,9 @@
 
         }
 
+
+        /* MOBILE LINKS */
+
         if (menu) {
 
             menu.querySelectorAll("a").forEach(
@@ -1026,7 +1138,9 @@
                     link.addEventListener(
                         "click",
                         function () {
+
                             closeMenu();
+
                         }
                     );
 
@@ -1034,6 +1148,9 @@
             );
 
         }
+
+
+        /* DESKTOP CATEGORY */
 
         if (
             desktopCategoryButton &&
@@ -1053,6 +1170,7 @@
 
                 }
             );
+
 
             document.addEventListener(
                 "click",
@@ -1077,6 +1195,207 @@
 
     }
 
+
+    /* =====================================================
+       CART PREVIEW
+       اتصال به کارت پیش‌نمایش موجود در SHOP
+    ===================================================== */
+
+    function setupCartPreview() {
+
+        /*
+         * مهم:
+         * ما HTML سبد خرید را دوباره نمی‌سازیم.
+         * همان کارت/Drawer موجود خودت را پیدا می‌کنیم
+         * و باز می‌کنیم.
+         */
+
+        document
+            .querySelectorAll(".openCart")
+            .forEach(function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        openExistingCartPreview();
+
+                    }
+                );
+
+            });
+
+    }
+
+
+    function openExistingCartPreview() {
+
+        /*
+         * نام‌های احتمالی کارت سبد خرید
+         */
+
+        const selectors = [
+            "#cartPreview",
+            "#cartDrawer",
+            "#cartModal",
+            "#shoppingCartPreview",
+            ".cart-preview",
+            ".cart-drawer",
+            ".cart-modal",
+            ".shopping-cart-preview"
+        ];
+
+
+        let cartElement = null;
+
+
+        for (
+            let i = 0;
+            i < selectors.length;
+            i++
+        ) {
+
+            const element =
+                document.querySelector(
+                    selectors[i]
+                );
+
+            if (element) {
+
+                cartElement = element;
+                break;
+
+            }
+
+        }
+
+
+        /*
+         * اگر کارت پیدا نشد، event استاندارد ارسال می‌کنیم.
+         * این باعث می‌شود اگر کد shop خودش listener داشته باشد
+         * همان کد سبد را باز کند.
+         */
+
+        document.dispatchEvent(
+            new CustomEvent(
+                "navid:openCart"
+            )
+        );
+
+
+        window.dispatchEvent(
+            new CustomEvent(
+                "navid:openCart"
+            )
+        );
+
+
+        if (!cartElement) {
+
+            /*
+             * تلاش برای پیدا کردن المنت‌هایی
+             * که کلاس active دارند یا data-cart دارند.
+             */
+
+            const fallback =
+                document.querySelector(
+                    '[data-cart-preview], [data-cart-drawer], [data-cart-modal]'
+                );
+
+            if (fallback) {
+                cartElement = fallback;
+            }
+
+        }
+
+
+        if (!cartElement) {
+
+            console.warn(
+                "NavidTowel: Cart preview element was not found."
+            );
+
+            return;
+
+        }
+
+
+        /* =================================================
+           باز کردن با کلاس‌های رایج
+        ================================================= */
+
+        cartElement.classList.add("active");
+        cartElement.classList.add("open");
+        cartElement.classList.add("show");
+
+
+        cartElement.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+
+        /*
+         * اگر با hidden مخفی شده باشد
+         */
+
+        if (
+            cartElement.hasAttribute("hidden")
+        ) {
+
+            cartElement.removeAttribute("hidden");
+
+        }
+
+
+        /*
+         * اگر display:none مستقیم داشته باشد
+         */
+
+        if (
+            getComputedStyle(
+                cartElement
+            ).display === "none"
+        ) {
+
+            cartElement.style.display = "block";
+
+        }
+
+
+        /*
+         * body
+         */
+
+        document.body.classList.add(
+            "cart-open"
+        );
+
+
+        /*
+         * بعضی پیاده‌سازی‌ها overlay جدا دارند
+         */
+
+        const cartOverlay =
+            document.querySelector(
+                "#cartOverlay, .cart-overlay, [data-cart-overlay]"
+            );
+
+
+        if (cartOverlay) {
+
+            cartOverlay.classList.add("active");
+            cartOverlay.classList.add("open");
+            cartOverlay.classList.add("show");
+
+        }
+
+    }
+
+
     /* =====================================================
        CART COUNT
     ===================================================== */
@@ -1100,32 +1419,53 @@
 
         }
 
+
         let count = 0;
 
-        cart.forEach(function (item) {
 
-            count +=
-                Number(item.quantity || item.qty || 1);
+        if (Array.isArray(cart)) {
 
-        });
+            cart.forEach(function (item) {
+
+                count +=
+                    Number(
+                        item.quantity ||
+                        item.qty ||
+                        1
+                    );
+
+            });
+
+        }
+
 
         document
             .querySelectorAll(".cartCount")
             .forEach(function (element) {
 
+                /*
+                 * انگلیسی
+                 */
+
                 element.textContent =
-                    count.toLocaleString("en-US");
+                    String(count);
 
             });
 
     }
+
+
+    /* =====================================================
+       STORAGE
+    ===================================================== */
 
     window.addEventListener(
         "storage",
         function (event) {
 
             if (
-                event.key === "navidTowelCart"
+                event.key ===
+                "navidTowelCart"
             ) {
 
                 updateCartCount();
@@ -1135,12 +1475,38 @@
         }
     );
 
+
+    /* =====================================================
+       CUSTOM CART EVENTS
+    ===================================================== */
+
+    window.addEventListener(
+        "cartUpdated",
+        function () {
+
+            updateCartCount();
+
+        }
+    );
+
+
+    document.addEventListener(
+        "cartUpdated",
+        function () {
+
+            updateCartCount();
+
+        }
+    );
+
+
     /* =====================================================
        START
     ===================================================== */
 
     if (
-        document.readyState === "loading"
+        document.readyState ===
+        "loading"
     ) {
 
         document.addEventListener(
@@ -1155,3 +1521,4 @@
     }
 
 })();
+```
