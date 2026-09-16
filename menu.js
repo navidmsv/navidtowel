@@ -347,6 +347,48 @@
     }, 200);
   }
 
+function updateCartCount() {
+
+        let cart = [];
+
+        try {
+
+            cart =
+
+                JSON.parse(
+
+                    localStorage.getItem("navidTowelCart")
+
+                ) || [];
+
+        } catch (error) {
+
+            cart = [];
+
+        }
+
+        let count = 0;
+
+        if (Array.isArray(cart)) {
+
+            cart.forEach(function (item) {
+
+                count += Number(
+
+                    item.quantity ||
+
+                    item.qty ||
+
+                    1
+
+                );
+
+            });
+
+        }
+
+      
+  
   function openCartElementFallback() {
     const selectors = [
       "#cartPreview",
