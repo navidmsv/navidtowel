@@ -311,12 +311,12 @@
         /* سبد خرید هدر */
         .header-actions .cart-btn {
             position: relative !important;
-            width: 46px !important;
-            height: 46px !important;
-            min-width: 46px !important;
-            min-height: 46px !important;
+            width: 48px !important;
+            height: 48px !important;
+            min-width: 48px !important;
+            min-height: 48px !important;
             padding: 0 !important;
-            border: 1px solid rgba(255,255,255,.82) !important;
+            border: 1px  solid #fff !important;
             border-radius: 12px !important;
             background: rgba(52,69,47,.88) !important;
             color: #ffffff !important;
