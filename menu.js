@@ -367,7 +367,7 @@
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            background: rgba(52,69,47,.92) !important;
+            background: #d4af37 !important;
             color: #ffffff !important;
             border: 1px solid rgba(255,255,255,.8) !important;
             box-shadow:
