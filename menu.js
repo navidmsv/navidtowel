@@ -1,3 +1,4 @@
+
 /* =========================================================
    NAVIDTOWEL — SHARED HEADER + MOBILE MENU
    FINAL COMPACT / LUXURY VERSION
@@ -104,20 +105,21 @@
                 </nav>
 
                 <!-- CART -->
+                <!-- عمداً openCart باقی مانده -->
                 <div class="header-actions">
 
                     <button
                         type="button"
                         class="cart-btn openCart">
 
-                        <span class="cart-icon">🛒</span>
+                        🛒
 
                         <span>
                             سبد خرید
                         </span>
 
                         <b class="cartCount">
-                            0
+                            ۰
                         </b>
 
                     </button>
@@ -174,7 +176,9 @@
 
             </div>
 
-            <!-- TOP 3 BUTTONS -->
+            <!-- =================================================
+                 TOP 3 BUTTONS
+            ================================================= -->
 
             <div class="navid-top-buttons">
 
@@ -200,19 +204,20 @@
                     type="button"
                     class="navid-mini-button openCart">
 
-                    <span class="cart-icon">🛒</span>
-
+                    <span>🛒</span>
                     <small>سبد خرید</small>
 
                     <b class="cartCount">
-                        0
+                        ۰
                     </b>
 
                 </button>
 
             </div>
 
-            <!-- MAIN LINKS -->
+            <!-- =================================================
+                 MAIN LINKS
+            ================================================= -->
 
             <nav class="mobile-side-links">
 
@@ -333,9 +338,13 @@
 
             </nav>
 
-            <!-- BOTTOM 3 BUTTONS -->
+            <!-- =================================================
+                 BOTTOM 3 BUTTONS
+            ================================================= -->
 
             <div class="navid-bottom-buttons">
+
+                <!-- CONTACT -->
 
                 <a
                     href="index.html#contact"
@@ -345,6 +354,8 @@
                     <small>تماس</small>
 
                 </a>
+
+                <!-- INSTAGRAM -->
 
                 <a
                     href="https://instagram.com/navidtowel"
@@ -356,6 +367,8 @@
                     <small>اینستاگرام</small>
 
                 </a>
+
+                <!-- TELEGRAM -->
 
                 <a
                     href="https://t.me/navidtowel"
@@ -372,33 +385,11 @@
 
         </aside>
 
-        <!-- CART ICON FIX -->
+        <!-- =================================================
+             COMPACT LUXURY STYLE
+        ================================================= -->
 
         <style>
-
-        .header-actions .cart-btn .cart-icon {
-            display: inline-flex !important;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            font-size: 18px !important;
-            line-height: 20px !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-        }
-
-        .navid-top-buttons .openCart .cart-icon {
-            display: inline-flex !important;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            font-size: 17px !important;
-            line-height: 20px !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-        }
 
         /* ---------- HEADER CART ---------- */
 
@@ -455,6 +446,8 @@
 
             }
 
+            /* HEADER */
+
             .navid-compact-menu .mobile-side-header {
 
                 padding:
@@ -494,6 +487,8 @@
                     9px;
 
             }
+
+            /* TOP BUTTONS */
 
             .navid-top-buttons {
 
@@ -593,6 +588,8 @@
 
             }
 
+            /* CART TOP */
+
             .navid-top-buttons
             .openCart {
 
@@ -665,6 +662,8 @@
 
             }
 
+            /* MAIN LINKS */
+
             .navid-compact-menu
             .mobile-side-links {
 
@@ -731,6 +730,8 @@
 
             }
 
+            /* CATEGORY */
+
             .navid-compact-menu
             .mobile-side-category-list {
 
@@ -765,6 +766,8 @@
 
             }
 
+            /* DISCOUNT */
+
             .navid-compact-menu
             .discount-badge {
 
@@ -790,6 +793,8 @@
                     800;
 
             }
+
+            /* BOTTOM BUTTONS */
 
             .navid-bottom-buttons {
 
@@ -934,6 +939,8 @@
             }
         }
 
+        /* MOBILE OPEN */
+
         if (openButton) {
 
             openButton.addEventListener(
@@ -949,6 +956,8 @@
             );
 
         }
+
+        /* CLOSE */
 
         if (closeButton) {
 
@@ -966,12 +975,16 @@
 
         }
 
+        /* OVERLAY */
+
         if (overlay) {
             overlay.addEventListener(
                 "click",
                 closeMenu
             );
         }
+
+        /* ESC */
 
         document.addEventListener(
             "keydown",
@@ -983,6 +996,8 @@
 
             }
         );
+
+        /* MOBILE CATEGORY */
 
         if (
             categoryButton &&
@@ -1018,6 +1033,8 @@
 
         }
 
+        /* MOBILE LINKS */
+
         if (menu) {
 
             menu.querySelectorAll("a").forEach(
@@ -1034,6 +1051,8 @@
             );
 
         }
+
+        /* DESKTOP CATEGORY */
 
         if (
             desktopCategoryButton &&
@@ -1114,11 +1133,13 @@
             .forEach(function (element) {
 
                 element.textContent =
-                    count.toLocaleString("en-US");
+                    count.toLocaleString("fa-IR");
 
             });
 
     }
+
+    /* STORAGE */
 
     window.addEventListener(
         "storage",
