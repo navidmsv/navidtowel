@@ -1,1524 +1,413 @@
-javascript
 /* =========================================================
-   NAVIDTOWEL — SHARED HEADER + MOBILE MENU
-   FINAL — CART PREVIEW FIXED
+   NAVIDTOWEL — SHARED HEADER + MENU + CART
 ========================================================= */
 
+(function () {
+  "use strict";
 
-function () {
-    "use strict";
+  /* ================= CREATE MENU ================= */
 
-    function createMenu() {
+  function createMenu() {
+    const mount = document.getElementById("siteMenu");
+    if (!mount) return;
 
-        const mount = document.getElementById("siteMenu");
-        if (!mount) return;
+    mount.innerHTML = `
+    <header class="header">
+      <div class="container header-inner">
 
-        mount.innerHTML = `
+        <button type="button" class="mobile-menu-button" id="mobileMenuButton" aria-label="باز کردن منو">
+          <span></span><span></span><span></span>
+        </button>
 
-        <!-- HEADER -->
-        <header class="header">
+        <a href="index.html" class="logo">Navid<span>Towel</span></a>
 
-            <div class="container header-inner">
+        <nav class="nav">
+          <a href="index.html">خانه</a>
+          <a href="shop.html">فروشگاه</a>
 
-                <!-- MOBILE MENU -->
-                <button
-                    type="button"
-                    class="mobile-menu-button"
-                    id="mobileMenuButton"
-                    aria-label="باز کردن منو">
+          <div class="nav-category">
+            <button type="button" class="nav-category-btn">دستهبندیها <span>⌄</span></button>
 
-                    <span></span>
-                    <span></span>
-                    <span></span>
-
-                </button>
-
-                <!-- LOGO -->
-                <a href="index.html" class="logo">
-                    Navid<span>Towel</span>
-                </a>
-
-                <!-- DESKTOP NAV -->
-                <nav class="nav">
-
-                    <a href="index.html">
-                        خانه
-                    </a>
-
-                    <a href="shop.html">
-                        فروشگاه
-                    </a>
-
-                    <div class="nav-category">
-
-                        <button
-                            type="button"
-                            class="nav-category-btn">
-
-                            دسته‌بندی‌ها
-
-                            <span>⌄</span>
-
-                        </button>
-
-                        <div class="category-dropdown">
-
-                            <a href="shop.html?category=men">
-                                حوله مردانه
-                            </a>
-
-                            <a href="shop.html?category=women">
-                                حوله زنانه
-                            </a>
-
-                            <a href="shop.html?category=kids">
-                                حوله بچگانه
-                            </a>
-
-                            <a href="shop.html?category=bath">
-                                حوله حمامی
-                            </a>
-
-                            <a href="shop.html?category=pool">
-                                حوله استخری
-                            </a>
-
-                            <a href="shop.html?category=meter">
-                                حوله متری
-                            </a>
-
-                            <a href="shop.html?category=robe">
-                                تن‌پوش
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                    <a href="index.html#about">
-                        درباره ما
-                    </a>
-
-                    <a href="index.html#contact">
-                        تماس با ما
-                    </a>
-
-                </nav>
-
-                <!-- CART -->
-                <div class="header-actions">
-
-                    <button
-                        type="button"
-                        class="cart-btn openCart"
-                        aria-label="سبد خرید">
-
-                        <span class="cart-icon">🛒</span>
-
-                        <span class="cart-label">
-                            سبد خرید
-                        </span>
-
-                        <b class="cartCount">
-                            0
-                        </b>
-
-                    </button>
-
-                </div>
-
+            <div class="category-dropdown">
+              <a href="shop.html?category=men">حوله مردانه</a>
+              <a href="shop.html?category=women">حوله زنانه</a>
+              <a href="shop.html?category=kids">حوله بچگانه</a>
+              <a href="shop.html?category=bath">حوله حمامی</a>
+              <a href="shop.html?category=pool">حوله استخری</a>
+              <a href="shop.html?category=meter">حوله متری</a>
+              <a href="shop.html?category=robe">تنپوش</a>
             </div>
+          </div>
 
-        </header>
+          <a href="index.html#about">درباره ما</a>
+          <a href="index.html#contact">تماس با ما</a>
+        </nav>
 
+        <div class="header-actions">
+          <a href="shop.html" class="all-products-btn">
+            <span>◈</span>
+            <b>همه محصولات</b>
+          </a>
 
-        <!-- MOBILE OVERLAY -->
-        <div
-            class="mobile-menu-overlay"
-            id="mobileMenuOverlay">
+          <button type="button" class="cart-btn openCart" aria-label="سبد خرید">
+            <span class="cart-icon">🛒</span>
+            <span class="cart-label">سبد خرید</span>
+            <b class="cartCount">0</b>
+          </button>
         </div>
 
+      </div>
+    </header>
+
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <aside class="mobile-side-menu navid-compact-menu" id="mobileSideMenu">
+
+      <div class="mobile-side-header">
+        <div class="mobile-side-brand">
+          <div class="mobile-side-logo">N</div>
+          <div>
+            <strong>NavidTowel</strong>
+            <span>فروشگاه حوله و کالای خواب</span>
+          </div>
+        </div>
+
+        <button type="button" class="mobile-side-close" id="mobileMenuClose">×</button>
+      </div>
+
+      <div class="navid-top-buttons">
+        <a href="index.html" class="navid-mini-button"><span>⌂</span><small>خانه</small></a>
+        <a href="shop.html" class="navid-mini-button"><span>◈</span><small>همه محصولات</small></a>
+
+        <button type="button" class="navid-mini-button openCart" aria-label="سبد خرید">
+          <span class="cart-icon">🛒</span>
+          <small>سبد خرید</small>
+          <b class="cartCount">0</b>
+        </button>
+      </div>
+
+      <nav class="mobile-side-links">
+
+        <div class="mobile-side-category">
+          <button type="button" class="mobile-side-link mobile-side-category-button" id="mobileCategoryButton">
+            <span class="side-icon">☰</span>
+            <span>دستهبندیها</span>
+            <span class="side-arrow" id="mobileCategoryArrow">⌄</span>
+          </button>
+
+          <div class="mobile-side-category-list" id="mobileCategoryList">
+            <a href="shop.html?category=men">مردانه</a>
+            <a href="shop.html?category=women">زنانه</a>
+            <a href="shop.html?category=kids">بچگانه</a>
+            <a href="shop.html?category=bath">حمامی</a>
+            <a href="shop.html?category=pool">استخری</a>
+            <a href="shop.html?category=meter">متری</a>
+            <a href="shop.html?category=robe">تنپوش</a>
+          </div>
+        </div>
+
+        <a href="discount.html" class="mobile-side-link mobile-side-discount">
+          <span class="side-icon">%</span>
+          <span>تخفیفات ویژه</span>
+          <span class="discount-badge">ویژه</span>
+        </a>
+
+        <a href="tracking.html" class="mobile-side-link">
+          <span class="side-icon">⌕</span>
+          <span>پیگیری سفارش</span>
+        </a>
+
+        <a href="index.html#about" class="mobile-side-link">
+          <span class="side-icon">i</span>
+          <span>درباره ما</span>
+        </a>
+
+      </nav>
+
+      <div class="navid-bottom-buttons">
+        <a href="index.html#contact" class="navid-mini-button"><span>☏</span><small>تماس</small></a>
+        <a href="https://instagram.com/navidtowel" target="_blank" rel="noopener noreferrer" class="navid-mini-button"><span>◎</span><small>اینستاگرام</small></a>
+        <a href="https://t.me/navidtowel" target="_blank" rel="noopener noreferrer" class="navid-mini-button"><span>➤</span><small>تلگرام</small></a>
+      </div>
+
+    </aside>
+
+    <style>
+      .header-actions{display:flex !important;align-items:center !important;justify-content:center !important;gap:7px !important;}
+
+      .header-actions .all-products-btn{height:46px !important;min-height:46px !important;padding:0 11px !important;border:1px solid rgba(255,255,255,.75) !important;border-radius:12px !important;background:rgba(255,255,255,.52) !important;color:#34452f !important;display:inline-flex !important;align-items:center !important;justify-content:center !important;gap:5px !important;text-decoration:none !important;box-shadow:0 6px 20px rgba(52,69,47,.09), inset 0 1px 0 rgba(255,255,255,.95) !important;backdrop-filter:blur(18px) saturate(135%) !important;-webkit-backdrop-filter:blur(18px) saturate(135%) !important;}
+      .header-actions .all-products-btn span{font-size:13px;}
+      .header-actions .all-products-btn b{font-size:10px;font-weight:800;}
+
+      .header-actions .cart-btn{position:relative !important;width:48px !important;height:48px !important;min-width:48px !important;min-height:48px !important;padding:0 !important;border:1px solid #fff !important;border-radius:12px !important;background:rgba(52,69,47,.88) !important;color:#ffffff !important;display:flex !important;align-items:center !important;justify-content:center !important;cursor:pointer !important;box-shadow:0 7px 20px rgba(52,69,47,.18), inset 0 1px 0 rgba(255,255,255,.28) !important;backdrop-filter:blur(18px) saturate(140%) !important;-webkit-backdrop-filter:blur(18px) saturate(140%) !important;}
+      .header-actions .cart-btn:hover{background:rgba(52,69,47,.94) !important;transform:translateY(-1px);}
+
+      .header-actions .cart-icon{width:22px !important;height:22px !important;display:flex !important;align-items:center !important;justify-content:center !important;font-size:17px !important;line-height:1 !important;background:transparent !important;border:0 !important;box-shadow:none !important;}
+      .header-actions .cart-label{display:none !important;}
+
+      .header-actions .cartCount{position:absolute !important;top:-5px !important;right:-5px !important;min-width:17px !important;width:17px !important;height:17px !important;padding:0 !important;border-radius:50% !important;display:flex !important;align-items:center !important;justify-content:center !important;background:#d4af37 !important;color:#ffffff !important;border:1px solid rgba(255,255,255,.8) !important;box-shadow:0 3px 10px rgba(52,69,47,.2), inset 0 1px 1px rgba(255,255,255,.3) !important;backdrop-filter:blur(12px) !important;-webkit-backdrop-filter:blur(12px) !important;font-family:Arial,sans-serif !important;font-size:8px !important;font-weight:800 !important;line-height:1 !important;z-index:20 !important;}
+
+      @media (max-width: 800px) {
+        .navid-compact-menu{width:min(82vw,330px) !important;background:linear-gradient(160deg, rgba(255,254,250,.98), rgba(245,245,238,.97)) !important;border-left:1px solid rgba(255,255,255,.95);box-shadow:-15px 0 40px rgba(25,40,29,.15);backdrop-filter:blur(25px) saturate(140%);-webkit-backdrop-filter:blur(25px) saturate(140%);}
+        .navid-compact-menu .mobile-side-header{padding:17px 15px !important;}
+        .navid-compact-menu .mobile-side-logo{width:42px !important;height:42px !important;border-radius:13px !important;font-size:18px;}
+        .navid-compact-menu .mobile-side-brand strong{font-size:15px;}
+        .navid-compact-menu .mobile-side-brand span{font-size:9px;}
+
+        .navid-top-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px 12px 7px;}
+
+        .navid-top-buttons .navid-mini-button{position:relative;min-width:0;height:52px !important;border:1px solid rgba(255,255,255,.8) !important;border-radius:13px !important;background:rgba(255,255,255,.48) !important;color:#34452f !important;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;cursor:pointer;box-shadow:0 5px 16px rgba(52,69,47,.07), inset 0 1px 0 rgba(255,255,255,.9);backdrop-filter:blur(18px) saturate(135%);-webkit-backdrop-filter:blur(18px) saturate(135%);}
+        .navid-top-buttons .navid-mini-button span{font-size:16px;line-height:17px;}
+        .navid-top-buttons .navid-mini-button small{font-size:8px;font-weight:800;white-space:nowrap;}
 
-        <!-- MOBILE SIDE MENU -->
-        <aside
-            class="mobile-side-menu navid-compact-menu"
-            id="mobileSideMenu">
+        .navid-top-buttons .openCart{background:rgba(52,69,47,.88) !important;color:#ffffff !important;border:1px solid rgba(255,255,255,.82) !important;box-shadow:0 7px 20px rgba(52,69,47,.2), inset 0 1px 0 rgba(255,255,255,.25) !important;backdrop-filter:blur(18px) saturate(140%) !important;-webkit-backdrop-filter:blur(18px) saturate(140%) !important;}
+        .navid-top-buttons .openCart:hover{background:rgba(52,69,47,.94) !important;}
 
+        .navid-top-buttons .openCart .cart-icon{width:20px !important;height:20px !important;display:flex !important;align-items:center !important;justify-content:center !important;font-size:16px !important;line-height:1 !important;background:transparent !important;border:0 !important;box-shadow:none !important;}
 
-            <!-- MENU HEADER -->
-            <div class="mobile-side-header">
+        .navid-top-buttons .openCart .cartCount{position:absolute !important;top:-5px !important;right:-5px !important;min-width:17px !important;width:17px !important;height:17px !important;padding:0 !important;border-radius:50% !important;display:flex !important;align-items:center !important;justify-content:center !important;background:#d4af37 !important;color:#ffffff !important;border:1px solid #fff !important;box-shadow:0 3px 10px rgba(52,69,47,.16), inset 0 1px 1px rgba(255,255,255,.9) !important;backdrop-filter:blur(12px) !important;-webkit-backdrop-filter:blur(12px) !important;font-family:Arial,sans-serif !important;font-size:8px !important;font-weight:800 !important;line-height:1 !important;z-index:20 !important;}
 
-                <div class="mobile-side-brand">
+        .header-actions .all-products-btn{display:none !important;}
 
-                    <div class="mobile-side-logo">
-                        N
-                    </div>
+        .navid-compact-menu .mobile-side-links{padding:5px 11px 8px !important;}
+        .navid-compact-menu .mobile-side-link{min-height:45px !important;margin:3px 0 !important;padding:7px 9px !important;border-radius:13px !important;}
+        .navid-compact-menu .mobile-side-link .side-icon{width:32px;height:32px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:rgba(52,69,47,.07);color:#34452f;font-size:14px;}
+        .navid-compact-menu .mobile-side-link:hover{background:rgba(52,69,47,.07) !important;}
 
-                    <div>
+        .navid-compact-menu .mobile-side-category-list{margin:0 4px 5px;border-radius:12px;background:rgba(52,69,47,.035);overflow:hidden;}
+        .navid-compact-menu .mobile-side-category-list a{min-height:34px;padding:7px 14px !important;font-size:12px;border-bottom:1px solid rgba(52,69,47,.05);}
 
-                        <strong>
-                            NavidTowel
-                        </strong>
+        .navid-compact-menu .discount-badge{margin-right:auto;padding:3px 7px;border-radius:20px;background:#34452f;color:#fff;font-size:8px;font-weight:800;}
 
-                        <span>
-                            فروشگاه حوله و کالای خواب
-                        </span>
+        .navid-bottom-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:auto 12px 12px;padding:7px;border:1px solid rgba(255,255,255,.9);border-radius:17px;background:rgba(255,255,255,.65);box-shadow:0 8px 22px rgba(30,50,38,.08);}
+        .navid-bottom-buttons .navid-mini-button{height:48px;border:0;background:transparent;}
+        .navid-bottom-buttons .navid-mini-button span{font-size:16px;}
+        .navid-bottom-buttons .navid-mini-button small{font-size:8px;}
+      }
 
-                    </div>
+      html.cart-open, body.cart-open,
+      html.menu-open, body.menu-open{overflow:hidden;}
+    </style>
+    `;
 
-                </div>
+    setupMenu();
+    setupCartPreview();
+  }
 
-                <button
-                    type="button"
-                    class="mobile-side-close"
-                    id="mobileMenuClose"
-                    aria-label="بستن منو">
+  /* ================= MOBILE / CATEGORY MENU ================= */
 
-                    ×
+  function setupMenu() {
+    const menu = document.getElementById("mobileSideMenu");
+    const overlay = document.getElementById("mobileMenuOverlay");
+    const openButton = document.getElementById("mobileMenuButton");
+    const closeButton = document.getElementById("mobileMenuClose");
+    const categoryButton = document.getElementById("mobileCategoryButton");
+    const category = document.querySelector(".mobile-side-category");
+    const desktopCategory = document.querySelector(".nav-category");
+    const desktopCategoryButton = document.querySelector(".nav-category-btn");
 
-                </button>
+    function openMenu() {
+      if (!menu) return;
 
-            </div>
+      menu.classList.add("active");
+      if (overlay) overlay.classList.add("active");
 
-
-            <!-- TOP 3 BUTTONS -->
-
-            <div class="navid-top-buttons">
-
-                <a
-                    href="index.html"
-                    class="navid-mini-button">
-
-                    <span>⌂</span>
-                    <small>خانه</small>
-
-                </a>
-
-                <a
-                    href="shop.html"
-                    class="navid-mini-button">
-
-                    <span>◈</span>
-                    <small>محصولات</small>
-
-                </a>
-
-                <button
-                    type="button"
-                    class="navid-mini-button openCart"
-                    aria-label="سبد خرید">
-
-                    <span class="cart-icon">🛒</span>
-
-                    <small>سبد خرید</small>
-
-                    <b class="cartCount">
-                        0
-                    </b>
-
-                </button>
-
-            </div>
-
-
-            <!-- MAIN LINKS -->
-
-            <nav class="mobile-side-links">
-
-                <!-- CATEGORIES -->
-
-                <div class="mobile-side-category">
-
-                    <button
-                        type="button"
-                        class="mobile-side-link mobile-side-category-button"
-                        id="mobileCategoryButton">
-
-                        <span class="side-icon">
-                            ☰
-                        </span>
-
-                        <span>
-                            دسته‌بندی‌ها
-                        </span>
-
-                        <span
-                            class="side-arrow"
-                            id="mobileCategoryArrow">
-
-                            ⌄
-
-                        </span>
-
-                    </button>
-
-
-                    <div
-                        class="mobile-side-category-list"
-                        id="mobileCategoryList">
-
-                        <a href="shop.html?category=men">
-                            مردانه
-                        </a>
-
-                        <a href="shop.html?category=women">
-                            زنانه
-                        </a>
-
-                        <a href="shop.html?category=kids">
-                            بچگانه
-                        </a>
-
-                        <a href="shop.html?category=bath">
-                            حمامی
-                        </a>
-
-                        <a href="shop.html?category=pool">
-                            استخری
-                        </a>
-
-                        <a href="shop.html?category=meter">
-                            متری
-                        </a>
-
-                        <a href="shop.html?category=robe">
-                            تن‌پوش
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <!-- DISCOUNT -->
-
-                <a
-                    href="discount.html"
-                    class="mobile-side-link mobile-side-discount">
-
-                    <span class="side-icon">
-                        %
-                    </span>
-
-                    <span>
-                        تخفیفات ویژه
-                    </span>
-
-                    <span class="discount-badge">
-                        ویژه
-                    </span>
-
-                </a>
-
-
-                <!-- TRACKING -->
-
-                <a
-                    href="tracking.html"
-                    class="mobile-side-link">
-
-                    <span class="side-icon">
-                        ⌕
-                    </span>
-
-                    <span>
-                        پیگیری سفارش
-                    </span>
-
-                </a>
-
-
-                <!-- ABOUT -->
-
-                <a
-                    href="index.html#about"
-                    class="mobile-side-link">
-
-                    <span class="side-icon">
-                        i
-                    </span>
-
-                    <span>
-                        درباره ما
-                    </span>
-
-                </a>
-
-            </nav>
-
-
-            <!-- BOTTOM 3 BUTTONS -->
-
-            <div class="navid-bottom-buttons">
-
-                <a
-                    href="index.html#contact"
-                    class="navid-mini-button">
-
-                    <span>☏</span>
-                    <small>تماس</small>
-
-                </a>
-
-                <a
-                    href="https://instagram.com/navidtowel"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="navid-mini-button">
-
-                    <span>◎</span>
-                    <small>اینستاگرام</small>
-
-                </a>
-
-                <a
-                    href="https://t.me/navidtowel"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="navid-mini-button">
-
-                    <span>➤</span>
-                    <small>تلگرام</small>
-
-                </a>
-
-            </div>
-
-        </aside>
-
-
-        <!-- =================================================
-             CART + MENU STYLE FIX
-        ================================================= -->
-
-        <style>
-
-        /* =====================================================
-           HEADER CART
-        ===================================================== */
-
-        .header-actions .cart-btn {
-
-            position: relative;
-
-            width: 58px !important;
-            height: 52px !important;
-
-            min-width: 58px !important;
-            min-height: 52px !important;
-
-            padding: 0 !important;
-
-            border: 1px solid rgba(52,69,47,.12) !important;
-
-            border-radius: 13px !important;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    #ffffff,
-                    #f1f3ed
-                ) !important;
-
-            color: #34452f !important;
-
-            display: flex !important;
-
-            align-items: center !important;
-            justify-content: center !important;
-
-            cursor: pointer;
-
-            box-shadow:
-                0 5px 15px rgba(35,52,40,.08);
-
-            transition:
-                transform .2s ease,
-                box-shadow .2s ease,
-                background .2s ease;
-
-        }
-
-
-        .header-actions .cart-btn:hover {
-
-            transform: translateY(-1px);
-
-            box-shadow:
-                0 8px 20px rgba(35,52,40,.13);
-
-        }
-
-
-        .header-actions .cart-icon {
-
-            display: flex !important;
-
-            align-items: center;
-            justify-content: center;
-
-            width: 24px !important;
-            height: 24px !important;
-
-            font-size: 20px !important;
-
-            line-height: 1 !important;
-
-            visibility: visible !important;
-            opacity: 1 !important;
-
-        }
-
-
-        .header-actions .cart-label {
-
-            display: none !important;
-
-        }
-
-
-        /* HEADER CART NUMBER */
-
-        .header-actions .cartCount {
-
-            position: absolute;
-
-            top: -6px;
-            right: -6px;
-
-            min-width: 20px;
-            height: 20px;
-
-            padding: 0 5px;
-
-            border-radius: 50%;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            background: #34452f;
-
-            color: #ffffff;
-
-            border: 2px solid #ffffff;
-
-            font-family:
-                Arial,
-                sans-serif;
-
-            font-size: 10px;
-
-            font-weight: 800;
-
-            line-height: 1;
-
-            z-index: 10;
-
-        }
-
-
-        /* =====================================================
-           MOBILE MENU
-        ===================================================== */
-
-        @media (max-width: 800px) {
-
-            .navid-compact-menu {
-
-                width: min(82vw, 330px) !important;
-
-                background:
-                    linear-gradient(
-                        160deg,
-                        rgba(255,254,250,.98),
-                        rgba(245,245,238,.97)
-                    ) !important;
-
-                border-left:
-                    1px solid rgba(255,255,255,.95);
-
-                box-shadow:
-                    -15px 0 40px rgba(25,40,29,.15);
-
-                backdrop-filter:
-                    blur(25px)
-                    saturate(140%);
-
-                -webkit-backdrop-filter:
-                    blur(25px)
-                    saturate(140%);
-
-            }
-
-
-            .navid-compact-menu .mobile-side-header {
-
-                padding:
-                    17px 15px !important;
-
-            }
-
-
-            .navid-compact-menu .mobile-side-logo {
-
-                width: 42px !important;
-                height: 42px !important;
-
-                border-radius: 13px !important;
-
-                font-size: 18px;
-
-            }
-
-
-            .navid-compact-menu
-            .mobile-side-brand strong {
-
-                font-size: 15px;
-
-            }
-
-
-            .navid-compact-menu
-            .mobile-side-brand span {
-
-                font-size: 9px;
-
-            }
-
-
-            /* TOP BUTTONS */
-
-            .navid-top-buttons {
-
-                display: grid;
-
-                grid-template-columns:
-                    repeat(3, 1fr);
-
-                gap: 6px;
-
-                padding:
-                    10px 12px 7px;
-
-            }
-
-
-            .navid-mini-button {
-
-                position: relative;
-
-                min-width: 0;
-
-                height: 55px;
-
-                border:
-                    1px solid rgba(52,69,47,.07);
-
-                border-radius: 14px;
-
-                background:
-                    rgba(255,255,255,.72);
-
-                color: #34452f;
-
-                display: flex;
-
-                flex-direction: column;
-
-                align-items: center;
-
-                justify-content: center;
-
-                gap: 3px;
-
-                text-decoration: none;
-
-                cursor: pointer;
-
-                transition: .2s ease;
-
-            }
-
-
-            .navid-mini-button span {
-
-                font-size: 17px;
-
-                line-height: 18px;
-
-            }
-
-
-            .navid-mini-button small {
-
-                font-size: 9px;
-
-                font-weight: 700;
-
-                white-space: nowrap;
-
-            }
-
-
-            .navid-mini-button:hover {
-
-                background:
-                    rgba(52,69,47,.08);
-
-                transform:
-                    translateY(-1px);
-
-            }
-
-
-            /* MOBILE CART */
-
-            .navid-top-buttons .openCart {
-
-                background: #34452f;
-
-                color: #fff;
-
-                border-color: #34452f;
-
-                box-shadow:
-                    0 6px 15px rgba(52,69,47,.17);
-
-            }
-
-
-            .navid-top-buttons
-            .openCart:hover {
-
-                background: #2d3c29;
-
-            }
-
-
-            .navid-top-buttons
-            .openCart .cart-icon {
-
-                display: inline-flex !important;
-
-                align-items: center;
-                justify-content: center;
-
-                width: 20px;
-                height: 20px;
-
-                font-size: 17px !important;
-
-                line-height: 20px !important;
-
-                visibility: visible !important;
-                opacity: 1 !important;
-
-            }
-
-
-            /* MOBILE CART NUMBER */
-
-            .navid-top-buttons
-            .cartCount {
-
-                position: absolute;
-
-                top: -5px;
-                right: -5px;
-
-                min-width: 19px;
-
-                height: 19px;
-
-                padding: 0 4px;
-
-                border-radius: 50%;
-
-                display: flex;
-
-                align-items: center;
-                justify-content: center;
-
-                background: #fff;
-
-                color: #34452f;
-
-                border: 2px solid #34452f;
-
-                font-family:
-                    Arial,
-                    sans-serif;
-
-                font-size: 9px;
-
-                font-weight: 800;
-
-                line-height: 1;
-
-            }
-
-
-            /* MAIN LINKS */
-
-            .navid-compact-menu
-            .mobile-side-links {
-
-                padding:
-                    5px 11px 8px !important;
-
-            }
-
-
-            .navid-compact-menu
-            .mobile-side-link {
-
-                min-height:
-                    45px !important;
-
-                margin:
-                    3px 0 !important;
-
-                padding:
-                    7px 9px !important;
-
-                border-radius:
-                    13px !important;
-
-            }
-
-
-            .navid-compact-menu
-            .mobile-side-link
-            .side-icon {
-
-                width: 32px;
-
-                height: 32px;
-
-                border-radius: 10px;
-
-                display: inline-flex;
-
-                align-items: center;
-
-                justify-content: center;
-
-                background:
-                    rgba(52,69,47,.07);
-
-                color: #34452f;
-
-                font-size: 14px;
-
-            }
-
-
-            .navid-compact-menu
-            .mobile-side-link:hover {
-
-                background:
-                    rgba(52,69,47,.07) !important;
-
-            }
-
-
-            /* CATEGORY */
-
-            .navid-compact-menu
-            .mobile-side-category-list {
-
-                margin:
-                    0 4px 5px;
-
-                border-radius: 12px;
-
-                background:
-                    rgba(52,69,47,.035);
-
-                overflow: hidden;
-
-            }
-
-
-            .navid-compact-menu
-            .mobile-side-category-list a {
-
-                min-height: 34px;
-
-                padding:
-                    7px 14px !important;
-
-                font-size: 12px;
-
-                border-bottom:
-                    1px solid rgba(52,69,47,.05);
-
-            }
-
-
-            /* DISCOUNT */
-
-            .navid-compact-menu
-            .discount-badge {
-
-                margin-right: auto;
-
-                padding:
-                    3px 7px;
-
-                border-radius: 20px;
-
-                background: #34452f;
-
-                color: #fff;
-
-                font-size: 8px;
-
-                font-weight: 800;
-
-            }
-
-
-            /* BOTTOM */
-
-            .navid-bottom-buttons {
-
-                display: grid;
-
-                grid-template-columns:
-                    repeat(3, 1fr);
-
-                gap: 6px;
-
-                margin:
-                    auto 12px 12px;
-
-                padding: 7px;
-
-                border:
-                    1px solid rgba(255,255,255,.9);
-
-                border-radius: 17px;
-
-                background:
-                    rgba(255,255,255,.65);
-
-                box-shadow:
-                    0 8px 22px rgba(30,50,38,.08);
-
-            }
-
-
-            .navid-bottom-buttons
-            .navid-mini-button {
-
-                height: 48px;
-
-                border: 0;
-
-                background: transparent;
-
-            }
-
-
-            .navid-bottom-buttons
-            .navid-mini-button span {
-
-                font-size: 16px;
-
-            }
-
-
-            .navid-bottom-buttons
-            .navid-mini-button small {
-
-                font-size: 8px;
-
-            }
-
-        }
-
-        </style>
-        `;
-
-        setupMenu();
-        setupCartPreview();
-        updateCartCount();
+      document.body.classList.add("menu-open");
+      document.documentElement.classList.add("menu-open");
+      document.body.style.overflow = "hidden";
     }
 
+    function closeMenu() {
+      if (!menu) return;
 
-    /* =====================================================
-       MENU LOGIC
-    ===================================================== */
+      menu.classList.remove("active");
+      if (overlay) overlay.classList.remove("active");
 
-    function setupMenu() {
+      document.body.classList.remove("menu-open");
+      document.documentElement.classList.remove("menu-open");
+      document.body.style.overflow = "";
 
-        const menu =
-            document.getElementById("mobileSideMenu");
+      if (category) category.classList.remove("open");
 
-        const overlay =
-            document.getElementById("mobileMenuOverlay");
-
-        const openButton =
-            document.getElementById("mobileMenuButton");
-
-        const closeButton =
-            document.getElementById("mobileMenuClose");
-
-        const categoryButton =
-            document.getElementById("mobileCategoryButton");
-
-        const category =
-            document.querySelector(".mobile-side-category");
-
-        const desktopCategory =
-            document.querySelector(".nav-category");
-
-        const desktopCategoryButton =
-            document.querySelector(".nav-category-btn");
-
-
-        function openMenu() {
-
-            if (!menu) return;
-
-            menu.classList.add("active");
-
-            if (overlay) {
-                overlay.classList.add("active");
-            }
-
-            document.body.classList.add("menu-open");
-            document.documentElement.classList.add("menu-open");
-
-            document.body.style.overflow = "hidden";
-        }
-
-
-        function closeMenu() {
-
-            if (!menu) return;
-
-            menu.classList.remove("active");
-
-            if (overlay) {
-                overlay.classList.remove("active");
-            }
-
-            document.body.classList.remove("menu-open");
-            document.documentElement.classList.remove("menu-open");
-
-            document.body.style.overflow = "";
-
-            if (category) {
-                category.classList.remove("open");
-            }
-
-            const arrow =
-                document.getElementById(
-                    "mobileCategoryArrow"
-                );
-
-            if (arrow) {
-                arrow.classList.remove("open");
-            }
-        }
-
-
-        /* MOBILE OPEN */
-
-        if (openButton) {
-
-            openButton.addEventListener(
-                "click",
-                function (event) {
-
-                    event.preventDefault();
-                    event.stopPropagation();
-
-                    openMenu();
-
-                }
-            );
-
-        }
-
-
-        /* CLOSE */
-
-        if (closeButton) {
-
-            closeButton.addEventListener(
-                "click",
-                function (event) {
-
-                    event.preventDefault();
-                    event.stopPropagation();
-
-                    closeMenu();
-
-                }
-            );
-
-        }
-
-
-        /* OVERLAY */
-
-        if (overlay) {
-
-            overlay.addEventListener(
-                "click",
-                closeMenu
-            );
-
-        }
-
-
-        /* ESC */
-
-        document.addEventListener(
-            "keydown",
-            function (event) {
-
-                if (event.key === "Escape") {
-                    closeMenu();
-                }
-
-            }
-        );
-
-
-        /* MOBILE CATEGORY */
-
-        if (
-            categoryButton &&
-            category
-        ) {
-
-            categoryButton.addEventListener(
-                "click",
-                function (event) {
-
-                    event.preventDefault();
-                    event.stopPropagation();
-
-                    const isOpen =
-                        category.classList.toggle("open");
-
-                    const arrow =
-                        document.getElementById(
-                            "mobileCategoryArrow"
-                        );
-
-                    if (arrow) {
-
-                        arrow.classList.toggle(
-                            "open",
-                            isOpen
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        /* MOBILE LINKS */
-
-        if (menu) {
-
-            menu.querySelectorAll("a").forEach(
-                function (link) {
-
-                    link.addEventListener(
-                        "click",
-                        function () {
-
-                            closeMenu();
-
-                        }
-                    );
-
-                }
-            );
-
-        }
-
-
-        /* DESKTOP CATEGORY */
-
-        if (
-            desktopCategoryButton &&
-            desktopCategory
-        ) {
-
-            desktopCategoryButton.addEventListener(
-                "click",
-                function (event) {
-
-                    event.preventDefault();
-                    event.stopPropagation();
-
-                    desktopCategory.classList.toggle(
-                        "open"
-                    );
-
-                }
-            );
-
-
-            document.addEventListener(
-                "click",
-                function (event) {
-
-                    if (
-                        !desktopCategory.contains(
-                            event.target
-                        )
-                    ) {
-
-                        desktopCategory.classList.remove(
-                            "open"
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-
+      const arrow = document.getElementById("mobileCategoryArrow");
+      if (arrow) arrow.classList.remove("open");
     }
 
-
-    /* =====================================================
-       CART PREVIEW
-       اتصال به کارت پیش‌نمایش موجود در SHOP
-    ===================================================== */
-
-    function setupCartPreview() {
-
-        /*
-         * مهم:
-         * ما HTML سبد خرید را دوباره نمی‌سازیم.
-         * همان کارت/Drawer موجود خودت را پیدا می‌کنیم
-         * و باز می‌کنیم.
-         */
-
-        document
-            .querySelectorAll(".openCart")
-            .forEach(function (button) {
-
-                button.addEventListener(
-                    "click",
-                    function (event) {
-
-                        event.preventDefault();
-                        event.stopPropagation();
-
-                        openExistingCartPreview();
-
-                    }
-                );
-
-            });
-
+    if (openButton) {
+      openButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        openMenu();
+      });
     }
 
-
-    function openExistingCartPreview() {
-
-        /*
-         * نام‌های احتمالی کارت سبد خرید
-         */
-
-        const selectors = [
-            "#cartPreview",
-            "#cartDrawer",
-            "#cartModal",
-            "#shoppingCartPreview",
-            ".cart-preview",
-            ".cart-drawer",
-            ".cart-modal",
-            ".shopping-cart-preview"
-        ];
-
-
-        let cartElement = null;
-
-
-        for (
-            let i = 0;
-            i < selectors.length;
-            i++
-        ) {
-
-            const element =
-                document.querySelector(
-                    selectors[i]
-                );
-
-            if (element) {
-
-                cartElement = element;
-                break;
-
-            }
-
-        }
-
-
-        /*
-         * اگر کارت پیدا نشد، event استاندارد ارسال می‌کنیم.
-         * این باعث می‌شود اگر کد shop خودش listener داشته باشد
-         * همان کد سبد را باز کند.
-         */
-
-        document.dispatchEvent(
-            new CustomEvent(
-                "navid:openCart"
-            )
-        );
-
-
-        window.dispatchEvent(
-            new CustomEvent(
-                "navid:openCart"
-            )
-        );
-
-
-        if (!cartElement) {
-
-            /*
-             * تلاش برای پیدا کردن المنت‌هایی
-             * که کلاس active دارند یا data-cart دارند.
-             */
-
-            const fallback =
-                document.querySelector(
-                    '[data-cart-preview], [data-cart-drawer], [data-cart-modal]'
-                );
-
-            if (fallback) {
-                cartElement = fallback;
-            }
-
-        }
-
-
-        if (!cartElement) {
-
-            console.warn(
-                "NavidTowel: Cart preview element was not found."
-            );
-
-            return;
-
-        }
-
-
-        /* =================================================
-           باز کردن با کلاس‌های رایج
-        ================================================= */
-
-        cartElement.classList.add("active");
-        cartElement.classList.add("open");
-        cartElement.classList.add("show");
-
-
-        cartElement.setAttribute(
-            "aria-hidden",
-            "false"
-        );
-
-
-        /*
-         * اگر با hidden مخفی شده باشد
-         */
-
-        if (
-            cartElement.hasAttribute("hidden")
-        ) {
-
-            cartElement.removeAttribute("hidden");
-
-        }
-
-
-        /*
-         * اگر display:none مستقیم داشته باشد
-         */
-
-        if (
-            getComputedStyle(
-                cartElement
-            ).display === "none"
-        ) {
-
-            cartElement.style.display = "block";
-
-        }
-
-
-        /*
-         * body
-         */
-
-        document.body.classList.add(
-            "cart-open"
-        );
-
-
-        /*
-         * بعضی پیاده‌سازی‌ها overlay جدا دارند
-         */
-
-        const cartOverlay =
-            document.querySelector(
-                "#cartOverlay, .cart-overlay, [data-cart-overlay]"
-            );
-
-
-        if (cartOverlay) {
-
-            cartOverlay.classList.add("active");
-            cartOverlay.classList.add("open");
-            cartOverlay.classList.add("show");
-
-        }
-
+    if (closeButton) {
+      closeButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        closeMenu();
+      });
     }
 
+    if (overlay) overlay.addEventListener("click", closeMenu);
 
-    /* =====================================================
-       CART COUNT
-    ===================================================== */
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") closeMenu();
+    });
 
-    function updateCartCount() {
+    if (categoryButton && category) {
+      categoryButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
 
-        let cart = [];
+        const isOpen = category.classList.toggle("open");
 
-        try {
-
-            cart =
-                JSON.parse(
-                    localStorage.getItem(
-                        "navidTowelCart"
-                    )
-                ) || [];
-
-        } catch (error) {
-
-            cart = [];
-
-        }
-
-
-        let count = 0;
-
-
-        if (Array.isArray(cart)) {
-
-            cart.forEach(function (item) {
-
-                count +=
-                    Number(
-                        item.quantity ||
-                        item.qty ||
-                        1
-                    );
-
-            });
-
-        }
-
-
-        document
-            .querySelectorAll(".cartCount")
-            .forEach(function (element) {
-
-                /*
-                 * انگلیسی
-                 */
-
-                element.textContent =
-                    String(count);
-
-            });
-
+        const arrow = document.getElementById("mobileCategoryArrow");
+        if (arrow) arrow.classList.toggle("open", isOpen);
+      });
     }
 
+    if (menu) {
+      menu.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", closeMenu);
+      });
+    }
 
-    /* =====================================================
-       STORAGE
-    ===================================================== */
+    if (desktopCategoryButton && desktopCategory) {
+      desktopCategoryButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        desktopCategory.classList.toggle("open");
+      });
 
-    window.addEventListener(
-        "storage",
+      document.addEventListener("click", function (event) {
+        if (!desktopCategory.contains(event.target)) {
+          desktopCategory.classList.remove("open");
+        }
+      });
+    }
+  }
+
+  /* ================= CONNECT CART BUTTONS TO REAL CART ================= */
+  /*
+    این بخش دستنخورده مونده چون منطقش درسته: روی دکمههای .openCart
+    با فاز capture + stopImmediatePropagation گوش میده تا listener
+    خود cart.js روی همون دکمه اجرا نشه، و بهجاش openRealCart را صدا
+    میزنه که منتظر آمادهشدن window.openCart (از cart.js) میمونه.
+  */
+
+  function setupCartPreview() {
+    document.querySelectorAll(".openCart").forEach(function (button) {
+      if (button.dataset.navidCartBound === "1") return;
+      button.dataset.navidCartBound = "1";
+
+      button.addEventListener(
+        "click",
         function (event) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          openRealCart();
+        },
+        true
+      );
+    });
+  }
 
-            if (
-                event.key ===
-                "navidTowelCart"
-            ) {
+  function openRealCart() {
+    const menu = document.getElementById("mobileSideMenu");
+    const overlay = document.getElementById("mobileMenuOverlay");
 
-                updateCartCount();
+    if (menu) menu.classList.remove("active");
+    if (overlay) overlay.classList.remove("active");
 
-            }
+    document.body.classList.remove("menu-open");
+    document.documentElement.classList.remove("menu-open");
+    document.body.style.overflow = "";
 
-        }
-    );
-
-
-    /* =====================================================
-       CUSTOM CART EVENTS
-    ===================================================== */
-
-    window.addEventListener(
-        "cartUpdated",
-        function () {
-
-            updateCartCount();
-
-        }
-    );
-
-
-    document.addEventListener(
-        "cartUpdated",
-        function () {
-
-            updateCartCount();
-
-        }
-    );
-
-
-    /* =====================================================
-       START
-    ===================================================== */
-
-    if (
-        document.readyState ===
-        "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            createMenu
-        );
-
-    } else {
-
-        createMenu();
-
+    if (typeof window.openCart === "function") {
+      window.openCart();
+      return;
     }
+
+    let attempts = 0;
+
+    const retry = setInterval(function () {
+      attempts++;
+
+      if (typeof window.openCart === "function") {
+        clearInterval(retry);
+        window.openCart();
+        return;
+      }
+
+      if (attempts >= 10) {
+        clearInterval(retry);
+        openCartElementFallback();
+      }
+    }, 200);
+  }
+
+  function openCartElementFallback() {
+    const selectors = [
+      "#cartPreview",
+      "#cartDrawer",
+      "#cartModal",
+      "#shoppingCartPreview",
+      ".cart-preview",
+      ".cart-drawer",
+      ".cartModal",
+      ".cart-modal",
+      ".shopping-cart-preview"
+    ];
+
+    let cartElement = null;
+
+    for (let i = 0; i < selectors.length; i++) {
+      const element = document.querySelector(selectors[i]);
+      if (element) {
+        cartElement = element;
+        break;
+      }
+    }
+
+    if (!cartElement) {
+      console.warn("سبد خرید پیدا نشد.");
+      return;
+    }
+
+    cartElement.classList.add("active", "open", "show");
+    cartElement.setAttribute("aria-hidden", "false");
+    cartElement.removeAttribute("hidden");
+
+    if (getComputedStyle(cartElement).display === "none") {
+      cartElement.style.display = "flex";
+    }
+
+    document.body.classList.add("cart-open");
+    document.documentElement.classList.add("cart-open");
+
+    const cartOverlay = document.querySelector(
+      "#cartOverlay, .cart-overlay, [data-cart-overlay]"
+    );
+
+    if (cartOverlay) {
+      cartOverlay.classList.add("active", "open", "show");
+    }
+  }
+
+  /* ================= START ================= */
+  /*
+    توجه: شمارش تعداد سبد خرید (.cartCount) اینجا دیگر مدیریت
+    نمیشود — cart.js خودش این کار را برای همهی صفحات انجام میدهد
+    (چه با ارقام فارسی، چه هماهنگ با تغییرات سبد). نگهداشتن یک
+    نسخهی دوم اینجا باعث میشد عدد بین فرمت فارسی/انگلیسی سوسو بزند.
+    فقط لازم است menu.js قبل از cart.js در HTML لود شود.
+  */
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", createMenu);
+  } else {
+    createMenu();
+  }
 
 })();
