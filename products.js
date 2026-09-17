@@ -8,11 +8,11 @@ const products =
         badge: "پرفروش",
         categories: ["bath", "men", "women"],
         images: [
-            "images/bath-luxury-aria.webp",
-            "images/bath-luxury-aria-2.webp",
+            "images/products/product-1-ابی-1789652904384.jpg",
+            "images/products/product-1-قرمز-1789652935511.jpg",
             "images/bath-luxury-aria-3.webp"
         ],
-        colors: [{ name: "ابی", stock: 3, image: "/images/products/product-1-ابی-1789652904384.jpg" }, { name: "قرمز", stock: 5, image: "/images/products/product-1-قرمز-1789652935511.jpg" }],
+        colors: [{ name: "ابی", stock: 3," }, { name: "قرمز", stock: 5," }],
         description: "حوله حمام نرم و باکیفیت با جذب آب بالا، مناسب استفاده روزمره.",
         quality: "درجه یک",
         material: "پنبه",
