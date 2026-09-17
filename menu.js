@@ -126,8 +126,8 @@
 
       <div class="navid-bottom-buttons">
         <a href="index.html#contact" class="navid-mini-button"><span>☏</span><small>تماس</small></a>
-        <a href="https://instagram.com/navidtowel" target="_blank" rel="noopener noreferrer" class="navid-mini-button"><span>◎</span><small>اینستاگرام</small></a>
-        <a href="https://t.me/navidtowel" target="_blank" rel="noopener noreferrer" class="navid-mini-button"><span>➤</span><small>تلگرام</small></a>
+        <a href="https://instagram.com/navidtowel" target="_blank" rel="noopener noreferrer" class="navid-mini-button social-btn"><span>◎</span><small>اینستاگرام</small></a>
+        <a href="https://t.me/navidtowel" target="_blank" rel="noopener noreferrer" class="navid-mini-button social-btn"><span>➤</span><small>تلگرام</small></a>
       </div>
 
     </aside>
@@ -183,6 +183,11 @@
         .navid-bottom-buttons .navid-mini-button{height:48px;border:0;background:transparent;}
         .navid-bottom-buttons .navid-mini-button span{font-size:16px;}
         .navid-bottom-buttons .navid-mini-button small{font-size:8px;}
+
+        .navid-bottom-buttons .social-btn{border:1px solid rgba(52,69,47,.28) !important;background:rgba(52,69,47,.05) !important;color:#34452f !important;}
+        .navid-bottom-buttons .social-btn span{width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:rgba(52,69,47,.12);color:#34452f;font-size:14px !important;line-height:1 !important;}
+        .navid-bottom-buttons .social-btn small{color:#34452f;}
+        .navid-bottom-buttons .social-btn:hover{background:rgba(52,69,47,.12) !important;border-color:#34452f !important;transform:translateY(-1px);}
       }
 
       html.cart-open, body.cart-open,
@@ -192,6 +197,40 @@
 
     setupMenu();
     setupCartPreview();
+    refreshCartCount();
+  }
+
+  /* ================= INITIAL CART COUNT SYNC ================= */
+  /*
+    باگ: چون شمارنده‌ی .cartCount توسط cart.js آپدیت می‌شه، ولی
+    ممکنه cart.js زودتر از ساخته‌شدن هدر توسط menu.js اجرا بشه،
+    اولین‌بار که صفحه باز می‌شه عدد صفر می‌مونه تا کاربر خودش
+    یه‌بار سبد رو باز/بسته کنه. اینجا بعد از ساخت هدر، اگه
+    window.updateHeaderCart از cart.js آماده بود صداش می‌زنیم،
+    وگرنه چندبار با فاصله کم دوباره امتحان می‌کنیم.
+  */
+
+  function refreshCartCount() {
+    if (typeof window.updateHeaderCart === "function") {
+      window.updateHeaderCart();
+      return;
+    }
+
+    let attempts = 0;
+
+    const retry = setInterval(function () {
+      attempts++;
+
+      if (typeof window.updateHeaderCart === "function") {
+        clearInterval(retry);
+        window.updateHeaderCart();
+        return;
+      }
+
+      if (attempts >= 10) {
+        clearInterval(retry);
+      }
+    }, 200);
   }
 
   /* ================= MOBILE / CATEGORY MENU ================= */
