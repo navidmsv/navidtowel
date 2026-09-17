@@ -12,7 +12,7 @@ const products =
             "images/bath-luxury-aria-2.webp",
             "images/bath-luxury-aria-3.webp"
         ],
-        colors: [{ name: "ابی", stock: 3, image: "/images/products/product-1-ابی-1789652904384.jpg" }, { name: "قرمز", stock: 5 }],
+        colors: [{ name: "ابی", stock: 3, image: "/images/products/product-1-ابی-1789652904384.jpg" }, { name: "قرمز", stock: 5, image: "/images/products/product-1-قرمز-1789652935511.jpg" }],
         description: "حوله حمام نرم و باکیفیت با جذب آب بالا، مناسب استفاده روزمره.",
         quality: "درجه یک",
         material: "پنبه",
