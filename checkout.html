@@ -203,101 +203,107 @@
             color: #777;
             font-size: 9px;
         }
-        /* کارت‌به‌کارت */
+        /* کارت به کارت */
         .card-payment-box {
             display: none;
-            margin-top: 13px;
-            padding: 16px;
-            border-radius: 12px;
+            margin-top: 10px;
+            padding: 13px;
+            border-radius: 11px;
             background: #f8f9f5;
-            border: 1px solid rgba(41, 71, 55, .16);
+            border: 1px solid rgba(41, 71, 55, .14);
         }
         .card-payment-box.active {
             display: block;
         }
         .card-payment-title {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 800;
             color: var(--green-dark);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
-        .bank-card {
-            padding: 18px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, #34452f, #53694c);
-            color: #fff;
-            box-shadow: 0 10px 25px rgba(41, 71, 55, .18);
+        .bank-card-simple {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 13px;
+            border-radius: 10px;
+            background: #fff;
+            border: 1px solid #e2e2e2;
         }
-        .bank-card-label {
+        .bank-card-simple-label {
+            color: #777;
             font-size: 10px;
-            opacity: .75;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
         .bank-card-number {
             direction: ltr;
-            text-align: center;
-            font-size: 19px;
+            text-align: right;
+            font-size: 14px;
             font-weight: 800;
-            letter-spacing: 2px;
-            margin: 13px 0;
+            letter-spacing: 1px;
         }
         .bank-card-owner {
-            font-size: 11px;
-            opacity: .9;
+            color: #777;
+            font-size: 9px;
+            margin-top: 4px;
         }
         .payment-amount {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 10px;
-            margin-top: 13px;
-            padding: 12px;
-            border-radius: 10px;
+            margin-top: 9px;
+            padding: 10px 12px;
+            border-radius: 9px;
             background: #fff;
             border: 1px solid #e4e4e4;
+            font-size: 11px;
         }
         .payment-amount strong {
             direction: ltr;
             color: var(--green-dark);
-            font-size: 16px;
+            font-size: 14px;
         }
         .payment-warning {
-            margin-top: 13px;
-            padding: 12px;
-            border-radius: 10px;
+            margin-top: 9px;
+            padding: 10px 11px;
+            border-radius: 9px;
             background: #fff8e8;
             border: 1px solid #ead39a;
             color: #765d20;
-            font-size: 11px;
+            font-size: 10px;
             line-height: 1.9;
         }
         .payment-warning strong {
             color: #684c00;
         }
         .payment-instagram {
-            display: block;
-            margin-top: 9px;
+            display: inline-block;
+            margin-top: 3px;
             color: #9a3d70;
             font-weight: 800;
             text-decoration: none;
             direction: ltr;
-            text-align: center;
         }
         .confirm-transfer-btn {
             width: 100%;
             border: 0;
-            border-radius: 10px;
-            padding: 13px;
-            margin-top: 13px;
+            border-radius: 9px;
+            padding: 10px;
+            margin-top: 9px;
             background: #d4af37;
             color: #fff;
             font-family: Tahoma, Arial, sans-serif;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 800;
             cursor: pointer;
         }
         .confirm-transfer-btn:hover {
             background: #bd9825;
+        }
+        .confirm-transfer-btn.confirmed {
+            background: #53694c;
         }
         /* محصولات */
         .order-items {
@@ -337,17 +343,34 @@
         .checkout-product-name {
             font-size: 12px;
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        .checkout-product-options {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 7px;
+            color: #777;
+            font-size: 9px;
+            line-height: 1.7;
+        }
+        .checkout-product-option {
+            white-space: nowrap;
+        }
+        .checkout-product-option::before {
+            content: "•";
+            margin-left: 3px;
+            color: #aaa;
+        }
         .checkout-product-quantity {
             color: #888;
-            font-size: 11px;
+            font-size: 9px;
         }
         .checkout-product-price {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             white-space: nowrap;
         }
@@ -424,12 +447,16 @@
             font-size: 14px;
             font-weight: 700;
             cursor: pointer;
+            transition: .2s;
+        }
+        .checkout-submit:hover:not(:disabled) {
+            transform: translateY(-1px);
+            filter: brightness(.96);
         }
         .checkout-submit:disabled {
             opacity: .5;
             cursor: not-allowed;
         }
-        /* پیام */
         .checkout-message {
             display: none;
             margin-top: 13px;
@@ -441,7 +468,6 @@
             line-height: 1.8;
             text-align: center;
         }
-        /* موفقیت */
         .checkout-success {
             display: none;
             text-align: center;
@@ -567,7 +593,7 @@
                 font-size: 16px;
             }
             .bank-card-number {
-                font-size: 16px;
+                font-size: 13px;
             }
             .summary-total span:last-child {
                 font-size: 16px;
@@ -576,7 +602,6 @@
     </style>
 </head>
 <body class="home-page">
-    <!-- منوی مشترک سایت -->
     <div id="siteMenu"></div>
     <main class="checkout-page">
         <div class="container">
@@ -593,7 +618,6 @@
             </div>
             <div id="checkoutContent"
                  class="checkout-layout">
-                <!-- اطلاعات مشتری -->
                 <section class="checkout-card">
                     <div class="checkout-card-title">
                         <div class="title-icon">i</div>
@@ -636,7 +660,7 @@
                                        maxlength="11"
                                        required>
                                 <div class="field-help">
-                                    شماره موبایل را با اعداد وارد کنید.
+                                    شماره موبایل را وارد کنید.
                                 </div>
                             </div>
                             <div class="form-group">
@@ -722,7 +746,6 @@
                                           placeholder="اگر توضیحی درباره سفارش یا تحویل دارید بنویسید..."></textarea>
                             </div>
                         </div>
-                        <!-- ارسال -->
                         <div class="shipping-section">
                             <div class="checkout-card-title">
                                 <div class="title-icon">→</div>
@@ -747,7 +770,9 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <span class="shipping-price">محاسبه بعدی</span>
+                                        <span class="shipping-price">
+                                            محاسبه بعدی
+                                        </span>
                                     </label>
                                 </div>
                                 <div class="shipping-option">
@@ -767,12 +792,13 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <span class="shipping-price">محاسبه بعدی</span>
+                                        <span class="shipping-price">
+                                            محاسبه بعدی
+                                        </span>
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        <!-- پرداخت -->
                         <div class="shipping-section">
                             <div class="checkout-card-title">
                                 <div class="title-icon">$</div>
@@ -805,34 +831,40 @@
                                         <div class="card-payment-title">
                                             اطلاعات واریز
                                         </div>
-                                        <!--
-                                            بعداً فقط اطلاعات واقعی کارت را اینجا عوض کن.
-                                        -->
-                                        <div class="bank-card">
-                                            <div class="bank-card-label">
-                                                شماره کارت فروشگاه
-                                            </div>
-                                            <div id="cardNumber"
-                                                 class="bank-card-number">
-                                                0000 0000 0000 0000
-                                            </div>
-                                            <div class="bank-card-owner">
-                                                به نام: نام صاحب کارت
+                                        <div class="bank-card-simple">
+                                            <div>
+                                                <div class="bank-card-simple-label">
+                                                    شماره کارت فروشگاه
+                                                </div>
+                                                <div id="cardNumber"
+                                                     class="bank-card-number">
+                                                    هنوز وارد نشده
+                                                </div>
+                                                <div id="cardOwner"
+                                                     class="bank-card-owner">
+                                                    به نام: نام صاحب کارت
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="payment-amount">
-                                            <span>مبلغ واریزی</span>
+                                            <span>
+                                                مبلغ دقیق واریز
+                                            </span>
                                             <strong id="cardPaymentAmount">
                                                 0 تومان
                                             </strong>
                                         </div>
                                         <div class="payment-warning">
-                                            <strong>مهم:</strong>
-                                            بعد از واریز، حتماً تصویر رسید انتقال را
-                                            حداکثر تا <strong>1 ساعت</strong> آینده
-                                            در دایرکت اینستاگرام
+                                            <strong>توجه:</strong>
+                                            ابتدا مبلغ بالا را کارت‌به‌کارت کنید.
+                                            سپس روی «واریز کردم» بزنید.
+                                            بعد از آن دکمه ثبت سفارش فعال می‌شود.
+                                            <br>
+                                            رسید انتقال را حتماً حداکثر تا
+                                            <strong>1 ساعت</strong>
+                                            آینده در دایرکت
                                             <strong>@navidtowel</strong>
-                                            ارسال کنید تا سفارش شما ثبت و تأیید شود.
+                                            ارسال کنید.
                                             <a class="payment-instagram"
                                                href="https://instagram.com/navidtowel"
                                                target="_blank"
@@ -920,13 +952,19 @@
                             </span>
                         </div>
                     </div>
-                    <div class="payment-note">
-                        در کارت‌به‌کارت، بعد از واریز باید رسید انتقال را
-                        حداکثر تا 1 ساعت آینده در دایرکت Instagram ارسال کنید.
+                    <div class="payment-note"
+                         id="paymentNote">
+                        ابتدا مبلغ را کارت‌به‌کارت کنید،
+                        سپس «واریز کردم» را بزنید.
+                        بعد از آن ثبت سفارش امکان‌پذیر است.
+                        رسید انتقال را حداکثر تا 1 ساعت در دایرکت
+                        <strong>@navidtowel</strong>
+                        ارسال کنید.
                     </div>
                     <button type="button"
                             class="checkout-submit"
-                            id="submitOrder">
+                            id="submitOrder"
+                            disabled>
                         ثبت سفارش
                     </button>
                     <div class="checkout-message"
@@ -939,9 +977,9 @@
                  class="checkout-card checkout-success">
                 <div class="success-icon">✓</div>
                 <h2>
-                    درخواست سفارش ثبت شد
+                    سفارش شما ثبت شد
                 </h2>
-                <p>
+                <p id="successText">
                     اطلاعات سفارش دریافت شد.
                     رسید واریز را حتماً در دایرکت Instagram ارسال کنید.
                 </p>
@@ -996,31 +1034,17 @@
             </div>
         </div>
     </footer>
-    <!-- ترتیب مهم است -->
     <script src="products.js"></script>
     <script src="menu.js"></script>
     <script src="script.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            /* =========================================
-               تنظیمات پرداخت
-               ========================================= */
             const GOOGLE_SCRIPT_URL =
                 "https://script.google.com/macros/s/AKfycbyyg20MikWIqNtE5KKuQrczOMT_qp9B5gwqaBc7FbZsRcH8Ymje80ee202ymZhpFORf1w/exec";
-            /*
-             * فعلاً خالی است = درگاه غیرفعال
-             * بعداً URL درگاه واقعی را اینجا قرار می‌دهیم.
-             */
             const GATEWAY_URL = "";
-            /*
-             * اطلاعات کارت واقعی را بعداً اینجا قرار بده.
-             */
-            const CARD_NUMBER =
-                "0000000000000000";
-            const CARD_OWNER =
-                "نام صاحب کارت";
-            const CART_KEY =
-                "navidTowelCart";
+            const CARD_NUMBER = "";
+            const CARD_OWNER = "نام صاحب کارت";
+            const CART_KEY = "navidTowelCart";
             let cart = [];
             try {
                 cart =
@@ -1040,147 +1064,167 @@
                 document.getElementById("checkoutMessage");
             const submitButton =
                 document.getElementById("submitOrder");
+            const confirmTransfer =
+                document.getElementById("confirmTransfer");
             const cardPaymentBox =
                 document.getElementById("cardPaymentBox");
             const paymentGateway =
                 document.getElementById("paymentGateway");
-            /* =========================================
-               درگاه فقط وقتی URL داشته باشد فعال می‌شود
-               ========================================= */
-            if (GATEWAY_URL.trim() !== "") {
-                paymentGateway.disabled = false;
-                paymentGateway
-                    .closest(".shipping-option")
-                    .querySelector(".disabled-badge")
-                    .textContent = "فعال";
+            let transferConfirmed = false;
+            /* اعداد انگلیسی */
+            function normalizeDigits(value) {
+                const faDigits =
+                    "۰۱۲۳۴۵۶۷۸۹";
+                const arDigits =
+                    "٠١٢٣٤٥٦٧٨٩";
+                return String(value ?? "")
+                    .replace(/[۰-۹]/g, function (digit) {
+                        return String(
+                            faDigits.indexOf(digit)
+                        );
+                    })
+                    .replace(/[٠-٩]/g, function (digit) {
+                        return String(
+                            arDigits.indexOf(digit)
+                        );
+                    });
             }
-            /* =========================================
-               سبد خالی
-               ========================================= */
+            document
+                .querySelectorAll("input, textarea")
+                .forEach(function (field) {
+                    field.addEventListener(
+                        "input",
+                        function () {
+                            const newValue =
+                                normalizeDigits(
+                                    this.value
+                                );
+                            if (
+                                this.value !== newValue
+                            ) {
+                                this.value = newValue;
+                            }
+                        }
+                    );
+                });
+            /* سبد خالی */
             if (!cart.length) {
                 emptyCheckout.style.display = "block";
                 checkoutContent.style.display = "none";
                 return;
             }
-            /* =========================================
-               تبدیل همه اعداد فارسی و عربی به انگلیسی
-               ========================================= */
-            function normalizeDigits(value) {
-                return String(value || "")
-                    .replace(/[۰-۹]/g, function (digit) {
-                        return String(
-                            "۰۱۲۳۴۵۶۷۸۹".indexOf(digit)
-                        );
-                    })
-                    .replace(/[٠-٩]/g, function (digit) {
-                        return String(
-                            "٠١٢٣٤٥٦٧٨٩".indexOf(digit)
-                        );
-                    });
+            /* قیمت */
+            function toNumber(value) {
+                const normalized =
+                    normalizeDigits(value)
+                        .replace(/,/g, "")
+                        .replace(/٬/g, "")
+                        .replace(/[^\d.-]/g, "");
+                const number =
+                    Number(normalized);
+                return Number.isFinite(number)
+                    ? number
+                    : 0;
             }
-            /*
-             * هرجا کاربر عدد وارد کند،
-             * عدد نهایی انگلیسی ذخیره می‌شود.
-             */
-            document
-                .querySelectorAll(
-                    'input, textarea'
-                )
-                .forEach(function (field) {
-                    field.addEventListener(
-                        "input",
-                        function () {
-                            const oldValue =
-                                this.value;
-                            const newValue =
-                                normalizeDigits(
-                                    oldValue
-                                );
-                            if (
-                                oldValue !== newValue
-                            ) {
-                                this.value =
-                                    newValue;
-                            }
-                        }
-                    );
-                });
-            /* =========================================
-               قیمت
-               ========================================= */
             function formatPrice(number) {
-                return Number(number || 0)
+                return toNumber(number)
                     .toLocaleString("en-US");
             }
-            /* =========================================
-               محصولات
-               ========================================= */
+            /* محصولات */
             function getProductsArray() {
-                if (
-                    Array.isArray(
-                        window.products
-                    )
+                const sources = [
+                    window.products,
+                    window.productList,
+                    window.allProducts,
+                    window.PRODUCTS,
+                    window.productsData
+                ];
+                for (
+                    let i = 0;
+                    i < sources.length;
+                    i++
                 ) {
-                    return window.products;
-                }
-                if (
-                    Array.isArray(
-                        window.productList
-                    )
-                ) {
-                    return window.productList;
-                }
-                if (
-                    Array.isArray(
-                        window.allProducts
-                    )
-                ) {
-                    return window.allProducts;
+                    if (
+                        Array.isArray(sources[i]) &&
+                        sources[i].length
+                    ) {
+                        return sources[i];
+                    }
                 }
                 return [];
             }
             const products =
                 getProductsArray();
+            function getItemId(item) {
+                return (
+                    item.id ??
+                    item.productId ??
+                    item.productID ??
+                    item.product_id ??
+                    ""
+                );
+            }
             function findProduct(item) {
-                return products.find(
-                    function (product) {
-                        return String(
-                            product.id
-                        ) === String(
-                            item.id
-                        );
-                    }
-                ) || null;
+                const id =
+                    String(
+                        getItemId(item)
+                    );
+                return (
+                    products.find(
+                        function (product) {
+                            return (
+                                String(product.id) === id ||
+                                String(product.productId ?? "") === id
+                            );
+                        }
+                    ) || null
+                );
             }
             function getItemPrice(item) {
                 const product =
                     findProduct(item);
-                if (
-                    product &&
-                    product.price != null
+                const values = [
+                    item.price,
+                    item.unitPrice,
+                    item.productPrice,
+                    product?.price,
+                    product?.unitPrice,
+                    product?.currentPrice
+                ];
+                for (
+                    let i = 0;
+                    i < values.length;
+                    i++
                 ) {
-                    return Number(
-                        product.price
-                    ) || 0;
+                    const price =
+                        toNumber(values[i]);
+                    if (price > 0) {
+                        return price;
+                    }
                 }
-                return Number(
-                    item.price
-                ) || 0;
+                return 0;
             }
             function getItemOldPrice(item) {
                 const product =
                     findProduct(item);
-                if (
-                    product &&
-                    product.oldPrice != null
+                const values = [
+                    item.oldPrice,
+                    item.previousPrice,
+                    product?.oldPrice,
+                    product?.previousPrice
+                ];
+                for (
+                    let i = 0;
+                    i < values.length;
+                    i++
                 ) {
-                    return Number(
-                        product.oldPrice
-                    ) || 0;
+                    const price =
+                        toNumber(values[i]);
+                    if (price > 0) {
+                        return price;
+                    }
                 }
-                return Number(
-                    item.oldPrice
-                ) || 0;
+                return getItemPrice(item);
             }
             function getItemImage(item) {
                 const product =
@@ -1198,47 +1242,67 @@
                 ) {
                     return product.images[0];
                 }
-                return item.image || "";
+                return (
+                    item.image ||
+                    item.imageUrl ||
+                    ""
+                );
             }
             function getItemName(item) {
                 const product =
                     findProduct(item);
-                if (
-                    product &&
-                    product.name
-                ) {
-                    return product.name;
-                }
-                return item.name || "محصول";
+                return (
+                    product?.name ||
+                    item.name ||
+                    item.title ||
+                    "محصول"
+                );
             }
-            /* =========================================
-               محاسبه مبلغ
-               ========================================= */
+            function getItemColor(item) {
+                return (
+                    item.color ??
+                    item.selectedColor ??
+                    item.variantColor ??
+                    ""
+                );
+            }
+            function getItemSize(item) {
+                return (
+                    item.size ??
+                    item.selectedSize ??
+                    item.variantSize ??
+                    ""
+                );
+            }
+            function getItemQuantity(item) {
+                const quantity =
+                    toNumber(
+                        item.quantity
+                    );
+                return quantity > 0
+                    ? quantity
+                    : 1;
+            }
+            /* محاسبه */
             function calculateTotals() {
                 let subtotal = 0;
                 let oldTotal = 0;
-                cart.forEach(
-                    function (item) {
-                        const quantity =
-                            Number(
-                                item.quantity
-                            ) || 1;
-                        const price =
-                            getItemPrice(item);
-                        const oldPrice =
-                            getItemOldPrice(item);
-                        subtotal +=
-                            price *
-                            quantity;
-                        oldTotal +=
-                            (
-                                oldPrice > price
-                                    ? oldPrice
-                                    : price
-                            ) *
-                            quantity;
-                    }
-                );
+                cart.forEach(function (item) {
+                    const quantity =
+                        getItemQuantity(item);
+                    const price =
+                        getItemPrice(item);
+                    const oldPrice =
+                        getItemOldPrice(item);
+                    subtotal +=
+                        price * quantity;
+                    oldTotal +=
+                        (
+                            oldPrice > price
+                                ? oldPrice
+                                : price
+                        ) * quantity;
+                });
                 const discount =
                     Math.max(
                         0,
@@ -1250,86 +1314,105 @@
                     );
                 const shippingCost =
                     shippingInput
-                        ? Number(
-                            shippingInput.dataset.cost || 0
+                        ? toNumber(
+                            shippingInput.dataset.cost
                         )
                         : 0;
                 return {
-                    subtotal:
-                        subtotal,
-                    oldTotal:
-                        oldTotal,
-                    discount:
-                        discount,
-                    shippingCost:
-                        shippingCost,
+                    subtotal,
+                    oldTotal,
+                    discount,
+                    shippingCost,
                     total:
                         subtotal +
                         shippingCost
                 };
             }
-            /* =========================================
-               نمایش کالاها
-               ========================================= */
+            /* نمایش محصولات */
             function renderItems() {
                 const container =
                     document.getElementById(
                         "checkoutItems"
                     );
                 container.innerHTML = "";
-                cart.forEach(
-                    function (item) {
-                        const quantity =
-                            Number(
-                                item.quantity
-                            ) || 1;
-                        const price =
-                            getItemPrice(item);
-                        const image =
-                            getItemImage(item);
-                        const name =
-                            getItemName(item);
-                        const element =
-                            document.createElement(
-                                "div"
-                            );
-                        element.className =
-                            "checkout-product";
-                        const imageHTML =
-                            image
-                                ? '<img src="' +
-                                  image +
-                                  '" alt="">'
-                                : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">□</div>';
-                        element.innerHTML =
-                            '<div class="checkout-product-image">' +
-                                imageHTML +
-                            '</div>' +
-                            '<div class="checkout-product-info">' +
-                                '<div class="checkout-product-name">' +
-                                    name +
-                                '</div>' +
-                                '<div class="checkout-product-quantity">' +
-                                    "تعداد: " +
-                                    quantity.toLocaleString("en-US") +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="checkout-product-price">' +
-                                formatPrice(
-                                    price *
-                                    quantity
-                                ) +
-                                " تومان" +
-                            '</div>';
-                        container.appendChild(
-                            element
-                        );
+                cart.forEach(function (item) {
+                    const quantity =
+                        getItemQuantity(item);
+                    const price =
+                        getItemPrice(item);
+                    const image =
+                        getItemImage(item);
+                    const name =
+                        getItemName(item);
+                    const color =
+                        getItemColor(item);
+                    const size =
+                        getItemSize(item);
+                    const element =
+                        document.createElement("div");
+                    element.className =
+                        "checkout-product";
+                    let options = "";
+                    if (color) {
+                        options +=
+                            '<span class="checkout-product-option">' +
+                            "رنگ: " +
+                            escapeHTML(color) +
+                            "</span>";
                     }
-                );
+                    if (size) {
+                        options +=
+                            '<span class="checkout-product-option">' +
+                            "سایز: " +
+                            escapeHTML(String(size)) +
+                            "</span>";
+                    }
+                    options +=
+                        '<span class="checkout-product-option checkout-product-quantity">' +
+                        "تعداد: " +
+                        quantity.toLocaleString("en-US") +
+                        "</span>";
+                    const imageHTML =
+                        image
+                            ? '<img src="' +
+                              escapeAttribute(image) +
+                              '" alt="">'
+                            : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">□</div>';
+                    element.innerHTML =
+                        '<div class="checkout-product-image">' +
+                            imageHTML +
+                        '</div>' +
+                        '<div class="checkout-product-info">' +
+                            '<div class="checkout-product-name">' +
+                                escapeHTML(name) +
+                            '</div>' +
+                            '<div class="checkout-product-options">' +
+                                options +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="checkout-product-price">' +
+                            formatPrice(
+                                price * quantity
+                            ) +
+                            " تومان" +
+                        '</div>';
+                    container.appendChild(
+                        element
+                    );
+                });
             }
-            /* =========================================
-               خلاصه
-               ========================================= */
+            function escapeHTML(value) {
+                return String(value ?? "")
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+            function escapeAttribute(value) {
+                return escapeHTML(value);
+            }
+            /* خلاصه */
             function updateSummary() {
                 const totals =
                     calculateTotals();
@@ -1366,7 +1449,8 @@
                     totals.shippingCost > 0
                         ? formatPrice(
                             totals.shippingCost
-                        ) + " تومان"
+                        ) +
+                        " تومان"
                         : "محاسبه بعدی";
                 const payment =
                     document.querySelector(
@@ -1393,37 +1477,39 @@
                     ) +
                     " تومان";
             }
-            renderItems();
-            updateSummary();
-            /* =========================================
-               اطلاعات کارت
-               ========================================= */
+            /* کارت */
             function updateCardInformation() {
-                const cleanCard =
+                const cardNumber =
                     normalizeDigits(
                         CARD_NUMBER
+                    ).replace(
+                        /\D/g,
+                        ""
                     );
-                const formattedCard =
-                    cleanCard.length === 16
-                        ? cleanCard.replace(
+                const cardElement =
+                    document.getElementById(
+                        "cardNumber"
+                    );
+                if (
+                    cardNumber.length === 16
+                ) {
+                    cardElement.textContent =
+                        cardNumber.replace(
                             /(\d{4})(?=\d)/g,
                             "$1 "
-                        )
-                        : cleanCard;
+                        );
+                } else {
+                    cardElement.textContent =
+                        "هنوز وارد نشده";
+                }
                 document.getElementById(
-                    "cardNumber"
-                ).textContent =
-                    formattedCard;
-                document.querySelector(
-                    ".bank-card-owner"
+                    "cardOwner"
                 ).textContent =
                     "به نام: " +
                     CARD_OWNER;
             }
             updateCardInformation();
-            /* =========================================
-               باز و بسته شدن اطلاعات کارت
-               ========================================= */
+            /* وضعیت پرداخت */
             function updatePaymentUI() {
                 const payment =
                     document.querySelector(
@@ -1437,10 +1523,23 @@
                     "active",
                     !!isCard
                 );
-                submitButton.style.display =
-                    isCard
-                        ? "none"
-                        : "block";
+                if (isCard) {
+                    submitButton.disabled =
+                        !transferConfirmed;
+                    document.getElementById(
+                        "paymentNote"
+                    ).innerHTML =
+                        transferConfirmed
+                            ? "واریز شما تأیید شد. اکنون می‌توانید ثبت سفارش را بزنید. رسید را حداکثر تا 1 ساعت در دایرکت @navidtowel ارسال کنید."
+                            : "ابتدا مبلغ دقیق را کارت‌به‌کارت کنید و سپس «واریز کردم» را بزنید.";
+                } else {
+                    submitButton.disabled =
+                        false;
+                    document.getElementById(
+                        "paymentNote"
+                    ).textContent =
+                        "پرداخت اینترنتی پس از اتصال درگاه فعال خواهد شد.";
+                }
                 updateSummary();
             }
             document
@@ -1451,32 +1550,37 @@
                     input.addEventListener(
                         "change",
                         function () {
-                            updatePaymentUI();
                             if (
                                 this.value ===
-                                "پرداخت آنلاین" &&
-                                GATEWAY_URL.trim() !== ""
+                                "کارت‌به‌کارت"
                             ) {
-                                window.location.href =
-                                    GATEWAY_URL;
+                                transferConfirmed =
+                                    false;
+                                confirmTransfer.classList.remove(
+                                    "confirmed"
+                                );
+                                confirmTransfer.textContent =
+                                    "واریز کردم";
                             }
+                            updatePaymentUI();
                         }
                     );
                 });
-            updatePaymentUI();
-            /* =========================================
-               ذخیره اطلاعات فرم
-               ========================================= */
+            /* ذخیره فرم */
             function saveCheckoutData() {
                 const data = {
                     firstName:
-                        document.getElementById(
-                            "firstName"
-                        ).value.trim(),
+                        normalizeDigits(
+                            document.getElementById(
+                                "firstName"
+                            ).value.trim()
+                        ),
                     lastName:
-                        document.getElementById(
-                            "lastName"
-                        ).value.trim(),
+                        normalizeDigits(
+                            document.getElementById(
+                                "lastName"
+                            ).value.trim()
+                        ),
                     mobile:
                         normalizeDigits(
                             document.getElementById(
@@ -1488,9 +1592,11 @@
                             "province"
                         ).value,
                     city:
-                        document.getElementById(
-                            "city"
-                        ).value.trim(),
+                        normalizeDigits(
+                            document.getElementById(
+                                "city"
+                            ).value.trim()
+                        ),
                     postalCode:
                         normalizeDigits(
                             document.getElementById(
@@ -1498,13 +1604,17 @@
                             ).value.trim()
                         ),
                     address:
-                        document.getElementById(
-                            "address"
-                        ).value.trim(),
+                        normalizeDigits(
+                            document.getElementById(
+                                "address"
+                            ).value.trim()
+                        ),
                     note:
-                        document.getElementById(
-                            "note"
-                        ).value.trim(),
+                        normalizeDigits(
+                            document.getElementById(
+                                "note"
+                            ).value.trim()
+                        ),
                     shipping:
                         document.querySelector(
                             'input[name="shipping"]:checked'
@@ -1558,7 +1668,9 @@
                 document.getElementById(
                     "city"
                 ).value =
-                    saved.city || "";
+                    normalizeDigits(
+                        saved.city || ""
+                    );
                 document.getElementById(
                     "postalCode"
                 ).value =
@@ -1568,11 +1680,15 @@
                 document.getElementById(
                     "address"
                 ).value =
-                    saved.address || "";
+                    normalizeDigits(
+                        saved.address || ""
+                    );
                 document.getElementById(
                     "note"
                 ).value =
-                    saved.note || "";
+                    normalizeDigits(
+                        saved.note || ""
+                    );
                 if (saved.shipping) {
                     const input =
                         document.querySelector(
@@ -1593,6 +1709,7 @@
                     "input",
                     function () {
                         saveCheckoutData();
+                        updateSummary();
                     }
                 );
             document
@@ -1604,30 +1721,23 @@
                         updateSummary();
                     }
                 );
-            /* =========================================
-               کد پیگیری کارت‌به‌کارت
-               از کد درگاه کاملاً جدا است.
-               ========================================= */
+            /* کد پیگیری */
             function createCardTransferTrackingCode() {
-                const time =
-                    Date.now()
-                        .toString()
-                        .slice(-8);
                 const random =
                     Math.floor(
-                        10 +
-                        Math.random() *
-                        90
+                        10000000 +
+                        Math.random() * 90000000
                     );
-                return (
-                    "CT-" +
-                    time +
-                    random
-                );
+                return "CT-" + String(random);
             }
-            /* =========================================
-               شماره سفارش
-               ========================================= */
+            function createGatewayTrackingCode() {
+                const random =
+                    Math.floor(
+                        10000000 +
+                        Math.random() * 90000000
+                    );
+                return "PG-" + String(random);
+            }
             function createOrderNumber() {
                 const now =
                     new Date();
@@ -1644,57 +1754,58 @@
                 const random =
                     Math.floor(
                         1000 +
-                        Math.random() *
-                        9000
+                        Math.random() * 9000
                     );
                 return (
                     "NT-" +
                     date +
                     "-" +
-                    random
+                    String(random)
                 );
             }
-            /* =========================================
-               متن محصولات
-               ========================================= */
+            /* متن محصولات */
             function createProductsText() {
                 const list = [];
-                cart.forEach(
-                    function (item) {
-                        const name =
-                            getItemName(item);
-                        const quantity =
-                            Number(
-                                item.quantity
-                            ) || 1;
-                        const price =
-                            getItemPrice(item);
-                        list.push(
-                            name +
-                            " × " +
-                            quantity.toLocaleString("en-US") +
-                            " = " +
-                            formatPrice(
-                                price *
-                                quantity
-                            ) +
-                            " تومان"
-                        );
+                cart.forEach(function (item) {
+                    const name =
+                        getItemName(item);
+                    const quantity =
+                        getItemQuantity(item);
+                    const price =
+                        getItemPrice(item);
+                    const color =
+                        getItemColor(item);
+                    const size =
+                        getItemSize(item);
+                    let options = "";
+                    if (color) {
+                        options +=
+                            " | رنگ: " +
+                            color;
                     }
-                );
+                    if (size) {
+                        options +=
+                            " | سایز: " +
+                            size;
+                    }
+                    list.push(
+                        name +
+                        options +
+                        " | تعداد: " +
+                        quantity.toLocaleString("en-US") +
+                        " | مبلغ: " +
+                        formatPrice(
+                            price * quantity
+                        ) +
+                        " تومان"
+                    );
+                });
                 return list.join("\n");
             }
-            /* =========================================
-               ارسال سفارش
-               ========================================= */
-            function sendOrderToGoogle(
-                orderData
-            ) {
+            /* ارسال سفارش */
+            function sendOrderToGoogle(orderData) {
                 return new Promise(
-                    function (
-                        resolve,
-                        reject
-                    ) {
+                    function (resolve, reject) {
                         try {
                             const customer =
                                 orderData.customer;
@@ -1722,7 +1833,9 @@
                             );
                             params.set(
                                 "city",
-                                customer.city || ""
+                                normalizeDigits(
+                                    customer.city || ""
+                                )
                             );
                             params.set(
                                 "postalCode",
@@ -1732,7 +1845,9 @@
                             );
                             params.set(
                                 "address",
-                                customer.address || ""
+                                normalizeDigits(
+                                    customer.address || ""
+                                )
                             );
                             params.set(
                                 "shipping",
@@ -1745,7 +1860,9 @@
                             );
                             params.set(
                                 "note",
-                                customer.note || ""
+                                normalizeDigits(
+                                    customer.note || ""
+                                )
                             );
                             params.set(
                                 "products",
@@ -1784,6 +1901,10 @@
                                 orderData.trackingCode
                             );
                             params.set(
+                                "trackingType",
+                                orderData.trackingType
+                            );
+                            params.set(
                                 "status",
                                 orderData.status
                             );
@@ -1799,6 +1920,10 @@
                                 "receiptInstagram",
                                 "@navidtowel"
                             );
+                            params.set(
+                                "createdAt",
+                                orderData.createdAt
+                            );
                             const url =
                                 GOOGLE_SCRIPT_URL +
                                 "?" +
@@ -1809,8 +1934,7 @@
                                 );
                             iframe.style.display =
                                 "none";
-                            iframe.src =
-                                url;
+                            iframe.src = url;
                             document.body.appendChild(
                                 iframe
                             );
@@ -1836,185 +1960,303 @@
                     }
                 );
             }
-            /* =========================================
-               ثبت نهایی کارت‌به‌کارت
-               ========================================= */
-            document
-                .getElementById(
-                    "confirmTransfer"
-                )
-                .addEventListener(
-                    "click",
-                    async function () {
-                        const form =
-                            document.getElementById(
-                                "checkoutForm"
-                            );
-                        if (
-                            !form.checkValidity()
-                        ) {
-                            form.reportValidity();
-                            return;
-                        }
-                        const mobile =
-                            normalizeDigits(
-                                document.getElementById(
-                                    "mobile"
-                                ).value.trim()
-                            );
-                        if (
-                            !/^09\d{9}$/.test(
-                                mobile
-                            )
-                        ) {
-                            message.style.display =
-                                "block";
-                            message.textContent =
-                                "شماره موبایل صحیح نیست.";
+            /* واریز کردم */
+            confirmTransfer.addEventListener(
+                "click",
+                function () {
+                    const form =
+                        document.getElementById(
+                            "checkoutForm"
+                        );
+                    if (
+                        !form.checkValidity()
+                    ) {
+                        form.reportValidity();
+                        return;
+                    }
+                    const mobile =
+                        normalizeDigits(
                             document.getElementById(
                                 "mobile"
-                            ).focus();
-                            return;
-                        }
-                        const postalCode =
-                            normalizeDigits(
-                                document.getElementById(
-                                    "postalCode"
-                                ).value.trim()
-                            );
-                        if (
-                            !/^\d{10}$/.test(
-                                postalCode
-                            )
-                        ) {
-                            message.style.display =
-                                "block";
-                            message.textContent =
-                                "کد پستی باید دقیقاً 10 رقم باشد.";
-                            document.getElementById(
-                                "postalCode"
-                            ).focus();
-                            return;
-                        }
-                        const checkoutData =
-                            saveCheckoutData();
-                        checkoutData.mobile =
-                            mobile;
-                        checkoutData.postalCode =
-                            postalCode;
-                        const totals =
-                            calculateTotals();
-                        const trackingCode =
-                            createCardTransferTrackingCode();
-                        const orderNumber =
-                            createOrderNumber();
-                        const deadline =
-                            new Date(
-                                Date.now() +
-                                60 * 60 * 1000
-                            ).toISOString();
-                        const orderData = {
-                            orderNumber:
-                                orderNumber,
-                            trackingCode:
-                                trackingCode,
-                            status:
-                                "در انتظار رسید کارت‌به‌کارت",
-                            paymentStatus:
-                                "منتظر رسید واریز",
-                            receiptDeadline:
-                                deadline,
-                            customer:
-                                checkoutData,
-                            items:
-                                cart,
-                            totals:
-                                totals,
-                            createdAt:
-                                new Date()
-                                    .toISOString()
-                        };
-                        localStorage.setItem(
-                            "navidTowelPendingOrder",
-                            JSON.stringify(
-                                orderData
-                            )
+                            ).value.trim()
                         );
-                        this.disabled =
-                            true;
-                        this.textContent =
-                            "در حال ثبت سفارش...";
+                    if (
+                        !/^09\d{9}$/.test(
+                            mobile
+                        )
+                    ) {
                         message.style.display =
                             "block";
                         message.textContent =
-                            "در حال ثبت اطلاعات سفارش...";
-                        try {
-                            await sendOrderToGoogle(
-                                orderData
-                            );
-                            localStorage.setItem(
-                                "navidTowelLastOrder",
-                                JSON.stringify(
-                                    orderData
-                                )
-                            );
-                            localStorage.removeItem(
-                                "navidTowelPendingOrder"
-                            );
-                            localStorage.removeItem(
-                                CART_KEY
-                            );
-                            cart = [];
-                            checkoutContent.style.display =
-                                "none";
-                            emptyCheckout.style.display =
-                                "none";
-                            successBox.style.display =
-                                "block";
-                            document.getElementById(
-                                "trackingCode"
-                            ).textContent =
-                                trackingCode;
-                            window.scrollTo({
-                                top: 0,
-                                behavior: "smooth"
-                            });
-                        } catch (error) {
-                            console.error(
-                                "NavidTowel order error:",
-                                error
-                            );
-                            message.style.display =
-                                "block";
-                            message.textContent =
-                                "ثبت سفارش انجام نشد. دوباره تلاش کنید.";
-                            this.disabled =
-                                false;
-                            this.textContent =
-                                "واریز کردم";
-                        }
+                            "شماره موبایل صحیح نیست.";
+                        document.getElementById(
+                            "mobile"
+                        ).focus();
+                        return;
                     }
-                );
-            /* =========================================
-               دکمه ثبت سفارش درگاه
-               فعلاً کارت‌به‌کارت تنها روش فعال است.
-               ========================================= */
+                    const postalCode =
+                        normalizeDigits(
+                            document.getElementById(
+                                "postalCode"
+                            ).value.trim()
+                        );
+                    if (
+                        !/^\d{10}$/.test(
+                            postalCode
+                        )
+                    ) {
+                        message.style.display =
+                            "block";
+                        message.textContent =
+                            "کد پستی باید دقیقاً 10 رقم باشد.";
+                        document.getElementById(
+                            "postalCode"
+                        ).focus();
+                        return;
+                    }
+                    saveCheckoutData();
+                    transferConfirmed =
+                        true;
+                    confirmTransfer.classList.add(
+                        "confirmed"
+                    );
+                    confirmTransfer.textContent =
+                        "✓ واریز انجام شد";
+                    submitButton.disabled =
+                        false;
+                    message.style.display =
+                        "block";
+                    message.textContent =
+                        "واریز انجام‌شده ثبت شد. حالا می‌توانید «ثبت سفارش» را بزنید.";
+                    updatePaymentUI();
+                }
+            );
+            /* ثبت سفارش */
             submitButton.addEventListener(
                 "click",
-                function () {
+                async function () {
+                    const payment =
+                        document.querySelector(
+                            'input[name="paymentMethod"]:checked'
+                        );
+                    const isCard =
+                        payment &&
+                        payment.value ===
+                        "کارت‌به‌کارت";
                     if (
+                        isCard &&
+                        !transferConfirmed
+                    ) {
+                        message.style.display =
+                            "block";
+                        message.textContent =
+                            "ابتدا مبلغ را واریز کنید و سپس روی «واریز کردم» بزنید.";
+                        return;
+                    }
+                    if (
+                        !isCard &&
                         GATEWAY_URL.trim() === ""
                     ) {
                         message.style.display =
                             "block";
                         message.textContent =
-                            "درگاه اینترنتی هنوز فعال نشده است. فعلاً از کارت‌به‌کارت استفاده کنید.";
+                            "درگاه اینترنتی هنوز فعال نشده است.";
                         return;
                     }
-                    window.location.href =
-                        GATEWAY_URL;
+                    const form =
+                        document.getElementById(
+                            "checkoutForm"
+                        );
+                    if (
+                        !form.checkValidity()
+                    ) {
+                        form.reportValidity();
+                        return;
+                    }
+                    const mobile =
+                        normalizeDigits(
+                            document.getElementById(
+                                "mobile"
+                            ).value.trim()
+                        );
+                    if (
+                        !/^09\d{9}$/.test(
+                            mobile
+                        )
+                    ) {
+                        message.style.display =
+                            "block";
+                        message.textContent =
+                            "شماره موبایل صحیح نیست.";
+                        document.getElementById(
+                            "mobile"
+                        ).focus();
+                        return;
+                    }
+                    const postalCode =
+                        normalizeDigits(
+                            document.getElementById(
+                                "postalCode"
+                            ).value.trim()
+                        );
+                    if (
+                        !/^\d{10}$/.test(
+                            postalCode
+                        )
+                    ) {
+                        message.style.display =
+                            "block";
+                        message.textContent =
+                            "کد پستی باید دقیقاً 10 رقم باشد.";
+                        document.getElementById(
+                            "postalCode"
+                        ).focus();
+                        return;
+                    }
+                    const checkoutData =
+                        saveCheckoutData();
+                    checkoutData.mobile =
+                        mobile;
+                    checkoutData.postalCode =
+                        postalCode;
+                    const totals =
+                        calculateTotals();
+                    const trackingCode =
+                        isCard
+                            ? createCardTransferTrackingCode()
+                            : createGatewayTrackingCode();
+                    const orderNumber =
+                        createOrderNumber();
+                    const deadline =
+                        isCard
+                            ? new Date(
+                                Date.now() +
+                                60 * 60 * 1000
+                            ).toISOString()
+                            : "";
+                    const orderData = {
+                        orderNumber,
+                        trackingCode,
+                        trackingType:
+                            isCard
+                                ? "card_to_card"
+                                : "gateway",
+                        status:
+                            isCard
+                                ? "در انتظار تأیید رسید کارت‌به‌کارت"
+                                : "در انتظار پرداخت درگاه",
+                        paymentStatus:
+                            isCard
+                                ? "واریز توسط مشتری اعلام شد"
+                                : "در انتظار پرداخت",
+                        receiptDeadline:
+                            deadline,
+                        receiptInstagram:
+                            "@navidtowel",
+                        customer:
+                            checkoutData,
+                        items:
+                            cart,
+                        totals,
+                        createdAt:
+                            new Date()
+                                .toISOString()
+                    };
+                    localStorage.setItem(
+                        "navidTowelPendingOrder",
+                        JSON.stringify(
+                            orderData
+                        )
+                    );
+                    submitButton.disabled =
+                        true;
+                    submitButton.textContent =
+                        "در حال ثبت سفارش...";
+                    message.style.display =
+                        "block";
+                    message.textContent =
+                        "در حال ثبت اطلاعات سفارش...";
+                    try {
+                        await sendOrderToGoogle(
+                            orderData
+                        );
+                        if (
+                            !isCard
+                        ) {
+                            window.location.href =
+                                GATEWAY_URL +
+                                (
+                                    GATEWAY_URL.includes("?")
+                                        ? "&"
+                                        : "?"
+                                ) +
+                                "orderNumber=" +
+                                encodeURIComponent(
+                                    orderNumber
+                                ) +
+                                "&trackingCode=" +
+                                encodeURIComponent(
+                                    trackingCode
+                                ) +
+                                "&amount=" +
+                                encodeURIComponent(
+                                    String(
+                                        totals.total
+                                    )
+                                );
+                            return;
+                        }
+                        localStorage.setItem(
+                            "navidTowelLastOrder",
+                            JSON.stringify(
+                                orderData
+                            )
+                        );
+                        localStorage.removeItem(
+                            "navidTowelPendingOrder"
+                        );
+                        localStorage.removeItem(
+                            CART_KEY
+                        );
+                        cart = [];
+                        checkoutContent.style.display =
+                            "none";
+                        emptyCheckout.style.display =
+                            "none";
+                        successBox.style.display =
+                            "block";
+                        document.getElementById(
+                            "trackingCode"
+                        ).textContent =
+                            trackingCode;
+                        document.getElementById(
+                            "successText"
+                        ).textContent =
+                            "سفارش شما ثبت شد و در انتظار تأیید رسید است. رسید واریز را حتماً حداکثر تا 1 ساعت در دایرکت @navidtowel ارسال کنید.";
+                        window.scrollTo({
+                            top: 0,
+                            behavior: "smooth"
+                        });
+                    } catch (error) {
+                        console.error(
+                            "NavidTowel order error:",
+                            error
+                        );
+                        message.style.display =
+                            "block";
+                        message.textContent =
+                            "ثبت سفارش انجام نشد. دوباره تلاش کنید.";
+                        submitButton.disabled =
+                            false;
+                        submitButton.textContent =
+                            "ثبت سفارش";
+                    }
                 }
             );
+            /* شروع */
+            renderItems();
+            updateSummary();
+            updatePaymentUI();
         });
     </script>
 </body>
