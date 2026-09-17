@@ -539,7 +539,7 @@
         box-shadow: 0 7px 18px rgba(41,71,55,.18);
     }
     /* هدر مخصوص checkout */
-    body.checkout-page-body .navid-top-buttons .openCart.checkout-header-submit {
+    body.checkout-page-body .header-actions .cart-btn.checkout-header-submit {
         width: auto !important;
         min-width: 120px !important;
         height: 42px !important;
@@ -557,7 +557,7 @@
         cursor: pointer !important;
         white-space: nowrap !important;
     }
-    body.checkout-page-body .navid-top-buttons .openCart.checkout-header-submit .cartCount {
+    body.checkout-page-body .header-actions .cart-btn.checkout-header-submit .cartCount {
         display: none !important;
     }
     /* پیام */
@@ -704,7 +704,7 @@
         .summary-total span:last-child {
             font-size: 16px;
         }
-        body.checkout-page-body .navid-top-buttons .openCart.checkout-header-submit {
+        body.checkout-page-body .header-actions .cart-btn.checkout-header-submit {
             min-width: 105px !important;
             height: 39px !important;
             padding: 0 13px !important;
@@ -1191,11 +1191,11 @@
                 "transferConfirmedMessage"
             );
         let transferConfirmed = false;
-        /* هدر فقط همین صفحه */
+        /* هدر فقط همین صفحه — دکمه‌ی سبدِ داخل هدر اصلی به «ثبت سفارش» تبدیل می‌شود */
         function setupCheckoutHeader() {
             const oldButton =
                 document.querySelector(
-                    ".navid-top-buttons .openCart"
+                    ".header-actions .cart-btn"
                 );
             if (!oldButton) {
                 return;
@@ -1311,7 +1311,17 @@
             return parseNumber(number)
                 .toLocaleString("en-US");
         }
-        /* پیدا کردن محصولات */
+        /*
+          باگ اصلیِ قیمتِ صفر اینجا بود: قبلاً این تابع و متغیر
+          هردو اسمشون "products" بود. چون پایین‌تر "const products
+          = getProductsArray();" تعریف می‌شه، همون لحظه که خودِ
+          تابع داره اجرا می‌شه و می‌خواد "typeof products" رو چک
+          کنه، به‌خاطر TDZ به متغیر محلیِ هنوز مقداردهی‌نشده
+          برمی‌خوره (نه آرایه‌ی global تو products.js)، خطا می‌ده،
+          try/catch قورتش می‌ده، و آرایه‌ی واقعی محصولات هیچ‌وقت
+          پیدا نمی‌شه. برای همین قیمت همیشه صفر بود.
+          الان اسم متغیر محلی رو به catalogProducts تغییر دادم.
+        */
         function getProductsArray() {
             const possibleArrays = [];
             try {
@@ -1392,7 +1402,7 @@
                 ? possibleArrays[0]
                 : [];
         }
-        const products =
+        const catalogProducts =
             getProductsArray();
         function findProduct(item) {
             const itemIds = [
@@ -1412,7 +1422,7 @@
                     }
                 );
             const product =
-                products.find(
+                catalogProducts.find(
                     function (product) {
                         const productId =
                             product?.id != null
