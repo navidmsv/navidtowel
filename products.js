@@ -45,10 +45,7 @@ const products =
         images: "images/bath-classic.webp",
         colors: [{ name: "قرمز", stock: 10 }],
         description: "حوله‌ای کاربردی و نرم با جذب مناسب برای استفاده روزانه."
-    ,
     images: ["images/products/product-3-قرمز-1789796445681.jpg"]
-  ,
-    images: ["images/products/product-3-قرمز-1789797773739.jpg"]
   },
 
     {
