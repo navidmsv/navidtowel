@@ -42,11 +42,9 @@ const products =
         oldPrice: 1090000,
         badge: "پیشنهاد ویژه",
         categories: ["bath", "men", "women"],
-        images: "images/bath-classic.webp",
         colors: [{ name: "قرمز", stock: 10 }],
-        description: "حوله‌ای کاربردی و نرم با جذب مناسب برای استفاده روزانه."
-  ,
-    images: ["images/products/product-3-ابی-1789798174056.jpg"]
+        description: "حوله‌ای کاربردی و نرم با جذب مناسب برای استفاده روزانه.",
+        images: ["images/products/product-3-ابی-1789798174056.jpg"]
   },
 
     {
