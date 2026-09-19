@@ -42,7 +42,7 @@ const products =
         oldPrice: 1090000,
         badge: "پیشنهاد ویژه",
         categories: ["bath", "men", "women"],
-        image: "images/bath-classic.webp",
+        images: "images/bath-classic.webp",
         colors: [{ name: "قرمز", stock: 10 }],
         description: "حوله‌ای کاربردی و نرم با جذب مناسب برای استفاده روزانه."
     },
