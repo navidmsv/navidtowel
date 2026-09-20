@@ -1161,17 +1161,52 @@
             "0000000000000000";
         const CARD_OWNER =
             "نام صاحب کارت";
-        const CART_KEY =
-            "navidTowelCart";
-        let cart = [];
+        const CART_KEY = "navidTowelCart";
+
+let cart = [];
+
+function loadCartFromStorage() {
+    const possibleKeys = [
+        "navidTowelCart",
+        "cart",
+        "shoppingCart",
+        "navidCart"
+    ];
+
+    for (const key of possibleKeys) {
         try {
-            cart =
-                JSON.parse(
-                    localStorage.getItem(CART_KEY)
-                ) || [];
+            const stored = localStorage.getItem(key);
+
+            if (!stored) {
+                continue;
+            }
+
+            const parsed = JSON.parse(stored);
+
+            if (Array.isArray(parsed)) {
+                return parsed;
+            }
+
+            if (parsed && Array.isArray(parsed.items)) {
+                return parsed.items;
+            }
+
+            if (parsed && Array.isArray(parsed.cart)) {
+                return parsed.cart;
+            }
+
+            if (parsed && Array.isArray(parsed.products)) {
+                return parsed.products;
+            }
         } catch (error) {
-            cart = [];
+            console.warn("خطا در خواندن سبد:", key, error);
         }
+    }
+
+    return [];
+}
+
+cart = loadCartFromStorage();
         const emptyCheckout =
             document.getElementById("emptyCheckout");
         const checkoutContent =
@@ -2428,8 +2463,14 @@
                         "navidTowelLastOrder",
                         JSON.stringify(orderData)
                     );
-                    localStorage.removeItem(CART_KEY);
-                    cart = [];
+                   [
+    "navidTowelCart",
+    "cart",
+    "shoppingCart",
+    "navidCart"
+].forEach(function (key) {
+    localStorage.removeItem(key);
+});
 
                     checkoutContent.style.display = "none";
                     emptyCheckout.style.display = "none";
