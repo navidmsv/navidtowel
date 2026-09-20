@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">\n    <meta http-equiv="Pragma" content="no-cache">\n    <meta http-equiv="Expires" content="0">
     <title>تکمیل سفارش | NavidTowel</title>
     <link rel="stylesheet" href="style.css">
 
@@ -408,29 +408,52 @@
     }
 
     .transfer-tracking-input {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+        width: 100% !important;
+        min-height: 46px !important;
+        height: 46px !important;
+        box-sizing: border-box !important;
+        direction: ltr !important;
+        text-align: center !important;
+        text-indent: 0 !important;
+        letter-spacing: 2px !important;
+        border: 1px solid #bda84f !important;
+        border-radius: 9px !important;
+        background: #fff !important;
+        padding: 11px 12px !important;
+        color: #111 !important;
+        -webkit-text-fill-color: #111 !important;
+        caret-color: #111 !important;
+        font-family: Tahoma, Arial, sans-serif !important;
+        font-size: 15px !important;
+        line-height: 22px !important;
+        font-weight: 700 !important;
+        outline: none !important;
+        box-shadow: none !important;
         -webkit-text-security: none !important;
         text-security: none !important;
         -webkit-appearance: none !important;
         appearance: none !important;
-        width: 100%;
-        box-sizing: border-box;
-        direction: ltr;
-        text-align: center;
-        letter-spacing: 2px;
-        border: 1px solid #d4c37f;
-        border-radius: 9px;
-        background: #fff;
-        padding: 11px 12px;
-        color: #222;
-        font-family: Tahoma, Arial, sans-serif;
-        font-size: 14px;
-        font-weight: 700;
-        outline: none;
     }
 
     .transfer-tracking-input:focus {
         border-color: #b5962d;
         box-shadow: 0 0 0 3px rgba(181,150,45,.10);
+    }
+
+    .transfer-tracking-visible-value {
+        display: block;
+        margin-top: 8px;
+        min-height: 18px;
+        color: #5b4b16;
+        font-size: 10px;
+        font-weight: 800;
+        text-align: center;
+        direction: ltr;
+        letter-spacing: 1px;
     }
 
     .transfer-tracking-help {
@@ -490,8 +513,8 @@
     }
 
     .confirm-transfer-btn:disabled {
-        opacity: .45;
-        cursor: not-allowed;
+        opacity: 1;
+        cursor: pointer;
     }
 
     .confirm-transfer-btn.confirmed {
@@ -1339,6 +1362,13 @@
 
                                         <div class="transfer-tracking-help">
                                             شماره پیگیری انتقال را بین 10 تا 13 رقم وارد کنید.
+                                        </div>
+
+                                        <div
+                                            id="transferTrackingVisibleValue"
+                                            class="transfer-tracking-visible-value"
+                                        >
+                                            شماره واردشده: —
                                         </div>
 
                                     </div>
@@ -2627,17 +2657,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateTransferButton() {
 
-        if (transferConfirmed) {
-
-            confirmTransfer.disabled =
-                false;
-
-            return;
-
-        }
-
-        confirmTransfer.disabled =
-            !isValidTransferTracking();
+        /* دکمه عمداً هیچ‌وقت قفل نمی‌شود. اعتبارسنجی هنگام کلیک انجام می‌شود. */
+        confirmTransfer.disabled = false;
 
     }
 
@@ -2658,6 +2679,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     0,
                     13
                 );
+
+            const visibleValue =
+                document.getElementById(
+                    "transferTrackingVisibleValue"
+                );
+
+            if (visibleValue) {
+
+                visibleValue.textContent =
+                    this.value
+                        ? "شماره واردشده: " + this.value
+                        : "شماره واردشده: —";
+
+            }
 
             if (transferConfirmed) {
 
@@ -2690,7 +2725,7 @@ document.addEventListener("DOMContentLoaded", function () {
             false;
 
         confirmTransfer.disabled =
-            true;
+            false;
 
         confirmTransfer.classList.remove(
             "confirmed"
@@ -2702,6 +2737,18 @@ document.addEventListener("DOMContentLoaded", function () {
         transferConfirmedMessage.classList.remove(
             "active"
         );
+
+        const visibleValue =
+            document.getElementById(
+                "transferTrackingVisibleValue"
+            );
+
+        if (visibleValue && !transferTrackingNumber.value) {
+
+            visibleValue.textContent =
+                "شماره واردشده: —";
+
+        }
 
     }
 
@@ -3968,31 +4015,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 !isValidTransferTracking()
             ) {
 
-                transferTrackingNumber.focus();
-
-                return;
-
-            }
-
-            if (
-                transferConfirmed
-            ) {
-
-                transferConfirmed =
-                    false;
-
-                confirmTransfer.classList.remove(
-                    "confirmed"
-                );
-
-                confirmTransfer.textContent =
-                    "واریز کردم";
-
-                transferConfirmedMessage.classList.remove(
+                cardPaymentBox.classList.add(
                     "active"
                 );
 
-                updatePaymentUI();
+                showMessage(
+                    "شماره پیگیری را کامل و بدون فاصله، بین 10 تا 13 رقم وارد کنید."
+                );
+
+                transferTrackingNumber.focus();
 
                 return;
 
@@ -4006,6 +4037,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
             paymentSaveInProgress =
                 true;
+
+            confirmTransfer.disabled =
+                false;
+
+            confirmTransfer.textContent =
+                "در حال ثبت واریز...";
 
             hideMessage();
 
@@ -4061,7 +4098,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "active"
                 );
 
-                cardPaymentBox.classList.remove(
+                cardPaymentBox.classList.add(
                     "active"
                 );
 
@@ -4083,6 +4120,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 paymentSaveInProgress =
                     false;
+
+                if (!transferConfirmed) {
+
+                    confirmTransfer.disabled =
+                        false;
+
+                    confirmTransfer.textContent =
+                        "واریز کردم";
+
+                }
 
                 updatePaymentUI();
 
