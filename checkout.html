@@ -408,6 +408,10 @@
     }
 
     .transfer-tracking-input {
+        -webkit-text-security: none !important;
+        text-security: none !important;
+        -webkit-appearance: none !important;
+        appearance: none !important;
         width: 100%;
         box-sizing: border-box;
         direction: ltr;
@@ -2623,15 +2627,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateTransferButton() {
 
-        if (paymentSaveInProgress) {
-
-            confirmTransfer.disabled =
-                true;
-
-            return;
-
-        }
-
         if (transferConfirmed) {
 
             confirmTransfer.disabled =
@@ -2735,9 +2730,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } else {
 
-            cardPaymentBox.classList.remove(
-                "active"
-            );
 
             resetTransferConfirmation();
 
@@ -2767,7 +2759,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             submitButton.disabled =
                 !canSubmit ||
-                paymentSaveInProgress ||
                 finalSaveInProgress;
 
             submitButton.classList.toggle(
