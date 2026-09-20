@@ -392,11 +392,16 @@
     }
 
     .transfer-tracking-group {
-        margin-top: 13px;
-        padding: 12px;
+        display: none;
+        margin-top: 10px;
+        padding: 10px;
         border-radius: 10px;
         background: rgba(255,255,255,.76);
         border: 1px solid rgba(180,145,50,.28);
+    }
+
+    .transfer-tracking-group.active {
+        display: block;
     }
 
     .transfer-tracking-label {
@@ -490,26 +495,18 @@
     }
 
     .confirm-transfer-btn {
-        width: auto;
-        min-width: 125px;
+        width: 100%;
         border: 0;
-        border-radius: 9px;
-        padding: 9px 17px;
-        margin-top: 13px;
+        border-radius: 10px;
+        padding: 14px 16px;
+        margin-top: 12px;
         background: #c8a52e;
         color: #fff;
         font-family: Tahoma, Arial, sans-serif;
-        font-size: 11px;
-        font-weight: 800;
+        font-size: 14px;
+        font-weight: 900;
         cursor: pointer;
-        transition: .2s;
         display: block;
-        margin-right: auto;
-        margin-left: auto;
-    }
-
-    .confirm-transfer-btn:hover {
-        background: #ad8c1f;
     }
 
     .confirm-transfer-btn:disabled {
@@ -517,9 +514,41 @@
         cursor: pointer;
     }
 
-    .confirm-transfer-btn.confirmed {
-        background: #3f8a50;
+    .transfer-final-actions {
+        display: none;
+        gap: 8px;
+        margin-top: 10px;
+        grid-template-columns: 1fr 1.5fr;
+    }
+
+    .transfer-final-actions.active {
+        display: grid;
+    }
+
+    .transfer-cancel-btn,
+    .transfer-final-btn {
+        border: 0;
+        border-radius: 9px;
+        padding: 10px 12px;
+        font-family: Tahoma, Arial, sans-serif;
+        font-size: 11px;
+        font-weight: 900;
         cursor: pointer;
+    }
+
+    .transfer-cancel-btn {
+        background: #eeeeee;
+        color: #333;
+    }
+
+    .transfer-final-btn {
+        background: #34452f;
+        color: #fff;
+    }
+
+    .transfer-final-btn:disabled {
+        opacity: .5;
+        cursor: not-allowed;
     }
 
     .transfer-confirmed-message {
@@ -1341,13 +1370,16 @@
 
                                     </div>
 
-                                    <div class="transfer-tracking-group">
+                                    <div
+                                        id="transferTrackingGroup"
+                                        class="transfer-tracking-group"
+                                    >
 
                                         <label
                                             class="transfer-tracking-label"
                                             for="transferTrackingNumber"
                                         >
-                                            شماره پیگیری
+                                            شماره پیگیری واریز
                                         </label>
 
                                         <input
@@ -1361,7 +1393,7 @@
                                         >
 
                                         <div class="transfer-tracking-help">
-                                            شماره پیگیری انتقال را بین 10 تا 13 رقم وارد کنید.
+                                            شماره پیگیری واریز را فقط با عدد وارد کنید.
                                         </div>
 
                                         <div
@@ -1377,35 +1409,31 @@
                                         type="button"
                                         id="confirmTransfer"
                                         class="confirm-transfer-btn"
-                                        disabled
                                     >
                                         واریز کردم
                                     </button>
 
                                     <div
-                                        id="transferConfirmedMessage"
-                                        class="transfer-confirmed-message"
+                                        id="transferFinalActions"
+                                        class="transfer-final-actions"
                                     >
-
-                                        <span class="attention">
-                                            توجه
-                                        </span>
-
-                                        <span class="receipt-text">
-                                            عکس رسید انتقال حتماً باید در اینستاگرام ارسال شود.
-                                            بعد از بررسی انتقال شما، سفارش ثبت می‌شود.
-                                        </span>
-
-                                        <a
-                                            class="payment-instagram"
-                                            href="https://instagram.com/navidtowel"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
+                                        <button
+                                            type="button"
+                                            id="cancelTransfer"
+                                            class="transfer-cancel-btn"
                                         >
-                                            ارسال رسید در Instagram
-                                        </a>
+                                            انصراف
+                                        </button>
 
+                                        <button
+                                            type="button"
+                                            id="finalTransfer"
+                                            class="transfer-final-btn"
+                                        >
+                                            ثبت نهایی
+                                        </button>
                                     </div>
+
 
                                 </div>
 
@@ -1786,14 +1814,29 @@ document.addEventListener("DOMContentLoaded", function () {
             "confirmTransfer"
         );
 
+    const transferTrackingGroup =
+        document.getElementById(
+            "transferTrackingGroup"
+        );
+
+    const transferFinalActions =
+        document.getElementById(
+            "transferFinalActions"
+        );
+
+    const cancelTransfer =
+        document.getElementById(
+            "cancelTransfer"
+        );
+
+    const finalTransfer =
+        document.getElementById(
+            "finalTransfer"
+        );
+
     const transferTrackingNumber =
         document.getElementById(
             "transferTrackingNumber"
-        );
-
-    const transferConfirmedMessage =
-        document.getElementById(
-            "transferConfirmedMessage"
         );
 
     let transferConfirmed = false;
@@ -2752,182 +2795,88 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
+    function resetTransferPanel() {
+
+        transferConfirmed = false;
+
+        transferTrackingGroup.classList.remove("active");
+        transferFinalActions.classList.remove("active");
+
+        confirmTransfer.style.display = "block";
+        confirmTransfer.disabled = false;
+        confirmTransfer.textContent = "واریز کردم";
+
+        transferTrackingNumber.value = "";
+
+        const visibleValue =
+            document.getElementById("transferTrackingVisibleValue");
+
+        if (visibleValue) {
+            visibleValue.textContent = "شماره واردشده: —";
+        }
+
+        if (finalTransfer) {
+            finalTransfer.disabled = false;
+            finalTransfer.textContent = "ثبت نهایی";
+        }
+    }
+
+    function showTransferStep2() {
+
+        transferConfirmed = true;
+
+        transferTrackingGroup.classList.add("active");
+        transferFinalActions.classList.add("active");
+        confirmTransfer.style.display = "none";
+
+        setTimeout(function () {
+            transferTrackingNumber.focus();
+        }, 30);
+    }
+
     function updatePaymentUI() {
 
         const payment =
-            document.querySelector(
-                'input[name="paymentMethod"]:checked'
-            );
+            document.querySelector('input[name="paymentMethod"]:checked');
 
         const isCard =
             payment &&
-            payment.value ===
-            "کارت‌به‌کارت";
+            payment.value === "کارت‌به‌کارت";
 
         const isGateway =
             payment &&
-            payment.value ===
-            "پرداخت آنلاین";
+            payment.value === "پرداخت آنلاین";
 
         if (isCard) {
+            cardPaymentBox.classList.add("active");
+            submitButton.style.display = "none";
 
-            cardPaymentBox.classList.add(
-                "active"
-            );
-
-        } else {
-
-
-            resetTransferConfirmation();
-
-        }
-
-        if (!payment) {
-
-            submitButton.disabled =
-                true;
-
-            submitButton.classList.remove(
-                "ready"
-            );
-
-            submitButton.textContent =
-                "ابتدا روش پرداخت را انتخاب کنید";
-
-            document.getElementById(
-                "paymentNote"
-            ).textContent =
-                "ابتدا روش ارسال و روش پرداخت را انتخاب کنید.";
-
-        } else if (isCard) {
-
-            const canSubmit =
-                transferConfirmed;
-
-            submitButton.disabled =
-                !canSubmit ||
-                finalSaveInProgress;
-
-            submitButton.classList.toggle(
-                "ready",
-                canSubmit
-            );
-
-            submitButton.textContent =
-                paymentSaveInProgress
-                    ? "در حال ثبت واریز..."
-                    : finalSaveInProgress
-                        ? "در حال ثبت سفارش..."
-                        : canSubmit
-                            ? "ثبت سفارش"
-                            : "ابتدا واریز کردم را بزنید";
-
-            document.getElementById(
-                "paymentNote"
-            ).textContent =
-                canSubmit
-                    ? "واریز ثبت شد. حالا ثبت سفارش را بزنید."
-                    : "شماره پیگیری 10 تا 13 رقمی را وارد کنید و سپس «واریز کردم» را بزنید.";
-
+            document.getElementById("paymentNote").textContent =
+                transferConfirmed
+                    ? "شماره پیگیری واریز را وارد کنید و ثبت نهایی را بزنید."
+                    : "مبلغ نمایش داده شده را واریز کنید و سپس «واریز کردم» را بزنید.";
         } else if (isGateway) {
+            cardPaymentBox.classList.remove("active");
+            submitButton.style.display = "block";
+            submitButton.disabled = false;
+            submitButton.classList.add("ready");
+            submitButton.textContent = "پرداخت اینترنتی";
 
-            submitButton.disabled =
-                false;
-
-            submitButton.classList.add(
-                "ready"
-            );
-
-            submitButton.textContent =
-                "پرداخت اینترنتی";
-
-            document.getElementById(
-                "paymentNote"
-            ).textContent =
+            document.getElementById("paymentNote").textContent =
                 "پس از اتصال درگاه، پرداخت اینترنتی فعال خواهد شد.";
+        } else {
+            cardPaymentBox.classList.remove("active");
+            submitButton.style.display = "block";
+            submitButton.disabled = true;
+            submitButton.classList.remove("ready");
+            submitButton.textContent = "ابتدا روش پرداخت را انتخاب کنید";
 
+            document.getElementById("paymentNote").textContent =
+                "ابتدا روش ارسال و روش پرداخت را انتخاب کنید.";
         }
-
-        updateTransferButton();
 
         updateSummary();
-
     }
-
-    /* انتخاب پرداخت */
-
-    document
-        .querySelectorAll(
-            'input[name="paymentMethod"]'
-        )
-        .forEach(
-            function (input) {
-
-                input.addEventListener(
-                    "change",
-                    function () {
-
-                        if (
-                            this.value ===
-                            "کارت‌به‌کارت"
-                        ) {
-
-                            cardPaymentBox.classList.add(
-                                "active"
-                            );
-
-                        }
-
-                        resetTransferConfirmation();
-
-                        updatePaymentUI();
-
-                        if (
-                            this.value ===
-                                "پرداخت آنلاین" &&
-                            GATEWAY_URL.trim() !== ""
-                        ) {
-
-                            window.location.href =
-                                GATEWAY_URL;
-
-                        }
-
-                    }
-                );
-
-            }
-        );
-
-    /* باز شدن دوباره پنل کارت */
-
-    document
-        .getElementById(
-            "paymentCardLabel"
-        )
-        .addEventListener(
-            "click",
-            function () {
-
-                if (
-                    paymentCard.checked
-                ) {
-
-                    setTimeout(
-                        function () {
-
-                            cardPaymentBox.classList.add(
-                                "active"
-                            );
-
-                        },
-                        20
-                    );
-
-                }
-
-            }
-        );
 
     /* ارسال */
 
@@ -3999,150 +3948,106 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-    /* ثبت واریز */
-
-    confirmTransfer.addEventListener(
-        "click",
-        async function () {
-
-            if (
-                !paymentCard.checked
-            ) {
-                return;
-            }
-
-            if (
-                !isValidTransferTracking()
-            ) {
-
-                cardPaymentBox.classList.add(
-                    "active"
-                );
-
-                showMessage(
-                    "شماره پیگیری را کامل و بدون فاصله، بین 10 تا 13 رقم وارد کنید."
-                );
-
-                transferTrackingNumber.focus();
-
-                return;
-
-            }
-
-            if (
-                paymentSaveInProgress
-            ) {
-                return;
-            }
-
-            paymentSaveInProgress =
-                true;
-
-            confirmTransfer.disabled =
-                false;
-
-            confirmTransfer.textContent =
-                "در حال ثبت واریز...";
-
-            hideMessage();
-
-            updatePaymentUI();
-
-            const orderData =
-                buildOrderData();
-
-            /*
-             * این مرحله هیچ کدی
-             * به مشتری نشان نمی‌دهد.
-             */
-
-            try {
-
-                const response =
-                    await sendOrderToGoogle(
-                        orderData,
-                        "payment_confirmed"
-                    );
-
-                localStorage.setItem(
-                    "navidTowelPaymentDraft",
-                    JSON.stringify({
-                        fingerprint:
-                            orderData.fingerprint,
-
-                        orderNumber:
-                            orderData.orderNumber,
-
-                        transferTrackingNumber:
-                            orderData.transferTrackingNumber,
-
-                        savedAt:
-                            new Date().toISOString(),
-
-                        response:
-                            response
-                    })
-                );
-
-                transferConfirmed =
-                    true;
-
-                confirmTransfer.classList.add(
-                    "confirmed"
-                );
-
-                confirmTransfer.textContent =
-                    "✓ واریز کردم";
-
-                transferConfirmedMessage.classList.add(
-                    "active"
-                );
-
-                cardPaymentBox.classList.add(
-                    "active"
-                );
-
-            } catch (error) {
-
-                console.error(
-                    "NavidTowel payment save error:",
-                    error
-                );
-
-                transferConfirmed =
-                    false;
-
-                showMessage(
-                    "ثبت واریز انجام نشد. اتصال اینترنت و شماره پیگیری را بررسی کنید و دوباره تلاش کنید."
-                );
-
-            } finally {
-
-                paymentSaveInProgress =
-                    false;
-
-                if (!transferConfirmed) {
-
-                    confirmTransfer.disabled =
-                        false;
-
-                    confirmTransfer.textContent =
-                        "واریز کردم";
-
-                }
-
-                updatePaymentUI();
-
-            }
-
+    /* مرحله 1 -> مرحله 2: فقط پنل را جلو می‌بریم. هیچ داده‌ای هنوز ارسال نمی‌شود. */
+    confirmTransfer.addEventListener("click", function () {
+        if (!paymentCard.checked) {
+            return;
         }
-    );
+
+        hideMessage();
+        showTransferStep2();
+        updatePaymentUI();
+    });
+
+    cancelTransfer.addEventListener("click", function () {
+        hideMessage();
+        resetTransferPanel();
+        updatePaymentUI();
+    });
+
+    finalTransfer.addEventListener("click", async function () {
+
+        if (finalSaveInProgress) {
+            return;
+        }
+
+        if (!paymentCard.checked) {
+            return;
+        }
+
+        if (!isValidTransferTracking()) {
+            showMessage("شماره پیگیری واریز باید بین 10 تا 13 رقم باشد.");
+            transferTrackingNumber.focus();
+            return;
+        }
+
+        const form = document.getElementById("checkoutForm");
+
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        finalSaveInProgress = true;
+        finalTransfer.disabled = true;
+        finalTransfer.textContent = "در حال ثبت نهایی...";
+        hideMessage();
+
+        try {
+            const orderData = buildOrderData();
+
+            const response = await sendOrderToGoogle(orderData, "final");
+
+            if (!response || !response.ok) {
+                throw new Error(response?.error || "ثبت نهایی انجام نشد");
+            }
+
+            const finalTrackingCode =
+                response.trackingCode ||
+                response.orderTrackingCode ||
+                "";
+
+            if (!finalTrackingCode) {
+                throw new Error("کد پیگیری سفارش از سرور دریافت نشد");
+            }
+
+            orderData.trackingCode = finalTrackingCode;
+            orderData.serverResponse = response;
+
+            localStorage.setItem("navidTowelLastOrder", JSON.stringify(orderData));
+            localStorage.removeItem("navidTowelPendingOrder");
+            localStorage.removeItem("navidTowelPaymentDraft");
+            localStorage.removeItem("navidTowelCurrentOrderNumber");
+            localStorage.removeItem(CART_KEY);
+
+            cart = [];
+
+            checkoutContent.style.display = "none";
+            emptyCheckout.style.display = "none";
+            successBox.style.display = "block";
+
+            document.getElementById("trackingCode").textContent = finalTrackingCode;
+
+            window.scrollTo({ top: 0, behavior: "smooth" });
+
+        } catch (error) {
+            console.error("NavidTowel final order error:", error);
+            showMessage("ثبت سفارش انجام نشد. اطلاعات شما پاک نشده؛ دوباره روی «ثبت نهایی» بزنید.");
+        } finally {
+            finalSaveInProgress = false;
+            finalTransfer.disabled = false;
+            finalTransfer.textContent = "ثبت نهایی";
+        }
+    });
 
     /* ثبت نهایی */
 
     submitButton.addEventListener(
         "click",
         async function () {
+
+            if (paymentCard.checked) { return; }
+
 
             if (
                 finalSaveInProgress
