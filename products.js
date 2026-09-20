@@ -8,7 +8,7 @@ const products =
         badge: "پرفروش",
         categories: ["bath", "men", "women"],
         images: ["images/products/product-1-ابی-1789652904384.jpg", "images/products/product-1-قرمز-1789652935511.jpg", "images/bath-luxury-aria-3.webp"],
-        colors: [{ name: "کله غازی", stock: 2 }],
+        colors: [{ name: "قرمز", stock: 2 }, { name: "ابی", stock: 4 }],
         description: "حوله حمام نرم و باکیفیت با جذب آب بالا، مناسب استفاده روزمره.",
         quality: "درجه یک",
         material: "پنبه",
