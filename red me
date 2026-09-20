@@ -1,6 +1,410 @@
+/* =========================================================
+   NAVIDTOWEL — اسکریپت یکپارچه‌ی گوگل‌شیت
+
+   این یک اسکریپت واحده که دو کار متفاوت رو انجام می‌ده و
+   خودش تشخیص می‌ده الان کی داره صداش می‌زنه:
+
+   ۱) وقتی checkout.html صداش می‌زنه (با پارامترهای سفارش
+      مثل firstName) → سفارش جدید رو تو شیت ذخیره می‌کنه و
+      به تلگرام پیام می‌ده.
+
+   ۲) وقتی ربات ادمین بدون پارامتر (GET ساده) صداش می‌زنه →
+      لیست همه‌ی سفارش‌ها رو JSON برمی‌گردونه.
+
+   ۳) وقتی ربات ادمین POST می‌زنه (برای ثبت کد مرسوله یا
+      تغییر وضعیت سفارش) → همون ردیف رو پیدا و آپدیت می‌کنه.
+
+   قبلاً این دو تا به‌شکل دو فایل جدا تو یه پروژه بودن که
+   باعث تداخل (دو بار SHEET_ID، دو تا doGet) و خطا می‌شد.
+   الان همه‌چیز یکجاست، بدون تداخل.
+
+   نصب
+   ۱) هر چی تو ادیتور Apps Scriptت هست (همه‌ی فایل‌ها) پاک کن.
+   ۲) این کد رو کامل جایگزینش کن.
+   ۳) Deploy → Manage deployments → مداد ویرایش → New version
+      → Deploy (برای هر دو دیپلویی که داری، هم اونی که
+      checkout.html بهش وصله هم اونی که ORDER_API هست —
+      چون هر دو الان از همین یه کد اجرا می‌شن).
+========================================================= */
+
+var SHEET_ID = "1Y3zbMv_Vjvmp5McYR8mCV8Cmj9y9Yyl61qsQfL4NE1Q";
+var SHEET_NAME = "Sheet1";
+
+var TELEGRAM_TOKEN = "8532964005:AAECxPJ01Eg57hC7vOFFEylqdsy1KJOAyI0";
+var TELEGRAM_CHAT_ID = "512163391";
+
+/*
+   ستون‌های شیت (بدون ردیف هدر، دقیقاً هم‌ترتیب با appendRow):
+   1 orderNumber  2 date        3 firstName    4 lastName
+   5 mobile       6 province    7 city         8 postalCode
+   9 address      10 shipping   11 products    12 subtotal
+   13 shippingCost 14 total     15 note        16 trackingCode
+   17 shipmentCode (جدید)       18 status (جدید)
+*/
+var COL = {
+  orderNumber: 1,
+  date: 2,
+  firstName: 3,
+  lastName: 4,
+  mobile: 5,
+  province: 6,
+  city: 7,
+  postalCode: 8,
+  address: 9,
+  shipping: 10,
+  products: 11,
+  subtotal: 12,
+  shippingCost: 13,
+  total: 14,
+  note: 15,
+  trackingCode: 16,
+  shipmentCode: 17,
+  status: 18
+};
+
+// اگر خواستی امنیت بیشتری داشته باشی، این مقدار را در Script Properties
+// با نام ORDER_API_KEY قرار بده. اگر خالی باشد، بخش ادمین بدون کلید هم کار می‌کند.
+var ORDER_API_KEY = PropertiesService
+  .getScriptProperties()
+  .getProperty("ORDER_API_KEY") || "";
+
+/* =========================================================
+   doGet — خودش تشخیص می‌ده ثبت سفارشه یا درخواست لیست
+========================================================= */
+
+function doGet(e) {
+  var p = (e && e.parameter) ? e.parameter : {};
+
+  if (p.firstName) {
+    return submitOrder(p);
+  }
+
+  return listOrders();
+}
+
+/* =========================================================
+   ثبت سفارش جدید (از checkout.html)
+========================================================= */
+
+function submitOrder(p) {
+  try {
+    var firstName = p.firstName || "";
+    var lastName = p.lastName || "";
+    var mobile = p.mobile || "";
+    var province = p.province || "";
+    var city = p.city || "";
+    var postalCode = p.postalCode || "";
+    var address = p.address || "";
+    var shipping = p.shipping || "";
+    var note = p.note || "";
+    var products = p.products || "";
+
+    var subtotal = Number(p.subtotal) || 0;
+    var shippingCost = Number(p.shippingCost) || 0;
+    var total = Number(p.total) || 0;
+
+    var orderNumber = p.orderNumber || createOrderNumber();
+    var trackingCode = p.trackingCode || createTrackingCode();
+
+    var fullName = (firstName + " " + lastName).trim();
+    if (!fullName) {
+      fullName = "نام وارد نشده";
+    }
+
+    var fullAddress = "";
+    if (province) {
+      fullAddress += province;
+    }
+    if (city) {
+      fullAddress += (fullAddress ? "، " : "") + city;
+    }
+    if (address) {
+      fullAddress += (fullAddress ? "، " : "") + address;
+    }
+    if (!fullAddress) {
+      fullAddress = "آدرس وارد نشده";
+    }
+
+    var dateText = Utilities.formatDate(
+      new Date(),
+      Session.getScriptTimeZone(),
+      "yyyy/MM/dd HH:mm:ss"
+    );
+
+    var sheet = getSheet();
+
+    sheet.appendRow([
+      orderNumber,
+      dateText,
+      firstName,
+      lastName,
+      mobile,
+      province,
+      city,
+      postalCode,
+      address,
+      shipping,
+      products,
+      subtotal,
+      shippingCost,
+      total,
+      note,
+      trackingCode
+    ]);
+
+    var message =
+      "🛍 خرید جدید در NavidTowel\n\n" +
+      "👤 نام مشتری: " + fullName + "\n" +
+      "📱 شماره موبایل: " + (mobile || "وارد نشده") + "\n\n" +
+      "🛒 سفارش:\n" + (products || "محصولی ثبت نشده") + "\n\n" +
+      "💰 مبلغ پرداختی: " + formatMoney(total) + " تومان\n\n" +
+      "📍 آدرس:\n" + fullAddress;
+
+    var telegramUrl =
+      "https://api.telegram.org/bot" + TELEGRAM_TOKEN + "/sendMessage";
+
+    var telegramResult = { ok: false };
+
+    try {
+      var telegramResponse = UrlFetchApp.fetch(telegramUrl, {
+        method: "post",
+        payload: {
+          chat_id: TELEGRAM_CHAT_ID,
+          text: message
+        },
+        muteHttpExceptions: true
+      });
+
+      telegramResult = JSON.parse(telegramResponse.getContentText());
+    } catch (telegramError) {
+      telegramResult = { ok: false };
+    }
+
+    return json({
+      ok: true,
+      savedToSheet: true,
+      telegramSent: telegramResult.ok === true,
+      orderNumber: orderNumber,
+      trackingCode: trackingCode
+    });
+  } catch (error) {
+    return json({
+      ok: false,
+      error: String(error.message || error)
+    });
+  }
+}
+
+/* =========================================================
+   لیست سفارش‌ها (برای ربات ادمین)
+========================================================= */
+
+function listOrders() {
+  try {
+    var sheet = getSheet();
+    var values = sheet.getDataRange().getValues();
+
+    var orders = [];
+
+    for (var i = 0; i < values.length; i++) {
+      var row = values[i];
+
+      var isEmpty = row.every(function (cell) {
+        return String(cell || "").trim() === "";
+      });
+
+      if (isEmpty) {
+        continue;
+      }
+
+      orders.push({
+        rowNumber: i + 1,
+        orderNumber: clean(row[COL.orderNumber - 1]),
+        date: clean(row[COL.date - 1]),
+        name: clean(row[COL.firstName - 1]),
+        lastName: clean(row[COL.lastName - 1]),
+        mobile: clean(row[COL.mobile - 1]),
+        province: clean(row[COL.province - 1]),
+        city: clean(row[COL.city - 1]),
+        postalCode: clean(row[COL.postalCode - 1]),
+        address: clean(row[COL.address - 1]),
+        shipping: clean(row[COL.shipping - 1]),
+        products: clean(row[COL.products - 1]),
+        subtotal: clean(row[COL.subtotal - 1]),
+        shippingCost: clean(row[COL.shippingCost - 1]),
+        total: clean(row[COL.total - 1]),
+        notes: clean(row[COL.note - 1]),
+        trackingCode: clean(row[COL.trackingCode - 1]),
+        shipmentCode: clean(row[COL.shipmentCode - 1]),
+        status: clean(row[COL.status - 1])
+      });
+    }
+
+    return json({ ok: true, orders: orders });
+  } catch (err) {
+    return json({ ok: false, error: err.message });
+  }
+}
+
+/* =========================================================
+   doPost — فقط برای ربات ادمین (ثبت کد مرسوله / وضعیت)
+========================================================= */
+
+function doPost(e) {
+  try {
+    if (ORDER_API_KEY) {
+      var key =
+        (e && e.parameter && e.parameter.key) ||
+        (e && e.headers && e.headers["x-api-key"]) ||
+        "";
+
+      if (key !== ORDER_API_KEY) {
+        return json({ ok: false, error: "Unauthorized" });
+      }
+    }
+
+    var data = JSON.parse(
+      (e && e.postData && e.postData.contents) || "{}"
+    );
+
+    if (data.action === "shipment" || data.action === "navidtowel_shipment") {
+      return saveCell(
+        data.orderNumber,
+        COL.shipmentCode,
+        clean(data.shipmentCode),
+        "کد مرسوله"
+      );
+    }
+
+    if (data.action === "status") {
+      return saveCell(
+        data.orderNumber,
+        COL.status,
+        clean(data.status),
+        "وضعیت"
+      );
+    }
+
+    return json({ ok: false, error: "Unknown action" });
+  } catch (err) {
+    return json({ ok: false, error: err.message });
+  }
+}
+
+function saveCell(orderNumber, col, value, label) {
+  orderNumber = clean(orderNumber);
+
+  if (!orderNumber) {
+    return json({ ok: false, error: "کد سفارش مشخص نیست" });
+  }
+
+  if (!value) {
+    return json({ ok: false, error: label + " خالی است" });
+  }
+
+  var sheet = getSheet();
+  var rowNumber = findOrderRow(sheet, orderNumber);
+
+  if (!rowNumber) {
+    return json({ ok: false, error: "سفارش پیدا نشد" });
+  }
+
+  sheet.getRange(rowNumber, col).setValue(value);
+
+  return json({
+    ok: true,
+    message: label + " ثبت شد",
+    row: rowNumber,
+    value: value
+  });
+}
+
+function findOrderRow(sheet, orderNumber) {
+  var values = sheet.getDataRange().getValues();
+
+  for (var i = 0; i < values.length; i++) {
+    var row = values[i];
+
+    for (var j = 0; j < row.length; j++) {
+      if (clean(row[j]) === orderNumber) {
+        return i + 1;
+      }
+    }
+  }
+
+  return null;
+}
+
+/* =========================================================
+   SHEET
+========================================================= */
+
+function getSheet() {
+  var ss = SpreadsheetApp.openById(SHEET_ID);
+  var sheet = ss.getSheetByName(SHEET_NAME);
+
+  if (!sheet) {
+    throw new Error("شیت " + SHEET_NAME + " پیدا نشد.");
+  }
+
+  return sheet;
+}
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function clean(value) {
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  return String(value).trim();
+}
+
+function createOrderNumber() {
+  var date = Utilities.formatDate(
+    new Date(),
+    Session.getScriptTimeZone(),
+    "yyMMdd"
+  );
+
+  var random = Math.floor(1000 + Math.random() * 9000);
+
+  return "NT-" + date + "-" + random;
+}
+
+function createTrackingCode() {
+  var random = Math.floor(100000 + Math.random() * 900000);
+
+  return "NT" + random;
+}
+
+function formatMoney(value) {
+  return Number(value || 0).toLocaleString("en-US");
+}
+
+function json(data) {
+  return ContentService
+    .createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON);
+}
 
 
-درگاه اینترنتی فعلاً غیرفعال است و فقط وقتی GATEWAY_URL را بعداً وارد کنیم فعال می‌شود.
+
+
+
+
+
+
+
+
+
+
+
+
+
+درگاه اینترنتی فعلاً غیرفعال است و فقط وقتیGATEWAY_URL را بعداً وارد کنیم فعال می‌شود.
 
 
 
