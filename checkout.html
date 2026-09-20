@@ -2901,6 +2901,15 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         );
 
+    /* تغییر روش پرداخت */
+    document.querySelectorAll('input[name="paymentMethod"]').forEach(function (input) {
+        input.addEventListener("change", function () {
+            if (this.value === "کارت‌به‌کارت") { resetTransferPanel(); }
+            updatePaymentUI();
+            saveCheckoutData();
+        });
+    });
+
     renderItems();
 
     updateSummary();
@@ -4500,4 +4509,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </body>
 </html>
- 
