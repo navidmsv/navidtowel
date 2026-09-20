@@ -3,16 +3,12 @@ const products =
     {
         id: 1,
         name: "حوله حمام لوکس آریا",
-        price: 0,
+        price: 11223344,
         oldPrice: 1590000,
         badge: "پرفروش",
         categories: ["bath", "men", "women"],
-        images: [
-            "images/products/product-1-ابی-1789652904384.jpg",
-            "images/products/product-1-قرمز-1789652935511.jpg",
-            "images/bath-luxury-aria-3.webp"
-        ],
-        colors: [{ name: "ابی", stock:3}, { name: "قرمز", stock:5}],
+        images: ["images/products/product-1-ابی-1789652904384.jpg", "images/products/product-1-قرمز-1789652935511.jpg", "images/bath-luxury-aria-3.webp"],
+        colors: [{ name: "ابی", stock: 3 }, { name: "قرمز", stock: 5 }],
         description: "حوله حمام نرم و باکیفیت با جذب آب بالا، مناسب استفاده روزمره.",
         quality: "درجه یک",
         material: "پنبه",
