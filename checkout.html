@@ -391,77 +391,12 @@
         font-size: 16px;  
     }  
   
-    .transfer-tracking-group {
-        display: none !important;
-    }
-
-    .final-transfer-box {
-        display: none;
-        margin-top: 17px;
-        padding: 14px;
-        border-radius: 12px;
-        background: #fff;
-        border: 1px solid rgba(41,71,55,.18);
-    }
-
-    .final-transfer-box.active {
-        display: block;
-    }
-
-    .final-transfer-label {
-        display: block;
-        margin-bottom: 8px;
-        color: var(--green-dark);
-        font-size: 12px;
-        font-weight: 800;
-    }
-
-    .final-transfer-input {
-        width: 100%;
-        box-sizing: border-box;
-        direction: ltr;
-        text-align: center;
-        letter-spacing: 2px;
-        border: 1px solid #cfcfcf;
-        border-radius: 9px;
-        background: #fff;
-        padding: 12px;
-        color: #222;
-        font-family: Tahoma, Arial, sans-serif;
-        font-size: 15px;
-        font-weight: 700;
-        outline: none;
-    }
-
-    .final-transfer-input:focus {
-        border-color: var(--green);
-        box-shadow: 0 0 0 3px rgba(41,71,55,.08);
-    }
-
-    .final-transfer-help {
-        margin-top: 6px;
-        color: #888;
-        font-size: 9px;
-        text-align: center;
-    }
-
-    .final-transfer-button {
-        width: 100%;
-        border: 0;
-        border-radius: 11px;
-        padding: 13px;
-        margin-top: 11px;
-        background: var(--green);
-        color: #fff;
-        font-family: Tahoma, Arial, sans-serif;
-        font-size: 13px;
-        font-weight: 800;
-        cursor: pointer;
-    }
-
-    .final-transfer-button:disabled {
-        opacity: .5;
-        cursor: not-allowed;
+    .transfer-tracking-group {  
+        margin-top: 13px;  
+        padding: 12px;  
+        border-radius: 10px;  
+        background: rgba(255,255,255,.76);  
+        border: 1px solid rgba(180,145,50,.28);  
     }  
   
     .transfer-tracking-label {  
@@ -757,7 +692,13 @@
   
     .checkout-submit.ready {  
         box-shadow: 0 7px 18px rgba(41,71,55,.18);  
-    }  
+    }
+
+    .final-transfer-panel { margin-top:17px; padding-top:15px; border-top:1px dashed rgba(41,71,55,.18); }
+    .final-transfer-panel label { display:block; margin-bottom:7px; font-size:11px; font-weight:800; color:#333; }
+    .final-transfer-panel input { width:100%; box-sizing:border-box; direction:ltr; text-align:center; letter-spacing:2px; border:1px solid #ddd; border-radius:10px; background:#fff; padding:12px; font-family:Tahoma,Arial,sans-serif; font-size:14px; font-weight:700; outline:none; }
+    .final-transfer-panel input:focus { border-color:var(--green); box-shadow:0 0 0 3px rgba(41,71,55,.06); }
+    .final-transfer-panel .checkout-submit { margin-top:10px; }  
   
     /* هدر */  
   
@@ -846,38 +787,18 @@
         margin-bottom: 7px;  
     }  
   
-    .tracking-code-row {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 9px;
-        direction: ltr;
+    .tracking-code {  
+        display: block;  
+        direction: ltr;  
+        font-size: 24px;  
+        font-weight: 800;  
+        letter-spacing: 2px;  
     }
 
-    .tracking-code {
-        display: inline-block;
-        direction: ltr;
-        font-size: 24px;
-        font-weight: 800;
-        letter-spacing: 2px;
-    }
-
-    .copy-tracking-btn {
-        border: 1px solid #d7d7d7;
-        border-radius: 8px;
-        padding: 7px 10px;
-        background: #fff;
-        color: #333;
-        font-family: Tahoma, Arial, sans-serif;
-        font-size: 10px;
-        font-weight: 700;
-        cursor: pointer;
-    }
-
-    .copy-tracking-btn.copied {
-        border-color: var(--green);
-        color: var(--green);
-    }  
+    .tracking-copy-row { display:flex; align-items:center; justify-content:center; gap:8px; direction:ltr; }
+    .copy-tracking-btn { border:1px solid #d8d8d8; background:#fff; color:#333; border-radius:8px; padding:7px 10px; font-family:Tahoma,Arial,sans-serif; font-size:10px; font-weight:700; cursor:pointer; transition:.2s; }
+    .copy-tracking-btn.copied { background:#3f8a50; border-color:#3f8a50; color:#fff; }
+    .copy-tracking-btn:disabled { opacity:.75; cursor:default; }  
   
     .success-actions {  
         display: flex;  
@@ -1402,8 +1323,32 @@
                                             0 تومان  
                                         </strong>  
   
-                                    </div>
+                                    </div>  
   
+                                    <div class="transfer-tracking-group">  
+  
+                                        <label  
+                                            class="transfer-tracking-label"  
+                                            for="transferTrackingNumber"  
+                                        >  
+                                            شماره پیگیری  
+                                        </label>  
+  
+                                        <input  
+                                            type="text"  
+                                            id="transferTrackingNumber"  
+                                            class="transfer-tracking-input"  
+                                            inputmode="numeric"  
+                                            maxlength="13"  
+                                            autocomplete="off"  
+                                            placeholder="10 تا 13 رقم"  
+                                        >  
+  
+                                        <div class="transfer-tracking-help">  
+                                            شماره پیگیری انتقال را بین 10 تا 13 رقم وارد کنید.  
+                                        </div>  
+  
+                                    </div>  
   
                                     <button  
                                         type="button"  
@@ -1589,46 +1534,22 @@
                     id="paymentNote"  
                 >  
                     ابتدا روش ارسال و روش پرداخت را انتخاب کنید.  
-                </div>
-                <div
-                    id="finalTransferBox"
-                    class="final-transfer-box"
-                >
-                    <label
-                        class="final-transfer-label"
-                        for="transferTrackingNumber"
-                    >
-                        شماره پیگیری واریز
-                    </label>
-                    <input
-                        type="text"
-                        id="transferTrackingNumber"
-                        class="final-transfer-input"
-                        inputmode="numeric"
-                        maxlength="13"
-                        autocomplete="off"
-                        placeholder="10 تا 13 رقم"
-                    >
-                    <div class="final-transfer-help">
-                        شماره پیگیری واریز را وارد کنید.
-                    </div>
-                    <button
-                        type="button"
-                        id="finalTransferButton"
-                        class="final-transfer-button"
-                    >
-                        ثبت نهایی سفارش
-                    </button>
-                </div>
+                </div>  
+  
+                <button  
+                    type="button"  
+                    class="checkout-submit"  
+                    id="submitOrder"  
+                    disabled  
+                >  
+                    ابتدا روش پرداخت را انتخاب کنید  
+                </button>
 
-                <button
-                    type="button"
-                    class="checkout-submit"
-                    id="submitOrder"
-                    disabled
-                >
-                    ابتدا روش پرداخت را انتخاب کنید
-                </button>  
+                <div id="finalTransferPanel" class="final-transfer-panel" style="display:none;">
+                    <label for="finalTransferTrackingNumber">شماره پیگیری واریز</label>
+                    <input type="text" id="finalTransferTrackingNumber" inputmode="numeric" maxlength="13" autocomplete="off" placeholder="10 تا 13 رقم">
+                    <button type="button" id="finalTransferOrder" class="checkout-submit">ثبت نهایی سفارش</button>
+                </div>  
   
                 <div  
                     class="checkout-message"  
@@ -1663,20 +1584,12 @@
   
                 <span class="tracking-label">  
                     کد پیگیری سفارش  
-                </span>
-                <div class="tracking-code-row">
-                    <span
-                        id="trackingCode"
-                        class="tracking-code"
-                    ></span>
-                    <button
-                        type="button"
-                        id="copyTrackingCode"
-                        class="copy-tracking-btn"
-                    >
-                        کپی
-                    </button>
-                </div>  
+                </span>  
+  
+                <span  
+                    id="trackingCode"  
+                    class="tracking-code"  
+                ></span>  
   
             </div>  
   
@@ -1784,7 +1697,7 @@
 document.addEventListener("DOMContentLoaded", function () {  
   
     const GOOGLE_SCRIPT_URL =  
-        "https://script.google.com/macros/s/AKfycbyyg20MikWIqNtE5KKuQrczOMT_qp9B5gwqaBc7FbZsRcH8Ymje80ee202ymZhpFORf1w/exec";  
+        "https://script.google.com/macros/s/AKfcybyyg20MikWIqNtE5KKuQrczOMT_qp9B5gwqaBc7FbZsRcH8Ymje80ee202ymZhpFORf1w/exec";  
   
     const GATEWAY_URL = "";  
   
@@ -1834,7 +1747,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const submitButton =  
         document.getElementById(  
             "submitOrder"  
-        );  
+        );
+
+    const finalTransferPanel = document.getElementById("finalTransferPanel");
+    const finalTransferTrackingNumber = document.getElementById("finalTransferTrackingNumber");
+    const finalTransferOrder = document.getElementById("finalTransferOrder");
+    const copyTrackingCode = document.getElementById("copyTrackingCode");  
   
     const cardPaymentBox =  
         document.getElementById(  
@@ -1856,24 +1774,14 @@ document.addEventListener("DOMContentLoaded", function () {
             "confirmTransfer"  
         );  
   
-    const transferTrackingNumber =
-        document.getElementById(
-            "transferTrackingNumber"
-        );
-
-    const finalTransferBox =
-        document.getElementById(
-            "finalTransferBox"
-        );
-
-    const finalTransferButton =
-        document.getElementById(
-            "finalTransferButton"
-        );
-
-    const copyTrackingCodeButton =
-        document.getElementById(
-            "copyTrackingCode"
+    const transferTrackingNumber =  
+        document.getElementById(  
+            "transferTrackingNumber"  
+        );  
+  
+    const transferConfirmedMessage =  
+        document.getElementById(  
+            "transferConfirmedMessage"  
         );  
   
     let transferConfirmed = false;  
@@ -1949,6 +1857,32 @@ document.addEventListener("DOMContentLoaded", function () {
   
     }  
   
+    if (copyTrackingCode) {
+        copyTrackingCode.addEventListener("click", async function () {
+            const code = (document.getElementById("trackingCode").textContent || "").trim();
+            if (!code) return;
+            try {
+                await navigator.clipboard.writeText(code);
+            } catch (error) {
+                const area = document.createElement("textarea");
+                area.value = code;
+                area.style.position = "fixed";
+                area.style.opacity = "0";
+                document.body.appendChild(area);
+                area.focus();
+                area.select();
+                document.execCommand("copy");
+                area.remove();
+            }
+            copyTrackingCode.textContent = "✓";
+            copyTrackingCode.classList.add("copied");
+            setTimeout(function () {
+                copyTrackingCode.textContent = "کپی";
+                copyTrackingCode.classList.remove("copied");
+            }, 1800);
+        });
+    }
+
     setupCheckoutHeader();  
   
     /* درگاه */  
@@ -2735,87 +2669,95 @@ document.addEventListener("DOMContentLoaded", function () {
   
     }  
   
-    function updateTransferButton() {
-
-        confirmTransfer.disabled = false;
-
-    }
-
-    function updateFinalTransferButton() {
-
-        if (!finalTransferButton) {
-            return;
-        }
-
-        finalTransferButton.disabled =
-            !isValidTransferTracking() ||
-            finalSaveInProgress;
-
-    }
-
-    transferTrackingNumber.addEventListener(
-        "input",
-        function () {
-
-            const normalized =
-                normalizeDigits(
-                    this.value
-                ).replace(
-                    /\D/g,
-                    ""
-                );
-
-            this.value =
-                normalized.slice(0, 13);
-
-            updateFinalTransferButton();
-            saveCheckoutData();
-
-        }
-    );
-
-    function resetTransferConfirmation() {
-
-        transferConfirmed = false;
-
-        finalTransferBox.classList.remove("active");
-        finalTransferButton.disabled = true;
-        finalTransferButton.textContent = "ثبت نهایی سفارش";
-
-        submitButton.style.display = "block";
-
-        confirmTransfer.style.display = "block";
-        confirmTransfer.disabled = false;
-        confirmTransfer.classList.remove("confirmed");
-        confirmTransfer.textContent = "واریز کردم";
-
-        transferTrackingNumber.value = "";
-
-    }
-
-    function showFinalTransferStep() {
-
-        transferConfirmed = true;
-
-        confirmTransfer.style.display = "none";
-        submitButton.style.display = "none";
-        finalTransferBox.classList.add("active");
-
-        updateFinalTransferButton();
-
-        setTimeout(function () {
-            finalTransferBox.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-            });
-
-            setTimeout(function () {
-                transferTrackingNumber.focus();
-            }, 450);
-        }, 50);
-
-    }
-
+    function updateTransferButton() {  
+  
+        if (paymentSaveInProgress) {  
+  
+            confirmTransfer.disabled =  
+                true;  
+  
+            return;  
+  
+        }  
+  
+        if (transferConfirmed) {  
+  
+            confirmTransfer.disabled =  
+                false;  
+  
+            return;  
+  
+        }  
+  
+        confirmTransfer.disabled =  
+            !isValidTransferTracking();  
+  
+    }  
+  
+    transferTrackingNumber.addEventListener(  
+        "input",  
+        function () {  
+  
+            const normalized =  
+                normalizeDigits(  
+                    this.value  
+                ).replace(  
+                    /\D/g,  
+                    ""  
+                );  
+  
+            this.value =  
+                normalized.slice(  
+                    0,  
+                    13  
+                );  
+  
+            if (transferConfirmed) {  
+  
+                transferConfirmed =  
+                    false;  
+  
+                confirmTransfer.classList.remove(  
+                    "confirmed"  
+                );  
+  
+                confirmTransfer.textContent =  
+                    "واریز کردم";  
+  
+                transferConfirmedMessage.classList.remove(  
+                    "active"  
+                );  
+  
+            }  
+  
+            updateTransferButton();  
+  
+            updatePaymentUI();  
+  
+        }  
+    );  
+  
+    function resetTransferConfirmation() {  
+  
+        transferConfirmed =  
+            false;  
+  
+        confirmTransfer.disabled =  
+            true;  
+  
+        confirmTransfer.classList.remove(  
+            "confirmed"  
+        );  
+  
+        confirmTransfer.textContent =  
+            "واریز کردم";  
+  
+        transferConfirmedMessage.classList.remove(  
+            "active"  
+        );  
+  
+    }  
+  
     function updatePaymentUI() {  
   
         const payment =  
@@ -2866,28 +2808,36 @@ document.addEventListener("DOMContentLoaded", function () {
             ).textContent =  
                 "ابتدا روش ارسال و روش پرداخت را انتخاب کنید.";  
   
-        } else if (isCard) {
-
-            submitButton.disabled = false;
-            submitButton.classList.add("ready");
-            submitButton.style.display =
-                transferConfirmed ? "none" : "block";
-
-            finalTransferBox.classList.toggle(
-                "active",
-                transferConfirmed
-            );
-
-            confirmTransfer.style.display =
-                transferConfirmed ? "none" : "block";
-
-            document.getElementById(
-                "paymentNote"
-            ).textContent =
-                transferConfirmed
-                    ? "شماره پیگیری واریز را وارد کنید و ثبت نهایی سفارش را بزنید."
-                    : "مبلغ نمایش داده شده را واریز کنید و سپس «واریز کردم» را بزنید.";
-
+        } else if (isCard) {  
+  
+            const canSubmit = finalTransferPanel && finalTransferPanel.style.display !== "none";  
+  
+            submitButton.disabled =  
+                !canSubmit ||  
+                paymentSaveInProgress ||  
+                finalSaveInProgress;  
+  
+            submitButton.classList.toggle(  
+                "ready",  
+                canSubmit  
+            );  
+  
+            submitButton.textContent =  
+                paymentSaveInProgress  
+                    ? "در حال ثبت واریز..."  
+                    : finalSaveInProgress  
+                        ? "در حال ثبت سفارش..."  
+                        : canSubmit  
+                            ? "ثبت سفارش"  
+                            : "ابتدا واریز کردم را بزنید";  
+  
+            document.getElementById(  
+                "paymentNote"  
+            ).textContent =  
+                canSubmit  
+                    ? "واریز ثبت شد. حالا ثبت سفارش را بزنید."  
+                    : "شماره پیگیری 10 تا 13 رقمی را وارد کنید و سپس «واریز کردم» را بزنید.";  
+  
         } else if (isGateway) {  
   
             submitButton.disabled =  
@@ -4058,39 +4008,30 @@ document.addEventListener("DOMContentLoaded", function () {
   
     }  
   
-    /* مرحله واریز: فقط انتقال به مرحله ثبت نهایی */
-
-    confirmTransfer.addEventListener(
-        "click",
-        function () {
-
-            if (!paymentCard.checked) {
-                return;
-            }
-
-            hideMessage();
-            showFinalTransferStep();
-            updatePaymentUI();
-
+    /* واریز کردم: فقط انتقال به فرم نهایی پایین صفحه */
+    confirmTransfer.addEventListener("click", function () {
+        if (!paymentCard.checked) return;
+        if (!isValidTransferTracking()) {
+            transferTrackingNumber.focus();
+            return;
         }
-    );
+        const value = getTransferNumber();
+        finalTransferTrackingNumber.value = value;
+        finalTransferPanel.style.display = "block";
+        cardPaymentBox.classList.remove("active");
+        finalTransferTrackingNumber.focus();
+        finalTransferPanel.scrollIntoView({behavior:"smooth", block:"center"});
+    });
+
+    finalTransferTrackingNumber.addEventListener("input", function () {
+        this.value = normalizeDigits(this.value).replace(/\D/g, "").slice(0, 13);
+        transferTrackingNumber.value = this.value;
+        updatePaymentUI();
+    });
 
     /* ثبت نهایی */  
   
-    /* دکمه عمومی ثبت سفارش برای حالت‌های غیر کارت‌به‌کارت */
-
-    submitButton.addEventListener(
-        "click",
-        function () {
-
-            if (!paymentCard.checked) {
-                finalTransferButton.click();
-            }
-
-        }
-    );
-
-    finalTransferButton.addEventListener(  
+    submitButton.addEventListener(  
         "click",  
         async function () {  
   
@@ -4260,8 +4201,13 @@ document.addEventListener("DOMContentLoaded", function () {
   
             }  
   
-            finalSaveInProgress =  
-                true;  
+            finalSaveInProgress = true;
+            if (finalTransferOrder) {
+                finalTransferOrder.disabled = true;
+                finalTransferOrder.textContent = "در حال ثبت نهایی...";
+            }
+            submitButton.disabled = true;
+            submitButton.textContent = "در حال ثبت نهایی...";
   
             hideMessage();  
   
@@ -4451,10 +4397,11 @@ document.addEventListener("DOMContentLoaded", function () {
                  * ثبت نهایی سرور گرفته می‌شود.  
                  */  
   
-                const finalTrackingCode =  
-                    response.trackingCode ||  
-                    response.orderTrackingCode ||  
-                    "";  
+                let finalTrackingCode = response.trackingCode || response.orderTrackingCode || "";
+                if (finalTrackingCode) {
+                    const match = String(finalTrackingCode).match(/([A-Za-z]{2})[^0-9]*([0-9]{4})/);
+                    if (match) finalTrackingCode = match[1].toLowerCase() + match[2];
+                }  
   
                 if (  
                     !finalTrackingCode  
@@ -4503,8 +4450,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 emptyCheckout.style.display =  
                     "none";  
   
-                successBox.style.display =  
-                    "block";  
+                successBox.style.display = "block";
+                if (finalTransferPanel) finalTransferPanel.style.display = "none";  
   
                 document.getElementById(  
                     "trackingCode"  
@@ -4517,6 +4464,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 });  
   
             } catch (error) {  
+  
+                if (finalTransferOrder) {
+                    finalTransferOrder.disabled = false;
+                    finalTransferOrder.textContent = "ثبت نهایی سفارش";
+                }
+                finalSaveInProgress = false;
+                updatePaymentUI();
   
                 console.error(  
                     "NavidTowel final order error:",  
@@ -4541,31 +4495,6 @@ document.addEventListener("DOMContentLoaded", function () {
   
 });  
   
-
-    copyTrackingCodeButton.addEventListener(
-        "click",
-        async function () {
-            const code = document.getElementById("trackingCode").textContent.trim();
-            if (!code) return;
-            try {
-                await navigator.clipboard.writeText(code);
-            } catch (error) {
-                const helper = document.createElement("textarea");
-                helper.value = code;
-                document.body.appendChild(helper);
-                helper.select();
-                document.execCommand("copy");
-                helper.remove();
-            }
-            copyTrackingCodeButton.textContent = "✓ کپی شد";
-            copyTrackingCodeButton.classList.add("copied");
-            setTimeout(function () {
-                copyTrackingCodeButton.textContent = "کپی";
-                copyTrackingCodeButton.classList.remove("copied");
-            }, 1600);
-        }
-    );
-
 </script>  
   
 </body>  
