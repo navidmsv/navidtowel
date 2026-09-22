@@ -4915,7 +4915,8 @@ html body .out-of-stock {
     background: ##294737;
     }
 .footer-trust-item img {
-    width: 60px;
+    width: 60
+    px;
     height: 60px;
     object-fit: contain;
     display: block;
@@ -4926,4 +4927,5 @@ html body .out-of-stock {
     align-items: center;
     justify-content: center;
     text-decoration: none;
+}
 }
