@@ -4911,7 +4911,9 @@ html body .out-of-stock {
     .trust-badge-placeholder small {
         font-size: 7px;
     }
-
+.footer-trust-item {
+    background: ##294737;
+    }
 .footer-trust-item img {
     width: 55px;
     height: 55px;
