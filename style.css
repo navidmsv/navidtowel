@@ -4914,13 +4914,14 @@ html body .out-of-stock {
     
     .footer-trust-item {
     flex-direction: column;
+    background: #fcfaf5;
 }
 
 .footer-trust-item small {
     display: block;
-    margin-top: 8px;
+    margin-top: 7px;
     color: #000000;
-    font-size: 11px;
+    font-size: 8px;
     font-weight: 700;
 }
 
