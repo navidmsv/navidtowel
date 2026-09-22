@@ -4911,8 +4911,17 @@ html body .out-of-stock {
     .trust-badge-placeholder small {
         font-size: 7px;
     }
-.footer-trust-item {
-    background: #fcfaf5;
+    
+    .footer-trust-item {
+    flex-direction: column;
+}
+
+.footer-trust-item small {
+    display: block;
+    margin-top: 8px;
+    color: #000000;
+    font-size: 11px;
+    font-weight: 700;
 }
 
 .footer-trust-item img {
@@ -4927,7 +4936,4 @@ html body .out-of-stock {
     align-items: center;
     justify-content: center;
     text-decoration: none;
-}
-.footer-trust-item small {
-    color: #000;
 }
