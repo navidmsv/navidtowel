@@ -4913,3 +4913,16 @@ html body .out-of-stock {
     }
 
 }
+.footer-trust-item img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    display: block;
+}
+
+.footer-trust-item a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
