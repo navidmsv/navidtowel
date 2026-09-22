@@ -4912,12 +4912,12 @@ html body .out-of-stock {
         font-size: 7px;
     }
 .footer-trust-item {
-    background: ##294737;
-    }
+    background: #faf9f6;
+}
+
 .footer-trust-item img {
-    width: 60
-    px;
-    height: 60px;
+    width: 55px;
+    height: 55px;
     object-fit: contain;
     display: block;
 }
@@ -4928,4 +4928,6 @@ html body .out-of-stock {
     justify-content: center;
     text-decoration: none;
 }
+.footer-trust-item small {
+    color: #000;
 }
