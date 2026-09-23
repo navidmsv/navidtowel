@@ -888,3 +888,118 @@ document.addEventListener("DOMContentLoaded", function () {
   setupCartEvents();
   setupMobileMenu();
 });
+
+/* =========================================================
+   HERO AUTO SLIDER
+========================================================= */
+
+(function () {
+  "use strict";
+
+  const heroSlider = document.getElementById("heroSlider");
+
+  if (!heroSlider) return;
+
+  const slides = Array.from(
+    heroSlider.querySelectorAll(".hero-slide")
+  );
+
+  const dotsContainer = document.getElementById("heroDots");
+  const prevButton = document.getElementById("heroPrev");
+  const nextButton = document.getElementById("heroNext");
+
+  if (slides.length <= 1) return;
+
+  let currentIndex = 0;
+  let autoSlideTimer = null;
+
+  function showSlide(index) {
+    currentIndex =
+      (index + slides.length) % slides.length;
+
+    slides.forEach((slide, i) => {
+      slide.classList.toggle(
+        "active",
+        i === currentIndex
+      );
+    });
+
+    if (dotsContainer) {
+      Array.from(
+        dotsContainer.children
+      ).forEach((dot, i) => {
+        dot.classList.toggle(
+          "active",
+          i === currentIndex
+        );
+      });
+    }
+  }
+
+  function createDots() {
+    if (!dotsContainer) return;
+
+    dotsContainer.innerHTML = "";
+
+    slides.forEach((slide, index) => {
+      const dot = document.createElement("button");
+
+      dot.type = "button";
+      dot.className = "hero-dot";
+
+      if (index === 0) {
+        dot.classList.add("active");
+      }
+
+      dot.setAttribute(
+        "aria-label",
+        "نمایش عکس " + (index + 1)
+      );
+
+      dot.addEventListener("click", () => {
+        showSlide(index);
+        restartAutoSlide();
+      });
+
+      dotsContainer.appendChild(dot);
+    });
+  }
+
+  function nextSlide() {
+    showSlide(currentIndex + 1);
+  }
+
+  function previousSlide() {
+    showSlide(currentIndex - 1);
+  }
+
+  function startAutoSlide() {
+    autoSlideTimer = setInterval(() => {
+      nextSlide();
+    }, 2000);
+  }
+
+  function restartAutoSlide() {
+    clearInterval(autoSlideTimer);
+    startAutoSlide();
+  }
+
+  if (nextButton) {
+    nextButton.addEventListener("click", () => {
+      nextSlide();
+      restartAutoSlide();
+    });
+  }
+
+  if (prevButton) {
+    prevButton.addEventListener("click", () => {
+      previousSlide();
+      restartAutoSlide();
+    });
+  }
+
+  createDots();
+  showSlide(0);
+  startAutoSlide();
+
+})();
