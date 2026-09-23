@@ -976,7 +976,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function startAutoSlide() {
     autoSlideTimer = setInterval(() => {
       nextSlide();
-    }, 2000);
+    }, 3000);
   }
 
   function restartAutoSlide() {
