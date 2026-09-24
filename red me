@@ -1,19 +1,7 @@
 /* =========================================================
-   NAVIDTOWEL — GOOGLE SHEETS ORDER API (نسخه‌ی نهایی ساده)
-
-   دقیقاً ۱۱ ستون، بدون ردیف هدر، بدون هیچ ستون اضافه:
-   1 کد پیگیری          2 نام و نام‌خانوادگی (با فاصله)
-   3 شماره تماس          4 کد پیگیری واریز/درگاه
-   5 محصولات             6 مبلغ کل فاکتور
-   7 آدرس کامل           8 کد پستی
-   9 روش ارسال + هزینه + توضیحات مشتری (همه تو یک سلول)
-   10 کد مرسوله (خالی، بعداً ربات پرش می‌کنه)
-   11 وضعیت
-
-   منطق دو مرحله‌ای (واریز کردم → ثبت نهایی) و جلوگیری از
-   ساخت ردیف تکراری وقتی چیزی عوض نشده، از طریق حافظه‌ی
-   داخلی اسکریپت (Script Properties) انجام می‌شه — نه با
-   ستون اضافه تو خود شیت.
+   NAVIDTOWEL — GOOGLE SHEETS ORDER API
+   Checkout + Telegram Admin Bot
+   نسخه کامل و هماهنگ با checkout.html
 ========================================================= */
 
 var SHEET_ID = "1Y3zbMv_Vjvmp5McYR8mCV8Cmj9y9Yyl61qsQfL4NE1Q";
@@ -22,569 +10,14 @@ var SHEET_NAME = "Sheet1";
 var TELEGRAM_TOKEN = "8532964005:AAECxPJ01Eg57Hc7vOFFEylqdsy1KJOAyI0";
 var TELEGRAM_CHAT_ID = "512163391";
 
-var COL = {
-  trackingCode: 1,
-  fullName: 2,
-  mobile: 3,
-  transferCode: 4,
-  products: 5,
-  total: 6,
-  address: 7,
-  postalCode: 8,
-  shippingNote: 9,
-  shipmentCode: 10,
-  status: 11
-};
+var ORDER_API_KEY =
+  PropertiesService.getScriptProperties().getProperty("ORDER_API_KEY") || "";
 
-var STATUS_AWAITING_PAYMENT = "در انتظار پرداخت";
-var STATUS_PAID = "پرداخت شده";
-
-var ORDER_API_KEY = PropertiesService
-  .getScriptProperties()
-  .getProperty("ORDER_API_KEY") || "";
 
 /* =========================================================
-   doGet
+   ستون‌های قدیمی
 ========================================================= */
 
-function doGet(e) {
-  var p = (e && e.parameter) ? e.parameter : {};
-
-  if (p.firstName) {
-    return respond(e, handleCheckout(p));
-  }
-
-  return respond(e, listOrders());
-}
-
-/* =========================================================
-   doPost — فقط ربات ادمین (کد مرسوله)
-========================================================= */
-
-function doPost(e) {
-  try {
-    if (ORDER_API_KEY) {
-      var key =
-        (e && e.parameter && e.parameter.key) ||
-        (e && e.headers && e.headers["x-api-key"]) ||
-        "";
-      if (key !== ORDER_API_KEY) {
-        return json({ ok: false, error: "Unauthorized" });
-      }
-    }
-
-    var data = JSON.parse((e && e.postData && e.postData.contents) || "{}");
-
-    if (data.action === "shipment" || data.action === "navidtowel_shipment") {
-      return json(saveCell(data.orderNumber, COL.shipmentCode, clean(data.shipmentCode), "کد مرسوله"));
-    }
-
-    return json({ ok: false, error: "Unknown action" });
-  } catch (err) {
-    return json({ ok: false, error: err.message });
-  }
-}
-
-/* =========================================================
-   CHECKOUT — دو مرحله: payment_confirmed / final
-========================================================= */
-
-function handleCheckout(p) {
-  var lock = LockService.getScriptLock();
-
-  try {
-    lock.waitLock(10000);
-
-    var stage = clean(p.stage || p.action || "final");
-    if (stage !== "payment_confirmed" && stage !== "final") {
-      stage = "final";
-    }
-
-    var firstName = clean(p.firstName);
-    var lastName = clean(p.lastName);
-    var mobile = normalizeDigits(clean(p.mobile));
-    var province = clean(p.province);
-    var city = clean(p.city);
-    var postalCode = normalizeDigits(clean(p.postalCode));
-    var address = clean(p.address);
-    var note = clean(p.note);
-    var products = clean(p.products);
-    var total = numberValue(p.total);
-    var shipping = clean(p.shipping);
-    var shippingCost = numberValue(p.shippingCost);
-    var paymentMethod = clean(p.paymentMethod);
-
-    var transferTracking = normalizeDigits(
-      clean(p.transferTrackingNumber || p.transferTracking)
-    ).replace(/\D/g, "");
-
-    if (!firstName) return { ok: false, error: "نام مشتری وارد نشده است." };
-    if (!mobile) return { ok: false, error: "شماره موبایل وارد نشده است." };
-    if (!products) return { ok: false, error: "محصولات سفارش مشخص نیست." };
-
-    var isCard = isCardToCard(paymentMethod);
-
-    if (isCard && stage === "final" && !isValidTransferTracking(transferTracking)) {
-      return { ok: false, error: "کد رهگیری کارت‌به‌کارت باید 10 تا 13 رقم باشد." };
-    }
-
-    var fullName = (firstName + " " + lastName).trim();
-
-    var fullAddress = [province, city, address]
-      .filter(function (part) { return String(part || "").trim() !== ""; })
-      .join("، ");
-    if (!fullAddress) fullAddress = "آدرس وارد نشده";
-
-    var shippingNote = shipping
-      ? (shipping + " = " + formatMoney(shippingCost) + " تومان")
-      : "";
-    if (note) {
-      shippingNote += (shippingNote ? "\n" : "") + note;
-    }
-
-    /* اثر انگشت سفارش — فقط تو حافظه‌ی داخلی نگه داشته می‌شه، ستونی توی شیت نداره */
-    var fingerprint = createFingerprint({
-      firstName: firstName, lastName: lastName, mobile: mobile,
-      province: province, city: city, postalCode: postalCode, address: address,
-      shipping: shipping, shippingCost: shippingCost, products: products,
-      total: total, note: note, paymentMethod: paymentMethod
-    });
-
-    var sheet = getSheet();
-    var existingRow = findRowByFingerprint(fingerprint);
-
-    /* ===== مرحله ۱: واریز کردم ===== */
-
-    if (stage === "payment_confirmed") {
-      var trackingCode;
-      var rowNumber;
-
-      if (existingRow && rowExists(sheet, existingRow)) {
-        rowNumber = existingRow;
-        trackingCode = clean(sheet.getRange(rowNumber, COL.trackingCode).getDisplayValue());
-        if (!trackingCode) {
-          trackingCode = createTrackingCode(sheet, isCard);
-        }
-      } else {
-        trackingCode = createTrackingCode(sheet, isCard);
-        rowNumber = appendRow(sheet, {
-          trackingCode: trackingCode,
-          fullName: fullName,
-          mobile: mobile,
-          transferCode: "",
-          products: products,
-          total: total,
-          address: fullAddress,
-          postalCode: postalCode,
-          shippingNote: shippingNote,
-          shipmentCode: "",
-          status: STATUS_AWAITING_PAYMENT
-        });
-      }
-
-      writeRow(sheet, rowNumber, {
-        trackingCode: trackingCode, fullName: fullName, mobile: mobile,
-        transferCode: "", products: products, total: total, address: fullAddress,
-        postalCode: postalCode, shippingNote: shippingNote,
-        status: STATUS_AWAITING_PAYMENT
-      });
-
-      saveFingerprint(fingerprint, rowNumber, trackingCode, false);
-
-      return {
-        ok: true,
-        stage: "payment_confirmed",
-        savedToSheet: true,
-        trackingCode: trackingCode
-      };
-    }
-
-    /* ===== مرحله ۲: ثبت نهایی ===== */
-
-    var finalTrackingCode;
-    var finalRow;
-    var alreadyNotified = false;
-
-    if (existingRow && rowExists(sheet, existingRow)) {
-      finalRow = existingRow;
-      finalTrackingCode = clean(sheet.getRange(finalRow, COL.trackingCode).getDisplayValue());
-      if (!finalTrackingCode) {
-        finalTrackingCode = createTrackingCode(sheet, isCard);
-      }
-      alreadyNotified = getFingerprintMeta(fingerprint).notified;
-    } else {
-      finalTrackingCode = createTrackingCode(sheet, isCard);
-      finalRow = appendRow(sheet, {
-        trackingCode: finalTrackingCode,
-        fullName: fullName,
-        mobile: mobile,
-        transferCode: transferTracking,
-        products: products,
-        total: total,
-        address: fullAddress,
-        postalCode: postalCode,
-        shippingNote: shippingNote,
-        shipmentCode: "",
-        status: STATUS_PAID
-      });
-    }
-
-    writeRow(sheet, finalRow, {
-      trackingCode: finalTrackingCode, fullName: fullName, mobile: mobile,
-      transferCode: transferTracking, products: products, total: total,
-      address: fullAddress, postalCode: postalCode, shippingNote: shippingNote,
-      status: STATUS_PAID
-    });
-
-    saveFingerprint(fingerprint, finalRow, finalTrackingCode, alreadyNotified);
-
-    if (!alreadyNotified) {
-      var sent = sendTelegramOrder({
-        trackingCode: finalTrackingCode, fullName: fullName, mobile: mobile,
-        products: products, total: total, address: fullAddress,
-        postalCode: postalCode, paymentMethod: paymentMethod,
-        transferTracking: transferTracking, shippingNote: shippingNote
-      });
-
-      if (sent) {
-        saveFingerprint(fingerprint, finalRow, finalTrackingCode, true);
-      }
-    }
-
-    return {
-      ok: true,
-      stage: "final",
-      savedToSheet: true,
-      trackingCode: finalTrackingCode
-    };
-  } catch (error) {
-    return { ok: false, error: String(error.message || error) };
-  } finally {
-    try { lock.releaseLock(); } catch (releaseError) {}
-  }
-}
-
-/* =========================================================
-   ROW READ/WRITE
-========================================================= */
-
-function appendRow(sheet, data) {
-  var row = new Array(11).fill("");
-  applyRow(row, data);
-  sheet.appendRow(row);
-  return sheet.getLastRow();
-}
-
-function writeRow(sheet, rowNumber, data) {
-  var range = sheet.getRange(rowNumber, 1, 1, 11);
-  var row = range.getValues()[0];
-  if (row.length < 11) {
-    while (row.length < 11) row.push("");
-  }
-  applyRow(row, data);
-  range.setValues([row]);
-}
-
-function applyRow(row, data) {
-  if (data.trackingCode !== undefined) row[COL.trackingCode - 1] = data.trackingCode;
-  if (data.fullName !== undefined) row[COL.fullName - 1] = data.fullName;
-  if (data.mobile !== undefined) row[COL.mobile - 1] = data.mobile;
-  if (data.transferCode !== undefined) row[COL.transferCode - 1] = data.transferCode;
-  if (data.products !== undefined) row[COL.products - 1] = data.products;
-  if (data.total !== undefined) row[COL.total - 1] = data.total;
-  if (data.address !== undefined) row[COL.address - 1] = data.address;
-  if (data.postalCode !== undefined) row[COL.postalCode - 1] = data.postalCode;
-  if (data.shippingNote !== undefined) row[COL.shippingNote - 1] = data.shippingNote;
-  if (data.shipmentCode !== undefined) row[COL.shipmentCode - 1] = data.shipmentCode;
-  if (data.status !== undefined) row[COL.status - 1] = data.status;
-}
-
-function rowExists(sheet, rowNumber) {
-  return rowNumber >= 1 && rowNumber <= sheet.getLastRow();
-}
-
-/* =========================================================
-   لیست سفارش‌ها (برای ربات ادمین)
-========================================================= */
-
-function listOrders() {
-  try {
-    var sheet = getSheet();
-    var values = sheet.getDataRange().getValues();
-
-    var orders = [];
-
-    for (var i = 0; i < values.length; i++) {
-      var row = values[i];
-      var isEmpty = row.every(function (cell) { return String(cell || "").trim() === ""; });
-      if (isEmpty) continue;
-
-      orders.push({
-        rowNumber: i + 1,
-        trackingCode: clean(row[COL.trackingCode - 1]),
-        orderNumber: clean(row[COL.trackingCode - 1]),
-        fullName: clean(row[COL.fullName - 1]),
-        mobile: clean(row[COL.mobile - 1]),
-        transferCode: clean(row[COL.transferCode - 1]),
-        products: clean(row[COL.products - 1]),
-        total: clean(row[COL.total - 1]),
-        address: clean(row[COL.address - 1]),
-        postalCode: clean(row[COL.postalCode - 1]),
-        shippingNote: clean(row[COL.shippingNote - 1]),
-        shipmentCode: clean(row[COL.shipmentCode - 1]),
-        status: clean(row[COL.status - 1])
-      });
-    }
-
-    return { ok: true, orders: orders };
-  } catch (err) {
-    return { ok: false, error: err.message };
-  }
-}
-
-/* =========================================================
-   ثبت کد مرسوله (ربات ادمین)
-========================================================= */
-
-function saveCell(orderNumber, col, value, label) {
-  orderNumber = clean(orderNumber);
-  if (!orderNumber) return { ok: false, error: "کد سفارش مشخص نیست" };
-  if (!value) return { ok: false, error: label + " خالی است" };
-
-  var sheet = getSheet();
-  var rowNumber = findRowByTrackingCode(sheet, orderNumber);
-  if (!rowNumber) return { ok: false, error: "سفارش پیدا نشد" };
-
-  sheet.getRange(rowNumber, col).setValue(value);
-  return { ok: true, message: label + " ثبت شد", row: rowNumber, value: value };
-}
-
-function findRowByTrackingCode(sheet, trackingCode) {
-  var lastRow = sheet.getLastRow();
-  if (lastRow < 1) return null;
-
-  var values = sheet.getRange(1, COL.trackingCode, lastRow, 1).getDisplayValues();
-  for (var i = 0; i < values.length; i++) {
-    if (clean(values[i][0]) === trackingCode) return i + 1;
-  }
-  return null;
-}
-
-/* =========================================================
-   FINGERPRINT (فقط تو Script Properties، هیچ ستونی تو شیت نمی‌سازه)
-========================================================= */
-
-function createFingerprint(data) {
-  var source = [
-    clean(data.firstName), clean(data.lastName), normalizeDigits(clean(data.mobile)),
-    clean(data.province), clean(data.city), clean(data.address),
-    clean(data.shipping), numberValue(data.shippingCost), clean(data.products),
-    numberValue(data.total), clean(data.note), clean(data.paymentMethod)
-  ].join("\u001F");
-
-  var bytes = Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, source, Utilities.Charset.UTF_8);
-  return bytes.map(function (b) {
-    var v = b < 0 ? b + 256 : b;
-    return v.toString(16).padStart(2, "0");
-  }).join("");
-}
-
-function findRowByFingerprint(fingerprint) {
-  var meta = getFingerprintMeta(fingerprint);
-  return meta.row || null;
-}
-
-function getFingerprintMeta(fingerprint) {
-  var raw = PropertiesService.getScriptProperties().getProperty("FP_" + fingerprint);
-  if (!raw) return { row: null, trackingCode: "", notified: false };
-
-  try {
-    return JSON.parse(raw);
-  } catch (e) {
-    return { row: null, trackingCode: "", notified: false };
-  }
-}
-
-function saveFingerprint(fingerprint, row, trackingCode, notified) {
-  PropertiesService.getScriptProperties().setProperty(
-    "FP_" + fingerprint,
-    JSON.stringify({ row: row, trackingCode: trackingCode, notified: !!notified })
-  );
-}
-
-/* =========================================================
-   تلگرام
-========================================================= */
-
-function sendTelegramOrder(order) {
-  try {
-    var message =
-      "🛍 سفارش جدید NavidTowel\n\n" +
-      "🔎 کد پیگیری: " + order.trackingCode + "\n" +
-      "👤 نام: " + (order.fullName || "-") + "\n" +
-      "📱 موبایل: " + (order.mobile || "-") + "\n\n" +
-      "🛒 محصولات:\n" + (order.products || "-") + "\n\n" +
-      "💰 مبلغ کل: " + formatMoney(order.total) + " تومان\n\n" +
-      "📍 آدرس: " + (order.address || "-") + "\n" +
-      "📮 کد پستی: " + (order.postalCode || "-") + "\n\n" +
-      "💳 روش پرداخت: " + (order.paymentMethod || "-") +
-      (order.transferTracking ? ("\n🔢 کد پیگیری واریز: " + order.transferTracking) : "") +
-      "\n\n📦 " + (order.shippingNote || "-") +
-      "\n\n🕒 " + Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "yyyy/MM/dd HH:mm:ss");
-
-    var url = "https://api.telegram.org/bot" + TELEGRAM_TOKEN + "/sendMessage";
-    var response = UrlFetchApp.fetch(url, {
-      method: "post",
-      payload: { chat_id: TELEGRAM_CHAT_ID, text: message },
-      muteHttpExceptions: true
-    });
-
-    var code = response.getResponseCode();
-    if (code < 200 || code >= 300) {
-      Logger.log("Telegram error: " + response.getContentText());
-    }
-    return code >= 200 && code < 300;
-  } catch (error) {
-    Logger.log("Telegram exception: " + String(error.message || error));
-    return false;
-  }
-}
-
-/* =========================================================
-   SHEET
-========================================================= */
-
-function getSheet() {
-  var ss = SpreadsheetApp.openById(SHEET_ID);
-  var sheet = ss.getSheetByName(SHEET_NAME);
-  if (!sheet) throw new Error("شیت " + SHEET_NAME + " پیدا نشد.");
-  return sheet;
-}
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function clean(value) {
-  if (value === null || value === undefined) return "";
-  return String(value).trim();
-}
-
-function numberValue(value) {
-  if (value === null || value === undefined || value === "") return 0;
-  var normalized = normalizeDigits(String(value)).replace(/[,٬،\s]/g, "").replace(/تومان/g, "");
-  var n = Number(normalized);
-  return isFinite(n) ? n : 0;
-}
-
-function normalizeDigits(value) {
-  return String(value || "")
-    .replace(/[۰-۹]/g, function (c) { return "۰۱۲۳۴۵۶۷۸۹".indexOf(c); })
-    .replace(/[٠-٩]/g, function (c) { return "٠١٢٣٤٥٦٧٨٩".indexOf(c); });
-}
-
-function isValidTransferTracking(value) {
-  return /^\d{10,13}$/.test(String(value || ""));
-}
-
-function isCardToCard(paymentMethod) {
-  return clean(paymentMethod) === "کارت‌به‌کارت";
-}
-
-function createTrackingCode(sheet, isCard) {
-  var prefix = isCard ? "C" : "D";
-  for (var attempt = 0; attempt < 30; attempt++) {
-    var code = prefix + Math.floor(1000 + Math.random() * 9000);
-    if (!findRowByTrackingCode(sheet, code)) return code;
-  }
-  return prefix + Math.floor(1000 + Math.random() * 9000);
-}
-
-function formatMoney(value) {
-  return Number(value || 0).toLocaleString("en-US");
-}
-
-/* =========================================================
-   RESPONSE / JSONP
-========================================================= */
-
-function respond(e, data) {
-  var callback = e && e.parameter && e.parameter.callback ? String(e.parameter.callback) : "";
-
-  if (callback && /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(callback)) {
-    return ContentService
-      .createTextOutput(callback + "(" + JSON.stringify(data) + ");")
-      .setMimeType(ContentService.MimeType.JAVASCRIPT);
-  }
-
-  return json(data);
-}
-
-function json(data) {
-  return ContentService
-    .createTextOutput(JSON.stringify(data))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* =========================================================
-   NAVIDTOWEL — اسکریپت یکپارچه‌ی گوگل‌شیت
-
-   این یک اسکریپت واحده که دو کار متفاوت رو انجام می‌ده و
-   خودش تشخیص می‌ده الان کی داره صداش می‌زنه:
-
-   ۱) وقتی checkout.html صداش می‌زنه (با پارامترهای سفارش
-      مثل firstName) → سفارش جدید رو تو شیت ذخیره می‌کنه و
-      به تلگرام پیام می‌ده.
-
-   ۲) وقتی ربات ادمین بدون پارامتر (GET ساده) صداش می‌زنه →
-      لیست همه‌ی سفارش‌ها رو JSON برمی‌گردونه.
-
-   ۳) وقتی ربات ادمین POST می‌زنه (برای ثبت کد مرسوله یا
-      تغییر وضعیت سفارش) → همون ردیف رو پیدا و آپدیت می‌کنه.
-
-   قبلاً این دو تا به‌شکل دو فایل جدا تو یه پروژه بودن که
-   باعث تداخل (دو بار SHEET_ID، دو تا doGet) و خطا می‌شد.
-   الان همه‌چیز یکجاست، بدون تداخل.
-
-   نصب
-   ۱) هر چی تو ادیتور Apps Scriptت هست (همه‌ی فایل‌ها) پاک کن.
-   ۲) این کد رو کامل جایگزینش کن.
-   ۳) Deploy → Manage deployments → مداد ویرایش → New version
-      → Deploy (برای هر دو دیپلویی که داری، هم اونی که
-      checkout.html بهش وصله هم اونی که ORDER_API هست —
-      چون هر دو الان از همین یه کد اجرا می‌شن).
-========================================================= */
-
-var SHEET_ID = "1Y3zbMv_Vjvmp5McYR8mCV8Cmj9y9Yyl61qsQfL4NE1Q";
-var SHEET_NAME = "Sheet1";
-
-var TELEGRAM_TOKEN = "8532964005:AAECxPJ01Eg57hC7vOFFEylqdsy1KJOAyI0";
-var TELEGRAM_CHAT_ID = "512163391";
-
-/*
-   ستون‌های شیت (بدون ردیف هدر، دقیقاً هم‌ترتیب با appendRow):
-   1 orderNumber  2 date        3 firstName    4 lastName
-   5 mobile       6 province    7 city         8 postalCode
-   9 address      10 shipping   11 products    12 subtotal
-   13 shippingCost 14 total     15 note        16 trackingCode
-   17 shipmentCode (جدید)       18 status (جدید)
-*/
 var COL = {
   orderNumber: 1,
   date: 2,
@@ -606,353 +39,2565 @@ var COL = {
   status: 18
 };
 
-// اگر خواستی امنیت بیشتری داشته باشی، این مقدار را در Script Properties
-// با نام ORDER_API_KEY قرار بده. اگر خالی باشد، بخش ادمین بدون کلید هم کار می‌کند.
-var ORDER_API_KEY = PropertiesService
-  .getScriptProperties()
-  .getProperty("ORDER_API_KEY") || "";
 
 /* =========================================================
-   doGet — خودش تشخیص می‌ده ثبت سفارشه یا درخواست لیست
+   ستون‌های جدید
+========================================================= */
+
+var NEW_HEADERS = {
+  paymentMethod: "روش پرداخت",
+  transferTracking: "کد رهگیری کارت به کارت",
+  gatewayTracking: "کد رهگیری درگاه",
+  shippingSummary: "خلاصه ارسال",
+  fingerprint: "شناسه سفارش",
+  checkoutStage: "مرحله سفارش",
+  telegramSent: "تلگرام ارسال شد"
+};
+
+
+/* =========================================================
+   نام‌های قابل شناسایی ستون‌ها
+========================================================= */
+
+var HEADER_ALIASES = {
+
+  orderNumber: [
+    "شماره سفارش",
+    "کد سفارش",
+    "orderNumber",
+    "order number"
+  ],
+
+  date: [
+    "تاریخ",
+    "date"
+  ],
+
+  firstName: [
+    "نام",
+    "نام مشتری",
+    "firstName",
+    "first name"
+  ],
+
+  lastName: [
+    "نام خانوادگی",
+    "lastName",
+    "last name"
+  ],
+
+  mobile: [
+    "موبایل",
+    "شماره موبایل",
+    "تلفن",
+    "mobile",
+    "phone"
+  ],
+
+  province: [
+    "استان",
+    "province"
+  ],
+
+  city: [
+    "شهر",
+    "city"
+  ],
+
+  postalCode: [
+    "کد پستی",
+    "postalCode",
+    "postal code"
+  ],
+
+  address: [
+    "آدرس",
+    "address"
+  ],
+
+  shipping: [
+    "روش ارسال",
+    "ارسال",
+    "shipping"
+  ],
+
+  products: [
+    "محصولات",
+    "محصول",
+    "سفارش",
+    "products"
+  ],
+
+  subtotal: [
+    "جمع محصولات",
+    "مبلغ کالاها",
+    "subtotal"
+  ],
+
+  shippingCost: [
+    "هزینه ارسال",
+    "shippingCost",
+    "shipping cost"
+  ],
+
+  total: [
+    "مبلغ نهایی",
+    "مبلغ کل",
+    "total"
+  ],
+
+  note: [
+    "توضیحات",
+    "یادداشت",
+    "note"
+  ],
+
+  trackingCode: [
+    "کد پیگیری",
+    "کد رهگیری سایت",
+    "trackingCode",
+    "tracking code"
+  ],
+
+  shipmentCode: [
+    "کد مرسوله",
+    "shipmentCode",
+    "shipment code"
+  ],
+
+  status: [
+    "وضعیت",
+    "status"
+  ],
+
+  paymentMethod: [
+    "روش پرداخت",
+    "paymentMethod",
+    "payment method"
+  ],
+
+  transferTracking: [
+    "کد رهگیری کارت به کارت",
+    "کد رهگیری کارت‌به‌کارت",
+    "شماره پیگیری کارت به کارت",
+    "کد انتقال",
+    "transferTrackingNumber",
+    "transfer tracking"
+  ],
+
+  gatewayTracking: [
+    "کد رهگیری درگاه",
+    "شماره تراکنش",
+    "gatewayTrackingCode",
+    "gateway tracking"
+  ],
+
+  shippingSummary: [
+    "خلاصه ارسال",
+    "shippingSummary",
+    "shipping summary"
+  ],
+
+  fingerprint: [
+    "شناسه سفارش",
+    "fingerprint",
+    "orderFingerprint",
+    "order fingerprint"
+  ],
+
+  checkoutStage: [
+    "مرحله سفارش",
+    "checkoutStage",
+    "checkout stage"
+  ],
+
+  telegramSent: [
+    "تلگرام ارسال شد",
+    "telegramSent",
+    "telegram sent"
+  ]
+};
+
+
+/* =========================================================
+   GET
 ========================================================= */
 
 function doGet(e) {
-  var p = (e && e.parameter) ? e.parameter : {};
 
-  if (p.firstName) {
-    return submitOrder(p);
-  }
-
-  return listOrders();
-}
-
-/* =========================================================
-   ثبت سفارش جدید (از checkout.html)
-========================================================= */
-
-function submitOrder(p) {
   try {
-    var firstName = p.firstName || "";
-    var lastName = p.lastName || "";
-    var mobile = p.mobile || "";
-    var province = p.province || "";
-    var city = p.city || "";
-    var postalCode = p.postalCode || "";
-    var address = p.address || "";
-    var shipping = p.shipping || "";
-    var note = p.note || "";
-    var products = p.products || "";
 
-    var subtotal = Number(p.subtotal) || 0;
-    var shippingCost = Number(p.shippingCost) || 0;
-    var total = Number(p.total) || 0;
+    var p =
+      e && e.parameter
+        ? e.parameter
+        : {};
 
-    var orderNumber = p.orderNumber || createOrderNumber();
-    var trackingCode = p.trackingCode || createTrackingCode();
+    if (
+      !p.firstName &&
+      !p.action &&
+      !p.stage &&
+      !p.orderNumber
+    ) {
 
-    var fullName = (firstName + " " + lastName).trim();
-    if (!fullName) {
-      fullName = "نام وارد نشده";
+      return respond(
+        e,
+        listOrdersObject()
+      );
     }
 
-    var fullAddress = "";
-    if (province) {
-      fullAddress += province;
-    }
-    if (city) {
-      fullAddress += (fullAddress ? "، " : "") + city;
-    }
-    if (address) {
-      fullAddress += (fullAddress ? "، " : "") + address;
-    }
-    if (!fullAddress) {
-      fullAddress = "آدرس وارد نشده";
-    }
+    if (
+      p.stage ||
+      p.action === "payment_confirmed" ||
+      p.action === "final" ||
+      p.action === "submitOrder"
+    ) {
 
-    var dateText = Utilities.formatDate(
-      new Date(),
-      Session.getScriptTimeZone(),
-      "yyyy/MM/dd HH:mm:ss"
-    );
-
-    var sheet = getSheet();
-
-    sheet.appendRow([
-      orderNumber,
-      dateText,
-      firstName,
-      lastName,
-      mobile,
-      province,
-      city,
-      postalCode,
-      address,
-      shipping,
-      products,
-      subtotal,
-      shippingCost,
-      total,
-      note,
-      trackingCode
-    ]);
-
-    var message =
-      "🛍 خرید جدید در NavidTowel\n\n" +
-      "👤 نام مشتری: " + fullName + "\n" +
-      "📱 شماره موبایل: " + (mobile || "وارد نشده") + "\n\n" +
-      "🛒 سفارش:\n" + (products || "محصولی ثبت نشده") + "\n\n" +
-      "💰 مبلغ پرداختی: " + formatMoney(total) + " تومان\n\n" +
-      "📍 آدرس:\n" + fullAddress;
-
-    var telegramUrl =
-      "https://api.telegram.org/bot" + TELEGRAM_TOKEN + "/sendMessage";
-
-    var telegramResult = { ok: false };
-
-    try {
-      var telegramResponse = UrlFetchApp.fetch(telegramUrl, {
-        method: "post",
-        payload: {
-          chat_id: TELEGRAM_CHAT_ID,
-          text: message
-        },
-        muteHttpExceptions: true
-      });
-
-      telegramResult = JSON.parse(telegramResponse.getContentText());
-    } catch (telegramError) {
-      telegramResult = { ok: false };
+      return respond(
+        e,
+        handleCheckout(p)
+      );
     }
 
-    return json({
-      ok: true,
-      savedToSheet: true,
-      telegramSent: telegramResult.ok === true,
-      orderNumber: orderNumber,
-      trackingCode: trackingCode
-    });
-  } catch (error) {
-    return json({
+    if (p.firstName) {
+
+      return respond(
+        e,
+        handleCheckout(p)
+      );
+    }
+
+    return respond(e, {
       ok: false,
-      error: String(error.message || error)
+      error: "درخواست نامعتبر است."
+    });
+
+  } catch (error) {
+
+    return respond(e, {
+      ok: false,
+      error: String(
+        error.message || error
+      )
     });
   }
 }
 
-/* =========================================================
-   لیست سفارش‌ها (برای ربات ادمین)
-========================================================= */
-
-function listOrders() {
-  try {
-    var sheet = getSheet();
-    var values = sheet.getDataRange().getValues();
-
-    var orders = [];
-
-    for (var i = 0; i < values.length; i++) {
-      var row = values[i];
-
-      var isEmpty = row.every(function (cell) {
-        return String(cell || "").trim() === "";
-      });
-
-      if (isEmpty) {
-        continue;
-      }
-
-      orders.push({
-        rowNumber: i + 1,
-        orderNumber: clean(row[COL.orderNumber - 1]),
-        date: clean(row[COL.date - 1]),
-        name: clean(row[COL.firstName - 1]),
-        lastName: clean(row[COL.lastName - 1]),
-        mobile: clean(row[COL.mobile - 1]),
-        province: clean(row[COL.province - 1]),
-        city: clean(row[COL.city - 1]),
-        postalCode: clean(row[COL.postalCode - 1]),
-        address: clean(row[COL.address - 1]),
-        shipping: clean(row[COL.shipping - 1]),
-        products: clean(row[COL.products - 1]),
-        subtotal: clean(row[COL.subtotal - 1]),
-        shippingCost: clean(row[COL.shippingCost - 1]),
-        total: clean(row[COL.total - 1]),
-        notes: clean(row[COL.note - 1]),
-        trackingCode: clean(row[COL.trackingCode - 1]),
-        shipmentCode: clean(row[COL.shipmentCode - 1]),
-        status: clean(row[COL.status - 1])
-      });
-    }
-
-    return json({ ok: true, orders: orders });
-  } catch (err) {
-    return json({ ok: false, error: err.message });
-  }
-}
 
 /* =========================================================
-   doPost — فقط برای ربات ادمین (ثبت کد مرسوله / وضعیت)
+   POST
 ========================================================= */
 
 function doPost(e) {
+
   try {
+
     if (ORDER_API_KEY) {
+
       var key =
-        (e && e.parameter && e.parameter.key) ||
-        (e && e.headers && e.headers["x-api-key"]) ||
+        (
+          e &&
+          e.parameter &&
+          e.parameter.key
+        ) ||
+        (
+          e &&
+          e.headers &&
+          e.headers["x-api-key"]
+        ) ||
         "";
 
       if (key !== ORDER_API_KEY) {
-        return json({ ok: false, error: "Unauthorized" });
+
+        return json({
+          ok: false,
+          error: "Unauthorized"
+        });
       }
     }
 
-    var data = JSON.parse(
-      (e && e.postData && e.postData.contents) || "{}"
-    );
+    var raw =
+      e &&
+      e.postData &&
+      e.postData.contents
+        ? e.postData.contents
+        : "{}";
 
-    if (data.action === "shipment" || data.action === "navidtowel_shipment") {
-      return saveCell(
-        data.orderNumber,
-        COL.shipmentCode,
-        clean(data.shipmentCode),
-        "کد مرسوله"
+    var data;
+
+    try {
+
+      data = JSON.parse(raw);
+
+    } catch (error) {
+
+      data = e.parameter || {};
+    }
+
+    if (
+      data.action === "payment_confirmed" ||
+      data.stage === "payment_confirmed"
+    ) {
+
+      return json(
+        handleCheckout(data)
+      );
+    }
+
+    if (
+      data.action === "final" ||
+      data.stage === "final" ||
+      data.action === "submitOrder"
+    ) {
+
+      return json(
+        handleCheckout(data)
+      );
+    }
+
+    if (
+      data.action === "shipment" ||
+      data.action === "navidtowel_shipment"
+    ) {
+
+      return json(
+        saveCell(
+          data.orderNumber,
+          "shipmentCode",
+          clean(data.shipmentCode),
+          "کد مرسوله"
+        )
       );
     }
 
     if (data.action === "status") {
-      return saveCell(
-        data.orderNumber,
-        COL.status,
-        clean(data.status),
-        "وضعیت"
+
+      return json(
+        saveCell(
+          data.orderNumber,
+          "status",
+          clean(data.status),
+          "وضعیت"
+        )
       );
     }
 
-    return json({ ok: false, error: "Unknown action" });
-  } catch (err) {
-    return json({ ok: false, error: err.message });
+    return json({
+      ok: false,
+      error: "Unknown action"
+    });
+
+  } catch (error) {
+
+    return json({
+      ok: false,
+      error: String(
+        error.message || error
+      )
+    });
   }
 }
 
-function saveCell(orderNumber, col, value, label) {
-  orderNumber = clean(orderNumber);
 
-  if (!orderNumber) {
-    return json({ ok: false, error: "کد سفارش مشخص نیست" });
+/* =========================================================
+   CHECKOUT
+========================================================= */
+
+function handleCheckout(p) {
+
+  var lock = LockService.getScriptLock();
+
+  try {
+
+    lock.waitLock(10000);
+
+    p = p || {};
+
+    var stage =
+      clean(
+        p.stage ||
+        p.action ||
+        "final"
+      );
+
+    if (stage === "submitOrder") {
+      stage = "final";
+    }
+
+    if (
+      stage !== "payment_confirmed" &&
+      stage !== "final"
+    ) {
+
+      return {
+        ok: false,
+        error: "مرحله سفارش نامعتبر است."
+      };
+    }
+
+
+    /* مشتری */
+
+    var firstName = clean(p.firstName);
+    var lastName = clean(p.lastName);
+
+    var mobile =
+      normalizeDigits(
+        clean(p.mobile)
+      );
+
+    var province = clean(p.province);
+    var city = clean(p.city);
+
+    var postalCode =
+      normalizeDigits(
+        clean(p.postalCode)
+      );
+
+    var address = clean(p.address);
+    var note = clean(p.note);
+
+
+    /* محصولات */
+
+    var products =
+      clean(
+        p.products ||
+        p.items ||
+        p.orderProducts
+      );
+
+    var subtotal =
+      numberValue(p.subtotal);
+
+    var shippingCost =
+      numberValue(p.shippingCost);
+
+    var total =
+      numberValue(p.total);
+
+    var shipping =
+      clean(
+        p.shipping ||
+        p.shippingMethod
+      );
+
+
+    /* پرداخت */
+
+    var paymentMethod =
+      clean(
+        p.paymentMethod ||
+        p.payment ||
+        p.payment_method
+      );
+
+    var transferTracking =
+      normalizeTracking(
+        p.transferTrackingNumber ||
+        p.transferTracking ||
+        p.transferTrackingCode ||
+        p.cardTransferTracking
+      );
+
+    var gatewayTracking =
+      normalizeTracking(
+        p.gatewayTrackingCode ||
+        p.gatewayTracking ||
+        p.gatewayTransactionId ||
+        p.transactionId
+      );
+
+    if (isCardToCard(paymentMethod)) {
+      gatewayTracking = "";
+    }
+
+
+    /* خلاصه ارسال */
+
+    var shippingSummary =
+      clean(p.shippingSummary);
+
+    if (!shippingSummary) {
+
+      shippingSummary =
+        buildShippingSummary(
+          shipping,
+          shippingCost,
+          note
+        );
+    }
+
+
+    /* اعتبارسنجی */
+
+    if (!firstName) {
+
+      return {
+        ok: false,
+        error: "نام مشتری وارد نشده است."
+      };
+    }
+
+    if (!mobile) {
+
+      return {
+        ok: false,
+        error: "شماره موبایل وارد نشده است."
+      };
+    }
+
+    if (!products) {
+
+      return {
+        ok: false,
+        error: "محصولات سفارش مشخص نیست."
+      };
+    }
+
+    if (isCardToCard(paymentMethod)) {
+
+      if (
+        !isValidTransferTracking(
+          transferTracking
+        )
+      ) {
+
+        return {
+          ok: false,
+          error:
+            "کد رهگیری کارت‌به‌کارت باید 10 تا 13 رقم باشد."
+        };
+      }
+    }
+
+
+    /* Fingerprint */
+
+    var fingerprint =
+      createOrderFingerprint({
+
+        firstName: firstName,
+        lastName: lastName,
+        mobile: mobile,
+        province: province,
+        city: city,
+        postalCode: postalCode,
+        address: address,
+        shipping: shipping,
+        products: products,
+        subtotal: subtotal,
+        shippingCost: shippingCost,
+        total: total,
+        note: note,
+        paymentMethod: paymentMethod,
+        transferTracking: transferTracking,
+        gatewayTracking: gatewayTracking
+      });
+
+
+    /* گرفتن شیت */
+
+    var sheet = getSheet();
+
+    var columns = getColumns(sheet);
+
+    var existing =
+      findOrderByFingerprint(
+        sheet,
+        columns,
+        fingerprint
+      );
+
+
+    /* =====================================================
+       PAYMENT CONFIRMED
+    ===================================================== */
+
+    if (stage === "payment_confirmed") {
+
+      var paymentOrderNumber;
+      var paymentRow;
+
+      if (existing) {
+
+        paymentRow = existing.row;
+
+        paymentOrderNumber =
+          getCellByKey(
+            sheet,
+            paymentRow,
+            columns,
+            "orderNumber"
+          );
+
+        if (!paymentOrderNumber) {
+
+          paymentOrderNumber =
+            createOrderNumber();
+        }
+
+        updateOrderRow(
+          sheet,
+          paymentRow,
+          columns,
+          {
+
+            orderNumber: paymentOrderNumber,
+            firstName: firstName,
+            lastName: lastName,
+            mobile: mobile,
+            province: province,
+            city: city,
+            postalCode: postalCode,
+            address: address,
+            shipping: shipping,
+            products: products,
+            subtotal: subtotal,
+            shippingCost: shippingCost,
+            total: total,
+            note: note,
+            paymentMethod: paymentMethod,
+            transferTracking: transferTracking,
+            gatewayTracking: gatewayTracking,
+            shippingSummary: shippingSummary,
+            fingerprint: fingerprint,
+            checkoutStage: "payment_confirmed"
+
+          },
+          false
+        );
+
+        saveFingerprintRow(
+          fingerprint,
+          paymentRow
+        );
+
+      } else {
+
+        paymentOrderNumber =
+          createOrderNumber();
+
+        paymentRow =
+          appendOrderRow(
+            sheet,
+            columns,
+            {
+
+              orderNumber: paymentOrderNumber,
+              firstName: firstName,
+              lastName: lastName,
+              mobile: mobile,
+              province: province,
+              city: city,
+              postalCode: postalCode,
+              address: address,
+              shipping: shipping,
+              products: products,
+              subtotal: subtotal,
+              shippingCost: shippingCost,
+              total: total,
+              note: note,
+              paymentMethod: paymentMethod,
+              transferTracking: transferTracking,
+              gatewayTracking: gatewayTracking,
+              shippingSummary: shippingSummary,
+              fingerprint: fingerprint,
+              checkoutStage: "payment_confirmed",
+              telegramSent: "false"
+
+            },
+            false
+          );
+
+        saveFingerprintRow(
+          fingerprint,
+          paymentRow
+        );
+      }
+
+      return {
+
+        ok: true,
+        stage: "payment_confirmed",
+        savedToSheet: true,
+        duplicate: !!existing,
+        row: paymentRow,
+
+        /*
+          عمداً کد پیگیری سایت
+          در این مرحله ارسال نمی‌شود.
+        */
+
+        trackingCode: "",
+        transferTracking:
+          transferTracking
+
+      };
+    }
+
+
+    /* =====================================================
+       FINAL
+    ===================================================== */
+
+    if (stage === "final") {
+
+      var finalOrderNumber;
+      var siteTrackingCode;
+      var finalRow;
+
+
+      /* سفارش قبلی وجود دارد */
+
+      if (existing) {
+
+        finalRow = existing.row;
+
+        finalOrderNumber =
+          getCellByKey(
+            sheet,
+            finalRow,
+            columns,
+            "orderNumber"
+          );
+
+        if (!finalOrderNumber) {
+
+          finalOrderNumber =
+            createOrderNumber();
+        }
+
+        siteTrackingCode =
+          getCellByKey(
+            sheet,
+            finalRow,
+            columns,
+            "trackingCode"
+          );
+
+        if (!siteTrackingCode) {
+
+          siteTrackingCode =
+            createTrackingCode();
+        }
+
+        var telegramAlreadySent =
+          getCellByKey(
+            sheet,
+            finalRow,
+            columns,
+            "telegramSent"
+          );
+
+        updateOrderRow(
+          sheet,
+          finalRow,
+          columns,
+          {
+
+            orderNumber: finalOrderNumber,
+            firstName: firstName,
+            lastName: lastName,
+            mobile: mobile,
+            province: province,
+            city: city,
+            postalCode: postalCode,
+            address: address,
+            shipping: shipping,
+            products: products,
+            subtotal: subtotal,
+            shippingCost: shippingCost,
+            total: total,
+            note: note,
+            paymentMethod: paymentMethod,
+            transferTracking: transferTracking,
+            gatewayTracking: gatewayTracking,
+            shippingSummary: shippingSummary,
+            trackingCode: siteTrackingCode,
+            fingerprint: fingerprint,
+            checkoutStage: "final",
+            telegramSent:
+              telegramAlreadySent || "false"
+
+          },
+          true
+        );
+
+        saveFingerprintRow(
+          fingerprint,
+          finalRow
+        );
+
+
+        if (
+          telegramAlreadySent !== "true"
+        ) {
+
+          var telegramResult =
+            sendTelegramOrder({
+
+              firstName: firstName,
+              lastName: lastName,
+              mobile: mobile,
+              province: province,
+              city: city,
+              address: address,
+              products: products,
+              total: total,
+              orderNumber: finalOrderNumber,
+              trackingCode: siteTrackingCode,
+              paymentMethod: paymentMethod,
+              transferTracking: transferTracking
+
+            });
+
+          if (telegramResult) {
+
+            setCellByKey(
+              sheet,
+              finalRow,
+              columns,
+              "telegramSent",
+              "true"
+            );
+          }
+        }
+
+
+        return {
+
+          ok: true,
+          stage: "final",
+          savedToSheet: true,
+          duplicate: true,
+          row: finalRow,
+          orderNumber: finalOrderNumber,
+          trackingCode: siteTrackingCode
+
+        };
+      }
+
+
+      /* سفارش کاملاً جدید */
+
+      finalOrderNumber =
+        createOrderNumber();
+
+      siteTrackingCode =
+        createTrackingCode();
+
+      finalRow =
+        appendOrderRow(
+          sheet,
+          columns,
+          {
+
+            orderNumber: finalOrderNumber,
+            firstName: firstName,
+            lastName: lastName,
+            mobile: mobile,
+            province: province,
+            city: city,
+            postalCode: postalCode,
+            address: address,
+            shipping: shipping,
+            products: products,
+            subtotal: subtotal,
+            shippingCost: shippingCost,
+            total: total,
+            note: note,
+            paymentMethod: paymentMethod,
+            transferTracking: transferTracking,
+            gatewayTracking: gatewayTracking,
+            shippingSummary: shippingSummary,
+            trackingCode: siteTrackingCode,
+            fingerprint: fingerprint,
+            checkoutStage: "final",
+            telegramSent: "false"
+
+          },
+          true
+        );
+
+      saveFingerprintRow(
+        fingerprint,
+        finalRow
+      );
+
+
+      var telegramResult =
+        sendTelegramOrder({
+
+          firstName: firstName,
+          lastName: lastName,
+          mobile: mobile,
+          province: province,
+          city: city,
+          address: address,
+          products: products,
+          total: total,
+          orderNumber: finalOrderNumber,
+          trackingCode: siteTrackingCode,
+          paymentMethod: paymentMethod,
+          transferTracking: transferTracking
+
+        });
+
+
+      if (telegramResult) {
+
+        setCellByKey(
+          sheet,
+          finalRow,
+          columns,
+          "telegramSent",
+          "true"
+        );
+      }
+
+
+      return {
+
+        ok: true,
+        stage: "final",
+        savedToSheet: true,
+        duplicate: false,
+        row: finalRow,
+        orderNumber: finalOrderNumber,
+        trackingCode: siteTrackingCode
+
+      };
+    }
+
+
+    return {
+      ok: false,
+      error: "مرحله سفارش نامعتبر است."
+    };
+
+  } catch (error) {
+
+    return {
+
+      ok: false,
+      error: String(
+        error.message ||
+        error
+      )
+
+    };
+
+  } finally {
+
+    try {
+      lock.releaseLock();
+    } catch (e) {}
+  }
+}
+
+
+/* =========================================================
+   APPEND
+   مهم: اگر sheet خالی باشد، خودش Sheet را می‌گیرد.
+========================================================= */
+
+function appendOrderRow(
+  sheet,
+  columns,
+  data,
+  finalOrder
+) {
+
+  if (!sheet) {
+    sheet = getSheet();
   }
 
-  if (!value) {
-    return json({ ok: false, error: label + " خالی است" });
+  if (!sheet) {
+    throw new Error(
+      "Google Sheet پیدا نشد."
+    );
   }
 
-  var sheet = getSheet();
-  var rowNumber = findOrderRow(sheet, orderNumber);
 
-  if (!rowNumber) {
-    return json({ ok: false, error: "سفارش پیدا نشد" });
+  var lastColumn =
+    sheet.getLastColumn();
+
+
+  var width =
+    Math.max(
+      lastColumn,
+      18
+    );
+
+
+  var row =
+    new Array(width).fill("");
+
+
+  writeRowData(
+    row,
+    columns,
+    data,
+    finalOrder
+  );
+
+
+  sheet.appendRow(row);
+
+
+  return sheet.getLastRow();
+}
+
+
+/* =========================================================
+   UPDATE
+========================================================= */
+
+function updateOrderRow(
+  sheet,
+  rowNumber,
+  columns,
+  data,
+  finalOrder
+) {
+
+  if (!sheet) {
+    sheet = getSheet();
   }
 
-  sheet.getRange(rowNumber, col).setValue(value);
+  if (!sheet) {
+    throw new Error(
+      "Google Sheet پیدا نشد."
+    );
+  }
 
-  return json({
-    ok: true,
-    message: label + " ثبت شد",
-    row: rowNumber,
-    value: value
+
+  var width =
+    Math.max(
+      sheet.getLastColumn(),
+      18
+    );
+
+
+  var range =
+    sheet.getRange(
+      rowNumber,
+      1,
+      1,
+      width
+    );
+
+
+  var row =
+    range.getValues()[0];
+
+
+  writeRowData(
+    row,
+    columns,
+    data,
+    finalOrder
+  );
+
+
+  range.setValues([
+    row
+  ]);
+}
+
+
+/* =========================================================
+   WRITE ROW
+========================================================= */
+
+function writeRowData(
+  row,
+  columns,
+  data,
+  finalOrder
+) {
+
+  setArrayCell(
+    row,
+    columns,
+    "orderNumber",
+    data.orderNumber
+  );
+
+
+  if (
+    !getArrayCell(
+      row,
+      columns,
+      "date"
+    )
+  ) {
+
+    setArrayCell(
+      row,
+      columns,
+      "date",
+      Utilities.formatDate(
+        new Date(),
+        Session.getScriptTimeZone(),
+        "yyyy/MM/dd HH:mm:ss"
+      )
+    );
+  }
+
+
+  var fields = [
+
+    "firstName",
+    "lastName",
+    "mobile",
+    "province",
+    "city",
+    "postalCode",
+    "address",
+    "shipping",
+    "products",
+    "subtotal",
+    "shippingCost",
+    "total",
+    "note",
+    "paymentMethod",
+    "transferTracking",
+    "gatewayTracking",
+    "shippingSummary",
+    "fingerprint"
+
+  ];
+
+
+  fields.forEach(function(key) {
+
+    setArrayCell(
+      row,
+      columns,
+      key,
+      data[key]
+    );
+
+  });
+
+
+  if (data.checkoutStage) {
+
+    setArrayCell(
+      row,
+      columns,
+      "checkoutStage",
+      data.checkoutStage
+    );
+  }
+
+
+  if (
+    data.telegramSent !== undefined
+  ) {
+
+    setArrayCell(
+      row,
+      columns,
+      "telegramSent",
+      data.telegramSent
+    );
+  }
+
+
+  if (
+    finalOrder &&
+    data.trackingCode
+  ) {
+
+    setArrayCell(
+      row,
+      columns,
+      "trackingCode",
+      data.trackingCode
+    );
+  }
+}
+
+
+/* =========================================================
+   GET COLUMNS
+========================================================= */
+
+function getColumns(sheet) {
+
+  if (!sheet) {
+    sheet = getSheet();
+  }
+
+
+  ensureRequiredHeaders(sheet);
+
+
+  var lastColumn =
+    Math.max(
+      sheet.getLastColumn(),
+      18
+    );
+
+
+  var headers =
+    sheet
+      .getRange(
+        1,
+        1,
+        1,
+        lastColumn
+      )
+      .getDisplayValues()[0];
+
+
+  var columns = {};
+
+
+  Object.keys(
+    HEADER_ALIASES
+  ).forEach(function(key) {
+
+    columns[key] =
+      findHeaderColumn(
+        headers,
+        HEADER_ALIASES[key]
+      );
+
+  });
+
+
+  Object.keys(COL).forEach(
+    function(key) {
+
+      if (!columns[key]) {
+        columns[key] = COL[key];
+      }
+
+    }
+  );
+
+
+  return columns;
+}
+
+
+/* =========================================================
+   REQUIRED HEADERS
+========================================================= */
+
+function ensureRequiredHeaders(sheet) {
+
+  if (!sheet) {
+    sheet = getSheet();
+  }
+
+
+  var lastColumn =
+    Math.max(
+      sheet.getLastColumn(),
+      18
+    );
+
+
+  var headers =
+    sheet
+      .getRange(
+        1,
+        1,
+        1,
+        lastColumn
+      )
+      .getDisplayValues()[0];
+
+
+  Object.keys(
+    NEW_HEADERS
+  ).forEach(function(key) {
+
+    var found =
+      findHeaderColumn(
+        headers,
+        HEADER_ALIASES[key] || []
+      );
+
+
+    if (found) {
+      return;
+    }
+
+
+    var newColumn =
+      sheet.getLastColumn() + 1;
+
+
+    sheet
+      .getRange(
+        1,
+        newColumn
+      )
+      .setValue(
+        NEW_HEADERS[key]
+      );
+
+
+    headers.push(
+      NEW_HEADERS[key]
+    );
+
   });
 }
 
-function findOrderRow(sheet, orderNumber) {
-  var values = sheet.getDataRange().getValues();
 
-  for (var i = 0; i < values.length; i++) {
-    var row = values[i];
+/* =========================================================
+   HEADER SEARCH
+========================================================= */
 
-    for (var j = 0; j < row.length; j++) {
-      if (clean(row[j]) === orderNumber) {
+function findHeaderColumn(
+  headers,
+  aliases
+) {
+
+  for (
+    var i = 0;
+    i < headers.length;
+    i++
+  ) {
+
+    var h =
+      normalizeHeader(
+        headers[i]
+      );
+
+
+    if (!h) {
+      continue;
+    }
+
+
+    for (
+      var j = 0;
+      j < aliases.length;
+      j++
+    ) {
+
+      if (
+        h ===
+        normalizeHeader(
+          aliases[j]
+        )
+      ) {
+
         return i + 1;
       }
     }
   }
 
+
   return null;
 }
+
+
+function normalizeHeader(value) {
+
+  return normalizeDigits(
+    String(value || "")
+  )
+    .trim()
+    .toLowerCase()
+    .replace(
+      /[\s‌_()-]+/g,
+      ""
+    );
+}
+
+
+/* =========================================================
+   FIND FINGERPRINT
+========================================================= */
+
+function findOrderByFingerprint(
+  sheet,
+  columns,
+  fingerprint
+) {
+
+  if (!fingerprint) {
+    return null;
+  }
+
+
+  var lastRow =
+    sheet.getLastRow();
+
+
+  if (lastRow < 2) {
+    return null;
+  }
+
+
+  if (columns.fingerprint) {
+
+    var values =
+      sheet
+        .getRange(
+          2,
+          columns.fingerprint,
+          lastRow - 1,
+          1
+        )
+        .getDisplayValues();
+
+
+    for (
+      var i = 0;
+      i < values.length;
+      i++
+    ) {
+
+      if (
+        clean(values[i][0]) ===
+        fingerprint
+      ) {
+
+        return {
+
+          row: i + 2,
+
+          orderNumber:
+            getCellByKey(
+              sheet,
+              i + 2,
+              columns,
+              "orderNumber"
+            )
+
+        };
+      }
+    }
+  }
+
+
+  var props =
+    PropertiesService
+      .getScriptProperties();
+
+
+  var savedRow =
+    props.getProperty(
+      "ORDER_FP_" +
+      fingerprint
+    );
+
+
+  if (savedRow) {
+
+    var rowNumber =
+      Number(savedRow);
+
+
+    if (
+      rowNumber >= 2 &&
+      rowNumber <= lastRow
+    ) {
+
+      var savedFingerprint =
+        getCellByKey(
+          sheet,
+          rowNumber,
+          columns,
+          "fingerprint"
+        );
+
+
+      if (
+        savedFingerprint ===
+        fingerprint
+      ) {
+
+        return {
+
+          row: rowNumber,
+
+          orderNumber:
+            getCellByKey(
+              sheet,
+              rowNumber,
+              columns,
+              "orderNumber"
+            )
+
+        };
+      }
+    }
+  }
+
+
+  return null;
+}
+
+
+/* =========================================================
+   SAVE FINGERPRINT
+========================================================= */
+
+function saveFingerprintRow(
+  fingerprint,
+  rowNumber
+) {
+
+  if (
+    !fingerprint ||
+    !rowNumber
+  ) {
+    return;
+  }
+
+
+  PropertiesService
+    .getScriptProperties()
+    .setProperty(
+      "ORDER_FP_" +
+      fingerprint,
+      String(rowNumber)
+    );
+}
+
+
+/* =========================================================
+   LIST ORDERS
+========================================================= */
+
+function listOrdersObject() {
+
+  try {
+
+    var sheet =
+      getSheet();
+
+
+    var columns =
+      getColumns(sheet);
+
+
+    var values =
+      sheet
+        .getDataRange()
+        .getDisplayValues();
+
+
+    var orders = [];
+
+
+    for (
+      var i = 1;
+      i < values.length;
+      i++
+    ) {
+
+      var row =
+        values[i];
+
+
+      var empty =
+        row.every(function(cell) {
+
+          return clean(cell) === "";
+
+        });
+
+
+      if (empty) {
+        continue;
+      }
+
+
+      orders.push({
+
+        rowNumber: i + 1,
+
+        orderNumber:
+          getArrayCell(
+            row,
+            columns,
+            "orderNumber"
+          ),
+
+        date:
+          getArrayCell(
+            row,
+            columns,
+            "date"
+          ),
+
+        firstName:
+          getArrayCell(
+            row,
+            columns,
+            "firstName"
+          ),
+
+        lastName:
+          getArrayCell(
+            row,
+            columns,
+            "lastName"
+          ),
+
+        mobile:
+          getArrayCell(
+            row,
+            columns,
+            "mobile"
+          ),
+
+        province:
+          getArrayCell(
+            row,
+            columns,
+            "province"
+          ),
+
+        city:
+          getArrayCell(
+            row,
+            columns,
+            "city"
+          ),
+
+        postalCode:
+          getArrayCell(
+            row,
+            columns,
+            "postalCode"
+          ),
+
+        address:
+          getArrayCell(
+            row,
+            columns,
+            "address"
+          ),
+
+        shipping:
+          getArrayCell(
+            row,
+            columns,
+            "shipping"
+          ),
+
+        shippingSummary:
+          getArrayCell(
+            row,
+            columns,
+            "shippingSummary"
+          ),
+
+        products:
+          getArrayCell(
+            row,
+            columns,
+            "products"
+          ),
+
+        subtotal:
+          getArrayCell(
+            row,
+            columns,
+            "subtotal"
+          ),
+
+        shippingCost:
+          getArrayCell(
+            row,
+            columns,
+            "shippingCost"
+          ),
+
+        total:
+          getArrayCell(
+            row,
+            columns,
+            "total"
+          ),
+
+        note:
+          getArrayCell(
+            row,
+            columns,
+            "note"
+          ),
+
+        trackingCode:
+          getArrayCell(
+            row,
+            columns,
+            "trackingCode"
+          ),
+
+        shipmentCode:
+          getArrayCell(
+            row,
+            columns,
+            "shipmentCode"
+          ),
+
+        status:
+          getArrayCell(
+            row,
+            columns,
+            "status"
+          ),
+
+        paymentMethod:
+          getArrayCell(
+            row,
+            columns,
+            "paymentMethod"
+          ),
+
+        transferTracking:
+          getArrayCell(
+            row,
+            columns,
+            "transferTracking"
+          ),
+
+        gatewayTracking:
+          getArrayCell(
+            row,
+            columns,
+            "gatewayTracking"
+          ),
+
+        checkoutStage:
+          getArrayCell(
+            row,
+            columns,
+            "checkoutStage"
+          )
+      });
+    }
+
+
+    return {
+      ok: true,
+      orders: orders
+    };
+
+  } catch (error) {
+
+    return {
+
+      ok: false,
+
+      error:
+        String(
+          error.message ||
+          error
+        )
+    };
+  }
+}
+
+
+/* =========================================================
+   SAVE CELL
+========================================================= */
+
+function saveCell(
+  orderNumber,
+  key,
+  value,
+  label
+) {
+
+  orderNumber =
+    clean(orderNumber);
+
+
+  if (!orderNumber) {
+
+    return {
+      ok: false,
+      error: "کد سفارش مشخص نیست."
+    };
+  }
+
+
+  if (!value) {
+
+    return {
+      ok: false,
+      error:
+        label +
+        " خالی است."
+    };
+  }
+
+
+  var sheet =
+    getSheet();
+
+
+  var columns =
+    getColumns(sheet);
+
+
+  var rowNumber =
+    findOrderRow(
+      sheet,
+      columns,
+      orderNumber
+    );
+
+
+  if (!rowNumber) {
+
+    return {
+      ok: false,
+      error: "سفارش پیدا نشد."
+    };
+  }
+
+
+  setCellByKey(
+    sheet,
+    rowNumber,
+    columns,
+    key,
+    value
+  );
+
+
+  return {
+
+    ok: true,
+
+    message:
+      label +
+      " ثبت شد.",
+
+    row:
+      rowNumber,
+
+    value:
+      value
+  };
+}
+
+
+/* =========================================================
+   FIND ORDER
+========================================================= */
+
+function findOrderRow(
+  sheet,
+  columns,
+  orderNumber
+) {
+
+  var lastRow =
+    sheet.getLastRow();
+
+
+  if (lastRow < 2) {
+    return null;
+  }
+
+
+  var col =
+    columns.orderNumber ||
+    COL.orderNumber;
+
+
+  var values =
+    sheet
+      .getRange(
+        2,
+        col,
+        lastRow - 1,
+        1
+      )
+      .getDisplayValues();
+
+
+  for (
+    var i = 0;
+    i < values.length;
+    i++
+  ) {
+
+    if (
+      clean(values[i][0]) ===
+      orderNumber
+    ) {
+
+      return i + 2;
+    }
+  }
+
+
+  return null;
+}
+
+
+/* =========================================================
+   FINGERPRINT
+========================================================= */
+
+function createOrderFingerprint(data) {
+
+  var source = [
+
+    clean(data.firstName),
+    clean(data.lastName),
+
+    normalizeDigits(
+      clean(data.mobile)
+    ),
+
+    clean(data.province),
+    clean(data.city),
+
+    normalizeDigits(
+      clean(data.postalCode)
+    ),
+
+    clean(data.address),
+    clean(data.shipping),
+    clean(data.products),
+
+    numberValue(data.subtotal),
+    numberValue(data.shippingCost),
+    numberValue(data.total),
+
+    clean(data.note),
+    clean(data.paymentMethod),
+
+    normalizeTracking(
+      data.transferTracking
+    ),
+
+    normalizeTracking(
+      data.gatewayTracking
+    )
+
+  ]
+    .map(function(value) {
+
+      return String(
+        value == null
+          ? ""
+          : value
+      );
+
+    })
+    .join("\u001F");
+
+
+  var bytes =
+    Utilities.computeDigest(
+      Utilities.DigestAlgorithm.SHA_256,
+      source,
+      Utilities.Charset.UTF_8
+    );
+
+
+  return bytes
+    .map(function(byte) {
+
+      var value =
+        byte < 0
+          ? byte + 256
+          : byte;
+
+      return value
+        .toString(16)
+        .padStart(2, "0");
+
+    })
+    .join("");
+}
+
+
+/* =========================================================
+   TELEGRAM
+========================================================= */
+
+function sendTelegramOrder(order) {
+
+  try {
+
+    var fullName =
+      (
+        order.firstName +
+        " " +
+        order.lastName
+      ).trim();
+
+
+    var location =
+      [
+        order.province,
+        order.city,
+        order.address
+      ]
+        .filter(Boolean)
+        .join("، ");
+
+
+    var message =
+      "🛍 سفارش جدید NavidTowel\n\n" +
+
+      "🆔 کد سفارش: " +
+      (
+        order.orderNumber ||
+        "ثبت نشده"
+      ) +
+      "\n" +
+
+      "🎫 کد پیگیری سایت: " +
+      (
+        order.trackingCode ||
+        "ثبت نشده"
+      ) +
+      "\n\n" +
+
+      "👤 مشتری: " +
+      (
+        fullName ||
+        "وارد نشده"
+      ) +
+      "\n" +
+
+      "📱 موبایل: " +
+      (
+        order.mobile ||
+        "وارد نشده"
+      ) +
+      "\n\n" +
+
+      "🛒 محصولات:\n" +
+      (
+        order.products ||
+        "ثبت نشده"
+      ) +
+      "\n\n" +
+
+      "💰 مبلغ: " +
+      formatMoney(order.total) +
+      " تومان\n" +
+
+      "💳 روش پرداخت: " +
+      (
+        order.paymentMethod ||
+        "ثبت نشده"
+      ) +
+      "\n";
+
+
+    if (order.transferTracking) {
+
+      message +=
+        "🔢 کد رهگیری کارت‌به‌کارت: " +
+        order.transferTracking +
+        "\n";
+    }
+
+
+    if (location) {
+
+      message +=
+        "\n📍 آدرس:\n" +
+        location;
+    }
+
+
+    var url =
+      "https://api.telegram.org/bot" +
+      TELEGRAM_TOKEN +
+      "/sendMessage";
+
+
+    var response =
+      UrlFetchApp.fetch(
+        url,
+        {
+
+          method: "post",
+
+          payload: {
+
+            chat_id:
+              TELEGRAM_CHAT_ID,
+
+            text:
+              message
+          },
+
+          muteHttpExceptions: true
+
+        }
+      );
+
+
+    var code =
+      response.getResponseCode();
+
+
+    return (
+      code >= 200 &&
+      code < 300
+    );
+
+  } catch (error) {
+
+    console.log(
+      String(
+        error.message ||
+        error
+      )
+    );
+
+    return false;
+  }
+}
+
+
+/* =========================================================
+   CELL HELPERS
+========================================================= */
+
+function getCellByKey(
+  sheet,
+  rowNumber,
+  columns,
+  key
+) {
+
+  var col =
+    columns[key];
+
+
+  if (!col) {
+    return "";
+  }
+
+
+  return clean(
+    sheet
+      .getRange(
+        rowNumber,
+        col
+      )
+      .getDisplayValue()
+  );
+}
+
+
+function setCellByKey(
+  sheet,
+  rowNumber,
+  columns,
+  key,
+  value
+) {
+
+  var col =
+    columns[key];
+
+
+  if (!col) {
+    return;
+  }
+
+
+  sheet
+    .getRange(
+      rowNumber,
+      col
+    )
+    .setValue(
+      value == null
+        ? ""
+        : value
+    );
+}
+
+
+function getArrayCell(
+  row,
+  columns,
+  key
+) {
+
+  var col =
+    columns[key];
+
+
+  if (
+    !col ||
+    col > row.length
+  ) {
+
+    return "";
+  }
+
+
+  return clean(
+    row[col - 1]
+  );
+}
+
+
+function setArrayCell(
+  row,
+  columns,
+  key,
+  value
+) {
+
+  var col =
+    columns[key];
+
+
+  if (!col) {
+    return;
+  }
+
+
+  while (
+    row.length < col
+  ) {
+
+    row.push("");
+  }
+
+
+  row[col - 1] =
+    value == null
+      ? ""
+      : value;
+}
+
 
 /* =========================================================
    SHEET
 ========================================================= */
 
 function getSheet() {
-  var ss = SpreadsheetApp.openById(SHEET_ID);
-  var sheet = ss.getSheetByName(SHEET_NAME);
+
+  var ss =
+    SpreadsheetApp.openById(
+      SHEET_ID
+    );
+
+
+  if (!ss) {
+
+    throw new Error(
+      "فایل Google Sheet پیدا نشد."
+    );
+  }
+
+
+  var sheet =
+    ss.getSheetByName(
+      SHEET_NAME
+    );
+
 
   if (!sheet) {
-    throw new Error("شیت " + SHEET_NAME + " پیدا نشد.");
+
+    throw new Error(
+      "شیت " +
+      SHEET_NAME +
+      " پیدا نشد."
+    );
   }
+
 
   return sheet;
 }
+
 
 /* =========================================================
    HELPERS
 ========================================================= */
 
 function clean(value) {
-  if (value === null || value === undefined) {
+
+  if (
+    value === null ||
+    value === undefined
+  ) {
+
     return "";
   }
+
 
   return String(value).trim();
 }
 
-function createOrderNumber() {
-  var date = Utilities.formatDate(
-    new Date(),
-    Session.getScriptTimeZone(),
-    "yyMMdd"
-  );
 
-  var random = Math.floor(1000 + Math.random() * 9000);
+function numberValue(value) {
 
-  return "NT-" + date + "-" + random;
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+
+    return 0;
+  }
+
+
+  var normalized =
+    normalizeDigits(
+      String(value)
+    )
+      .replace(
+        /[,٬،\s]/g,
+        ""
+      )
+      .replace(
+        /تومان/g,
+        ""
+      );
+
+
+  var n =
+    Number(normalized);
+
+
+  return isFinite(n)
+    ? n
+    : 0;
 }
+
+
+function normalizeDigits(value) {
+
+  return String(value || "")
+
+    .replace(
+      /[۰-۹]/g,
+      function(c) {
+
+        return "۰۱۲۳۴۵۶۷۸۹"
+          .indexOf(c);
+
+      }
+    )
+
+    .replace(
+      /[٠-٩]/g,
+      function(c) {
+
+        return "٠١٢٣٤٥٦٧٨٩"
+          .indexOf(c);
+
+      }
+    );
+}
+
+
+function normalizeTracking(value) {
+
+  return normalizeDigits(
+    clean(value)
+  )
+    .replace(
+      /\D/g,
+      ""
+    );
+}
+
+
+function isValidTransferTracking(value) {
+
+  return /^\d{10,13}$/.test(
+    String(value || "")
+  );
+}
+
+
+function isCardToCard(paymentMethod) {
+
+  var value =
+    clean(paymentMethod)
+      .replace(
+        /\u200c/g,
+        ""
+      )
+      .replace(
+        /\s+/g,
+        " "
+      )
+      .trim()
+      .toLowerCase();
+
+
+  return (
+    value === "کارت به کارت" ||
+    value === "card" ||
+    value === "card_to_card" ||
+    value === "card-to-card"
+  );
+}
+
+
+function buildShippingSummary(
+  shipping,
+  shippingCost,
+  note
+) {
+
+  var result =
+    shipping ||
+    "ثبت نشده";
+
+
+  if (
+    Number(shippingCost) > 0
+  ) {
+
+    result +=
+      " = " +
+      formatMoney(shippingCost) +
+      " تومان";
+  }
+
+
+  result +=
+    " | توضیحات مشتری: " +
+    (
+      note ||
+      "ندارد"
+    );
+
+
+  return result;
+}
+
+
+/* =========================================================
+   شماره سفارش
+========================================================= */
+
+function createOrderNumber() {
+
+  var date =
+    Utilities.formatDate(
+      new Date(),
+      Session.getScriptTimeZone(),
+      "yyMMdd"
+    );
+
+
+  var random =
+    Math.floor(
+      1000 +
+      Math.random() * 9000
+    );
+
+
+  return (
+    "NT-" +
+    date +
+    "-" +
+    random
+  );
+}
+
+
+/* =========================================================
+   کد رهگیری سایت
+========================================================= */
 
 function createTrackingCode() {
-  var random = Math.floor(100000 + Math.random() * 900000);
 
-  return "NT" + random;
+  var random =
+    Math.floor(
+      100000 +
+      Math.random() * 900000
+    );
+
+
+  return (
+    "NT" +
+    random
+  );
 }
+
+
+/* =========================================================
+   MONEY
+========================================================= */
 
 function formatMoney(value) {
-  return Number(value || 0).toLocaleString("en-US");
+
+  return Number(
+    value || 0
+  ).toLocaleString(
+    "en-US"
+  );
 }
+
+
+/* =========================================================
+   RESPONSE / JSONP
+========================================================= */
+
+function respond(e, data) {
+
+  var callback =
+    e &&
+    e.parameter &&
+    e.parameter.callback
+      ? String(
+          e.parameter.callback
+        )
+      : "";
+
+
+  if (
+    callback &&
+    /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(
+      callback
+    )
+  ) {
+
+    return ContentService
+      .createTextOutput(
+        callback +
+        "(" +
+        JSON.stringify(data) +
+        ");"
+      )
+      .setMimeType(
+        ContentService.MimeType.JAVASCRIPT
+      );
+  }
+
+
+  return json(data);
+}
+
 
 function json(data) {
+
   return ContentService
-    .createTextOutput(JSON.stringify(data))
-    .setMimeType(ContentService.MimeType.JSON);
+    .createTextOutput(
+      JSON.stringify(data)
+    )
+    .setMimeType(
+      ContentService.MimeType.JSON
+    );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-درگاه اینترنتی فعلاً غیرفعال است و فقط وقتیGATEWAY_URL را بعداً وارد کنیم فعال می‌شود.
-
-
-
-
 
 
 
