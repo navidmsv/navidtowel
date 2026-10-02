@@ -196,6 +196,8 @@ const products =
         type: "دو رنگ",
         dimensions: "90*90",
         weight: "120g"
+  ,
+    images: ["images/products/product-15-کرم-1790978584629.jpg"]
   },
 
     {
