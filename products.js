@@ -194,7 +194,7 @@ const products =
         brand: "joanna",
         size: "90cm",
         type: "دو رنگ",
-        dimensions: "90*90"
+        dimensions: "90*90",
         weight: "120g"
   },
 
