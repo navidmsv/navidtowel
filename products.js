@@ -192,7 +192,7 @@ const products =
         brand: "joanna",
         size: "90cm",
         type: "دو رنگ",
-        sizes: "90"
+        sizes: ["90"]
   },
 
     {
