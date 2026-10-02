@@ -192,7 +192,7 @@ const products =
         brand: "joanna",
         size: "90cm"
     ,
-    images: ["images/kids-towel.webp"]
+    images: []
   },
 
     {
