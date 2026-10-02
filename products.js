@@ -33,7 +33,7 @@ const products =
         categories: ["kids", "bath", "panch"],
         sizes: ["90"],
         colors: [{ name: "ابی", stock: 5 }, { name: "سبزابی", stock: 5 }, { name: "آجری", stock: 5 }, { name: "زرد", stock: 5 }, { name: "بادمجونی", stock: 5 }],
-        images: ["images/products/product-15-قهوه-ای-1790978607449.jpg"],
+        images: [],
         description: "حوله پانچ مناسب کودکان وارداتی نرم و لطیف جنس نانو پالیشی بسیار خنک دارای دکمه های پرسی با طراحی کلاه برچسته شاخ دار و گلدوزی زیبا  مناسب پوست حساس.",
         quality: "🥇",
         material: "نانو پالیشی",
