@@ -181,8 +181,7 @@ const products =
         price: 2480,
         oldPrice: 2900,
         badge: "محبوب",
-        categories: ["kids", "bath","rob"],
-        image: "images/kids-towel.webp",
+        categories: ["kids", "bath", "rob"],
         colors: [],
         description: "حوله کودک وارد نرم و لطیف جنس نانو پالیشی با طراحی جذاب خرس و مناسب پوست حساس."
          quality: "🥇",
@@ -192,7 +191,9 @@ const products =
         use: "حمام کودکان و استفاده روزمره",
         brand: "joanna",
         size: "90cm"
-    },
+    ,
+    images: ["images/kids-towel.webp"]
+  },
 
     {
         id: 16,
