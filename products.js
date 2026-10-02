@@ -177,14 +177,21 @@ const products =
 
     {
         id: 15,
-        name: "حوله کودک طرح‌دار",
-        price: 590000,
-        oldPrice: 690000,
+        name: "تن‌پوش کودک نانو",
+        price: 2480,
+        oldPrice: 2900,
         badge: "محبوب",
-        categories: ["kids", "bath"],
+        categories: ["kids", "bath","rob"],
         image: "images/kids-towel.webp",
         colors: [],
-        description: "حوله کودک نرم و لطیف با طراحی جذاب و مناسب پوست حساس."
+        description: "حوله کودک وارد نرم و لطیف جنس نانو پالیشی با طراحی جذاب خرس و مناسب پوست حساس."
+         quality: "🥇",
+        material: "نانو پالیشی",
+        country: "چین",
+        origin: "وارداتی",
+        use: "حمام کودکان و استفاده روزمره",
+        brand: "joanna",
+        size: "90cm"
     },
 
     {
