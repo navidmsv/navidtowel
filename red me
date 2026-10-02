@@ -1,2604 +1,365 @@
-/* =========================================================
-   NAVIDTOWEL — GOOGLE SHEETS ORDER API
-   Checkout + Telegram Admin Bot
-   نسخه کامل و هماهنگ با checkout.html
-========================================================= */
 
-var SHEET_ID = "1Y3zbMv_Vjvmp5McYR8mCV8Cmj9y9Yyl61qsQfL4NE1Q";
-var SHEET_NAME = "Sheet1";
-
-var TELEGRAM_TOKEN = "8751465725:AAG0j6-BSE6-a9CedG71ZTyFoDG2S5DEM6Q";
-var TELEGRAM_CHAT_ID = "512163391";
-
-var ORDER_API_KEY =
-  PropertiesService.getScriptProperties().getProperty("ORDER_API_KEY") || "";
-
-
-/* =========================================================
-   ستون‌های قدیمی
-========================================================= */
-
-var COL = {
-  orderNumber: 1,
-  date: 2,
-  firstName: 3,
-  lastName: 4,
-  mobile: 5,
-  province: 6,
-  city: 7,
-  postalCode: 8,
-  address: 9,
-  shipping: 10,
-  products: 11,
-  subtotal: 12,
-  shippingCost: 13,
-  total: 14,
-  note: 15,
-  trackingCode: 16,
-  shipmentCode: 17,
-  status: 18
-};
-
-
-/* =========================================================
-   ستون‌های جدید
-========================================================= */
-
-var NEW_HEADERS = {
-  paymentMethod: "روش پرداخت",
-  transferTracking: "کد رهگیری کارت به کارت",
-  gatewayTracking: "کد رهگیری درگاه",
-  shippingSummary: "خلاصه ارسال",
-  fingerprint: "شناسه سفارش",
-  checkoutStage: "مرحله سفارش",
-  telegramSent: "تلگرام ارسال شد"
-};
-
-
-/* =========================================================
-   نام‌های قابل شناسایی ستون‌ها
-========================================================= */
-
-var HEADER_ALIASES = {
-
-  orderNumber: [
-    "شماره سفارش",
-    "کد سفارش",
-    "orderNumber",
-    "order number"
-  ],
-
-  date: [
-    "تاریخ",
-    "date"
-  ],
-
-  firstName: [
-    "نام",
-    "نام مشتری",
-    "firstName",
-    "first name"
-  ],
-
-  lastName: [
-    "نام خانوادگی",
-    "lastName",
-    "last name"
-  ],
-
-  mobile: [
-    "موبایل",
-    "شماره موبایل",
-    "تلفن",
-    "mobile",
-    "phone"
-  ],
-
-  province: [
-    "استان",
-    "province"
-  ],
-
-  city: [
-    "شهر",
-    "city"
-  ],
-
-  postalCode: [
-    "کد پستی",
-    "postalCode",
-    "postal code"
-  ],
-
-  address: [
-    "آدرس",
-    "address"
-  ],
-
-  shipping: [
-    "روش ارسال",
-    "ارسال",
-    "shipping"
-  ],
-
-  products: [
-    "محصولات",
-    "محصول",
-    "سفارش",
-    "products"
-  ],
-
-  subtotal: [
-    "جمع محصولات",
-    "مبلغ کالاها",
-    "subtotal"
-  ],
-
-  shippingCost: [
-    "هزینه ارسال",
-    "shippingCost",
-    "shipping cost"
-  ],
-
-  total: [
-    "مبلغ نهایی",
-    "مبلغ کل",
-    "total"
-  ],
-
-  note: [
-    "توضیحات",
-    "یادداشت",
-    "note"
-  ],
-
-  trackingCode: [
-    "کد پیگیری",
-    "کد رهگیری سایت",
-    "trackingCode",
-    "tracking code"
-  ],
-
-  shipmentCode: [
-    "کد مرسوله",
-    "shipmentCode",
-    "shipment code"
-  ],
-
-  status: [
-    "وضعیت",
-    "status"
-  ],
-
-  paymentMethod: [
-    "روش پرداخت",
-    "paymentMethod",
-    "payment method"
-  ],
-
-  transferTracking: [
-    "کد رهگیری کارت به کارت",
-    "کد رهگیری کارت‌به‌کارت",
-    "شماره پیگیری کارت به کارت",
-    "کد انتقال",
-    "transferTrackingNumber",
-    "transfer tracking"
-  ],
-
-  gatewayTracking: [
-    "کد رهگیری درگاه",
-    "شماره تراکنش",
-    "gatewayTrackingCode",
-    "gateway tracking"
-  ],
-
-  shippingSummary: [
-    "خلاصه ارسال",
-    "shippingSummary",
-    "shipping summary"
-  ],
-
-  fingerprint: [
-    "شناسه سفارش",
-    "fingerprint",
-    "orderFingerprint",
-    "order fingerprint"
-  ],
-
-  checkoutStage: [
-    "مرحله سفارش",
-    "checkoutStage",
-    "checkout stage"
-  ],
-
-  telegramSent: [
-    "تلگرام ارسال شد",
-    "telegramSent",
-    "telegram sent"
-  ]
-};
-
-
-/* =========================================================
-   GET
-========================================================= */
-
-function doGet(e) {
-
-  try {
-
-    var p =
-      e && e.parameter
-        ? e.parameter
-        : {};
-
-    if (
-      !p.firstName &&
-      !p.action &&
-      !p.stage &&
-      !p.orderNumber
-    ) {
-
-      return respond(
-        e,
-        listOrdersObject()
-      );
-    }
-
-    if (
-      p.stage ||
-      p.action === "payment_confirmed" ||
-      p.action === "final" ||
-      p.action === "submitOrder"
-    ) {
-
-      return respond(
-        e,
-        handleCheckout(p)
-      );
-    }
-
-    if (p.firstName) {
-
-      return respond(
-        e,
-        handleCheckout(p)
-      );
-    }
-
-    return respond(e, {
-      ok: false,
-      error: "درخواست نامعتبر است."
-    });
-
-  } catch (error) {
-
-    return respond(e, {
-      ok: false,
-      error: String(
-        error.message || error
-      )
-    });
-  }
-}
-
-
-/* =========================================================
-   POST
-========================================================= */
-
-function doPost(e) {
-
-  try {
-
-    if (ORDER_API_KEY) {
-
-      var key =
-        (
-          e &&
-          e.parameter &&
-          e.parameter.key
-        ) ||
-        (
-          e &&
-          e.headers &&
-          e.headers["x-api-key"]
-        ) ||
-        "";
-
-      if (key !== ORDER_API_KEY) {
-
-        return json({
-          ok: false,
-          error: "Unauthorized"
-        });
-      }
-    }
-
-    var raw =
-      e &&
-      e.postData &&
-      e.postData.contents
-        ? e.postData.contents
-        : "{}";
-
-    var data;
-
-    try {
-
-      data = JSON.parse(raw);
-
-    } catch (error) {
-
-      data = e.parameter || {};
-    }
-
-    if (
-      data.action === "payment_confirmed" ||
-      data.stage === "payment_confirmed"
-    ) {
-
-      return json(
-        handleCheckout(data)
-      );
-    }
-
-    if (
-      data.action === "final" ||
-      data.stage === "final" ||
-      data.action === "submitOrder"
-    ) {
-
-      return json(
-        handleCheckout(data)
-      );
-    }
-
-    if (
-      data.action === "shipment" ||
-      data.action === "navidtowel_shipment"
-    ) {
-
-      return json(
-        saveCell(
-          data.orderNumber,
-          "shipmentCode",
-          clean(data.shipmentCode),
-          "کد مرسوله"
-        )
-      );
-    }
-
-    if (data.action === "status") {
-
-      return json(
-        saveCell(
-          data.orderNumber,
-          "status",
-          clean(data.status),
-          "وضعیت"
-        )
-      );
-    }
-
-    return json({
-      ok: false,
-      error: "Unknown action"
-    });
-
-  } catch (error) {
-
-    return json({
-      ok: false,
-      error: String(
-        error.message || error
-      )
-    });
-  }
-}
-
-
-/* =========================================================
-   CHECKOUT
-========================================================= */
-
-function handleCheckout(p) {
-
-  var lock = LockService.getScriptLock();
-
-  try {
-
-    lock.waitLock(10000);
-
-    p = p || {};
-
-    var stage =
-      clean(
-        p.stage ||
-        p.action ||
-        "final"
-      );
-
-    if (stage === "submitOrder") {
-      stage = "final";
-    }
-
-    if (
-      stage !== "payment_confirmed" &&
-      stage !== "final"
-    ) {
-
-      return {
-        ok: false,
-        error: "مرحله سفارش نامعتبر است."
-      };
-    }
-
-
-    /* مشتری */
-
-    var firstName = clean(p.firstName);
-    var lastName = clean(p.lastName);
-
-    var mobile =
-      normalizeDigits(
-        clean(p.mobile)
-      );
-
-    var province = clean(p.province);
-    var city = clean(p.city);
-
-    var postalCode =
-      normalizeDigits(
-        clean(p.postalCode)
-      );
-
-    var address = clean(p.address);
-    var note = clean(p.note);
-
-
-    /* محصولات */
-
-    var products =
-      clean(
-        p.products ||
-        p.items ||
-        p.orderProducts
-      );
-
-    var subtotal =
-      numberValue(p.subtotal);
-
-    var shippingCost =
-      numberValue(p.shippingCost);
-
-    var total =
-      numberValue(p.total);
-
-    var shipping =
-      clean(
-        p.shipping ||
-        p.shippingMethod
-      );
-
-
-    /* پرداخت */
-
-    var paymentMethod =
-      clean(
-        p.paymentMethod ||
-        p.payment ||
-        p.payment_method
-      );
-
-    var transferTracking =
-      normalizeTracking(
-        p.transferTrackingNumber ||
-        p.transferTracking ||
-        p.transferTrackingCode ||
-        p.cardTransferTracking
-      );
-
-    var gatewayTracking =
-      normalizeTracking(
-        p.gatewayTrackingCode ||
-        p.gatewayTracking ||
-        p.gatewayTransactionId ||
-        p.transactionId
-      );
-
-    if (isCardToCard(paymentMethod)) {
-      gatewayTracking = "";
-    }
-
-
-    /* خلاصه ارسال */
-
-    var shippingSummary =
-      clean(p.shippingSummary);
-
-    if (!shippingSummary) {
-
-      shippingSummary =
-        buildShippingSummary(
-          shipping,
-          shippingCost,
-          note
-        );
-    }
-
-
-    /* اعتبارسنجی */
-
-    if (!firstName) {
-
-      return {
-        ok: false,
-        error: "نام مشتری وارد نشده است."
-      };
-    }
-
-    if (!mobile) {
-
-      return {
-        ok: false,
-        error: "شماره موبایل وارد نشده است."
-      };
-    }
-
-    if (!products) {
-
-      return {
-        ok: false,
-        error: "محصولات سفارش مشخص نیست."
-      };
-    }
-
-    if (isCardToCard(paymentMethod)) {
-
-      if (
-        !isValidTransferTracking(
-          transferTracking
-        )
-      ) {
-
-        return {
-          ok: false,
-          error:
-            "کد رهگیری کارت‌به‌کارت باید 10 تا 13 رقم باشد."
-        };
-      }
-    }
-
-
-    /* Fingerprint */
-
-    var fingerprint =
-      createOrderFingerprint({
-
-        firstName: firstName,
-        lastName: lastName,
-        mobile: mobile,
-        province: province,
-        city: city,
-        postalCode: postalCode,
-        address: address,
-        shipping: shipping,
-        products: products,
-        subtotal: subtotal,
-        shippingCost: shippingCost,
-        total: total,
-        note: note,
-        paymentMethod: paymentMethod,
-        transferTracking: transferTracking,
-        gatewayTracking: gatewayTracking
-      });
-
-
-    /* گرفتن شیت */
-
-    var sheet = getSheet();
-
-    var columns = getColumns(sheet);
-
-    var existing =
-      findOrderByFingerprint(
-        sheet,
-        columns,
-        fingerprint
-      );
-
-
-    /* =====================================================
-       PAYMENT CONFIRMED
-    ===================================================== */
-
-    if (stage === "payment_confirmed") {
-
-      var paymentOrderNumber;
-      var paymentRow;
-
-      if (existing) {
-
-        paymentRow = existing.row;
-
-        paymentOrderNumber =
-          getCellByKey(
-            sheet,
-            paymentRow,
-            columns,
-            "orderNumber"
-          );
-
-        if (!paymentOrderNumber) {
-
-          paymentOrderNumber =
-            createOrderNumber();
-        }
-
-        updateOrderRow(
-          sheet,
-          paymentRow,
-          columns,
-          {
-
-            orderNumber: paymentOrderNumber,
-            firstName: firstName,
-            lastName: lastName,
-            mobile: mobile,
-            province: province,
-            city: city,
-            postalCode: postalCode,
-            address: address,
-            shipping: shipping,
-            products: products,
-            subtotal: subtotal,
-            shippingCost: shippingCost,
-            total: total,
-            note: note,
-            paymentMethod: paymentMethod,
-            transferTracking: transferTracking,
-            gatewayTracking: gatewayTracking,
-            shippingSummary: shippingSummary,
-            fingerprint: fingerprint,
-            checkoutStage: "payment_confirmed"
-
-          },
-          false
-        );
-
-        saveFingerprintRow(
-          fingerprint,
-          paymentRow
-        );
-
-      } else {
-
-        paymentOrderNumber =
-          createOrderNumber();
-
-        paymentRow =
-          appendOrderRow(
-            sheet,
-            columns,
-            {
-
-              orderNumber: paymentOrderNumber,
-              firstName: firstName,
-              lastName: lastName,
-              mobile: mobile,
-              province: province,
-              city: city,
-              postalCode: postalCode,
-              address: address,
-              shipping: shipping,
-              products: products,
-              subtotal: subtotal,
-              shippingCost: shippingCost,
-              total: total,
-              note: note,
-              paymentMethod: paymentMethod,
-              transferTracking: transferTracking,
-              gatewayTracking: gatewayTracking,
-              shippingSummary: shippingSummary,
-              fingerprint: fingerprint,
-              checkoutStage: "payment_confirmed",
-              telegramSent: "false"
-
-            },
-            false
-          );
-
-        saveFingerprintRow(
-          fingerprint,
-          paymentRow
-        );
-      }
-
-      return {
-
-        ok: true,
-        stage: "payment_confirmed",
-        savedToSheet: true,
-        duplicate: !!existing,
-        row: paymentRow,
-
-        /*
-          عمداً کد پیگیری سایت
-          در این مرحله ارسال نمی‌شود.
-        */
-
-        trackingCode: "",
-        transferTracking:
-          transferTracking
-
-      };
-    }
-
-
-    /* =====================================================
-       FINAL
-    ===================================================== */
-
-    if (stage === "final") {
-
-      var finalOrderNumber;
-      var siteTrackingCode;
-      var finalRow;
-
-
-      /* سفارش قبلی وجود دارد */
-
-      if (existing) {
-
-        finalRow = existing.row;
-
-        finalOrderNumber =
-          getCellByKey(
-            sheet,
-            finalRow,
-            columns,
-            "orderNumber"
-          );
-
-        if (!finalOrderNumber) {
-
-          finalOrderNumber =
-            createOrderNumber();
-        }
-
-        siteTrackingCode =
-          getCellByKey(
-            sheet,
-            finalRow,
-            columns,
-            "trackingCode"
-          );
-
-        if (!siteTrackingCode) {
-
-          siteTrackingCode =
-            createTrackingCode();
-        }
-
-        var telegramAlreadySent =
-          getCellByKey(
-            sheet,
-            finalRow,
-            columns,
-            "telegramSent"
-          );
-
-        updateOrderRow(
-          sheet,
-          finalRow,
-          columns,
-          {
-
-            orderNumber: finalOrderNumber,
-            firstName: firstName,
-            lastName: lastName,
-            mobile: mobile,
-            province: province,
-            city: city,
-            postalCode: postalCode,
-            address: address,
-            shipping: shipping,
-            products: products,
-            subtotal: subtotal,
-            shippingCost: shippingCost,
-            total: total,
-            note: note,
-            paymentMethod: paymentMethod,
-            transferTracking: transferTracking,
-            gatewayTracking: gatewayTracking,
-            shippingSummary: shippingSummary,
-            trackingCode: siteTrackingCode,
-            fingerprint: fingerprint,
-            checkoutStage: "final",
-            telegramSent:
-              telegramAlreadySent || "false"
-
-          },
-          true
-        );
-
-        saveFingerprintRow(
-          fingerprint,
-          finalRow
-        );
-
-
-        if (
-          telegramAlreadySent !== "true"
-        ) {
-
-          var telegramResult =
-            sendTelegramOrder({
-
-              firstName: firstName,
-              lastName: lastName,
-              mobile: mobile,
-              province: province,
-              city: city,
-              address: address,
-              products: products,
-              total: total,
-              orderNumber: finalOrderNumber,
-              trackingCode: siteTrackingCode,
-              paymentMethod: paymentMethod,
-              transferTracking: transferTracking
-
-            });
-
-          if (telegramResult) {
-
-            setCellByKey(
-              sheet,
-              finalRow,
-              columns,
-              "telegramSent",
-              "true"
-            );
-          }
-        }
-
-
-        return {
-
-          ok: true,
-          stage: "final",
-          savedToSheet: true,
-          duplicate: true,
-          row: finalRow,
-          orderNumber: finalOrderNumber,
-          trackingCode: siteTrackingCode
-
-        };
-      }
-
-
-      /* سفارش کاملاً جدید */
-
-      finalOrderNumber =
-        createOrderNumber();
-
-      siteTrackingCode =
-        createTrackingCode();
-
-      finalRow =
-        appendOrderRow(
-          sheet,
-          columns,
-          {
-
-            orderNumber: finalOrderNumber,
-            firstName: firstName,
-            lastName: lastName,
-            mobile: mobile,
-            province: province,
-            city: city,
-            postalCode: postalCode,
-            address: address,
-            shipping: shipping,
-            products: products,
-            subtotal: subtotal,
-            shippingCost: shippingCost,
-            total: total,
-            note: note,
-            paymentMethod: paymentMethod,
-            transferTracking: transferTracking,
-            gatewayTracking: gatewayTracking,
-            shippingSummary: shippingSummary,
-            trackingCode: siteTrackingCode,
-            fingerprint: fingerprint,
-            checkoutStage: "final",
-            telegramSent: "false"
-
-          },
-          true
-        );
-
-      saveFingerprintRow(
-        fingerprint,
-        finalRow
-      );
-
-
-      var telegramResult =
-        sendTelegramOrder({
-
-          firstName: firstName,
-          lastName: lastName,
-          mobile: mobile,
-          province: province,
-          city: city,
-          address: address,
-          products: products,
-          total: total,
-          orderNumber: finalOrderNumber,
-          trackingCode: siteTrackingCode,
-          paymentMethod: paymentMethod,
-          transferTracking: transferTracking
-
-        });
-
-
-      if (telegramResult) {
-
-        setCellByKey(
-          sheet,
-          finalRow,
-          columns,
-          "telegramSent",
-          "true"
-        );
-      }
-
-
-      return {
-
-        ok: true,
-        stage: "final",
-        savedToSheet: true,
-        duplicate: false,
-        row: finalRow,
-        orderNumber: finalOrderNumber,
-        trackingCode: siteTrackingCode
-
-      };
-    }
-
-
-    return {
-      ok: false,
-      error: "مرحله سفارش نامعتبر است."
-    };
-
-  } catch (error) {
-
-    return {
-
-      ok: false,
-      error: String(
-        error.message ||
-        error
-      )
-
-    };
-
-  } finally {
-
-    try {
-      lock.releaseLock();
-    } catch (e) {}
-  }
-}
-
-
-/* =========================================================
-   APPEND
-   مهم: اگر sheet خالی باشد، خودش Sheet را می‌گیرد.
-========================================================= */
-
-function appendOrderRow(
-  sheet,
-  columns,
-  data,
-  finalOrder
-) {
-
-  if (!sheet) {
-    sheet = getSheet();
-  }
-
-  if (!sheet) {
-    throw new Error(
-      "Google Sheet پیدا نشد."
-    );
-  }
-
-
-  var lastColumn =
-    sheet.getLastColumn();
-
-
-  var width =
-    Math.max(
-      lastColumn,
-      18
-    );
-
-
-  var row =
-    new Array(width).fill("");
-
-
-  writeRowData(
-    row,
-    columns,
-    data,
-    finalOrder
-  );
-
-
-  sheet.appendRow(row);
-
-
-  return sheet.getLastRow();
-}
-
-
-/* =========================================================
-   UPDATE
-========================================================= */
-
-function updateOrderRow(
-  sheet,
-  rowNumber,
-  columns,
-  data,
-  finalOrder
-) {
-
-  if (!sheet) {
-    sheet = getSheet();
-  }
-
-  if (!sheet) {
-    throw new Error(
-      "Google Sheet پیدا نشد."
-    );
-  }
-
-
-  var width =
-    Math.max(
-      sheet.getLastColumn(),
-      18
-    );
-
-
-  var range =
-    sheet.getRange(
-      rowNumber,
-      1,
-      1,
-      width
-    );
-
-
-  var row =
-    range.getValues()[0];
-
-
-  writeRowData(
-    row,
-    columns,
-    data,
-    finalOrder
-  );
-
-
-  range.setValues([
-    row
-  ]);
-}
-
-
-/* =========================================================
-   WRITE ROW
-========================================================= */
-
-function writeRowData(
-  row,
-  columns,
-  data,
-  finalOrder
-) {
-
-  setArrayCell(
-    row,
-    columns,
-    "orderNumber",
-    data.orderNumber
-  );
-
-
-  if (
-    !getArrayCell(
-      row,
-      columns,
-      "date"
-    )
-  ) {
-
-    setArrayCell(
-      row,
-      columns,
-      "date",
-      Utilities.formatDate(
-        new Date(),
-        Session.getScriptTimeZone(),
-        "yyyy/MM/dd HH:mm:ss"
-      )
-    );
-  }
-
-
-  var fields = [
-
-    "firstName",
-    "lastName",
-    "mobile",
-    "province",
-    "city",
-    "postalCode",
-    "address",
-    "shipping",
-    "products",
-    "subtotal",
-    "shippingCost",
-    "total",
-    "note",
-    "paymentMethod",
-    "transferTracking",
-    "gatewayTracking",
-    "shippingSummary",
-    "fingerprint"
-
-  ];
-
-
-  fields.forEach(function(key) {
-
-    setArrayCell(
-      row,
-      columns,
-      key,
-      data[key]
-    );
-
-  });
-
-
-  if (data.checkoutStage) {
-
-    setArrayCell(
-      row,
-      columns,
-      "checkoutStage",
-      data.checkoutStage
-    );
-  }
-
-
-  if (
-    data.telegramSent !== undefined
-  ) {
-
-    setArrayCell(
-      row,
-      columns,
-      "telegramSent",
-      data.telegramSent
-    );
-  }
-
-
-  if (
-    finalOrder &&
-    data.trackingCode
-  ) {
-
-    setArrayCell(
-      row,
-      columns,
-      "trackingCode",
-      data.trackingCode
-    );
-  }
-}
-
-
-/* =========================================================
-   GET COLUMNS
-========================================================= */
-
-function getColumns(sheet) {
-
-  if (!sheet) {
-    sheet = getSheet();
-  }
-
-
-  ensureRequiredHeaders(sheet);
-
-
-  var lastColumn =
-    Math.max(
-      sheet.getLastColumn(),
-      18
-    );
-
-
-  var headers =
-    sheet
-      .getRange(
-        1,
-        1,
-        1,
-        lastColumn
-      )
-      .getDisplayValues()[0];
-
-
-  var columns = {};
-
-
-  Object.keys(
-    HEADER_ALIASES
-  ).forEach(function(key) {
-
-    columns[key] =
-      findHeaderColumn(
-        headers,
-        HEADER_ALIASES[key]
-      );
-
-  });
-
-
-  Object.keys(COL).forEach(
-    function(key) {
-
-      if (!columns[key]) {
-        columns[key] = COL[key];
-      }
-
-    }
-  );
-
-
-  return columns;
-}
-
-
-/* =========================================================
-   REQUIRED HEADERS
-========================================================= */
-
-function ensureRequiredHeaders(sheet) {
-
-  if (!sheet) {
-    sheet = getSheet();
-  }
-
-
-  var lastColumn =
-    Math.max(
-      sheet.getLastColumn(),
-      18
-    );
-
-
-  var headers =
-    sheet
-      .getRange(
-        1,
-        1,
-        1,
-        lastColumn
-      )
-      .getDisplayValues()[0];
-
-
-  Object.keys(
-    NEW_HEADERS
-  ).forEach(function(key) {
-
-    var found =
-      findHeaderColumn(
-        headers,
-        HEADER_ALIASES[key] || []
-      );
-
-
-    if (found) {
-      return;
-    }
-
-
-    var newColumn =
-      sheet.getLastColumn() + 1;
-
-
-    sheet
-      .getRange(
-        1,
-        newColumn
-      )
-      .setValue(
-        NEW_HEADERS[key]
-      );
-
-
-    headers.push(
-      NEW_HEADERS[key]
-    );
-
-  });
-}
-
-
-/* =========================================================
-   HEADER SEARCH
-========================================================= */
-
-function findHeaderColumn(
-  headers,
-  aliases
-) {
-
-  for (
-    var i = 0;
-    i < headers.length;
-    i++
-  ) {
-
-    var h =
-      normalizeHeader(
-        headers[i]
-      );
-
-
-    if (!h) {
-      continue;
-    }
-
-
-    for (
-      var j = 0;
-      j < aliases.length;
-      j++
-    ) {
-
-      if (
-        h ===
-        normalizeHeader(
-          aliases[j]
-        )
-      ) {
-
-        return i + 1;
-      }
-    }
-  }
-
-
-  return null;
-}
-
-
-function normalizeHeader(value) {
-
-  return normalizeDigits(
-    String(value || "")
-  )
-    .trim()
-    .toLowerCase()
-    .replace(
-      /[\s‌_()-]+/g,
-      ""
-    );
-}
-
-
-/* =========================================================
-   FIND FINGERPRINT
-========================================================= */
-
-function findOrderByFingerprint(
-  sheet,
-  columns,
-  fingerprint
-) {
-
-  if (!fingerprint) {
-    return null;
-  }
-
-
-  var lastRow =
-    sheet.getLastRow();
-
-
-  if (lastRow < 2) {
-    return null;
-  }
-
-
-  if (columns.fingerprint) {
-
-    var values =
-      sheet
-        .getRange(
-          2,
-          columns.fingerprint,
-          lastRow - 1,
-          1
-        )
-        .getDisplayValues();
-
-
-    for (
-      var i = 0;
-      i < values.length;
-      i++
-    ) {
-
-      if (
-        clean(values[i][0]) ===
-        fingerprint
-      ) {
-
-        return {
-
-          row: i + 2,
-
-          orderNumber:
-            getCellByKey(
-              sheet,
-              i + 2,
-              columns,
-              "orderNumber"
-            )
-
-        };
-      }
-    }
-  }
-
-
-  var props =
-    PropertiesService
-      .getScriptProperties();
-
-
-  var savedRow =
-    props.getProperty(
-      "ORDER_FP_" +
-      fingerprint
-    );
-
-
-  if (savedRow) {
-
-    var rowNumber =
-      Number(savedRow);
-
-
-    if (
-      rowNumber >= 2 &&
-      rowNumber <= lastRow
-    ) {
-
-      var savedFingerprint =
-        getCellByKey(
-          sheet,
-          rowNumber,
-          columns,
-          "fingerprint"
-        );
-
-
-      if (
-        savedFingerprint ===
-        fingerprint
-      ) {
-
-        return {
-
-          row: rowNumber,
-
-          orderNumber:
-            getCellByKey(
-              sheet,
-              rowNumber,
-              columns,
-              "orderNumber"
-            )
-
-        };
-      }
-    }
-  }
-
-
-  return null;
-}
-
-
-/* =========================================================
-   SAVE FINGERPRINT
-========================================================= */
-
-function saveFingerprintRow(
-  fingerprint,
-  rowNumber
-) {
-
-  if (
-    !fingerprint ||
-    !rowNumber
-  ) {
-    return;
-  }
-
-
-  PropertiesService
-    .getScriptProperties()
-    .setProperty(
-      "ORDER_FP_" +
-      fingerprint,
-      String(rowNumber)
-    );
-}
-
-
-/* =========================================================
-   LIST ORDERS
-========================================================= */
-
-function listOrdersObject() {
-
-  try {
-
-    var sheet =
-      getSheet();
-
-
-    var columns =
-      getColumns(sheet);
-
-
-    var values =
-      sheet
-        .getDataRange()
-        .getDisplayValues();
-
-
-    var orders = [];
-
-
-    for (
-      var i = 1;
-      i < values.length;
-      i++
-    ) {
-
-      var row =
-        values[i];
-
-
-      var empty =
-        row.every(function(cell) {
-
-          return clean(cell) === "";
-
-        });
-
-
-      if (empty) {
-        continue;
-      }
-
-
-      orders.push({
-
-        rowNumber: i + 1,
-
-        orderNumber:
-          getArrayCell(
-            row,
-            columns,
-            "orderNumber"
-          ),
-
-        date:
-          getArrayCell(
-            row,
-            columns,
-            "date"
-          ),
-
-        firstName:
-          getArrayCell(
-            row,
-            columns,
-            "firstName"
-          ),
-
-        lastName:
-          getArrayCell(
-            row,
-            columns,
-            "lastName"
-          ),
-
-        mobile:
-          getArrayCell(
-            row,
-            columns,
-            "mobile"
-          ),
-
-        province:
-          getArrayCell(
-            row,
-            columns,
-            "province"
-          ),
-
-        city:
-          getArrayCell(
-            row,
-            columns,
-            "city"
-          ),
-
-        postalCode:
-          getArrayCell(
-            row,
-            columns,
-            "postalCode"
-          ),
-
-        address:
-          getArrayCell(
-            row,
-            columns,
-            "address"
-          ),
-
-        shipping:
-          getArrayCell(
-            row,
-            columns,
-            "shipping"
-          ),
-
-        shippingSummary:
-          getArrayCell(
-            row,
-            columns,
-            "shippingSummary"
-          ),
-
-        products:
-          getArrayCell(
-            row,
-            columns,
-            "products"
-          ),
-
-        subtotal:
-          getArrayCell(
-            row,
-            columns,
-            "subtotal"
-          ),
-
-        shippingCost:
-          getArrayCell(
-            row,
-            columns,
-            "shippingCost"
-          ),
-
-        total:
-          getArrayCell(
-            row,
-            columns,
-            "total"
-          ),
-
-        note:
-          getArrayCell(
-            row,
-            columns,
-            "note"
-          ),
-
-        trackingCode:
-          getArrayCell(
-            row,
-            columns,
-            "trackingCode"
-          ),
-
-        shipmentCode:
-          getArrayCell(
-            row,
-            columns,
-            "shipmentCode"
-          ),
-
-        status:
-          getArrayCell(
-            row,
-            columns,
-            "status"
-          ),
-
-        paymentMethod:
-          getArrayCell(
-            row,
-            columns,
-            "paymentMethod"
-          ),
-
-        transferTracking:
-          getArrayCell(
-            row,
-            columns,
-            "transferTracking"
-          ),
-
-        gatewayTracking:
-          getArrayCell(
-            row,
-            columns,
-            "gatewayTracking"
-          ),
-
-        checkoutStage:
-          getArrayCell(
-            row,
-            columns,
-            "checkoutStage"
-          )
-      });
-    }
-
-
-    return {
-      ok: true,
-      orders: orders
-    };
-
-  } catch (error) {
-
-    return {
-
-      ok: false,
-
-      error:
-        String(
-          error.message ||
-          error
-        )
-    };
-  }
-}
-
-
-/* =========================================================
-   SAVE CELL
-========================================================= */
-
-function saveCell(
-  orderNumber,
-  key,
-  value,
-  label
-) {
-
-  orderNumber =
-    clean(orderNumber);
-
-
-  if (!orderNumber) {
-
-    return {
-      ok: false,
-      error: "کد سفارش مشخص نیست."
-    };
-  }
-
-
-  if (!value) {
-
-    return {
-      ok: false,
-      error:
-        label +
-        " خالی است."
-    };
-  }
-
-
-  var sheet =
-    getSheet();
-
-
-  var columns =
-    getColumns(sheet);
-
-
-  var rowNumber =
-    findOrderRow(
-      sheet,
-      columns,
-      orderNumber
-    );
-
-
-  if (!rowNumber) {
-
-    return {
-      ok: false,
-      error: "سفارش پیدا نشد."
-    };
-  }
-
-
-  setCellByKey(
-    sheet,
-    rowNumber,
-    columns,
-    key,
-    value
-  );
-
-
-  return {
-
-    ok: true,
-
-    message:
-      label +
-      " ثبت شد.",
-
-    row:
-      rowNumber,
-
-    value:
-      value
-  };
-}
-
-
-/* =========================================================
-   FIND ORDER
-========================================================= */
-
-function findOrderRow(
-  sheet,
-  columns,
-  orderNumber
-) {
-
-  var lastRow =
-    sheet.getLastRow();
-
-
-  if (lastRow < 2) {
-    return null;
-  }
-
-
-  var col =
-    columns.orderNumber ||
-    COL.orderNumber;
-
-
-  var values =
-    sheet
-      .getRange(
-        2,
-        col,
-        lastRow - 1,
-        1
-      )
-      .getDisplayValues();
-
-
-  for (
-    var i = 0;
-    i < values.length;
-    i++
-  ) {
-
-    if (
-      clean(values[i][0]) ===
-      orderNumber
-    ) {
-
-      return i + 2;
-    }
-  }
-
-
-  return null;
-}
-
-
-/* =========================================================
-   FINGERPRINT
-========================================================= */
-
-function createOrderFingerprint(data) {
-
-  var source = [
-
-    clean(data.firstName),
-    clean(data.lastName),
-
-    normalizeDigits(
-      clean(data.mobile)
-    ),
-
-    clean(data.province),
-    clean(data.city),
-
-    normalizeDigits(
-      clean(data.postalCode)
-    ),
-
-    clean(data.address),
-    clean(data.shipping),
-    clean(data.products),
-
-    numberValue(data.subtotal),
-    numberValue(data.shippingCost),
-    numberValue(data.total),
-
-    clean(data.note),
-    clean(data.paymentMethod),
-
-    normalizeTracking(
-      data.transferTracking
-    ),
-
-    normalizeTracking(
-      data.gatewayTracking
-    )
-
-  ]
-    .map(function(value) {
-
-      return String(
-        value == null
-          ? ""
-          : value
-      );
-
-    })
-    .join("\u001F");
-
-
-  var bytes =
-    Utilities.computeDigest(
-      Utilities.DigestAlgorithm.SHA_256,
-      source,
-      Utilities.Charset.UTF_8
-    );
-
-
-  return bytes
-    .map(function(byte) {
-
-      var value =
-        byte < 0
-          ? byte + 256
-          : byte;
-
-      return value
-        .toString(16)
-        .padStart(2, "0");
-
-    })
-    .join("");
-}
-
-
-/* =========================================================
-   TELEGRAM
-========================================================= */
-
-function sendTelegramOrder(order) {
-
-  try {
-
-    var fullName =
-      (
-        order.firstName +
-        " " +
-        order.lastName
-      ).trim();
-
-
-    var location =
-      [
-        order.province,
-        order.city,
-        order.address
-      ]
-        .filter(Boolean)
-        .join("، ");
-
-
-    var message =
-      "🛍 سفارش جدید NavidTowel\n\n" +
-
-      "🆔 کد سفارش: " +
-      (
-        order.orderNumber ||
-        "ثبت نشده"
-      ) +
-      "\n" +
-
-      "🎫 کد پیگیری سایت: " +
-      (
-        order.trackingCode ||
-        "ثبت نشده"
-      ) +
-      "\n\n" +
-
-      "👤 مشتری: " +
-      (
-        fullName ||
-        "وارد نشده"
-      ) +
-      "\n" +
-
-      "📱 موبایل: " +
-      (
-        order.mobile ||
-        "وارد نشده"
-      ) +
-      "\n\n" +
-
-      "🛒 محصولات:\n" +
-      (
-        order.products ||
-        "ثبت نشده"
-      ) +
-      "\n\n" +
-
-      "💰 مبلغ: " +
-      formatMoney(order.total) +
-      " تومان\n" +
-
-      "💳 روش پرداخت: " +
-      (
-        order.paymentMethod ||
-        "ثبت نشده"
-      ) +
-      "\n";
-
-
-    if (order.transferTracking) {
-
-      message +=
-        "🔢 کد رهگیری کارت‌به‌کارت: " +
-        order.transferTracking +
-        "\n";
-    }
-
-
-    if (location) {
-
-      message +=
-        "\n📍 آدرس:\n" +
-        location;
-    }
-
-
-    var url =
-      "https://api.telegram.org/bot" +
-      TELEGRAM_TOKEN +
-      "/sendMessage";
-
-
-    var response =
-      UrlFetchApp.fetch(
-        url,
-        {
-
-          method: "post",
-
-          payload: {
-
-            chat_id:
-              TELEGRAM_CHAT_ID,
-
-            text:
-              message
-          },
-
-          muteHttpExceptions: true
-
-        }
-      );
-
-
-    var code =
-      response.getResponseCode();
-
-
-    return (
-      code >= 200 &&
-      code < 300
-    );
-
-  } catch (error) {
-
-    console.log(
-      String(
-        error.message ||
-        error
-      )
-    );
-
-    return false;
-  }
-}
-
-
-/* =========================================================
-   CELL HELPERS
-========================================================= */
-
-function getCellByKey(
-  sheet,
-  rowNumber,
-  columns,
-  key
-) {
-
-  var col =
-    columns[key];
-
-
-  if (!col) {
-    return "";
-  }
-
-
-  return clean(
-    sheet
-      .getRange(
-        rowNumber,
-        col
-      )
-      .getDisplayValue()
-  );
-}
-
-
-function setCellByKey(
-  sheet,
-  rowNumber,
-  columns,
-  key,
-  value
-) {
-
-  var col =
-    columns[key];
-
-
-  if (!col) {
-    return;
-  }
-
-
-  sheet
-    .getRange(
-      rowNumber,
-      col
-    )
-    .setValue(
-      value == null
-        ? ""
-        : value
-    );
-}
-
-
-function getArrayCell(
-  row,
-  columns,
-  key
-) {
-
-  var col =
-    columns[key];
-
-
-  if (
-    !col ||
-    col > row.length
-  ) {
-
-    return "";
-  }
-
-
-  return clean(
-    row[col - 1]
-  );
-}
-
-
-function setArrayCell(
-  row,
-  columns,
-  key,
-  value
-) {
-
-  var col =
-    columns[key];
-
-
-  if (!col) {
-    return;
-  }
-
-
-  while (
-    row.length < col
-  ) {
-
-    row.push("");
-  }
-
-
-  row[col - 1] =
-    value == null
-      ? ""
-      : value;
-}
-
-
-/* =========================================================
-   SHEET
-========================================================= */
-
-function getSheet() {
-
-  var ss =
-    SpreadsheetApp.openById(
-      SHEET_ID
-    );
-
-
-  if (!ss) {
-
-    throw new Error(
-      "فایل Google Sheet پیدا نشد."
-    );
-  }
-
-
-  var sheet =
-    ss.getSheetByName(
-      SHEET_NAME
-    );
-
-
-  if (!sheet) {
-
-    throw new Error(
-      "شیت " +
-      SHEET_NAME +
-      " پیدا نشد."
-    );
-  }
-
-
-  return sheet;
-}
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function clean(value) {
-
-  if (
-    value === null ||
-    value === undefined
-  ) {
-
-    return "";
-  }
-
-
-  return String(value).trim();
-}
-
-
-function numberValue(value) {
-
-  if (
-    value === null ||
-    value === undefined ||
-    value === ""
-  ) {
-
-    return 0;
-  }
-
-
-  var normalized =
-    normalizeDigits(
-      String(value)
-    )
-      .replace(
-        /[,٬،\s]/g,
-        ""
-      )
-      .replace(
-        /تومان/g,
-        ""
-      );
-
-
-  var n =
-    Number(normalized);
-
-
-  return isFinite(n)
-    ? n
-    : 0;
-}
-
-
-function normalizeDigits(value) {
-
-  return String(value || "")
-
-    .replace(
-      /[۰-۹]/g,
-      function(c) {
-
-        return "۰۱۲۳۴۵۶۷۸۹"
-          .indexOf(c);
-
-      }
-    )
-
-    .replace(
-      /[٠-٩]/g,
-      function(c) {
-
-        return "٠١٢٣٤٥٦٧٨٩"
-          .indexOf(c);
-
-      }
-    );
-}
-
-
-function normalizeTracking(value) {
-
-  return normalizeDigits(
-    clean(value)
-  )
-    .replace(
-      /\D/g,
-      ""
-    );
-}
-
-
-function isValidTransferTracking(value) {
-
-  return /^\d{10,13}$/.test(
-    String(value || "")
-  );
-}
-
-
-function isCardToCard(paymentMethod) {
-
-  var value =
-    clean(paymentMethod)
-      .replace(
-        /\u200c/g,
-        ""
-      )
-      .replace(
-        /\s+/g,
-        " "
-      )
-      .trim()
-      .toLowerCase();
-
-
-  return (
-    value === "کارت به کارت" ||
-    value === "card" ||
-    value === "card_to_card" ||
-    value === "card-to-card"
-  );
-}
-
-
-function buildShippingSummary(
-  shipping,
-  shippingCost,
-  note
-) {
-
-  var result =
-    shipping ||
-    "ثبت نشده";
-
-
-  if (
-    Number(shippingCost) > 0
-  ) {
-
-    result +=
-      " = " +
-      formatMoney(shippingCost) +
-      " تومان";
-  }
-
-
-  result +=
-    " | توضیحات مشتری: " +
-    (
-      note ||
-      "ندارد"
-    );
-
-
-  return result;
-}
-
-
-/* =========================================================
-   شماره سفارش
-========================================================= */
-
-function createOrderNumber() {
-
-  var date =
-    Utilities.formatDate(
-      new Date(),
-      Session.getScriptTimeZone(),
-      "yyMMdd"
-    );
-
-
-  var random =
-    Math.floor(
-      1000 +
-      Math.random() * 9000
-    );
-
-
-  return (
-    "NT-" +
-    date +
-    "-" +
-    random
-  );
-}
-
-
-/* =========================================================
-   کد رهگیری سایت
-========================================================= */
-
-function createTrackingCode() {
-
-  var random =
-    Math.floor(
-      100000 +
-      Math.random() * 900000
-    );
-
-
-  return (
-    "NT" +
-    random
-  );
-}
-
-
-/* =========================================================
-   MONEY
-========================================================= */
-
-function formatMoney(value) {
-
-  return Number(
-    value || 0
-  ).toLocaleString(
-    "en-US"
-  );
-}
-
-
-/* =========================================================
-   RESPONSE / JSONP
-========================================================= */
-
-function respond(e, data) {
-
-  var callback =
-    e &&
-    e.parameter &&
-    e.parameter.callback
-      ? String(
-          e.parameter.callback
-        )
-      : "";
-
-
-  if (
-    callback &&
-    /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(
-      callback
-    )
-  ) {
-
-    return ContentService
-      .createTextOutput(
-        callback +
-        "(" +
-        JSON.stringify(data) +
-        ");"
-      )
-      .setMimeType(
-        ContentService.MimeType.JAVASCRIPT
-      );
-  }
-
-
-  return json(data);
-}
-
-
-function json(data) {
-
-  return ContentService
-    .createTextOutput(
-      JSON.stringify(data)
-    )
-    .setMimeType(
-      ContentService.MimeType.JSON
-    );
-}
-
+    
+    
+    
+    
+    
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
+    {
+        id: 1,
+        name: "حوله حمام لوکس آریا",
+        price: 123321,
+        oldPrice: 1590000,
+        badge: "پرفروش",
+        categories: ["bath", "men", "women"],
+        images: ["images/products/product-1-ابی-1789652904384.jpg", "images/products/product-1-قرمز-1789652935511.jpg", "images/bath-luxury-aria-3.webp"],
+        colors: [{ name: "قرمز", stock: 2 }, { name: "ابی", stock: 4 }],
+        description: "حوله حمام نرم و باکیفیت با جذب آب بالا، مناسب استفاده روزمره.",
+        quality: "درجه یک",
+        material: "پنبه",
+        country: "ترکیه",
+        origin: "خارجی",
+        use: "حمام و استفاده روزمره",
+        brand: "آریا",
+        size: "70×140"
+    },
+
+    {
+        id: 2,
+        name: "حوله حمام هتلی",
+        price: 22222222,
+        oldPrice: 1190000,
+        badge: "محبوب",
+        categories: ["bath", "men", "women"],
+        images: "/images/products/product-2-1789428879936.jpg",
+        colors: [],
+        description: "حوله حمام با بافت متراکم و لطافت بالا، مناسب استفاده شخصی و هتلی."
+    ,
+    images: []
+  },
+
+    {
+        id: 3,
+        name: "حوله حمام کلاسیک",
+        price: 890000,
+        oldPrice: 1090000,
+        badge: "پیشنهاد ویژه",
+        categories: ["bath", "men", "women"],
+        colors: [{ name: "قرمز", stock: 10 }],
+        description: "حوله‌ای کاربردی و نرم با جذب مناسب برای استفاده روزانه.",
+        images: ["images/products/product-3-ابی-1789798174056.jpg", "images/products/product-3-قرمز-1789798329468.jpg"]
+  },
+
+    {
+        id: 4,
+        name: "حوله دست و صورت",
+        price: 390000,
+        oldPrice: 450000,
+        badge: "محبوب",
+        categories: ["bath", "men", "women"],
+        image: "images/hand-face.webp",
+        colors: [],
+        description: "حوله سبک و لطیف مناسب دست و صورت با جذب آب مناسب."
+    },
+
+    {
+        id: 5,
+        name: "حوله مهمان",
+        price: 290000,
+        oldPrice: 350000,
+        badge: "جدید",
+        categories: ["bath", "women"],
+        image: "images/guest-towel.webp",
+        colors: [],
+        description: "حوله مهمان زیبا و ظریف، مناسب سرویس بهداشتی و پذیرایی."
+    },
+
+    {
+        id: 6,
+        name: "ست حوله دو نفره",
+        price: 1490000,
+        oldPrice: 1790000,
+        badge: "ویژه",
+        categories: ["bath", "men", "women"],
+        image: "images/towel-set.webp",
+        colors: [],
+        description: "ست کامل حوله دو نفره مناسب استفاده خانوادگی و هدیه."
+    },
+
+    {
+        id: 7,
+        name: "حوله حمام مردانه کلاسیک",
+        price: 1090000,
+        oldPrice: 1290000,
+        badge: "پرفروش",
+        categories: ["men", "bath"],
+        image: "images/men-bath.webp",
+        colors: [],
+        description: "حوله حمام مردانه با طراحی ساده، ضخامت مناسب و جذب آب بالا."
+    },
+
+    {
+        id: 8,
+        name: "حوله استخری مردانه",
+        price: 790000,
+        oldPrice: 890000,
+        badge: "جدید",
+        categories: ["men", "pool"],
+        image: "images/men-pool.webp",
+        colors: [],
+        description: "حوله استخری سبک و کاربردی مناسب ورزش و استخر."
+    },
+
+    {
+        id: 9,
+        name: "تن‌پوش مردانه کلاسیک",
+        price: 1690000,
+        oldPrice: 1990000,
+        badge: "ویژه",
+        categories: ["men", "robe"],
+        image: "images/men-robe.webp",
+        colors: [],
+        description: "تن‌پوش حوله‌ای مردانه با طراحی راحت و جذب آب مناسب."
+    },
+
+    {
+        id: 10,
+        name: "ست حوله مردانه",
+        price: 1590000,
+        oldPrice: 1890000,
+        badge: "محبوب",
+        categories: ["men", "bath"],
+        image: "images/men-set.webp",
+        colors: [],
+        description: "ست حوله مردانه مناسب استفاده روزمره و هدیه."
+    },
+
+    {
+        id: 11,
+        name: "حوله حمام زنانه",
+        price: 1190000,
+        oldPrice: 1390000,
+        badge: "پرفروش",
+        categories: ["women", "bath"],
+        image: "images/women-bath.webp",
+        colors: [],
+        description: "حوله حمام زنانه لطیف با طراحی زیبا و جذب آب بالا."
+    },
+
+    {
+        id: 12,
+        name: "تن‌پوش زنانه",
+        price: 1490000,
+        oldPrice: 1790000,
+        badge: "جدید",
+        categories: ["women", "robe"],
+        image: "images/women-robe.webp",
+        colors: [],
+        description: "تن‌پوش زنانه نرم و راحت مناسب استفاده بعد از حمام."
+    },
+
+    {
+        id: 13,
+        name: "حوله استخری زنانه",
+        price: 790000,
+        oldPrice: 890000,
+        badge: "محبوب",
+        categories: ["women", "pool"],
+        image: "images/women-pool.webp",
+        colors: [],
+        description: "حوله استخری زنانه سبک و لطیف مناسب استخر و سفر."
+    },
+
+    {
+        id: 14,
+        name: "ست حوله زنانه",
+        price: 1690000,
+        oldPrice: 1990000,
+        badge: "ویژه",
+        categories: ["women", "bath"],
+        image: "images/women-set.webp",
+        colors: [],
+        description: "ست حوله زنانه زیبا و باکیفیت مناسب استفاده شخصی و هدیه."
+    },
+
+    {
+        id: 16,
+        name: "حوله کلاه‌دار نوزاد",
+        price: 490000,
+        oldPrice: 590000,
+        badge: "جدید",
+        categories: ["kids", "bath"],
+        image: "images/baby-hooded.webp",
+        colors: [],
+        description: "حوله کلاه‌دار نرم و لطیف مناسب نوزاد و کودک."
+    },
+
+    {
+        id: 17,
+        name: "حوله دخترانه",
+        price: 550000,
+        oldPrice: 650000,
+        badge: "محبوب",
+        categories: ["kids", "women"],
+        image: "images/kids-girl.webp",
+        colors: [],
+        description: "حوله کودکانه با طراحی شاد و لطافت مناسب برای کودکان."
+    },
+
+    {
+        id: 18,
+        name: "حوله پسرانه",
+        price: 550000,
+        oldPrice: 650000,
+        badge: "محبوب",
+        categories: ["kids", "men"],
+        image: "images/kids-boy.webp",
+        colors: [],
+        description: "حوله کودکانه سبک و نرم مناسب استفاده روزمره."
+    },
+
+    {
+        id: 19,
+        name: "تن‌پوش بچگانه",
+        price: 890000,
+        oldPrice: 1090000,
+        badge: "ویژه",
+        categories: ["kids", "robe"],
+        image: "images/kids-robe.webp",
+        colors: [],
+        description: "تن‌پوش بچگانه نرم و راحت مناسب بعد از حمام."
+    },
+
+    {
+        id: 20,
+        name: "حوله استخری ساده",
+        price: 690000,
+        oldPrice: 790000,
+        badge: "پرفروش",
+        categories: ["pool", "men", "women"],
+        image: "images/pool-towel.webp",
+        colors: [],
+        description: "حوله استخری سبک و جاذب مناسب استخر، باشگاه و سفر."
+    },
+
+    {
+        id: 21,
+        name: "حوله استخری بزرگ",
+        price: 890000,
+        oldPrice: 990000,
+        badge: "جدید",
+        categories: ["pool", "men", "women"],
+        image: "images/pool-large.webp",
+        colors: [],
+        description: "حوله استخری بزرگ با پوشش مناسب و جذب آب بالا."
+    },
+
+    {
+        id: 22,
+        name: "حوله استخری طرح‌دار",
+        price: 790000,
+        oldPrice: 920000,
+        badge: "محبوب",
+        categories: ["pool", "men", "women"],
+        image: "images/pool-pattern.webp",
+        colors: [],
+        description: "حوله استخری طرح‌دار با ظاهر جذاب و بافت نرم."
+    },
+
+    {
+        id: 23,
+        name: "حوله استخری کودک",
+        price: 590000,
+        oldPrice: 690000,
+        badge: "جدید",
+        categories: ["pool", "kids"],
+        image: "images/pool-kids.webp",
+        colors: [],
+        description: "حوله استخری کودک سبک و لطیف با طراحی مناسب کودکان."
+    },
+
+    {
+        id: 24,
+        name: "حوله متری ساده",
+        price: 420000,
+        oldPrice: 480000,
+        badge: "اقتصادی",
+        categories: ["meter", "bath"],
+        image: "images/meter-simple.webp",
+        colors: [],
+        description: "حوله متری ساده مناسب دوخت انواع حوله و محصولات سفارشی."
+    },
+
+    {
+        id: 25,
+        name: "حوله متری هتلی",
+        price: 490000,
+        oldPrice: 560000,
+        badge: "محبوب",
+        categories: ["meter", "bath"],
+        image: "images/meter-hotel.webp",
+        colors: [],
+        description: "پارچه حوله‌ای متری با کیفیت مناسب برای تولید محصولات حوله‌ای."
+    },
+
+    {
+        id: 26,
+        name: "حوله متری لوکس",
+        price: 590000,
+        oldPrice: 690000,
+        badge: "ویژه",
+        categories: ["meter", "bath"],
+        image: "images/meter-luxury.webp",
+        colors: [],
+        description: "پارچه حوله‌ای متری با ضخامت و لطافت بالاتر."
+    },
+
+    {
+        id: 27,
+        name: "تن‌پوش کلاه‌دار",
+        price: 1590000,
+        oldPrice: 1890000,
+        badge: "پرفروش",
+        categories: ["robe", "men", "women"],
+        image: "images/hooded-robe.webp",
+        colors: [],
+        description: "تن‌پوش حوله‌ای کلاه‌دار مناسب استفاده بعد از حمام و استخر."
+    },
+
+    {
+        id: 28,
+        name: "تن‌پوش لوکس حوله‌ای",
+        price: 1890000,
+        oldPrice: 2190000,
+        badge: "ویژه",
+        categories: ["robe", "men", "women"],
+        image: "images/luxury-robe.webp",
+        colors: [],
+        description: "تن‌پوش حوله‌ای لوکس با بافت نرم، ضخامت مناسب و طراحی شیک."
+    },
+
+  {
+    id: 29,
+    name: "کلاه حوله ای",
+    price: 12345678,
+    oldPrice: 0,
+    categories: ["had"],
+    image: "0",
+    images: [],
+    description: "کلاه حمام سه کوش جنس عالی",
+    quality: "",
+    material: "",
+    country: "",
+    origin: "",
+    use: "",
+    brand: "",
+    size: "",
+    colors: [{"name":"ابی","stock":12}],
+    active: true
+  },
 
 
 
