@@ -182,7 +182,9 @@ const products =
         oldPrice: 2900,
         badge: "محبوب",
         categories: ["kids", "bath", "rob"],
+        sizes: ["90","95"],
         colors: [{ name: "کرم", stock: 5 }, { name: "قهوه‌ای", stock: 5 }],
+        
         description: "حوله کودک وارد نرم و لطیف جنس نانو پالیشی با طراحی جذاب خرس و مناسب پوست حساس.",
          quality: "🥇",
         material: "نانو پالیشی",
@@ -192,7 +194,8 @@ const products =
         brand: "joanna",
         size: "90cm",
         type: "دو رنگ",
-        sizes: ["90"]
+        dimensions: "90*90"
+        weight: "120g"
   },
 
     {
