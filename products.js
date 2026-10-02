@@ -197,7 +197,7 @@ const products =
         dimensions: "90*90",
         weight: "120g"
   ,
-    images: ["images/products/product-15-کرم-1790978584629.jpg"]
+    images: ["images/products/product-15-کرم-1790978584629.jpg", "images/products/product-15-قهوه-ای-1790978607449.jpg"]
   },
 
     {
