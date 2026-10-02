@@ -183,7 +183,7 @@ const products =
         badge: "محبوب",
         categories: ["kids", "bath", "rob"],
         colors: [{ name: "کرم", stock: 5 }, { name: "قهوه‌ای", stock: 5 }],
-        description: "حوله کودک وارد نرم و لطیف جنس نانو پالیشی با طراحی جذاب خرس و مناسب پوست حساس."
+        description: "حوله کودک وارد نرم و لطیف جنس نانو پالیشی با طراحی جذاب خرس و مناسب پوست حساس.",
          quality: "🥇",
         material: "نانو پالیشی",
         country: "چین",
