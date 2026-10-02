@@ -26,25 +26,25 @@ const products =
   
         {
         id: 2,
-        name: "تن‌پوش کودک نانو",
+        name: "حوله پانچ کودک",
         price: 2480,
         oldPrice: 2900,
-        badge: "محبوب",
-        categories: ["kids", "bath", "rob"],
-        sizes: ["90","95"],
+        badge: "پرفروش",
+        categories: ["kids", "bath", "panch"],
+        sizes: ["90"],
         colors: [{ name: "کرم", stock: 5 }, { name: "قهوه‌ای", stock: 5 }],
         images: ["images/products/product-15-کرم-1790978584629.jpg", "images/products/product-15-قهوه-ای-1790978607449.jpg"],
-        description: "حوله کودک وارد نرم و لطیف جنس نانو پالیشی با طراحی جذاب خرس و مناسب پوست حساس.",
+        description: "حوله پانچ مناسب کودکان وارداتی نرم و لطیف جنس نانو پالیشی بسیار خنک دارای دکمه های پرسی با طراحی کلاه برچسته شاخ دار و گلدوزی زیبا  مناسب پوست حساس.",
         quality: "🥇",
         material: "نانو پالیشی",
         country: "چین",
         origin: "وارداتی",
-        use: "حمام کودکان و استفاده روزمره",
-        brand: "joanna",
+        use: "استخر‌ و حمام کودکان و استفاده روزمره",
+        
         size: "90cm",
-        type: "دو رنگ",
+        type: "پانچی",
         dimensions: "90*90",
-        weight: "120g"
+    
         },
     
     ];
