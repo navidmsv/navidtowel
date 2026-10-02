@@ -29,7 +29,9 @@ const products =
         images: "/images/products/product-2-1789428879936.jpg",
         colors: [],
         description: "حوله حمام با بافت متراکم و لطافت بالا، مناسب استفاده شخصی و هتلی."
-    },
+    ,
+    images: []
+  },
 
     {
         id: 3,
