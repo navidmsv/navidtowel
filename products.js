@@ -191,8 +191,6 @@ const products =
         use: "حمام کودکان و استفاده روزمره",
         brand: "joanna",
         size: "90cm"
-    ,
-    images: []
   },
 
     {
