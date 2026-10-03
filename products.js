@@ -49,7 +49,7 @@ const products =
         
         {
         id: 3,
-        name: "تن‌پوش نانو ",
+        name: "حوله‌تنی نانو",
         price: 2650,
    
         badge: "وارداتی",
