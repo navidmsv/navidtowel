@@ -51,13 +51,12 @@ const products =
         name: "تن‌پوش نانو ",
         price: 2650,
    
-        badge: "وارداتی",
+        badge: "وارداتی","ویزه",
         categories: ["zan","rob"],
         sizes: ["110"],
         colors: [{ name: "کرم", stock: 5 }, { name: "ابی", stock: 5 }],
         images: ["images/products/product-15-کرم-1790978584629.jpg", "images/products/product-15-قهوه-ای-1790978607449.jpg"],
-        description: "حوله زنانه وارداتی بسیار سبک نرم و لطیف جنس نانو پالیشی با جذب اب بسیار بالا و طراحی جذاب برجسته 
-        مناسب پوست حساس.",
+        description: "حوله زنانه وارداتی بسیار سبک نرم و لطیف جنس نانو پالیشی با جذب اب بسیار بالا و طراحی جذاب برجسته مناسب پوست حساس.",
         quality: "🥇",
         material: "نانو پالیشی",
         country: "چین",
