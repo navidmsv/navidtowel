@@ -56,7 +56,7 @@ const products =
         categories: ["zan", "rob"],
         sizes: ["110"],
         colors: [{ name: "کرم", stock: 5 }, { name: "ابی", stock: 5 }],
-        images: ["images/products/product-15-قهوه-ای-1790978607449.jpg"],
+        images: [],
         description: "حوله زنانه وارداتی بسیار سبک نرم و لطیف جنس نانو پالیشی با جذب اب بسیار بالا و طراحی جذاب برجسته مناسب پوست حساس.",
         quality: "🥇",
         material: "نانو پالیشی",
