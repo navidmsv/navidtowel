@@ -11,7 +11,7 @@ const products =
         sizes: ["90","95"],
         colors: [{ name: "کرم", stock: 5 }, { name: "قهوه‌ای", stock: 5 }],
         images: ["images/products/product-15-کرم-1790978584629.jpg", "images/products/product-15-قهوه-ای-1790978607449.jpg"],
-        description: "حوله کودک وارد نرم و لطیف جنس نانو پالیشی با طراحی جذاب خرس و مناسب پوست حساس.",
+        description: "حوله کودک وارداتی نرم و لطیف جنس نانو پالیشی با طراحی جذاب خرس و مناسب پوست حساس.",
         quality: "🥇",
         material: "نانو پالیشی",
         country: "چین",
@@ -45,6 +45,29 @@ const products =
         type: "پانچی",
         dimensions: "90*90",
     
+        },
+        {
+        id: 3,
+        name: "تن‌پوش نانو ",
+        price: 2650,
+   
+        badge: "ویژه","وارداتی",
+        categories: ["zan","rob"],
+        sizes: ["110"],
+        colors: [{ name: "کرم", stock: 5 }, { name: "ابی", stock: 5 }],
+        images: ["images/products/product-15-کرم-1790978584629.jpg", "images/products/product-15-قهوه-ای-1790978607449.jpg"],
+        description: "حوله زنانه وارداتی بسیار سبک نرم و لطیف جنس نانو پالیشی با جذب اب بسیار بالا و طراحی جذاب برجسته 
+        مناسب پوست حساس.",
+        quality: "🥇",
+        material: "نانو پالیشی",
+        country: "چین",
+        origin: "وارداتی",
+        use: "مسافرتی سبک  و استفاده روزمر",
+        brand: "joanna",
+        size: "110 cm",
+     
+  
+  
         },
     
     ];
