@@ -56,7 +56,7 @@ const products =
         categories: ["zan", "rob"],
         sizes: ["110"],
         colors: [{ name: "کرم", stock: 2 }, { name: "صورتی", stock: 2 }, { name: "طوسی", stock: 2 }, { name: "آبی", stock: 2 }],
-        images: ["images/products/product-3-کرم-1791066126698.jpg"],
+        images: ["images/products/product-3-کرم-1791066126698.jpg", "images/products/product-3---1791066184263.jpg"],
         description: "حوله زنانه وارداتی بسیار سبک نرم و لطیف جنس نانو پالیشی با جذب اب بسیار بالا و طراحی جذاب برجسته مناسب پوست حساس.",
         quality: "🥇",
         material: "نانو پالیشی",
