@@ -51,7 +51,7 @@ const products =
         name: "تن‌پوش نانو ",
         price: 2650,
    
-        badge: "وارداتی","ویزه",
+        badge: "وارداتی",
         categories: ["zan","rob"],
         sizes: ["110"],
         colors: [{ name: "کرم", stock: 5 }, { name: "ابی", stock: 5 }],
