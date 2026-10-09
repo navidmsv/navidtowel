@@ -11,229 +11,195 @@
 
     <style>
         :root {
-            --track-green: #294737;
-            --track-dark: #1d3428;
-            --track-cream: #f8f4ec;
-            --track-white: #ffffff;
-            --track-border: #e6e0d5;
-            --track-muted: #77776f;
+            --green: #294737;
+            --dark-green: #1d3428;
+            --cream: #f8f4ec;
+            --white: #ffffff;
+            --border: #e8e2d7;
+        }
+
+        body {
+            margin: 0;
+            background: var(--cream);
+            color: var(--dark-green);
+            font-family: inherit;
         }
 
         .tracking-page {
-            min-height: 100vh;
-            padding: 35px 16px 60px;
-            background: var(--track-cream);
-            color: var(--track-dark);
-        }
-
-        .tracking-container {
-            width: 100%;
-            max-width: 560px;
+            max-width: 580px;
             margin: 0 auto;
+            padding: 30px 16px 55px;
         }
 
-        .tracking-heading {
+        .tracking-header {
             text-align: center;
-            margin-bottom: 24px;
-        }
-
-        .tracking-heading h1 {
-            margin: 0 0 9px;
-            color: var(--track-green);
-            font-size: clamp(24px, 5vw, 32px);
-            font-weight: 900;
-        }
-
-        .tracking-heading p {
-            margin: 0;
-            color: var(--track-muted);
-            font-size: 14px;
-            line-height: 1.9;
-        }
-
-        /* بخش جناب خان */
-
-        .khan-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             margin-bottom: 22px;
         }
 
-        .khan-bubble {
-            position: relative;
-            width: 100%;
-            padding: 17px 20px;
-            margin-bottom: 19px;
-            border: 2px solid var(--track-green);
-            border-radius: 22px;
-            background: var(--track-white);
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(29, 52, 40, 0.06);
+        .tracking-header h1 {
+            color: var(--green);
+            font-size: 28px;
+            margin: 0 0 8px;
         }
 
-        .khan-bubble::after {
+        .tracking-header p {
+            color: #77776f;
+            font-size: 14px;
+            line-height: 1.9;
+            margin: 0;
+        }
+
+        .character-card {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .speech-bubble {
+            position: relative;
+            padding: 16px 18px;
+            margin-bottom: 18px;
+            background: var(--white);
+            border: 2px solid var(--green);
+            border-radius: 20px;
+        }
+
+        .speech-bubble::after {
             content: "";
             position: absolute;
-            bottom: -11px;
-            right: calc(50% - 10px);
-            width: 18px;
-            height: 18px;
-            background: var(--track-white);
-            border-right: 2px solid var(--track-green);
-            border-bottom: 2px solid var(--track-green);
+            width: 14px;
+            height: 14px;
+            right: calc(50% - 8px);
+            bottom: -9px;
+            background: var(--white);
+            border-right: 2px solid var(--green);
+            border-bottom: 2px solid var(--green);
             transform: rotate(45deg);
         }
 
-        .khan-bubble p {
+        .speech-bubble p {
             position: relative;
             z-index: 1;
             margin: 0;
-            color: var(--track-green);
-            font-size: 17px;
+            color: var(--green);
+            font-size: 16px;
             font-weight: 800;
             line-height: 2;
         }
 
-        .khan-picture {
+        .character-image {
             display: block;
-            width: 210px;
-            height: 210px;
+            width: 230px;
+            height: 230px;
+            max-width: 100%;
             object-fit: contain;
-            object-position: center bottom;
-            border-radius: 18px;
+            margin: 0 auto;
         }
 
-        /* فرم جست‌وجو */
-
-        .tracking-form {
-            padding: 23px;
-            border: 1px solid var(--track-border);
-            border-radius: 22px;
-            background: var(--track-white);
-            box-shadow: 0 8px 25px rgba(29, 52, 40, 0.06);
+        .tracking-box,
+        .result-box {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: 0 6px 22px rgba(29, 52, 40, 0.05);
         }
 
-        .tracking-form h2 {
+        .tracking-box h2 {
             margin: 0 0 8px;
-            color: var(--track-green);
             font-size: 19px;
-            font-weight: 900;
+            color: var(--green);
         }
 
-        .tracking-form .form-description {
-            margin: 0 0 19px;
-            color: var(--track-muted);
+        .description {
+            color: #77776f;
             font-size: 13px;
             line-height: 1.9;
+            margin: 0 0 17px;
         }
 
         .tracking-input {
             display: block;
+            box-sizing: border-box;
             width: 100%;
             min-height: 52px;
-            padding: 12px 15px;
-            border: 1px solid var(--track-border);
-            border-radius: 13px;
-            outline: none;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
             background: #fcfbf8;
-            color: var(--track-dark);
+            color: var(--dark-green);
             font-family: inherit;
             font-size: 15px;
-            text-align: right;
-            direction: rtl;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
         }
 
         .tracking-input:focus {
-            border-color: var(--track-green);
-            box-shadow: 0 0 0 3px rgba(41, 71, 55, 0.09);
-        }
-
-        .tracking-input::placeholder {
-            color: #99988f;
+            border-color: var(--green);
         }
 
         .tracking-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
             width: 100%;
             min-height: 52px;
-            margin-top: 13px;
-            padding: 12px 18px;
+            margin-top: 12px;
+            padding: 12px;
             border: none;
-            border-radius: 13px;
-            background: var(--track-green);
+            border-radius: 12px;
+            background: var(--green);
             color: white;
             font-family: inherit;
             font-size: 16px;
-            font-weight: 900;
+            font-weight: 800;
             cursor: pointer;
-            transition: background 0.2s, transform 0.2s;
         }
 
         .tracking-button:hover {
-            background: var(--track-dark);
-        }
-
-        .tracking-button:active {
-            transform: scale(0.985);
+            background: var(--dark-green);
         }
 
         .tracking-button:disabled {
-            opacity: 0.65;
+            opacity: 0.6;
             cursor: wait;
         }
 
-        /* نتیجه سفارش */
+        .official-message {
+            margin: 0 0 18px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+            color: #55584f;
+            font-size: 14px;
+            line-height: 2;
+        }
 
-        .tracking-result {
+        .result-box {
             display: none;
-            margin-top: 22px;
-            padding: 22px;
-            border: 1px solid var(--track-border);
-            border-radius: 22px;
-            background: var(--track-white);
-            box-shadow: 0 8px 25px rgba(29, 52, 40, 0.06);
+            margin-top: 20px;
         }
 
-        .tracking-result.visible {
+        .result-box.show {
             display: block;
-            animation: resultAppear 0.35s ease;
+            animation: appear 0.3s ease;
         }
 
-        @keyframes resultAppear {
+        @keyframes appear {
             from {
                 opacity: 0;
-                transform: translateY(9px);
+                transform: translateY(8px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        .official-message {
-            margin: 0 0 20px;
-            padding-bottom: 17px;
-            border-bottom: 1px solid var(--track-border);
-            color: #45483f;
-            font-size: 14px;
-            line-height: 2;
-        }
-
-        .result-title {
+        .result-box h2 {
             margin: 0 0 16px;
-            color: var(--track-green);
+            color: var(--green);
             font-size: 20px;
-            font-weight: 900;
         }
 
         .result-row {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
             gap: 15px;
             padding: 12px 0;
             border-bottom: 1px solid #f0ede6;
@@ -246,77 +212,99 @@
         }
 
         .result-label {
+            color: #77776f;
             flex-shrink: 0;
-            color: var(--track-muted);
         }
 
         .result-value {
-            color: var(--track-dark);
             font-weight: 800;
             text-align: left;
             overflow-wrap: anywhere;
         }
 
-        .status-badge {
+        .status {
             display: inline-block;
-            padding: 6px 11px;
-            border-radius: 9px;
+            padding: 5px 10px;
+            border-radius: 8px;
             background: #edf4e9;
-            color: var(--track-green);
+            color: var(--green);
             font-size: 12px;
-            font-weight: 900;
         }
 
-        .post-tracking-button,
-        .search-again-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .post-button,
+        .again-button {
+            display: block;
             width: 100%;
-            min-height: 49px;
+            box-sizing: border-box;
             margin-top: 16px;
-            padding: 12px;
+            padding: 14px;
             border: none;
             border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
             font-family: inherit;
             font-size: 14px;
-            font-weight: 900;
-            text-decoration: none;
+            font-weight: 800;
             cursor: pointer;
         }
 
-        .post-tracking-button {
-            background: var(--track-green);
+        .post-button {
+            background: var(--green);
             color: white;
         }
 
-        .search-again-button {
+        .again-button {
             background: #f0eee7;
-            color: var(--track-green);
+            color: var(--green);
         }
 
-        .tracking-error {
+        .error-box {
             display: none;
             margin-top: 18px;
-            padding: 16px;
+            padding: 15px;
             border: 1px solid #edc9c5;
-            border-radius: 14px;
+            border-radius: 12px;
             background: #fff5f3;
             color: #8c342c;
             font-size: 14px;
             line-height: 2;
         }
 
-        .tracking-error.visible {
+        .error-box.show {
             display: block;
         }
 
-        .tracking-note {
-            margin: 20px 4px 0;
-            color: var(--track-muted);
+        .demo-section {
+            margin-top: 30px;
+            padding: 15px;
+            border: 1px dashed #b9b7a9;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.5);
+        }
+
+        .demo-section p {
+            margin: 0 0 12px;
+            color: #77776f;
             font-size: 12px;
-            line-height: 2;
-            text-align: center;
+            line-height: 1.8;
+        }
+
+        .demo-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .demo-buttons button {
+            flex: 1 1 100px;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: white;
+            color: var(--green);
+            font-family: inherit;
+            font-size: 12px;
+            cursor: pointer;
         }
 
         [hidden] {
@@ -325,254 +313,214 @@
 
         @media (max-width: 480px) {
             .tracking-page {
-                padding: 25px 13px 40px;
+                padding: 24px 13px 40px;
             }
 
-            .tracking-form,
-            .tracking-result {
-                padding: 19px;
-                border-radius: 18px;
+            .tracking-header h1 {
+                font-size: 25px;
             }
 
-            .khan-picture {
-                width: 185px;
-                height: 185px;
+            .character-image {
+                width: 200px;
+                height: 200px;
             }
 
-            .khan-bubble p {
-                font-size: 15px;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
+            .tracking-box,
+            .result-box {
+                padding: 18px;
             }
         }
     </style>
 </head>
 
-<body class="tracking-page">
+<body>
 
-    <!-- منوی مشترک سایت -->
     <div id="siteMenu"></div>
 
-    <main class="tracking-container">
+    <main class="tracking-page">
 
-        <header class="tracking-heading">
+        <header class="tracking-header">
             <h1>پیگیری سفارش</h1>
-            <p>ببینیم سفارش حوله‌هات به کجا رسیده!</p>
+            <p>سفارش حوله‌هات رو اینجا پیگیری کن.</p>
         </header>
 
-        <!-- عکس و حرف‌های جناب خان -->
-        <section class="khan-section" id="khanSection">
+        <section class="character-card">
 
-            <div class="khan-bubble" id="khanBubble">
-                <p id="khanText">
-                    اِی جونم! کد سفارش یا شماره موبایلتو بده ببینیم سفارشت کجاس!
+            <div class="speech-bubble">
+                <p id="characterText">
+                    اِی جونم! کد سفارشتو بده ببینیم چه خبره!
                 </p>
             </div>
 
-            <!-- بعداً عکس‌های واقعی جناب خان را در این مسیرها قرار بده -->
             <img
-                class="khan-picture"
-                id="khanPicture"
+                id="characterImage"
+                class="character-image"
                 src="images/check/khan-welcome.webp"
                 alt="جناب خان"
-                loading="eager"
             >
 
         </section>
 
-        <!-- فرم جست‌وجو -->
-        <form class="tracking-form" id="trackingForm">
+        <form class="tracking-box" id="trackingForm">
 
             <h2>سفارشتو پیدا کن</h2>
 
-            <p class="form-description">
-                کد پیگیری سفارش یا شماره موبایلی که با آن خرید کردی وارد کن.
+            <p class="description">
+                کد پیگیری سفارش یا شماره موبایلی که موقع خرید وارد کردی بنویس.
             </p>
 
             <input
                 class="tracking-input"
                 id="trackingInput"
                 type="text"
-                name="tracking"
                 placeholder="کد سفارش یا شماره موبایل"
                 autocomplete="off"
                 required
             >
 
-            <button class="tracking-button" id="trackingButton" type="submit">
+            <button class="tracking-button" id="searchButton" type="submit">
                 بگرد ببینم!
             </button>
 
         </form>
 
-        <!-- پیام رسمی برای مشتری و اطلاعات سفارش -->
-        <section class="tracking-result" id="trackingResult" aria-live="polite">
+        <div class="error-box" id="errorBox" role="alert"></div>
+
+        <section class="result-box" id="resultBox" aria-live="polite">
 
             <p class="official-message" id="officialMessage">
-                وضعیت سفارش شما در ادامه نمایش داده می‌شود.
+                مشتری گرامی، وضعیت سفارش شما در ادامه نمایش داده می‌شود.
             </p>
 
-            <h2 class="result-title" id="resultTitle">وضعیت سفارش</h2>
+            <h2>نتیجه پیگیری</h2>
 
             <div id="resultDetails"></div>
 
             <a
-                class="post-tracking-button"
-                id="postTrackingButton"
+                id="postButton"
+                class="post-button"
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 hidden
             >
-                پیگیری مرسوله در سامانه پست
+                پیگیری مرسوله پستی
             </a>
 
             <button
-                class="search-again-button"
-                id="searchAgainButton"
+                class="again-button"
+                id="againButton"
                 type="button"
-                hidden
             >
                 پیگیری سفارش دیگر
             </button>
 
         </section>
 
-        <div class="tracking-error" id="trackingError" role="alert"></div>
+        <section class="demo-section">
+            <p>
+                پیش‌نمایش طراحی: این دکمه‌ها فقط برای دیدن حالت‌های مختلف صفحه هستند.
+                هنوز اطلاعات واقعی سفارش‌ها متصل نشده است.
+            </p>
 
-        <p class="tracking-note" id="trackingNote">
-            برای حفظ حریم خصوصی، اطلاعات سفارش فقط پس از بررسی درخواست نمایش داده می‌شود.
-        </p>
+            <div class="demo-buttons">
+                <button type="button" data-demo="pending">در انتظار پرداخت</button>
+                <button type="button" data-demo="preparing">در حال آماده‌سازی</button>
+                <button type="button" data-demo="shipped">ارسال‌شده</button>
+                <button type="button" data-demo="missing">سفارش پیدا نشد</button>
+            </div>
+        </section>
 
     </main>
 
-    <!-- منوی مشترک سایت -->
     <script src="menu.js"></script>
 
     <script>
         "use strict";
 
-        /*
-         * نسخه آزمایشی رابط کاربری
-         * این صفحه هنوز به گوگل‌شیت یا سرور پیگیری وصل نشده است.
-         * پس از آماده‌شدن Worker، تابع searchOrder به سرور متصل می‌شود.
-         */
-
-        const khanLines = {
+        const characterLines = {
             welcome: [
-                "اِی جونم! کد سفارش یا شماره موبایلتو بده ببینیم سفارشت کجاس!",
-                "بیا جلو ببینم چی خریدی! کد سفارشتو بده دستم!",
-                "والا ما اینجاییم که سفارشتو پیدا کنیم؛ تو فقط اطلاعاتتو درست وارد کن!"
+                "اِی جونم! کد سفارشتو بده ببینیم چه خبره!",
+                "بیا جلو رفیق! کد سفارش یا شماره موبایلتو بده!",
+                "والا ما اینجاییم سفارشتو پیدا کنیم؛ تو اطلاعاتتو وارد کن!"
             ],
 
             pending: [
-                "اِی بابا! هنوز پرداختت تأیید نشده، یه سر به وضعیت پرداختت بزن!",
+                "اِی بابا! پرداختت هنوز تأیید نشده، یه سر بهش بزن!",
                 "عجله نکن رفیق! اول باید پرداختت تأیید بشه!"
             ],
 
             preparing: [
-                "به‌به! سفارشت رسیده دست بچه‌ها، دارن آماده‌ش می‌کنن!",
-                "حوله‌هات دارن آماده می‌شن! یه کم صبر داشته باش، عجله کار شیطونه!"
+                "به‌به! دارن سفارشتو آماده می‌کنن، یه کم صبر داشته باش!",
+                "حوله‌هات تو راه آماده‌شدنه! کار دارن روشون انجام می‌دن!"
             ],
 
             shipped: [
-                "اِی جونم! سفارشت راه افتاده، دیگه باید چشم‌به‌راه زنگ پست باشی!",
-                "بارو بستن و فرستادن! حالا برو ببین مرسوله کجای راهه!"
+                "اِی جونم! سفارشت راه افتاده، حالا چشم‌به‌راه باش!",
+                "بارو بستن و فرستادن رفیق! بیا کد مرسوله رو ببین!"
             ],
 
-            notFound: [
-                "اِی داد! هرچی گشتم پیداش نکردم! یه بار دیگه کدتو چک کن!",
-                "رفیق، با این اطلاعات چیزی دستگیرم نشد! نکنه یه عددشو اشتباه زدی؟"
-            ],
-
-            error: [
-                "فعلاً یه مشکلی پیش اومده رفیق! یه کم دیگه دوباره امتحان کن."
+            missing: [
+                "اِی داد! پیداش نکردم! نکنه یه عددشو اشتباه زدی؟",
+                "رفیق، یه بار دیگه اطلاعاتتو چک کن، چیزی پیدا نکردم!"
             ]
         };
 
-        const khanImages = {
-            welcome: [
-                "images/check/khan-welcome.webp",
-                "images/check/khan-welcome-2.webp"
-            ],
-
-            pending: [
-                "images/check/khan-pending.webp"
-            ],
-
-            preparing: [
-                "images/check/khan-preparing.webp"
-            ],
-
-            shipped: [
-                "images/check/khan-shipped.webp"
-            ],
-
-            notFound: [
-                "images/check/khan-not-found.webp"
-            ],
-
-            error: [
-                "images/check/khan-error.webp"
-            ]
+        const characterImages = {
+            welcome: "images/check/khan-welcome.webp",
+            pending: "images/check/khan-pending.webp",
+            preparing: "images/check/khan-preparing.webp",
+            shipped: "images/check/khan-shipped.webp",
+            missing: "images/check/khan-not-found.webp"
         };
 
         const form = document.getElementById("trackingForm");
         const input = document.getElementById("trackingInput");
-        const button = document.getElementById("trackingButton");
-        const khanText = document.getElementById("khanText");
-        const khanPicture = document.getElementById("khanPicture");
-        const khanSection = document.getElementById("khanSection");
-        const result = document.getElementById("trackingResult");
-        const errorBox = document.getElementById("trackingError");
-        const officialMessage = document.getElementById("officialMessage");
-        const resultTitle = document.getElementById("resultTitle");
+        const searchButton = document.getElementById("searchButton");
+        const characterText = document.getElementById("characterText");
+        const characterImage = document.getElementById("characterImage");
+        const resultBox = document.getElementById("resultBox");
+        const errorBox = document.getElementById("errorBox");
         const resultDetails = document.getElementById("resultDetails");
-        const postTrackingButton = document.getElementById("postTrackingButton");
-        const searchAgainButton = document.getElementById("searchAgainButton");
-        const trackingNote = document.getElementById("trackingNote");
+        const officialMessage = document.getElementById("officialMessage");
+        const postButton = document.getElementById("postButton");
+        const againButton = document.getElementById("againButton");
 
         function randomItem(items) {
             return items[Math.floor(Math.random() * items.length)];
         }
 
-        function setKhanMood(mood) {
-            const lines = khanLines[mood] || khanLines.welcome;
-            const images = khanImages[mood] || khanImages.welcome;
+        function setCharacter(mood) {
+            characterText.textContent = randomItem(
+                characterLines[mood] || characterLines.welcome
+            );
 
-            khanText.textContent = randomItem(lines);
-            khanPicture.src = randomItem(images);
+            characterImage.onerror = function () {
+                this.hidden = true;
+            };
+
+            characterImage.onload = function () {
+                this.hidden = false;
+            };
+
+            characterImage.src =
+                characterImages[mood] || characterImages.welcome;
         }
 
-        khanPicture.addEventListener("error", function () {
-            /*
-             * اگر تصویر هنوز بارگذاری نشده باشد، فقط تصویر پنهان می‌شود.
-             * بعداً با قرار دادن فایل‌های واقعی، این بخش نمایش داده می‌شود.
-             */
-            khanPicture.hidden = true;
-        });
-
-        khanPicture.addEventListener("load", function () {
-            khanPicture.hidden = false;
-        });
-
-        function clearResult() {
-            result.classList.remove("visible");
-            errorBox.classList.remove("visible");
+        function resetPage() {
+            form.hidden = false;
+            resultBox.classList.remove("show");
+            errorBox.classList.remove("show");
             errorBox.textContent = "";
             resultDetails.replaceChildren();
-            postTrackingButton.hidden = true;
-            searchAgainButton.hidden = true;
+            postButton.hidden = true;
+            input.value = "";
+            searchButton.disabled = false;
+            searchButton.textContent = "بگرد ببینم!";
+            setCharacter("welcome");
         }
 
-        function addResultRow(label, value) {
+        function addRow(label, value) {
             const row = document.createElement("div");
             row.className = "result-row";
 
@@ -588,136 +536,107 @@
             resultDetails.appendChild(row);
         }
 
-        function showError(message, mood) {
-            setKhanMood(mood || "notFound");
-
+        function showError(message) {
+            setCharacter("missing");
             errorBox.textContent = message;
-            errorBox.classList.add("visible");
-
-            /*
-             * فرم در حالت خطا باقی می‌ماند تا مشتری بتواند
-             * اطلاعاتش را اصلاح کند و دوباره جست‌وجو کند.
-             */
+            errorBox.classList.add("show");
             form.hidden = false;
         }
 
-        function showOrder(order) {
-            clearResult();
+        function showDemoResult(type) {
+            errorBox.classList.remove("show");
+            resultBox.classList.remove("show");
+            resultDetails.replaceChildren();
+            postButton.hidden = true;
 
-            /*
-             * متن رسمی مستقل از شوخی‌های جناب خان است.
-             */
-            officialMessage.textContent =
-                "مشتری گرامی، وضعیت سفارش شما در سامانه پیگیری حوله‌سرای نوید به شرح زیر است.";
-
-            resultTitle.textContent = "نتیجه پیگیری سفارش";
-
-            addResultRow("شماره سفارش", order.trackingNumber || "ثبت نشده");
-            addResultRow("وضعیت سفارش", order.statusText || "در حال بررسی");
-
-            if (order.postTrackingCode) {
-                addResultRow("کد مرسوله پستی", order.postTrackingCode);
-
-                /*
-                 * آدرس سامانه پست را بعداً اینجا تنظیم می‌کنیم.
-                 * تا آن زمان لینک پیگیری نمایش داده نمی‌شود.
-                 */
-                const postTrackingBaseUrl = "";
-
-                if (postTrackingBaseUrl) {
-                    postTrackingButton.href =
-                        postTrackingBaseUrl +
-                        encodeURIComponent(order.postTrackingCode);
-
-                    postTrackingButton.hidden = false;
-                }
-            }
-
-            setKhanMood(order.mood || "preparing");
-
-            result.classList.add("visible");
-
-            /*
-             * پس از پیدا شدن سفارش، فرم جست‌وجو پنهان می‌شود.
-             * بالای صفحه عکس و حباب جناب خان و پایین آن نتیجه است.
-             */
-            form.hidden = true;
-            trackingNote.hidden = true;
-            searchAgainButton.hidden = false;
-        }
-
-        searchAgainButton.addEventListener("click", function () {
-            clearResult();
-
-            form.hidden = false;
-            trackingNote.hidden = false;
-            input.value = "";
-            input.focus();
-
-            setKhanMood("welcome");
-            result.classList.remove("visible");
-        });
-
-        /*
-         * این تابع فعلاً به سرور متصل نیست.
-         * پس از آماده شدن Cloudflare Worker، اتصال واقعی را
-         * بدون تغییر ظاهر صفحه به این قسمت اضافه می‌کنیم.
-         */
-        async function searchOrder(searchValue) {
-            // اتصال واقعی به Worker در مرحله بعد اضافه می‌شود.
-            return {
-                connected: false
-            };
-        }
-
-        form.addEventListener("submit", async function (event) {
-            event.preventDefault();
-
-            const searchValue = input.value.trim();
-
-            clearResult();
-
-            if (!searchValue) {
-                showError("لطفاً کد سفارش یا شماره موبایلت را وارد کن.", "notFound");
+            if (type === "missing") {
+                showError(
+                    "سفارشی با این اطلاعات پیدا نشد. لطفاً کد سفارش یا شماره موبایل را بررسی کن."
+                );
                 return;
             }
 
-            button.disabled = true;
-            button.textContent = "دارم می‌گردم...";
+            const examples = {
+                pending: {
+                    mood: "pending",
+                    status: "در انتظار تأیید پرداخت",
+                    official:
+                        "مشتری گرامی، پرداخت سفارش شما هنوز تأیید نشده است. لطفاً پس از بررسی پرداخت، مجدداً وضعیت سفارش را پیگیری کنید."
+                },
 
-            try {
-                const response = await searchOrder(searchValue);
+                preparing: {
+                    mood: "preparing",
+                    status: "در حال آماده‌سازی",
+                    official:
+                        "مشتری گرامی، سفارش شما ثبت شده و در حال آماده‌سازی است. پس از ارسال، اطلاعات مرسوله در این صفحه نمایش داده خواهد شد."
+                },
 
-                if (!response.connected) {
-                    showError(
-                        "صفحه پیگیری هنوز به سامانه سفارش‌ها وصل نشده است. این نسخه فقط برای بررسی ظاهر صفحه است؛ برای نمایش سفارش واقعی باید اتصال امن به گوگل‌شیت فعال شود.",
-                        "error"
-                    );
-                    return;
+                shipped: {
+                    mood: "shipped",
+                    status: "ارسال‌شده",
+                    official:
+                        "مشتری گرامی، سفارش شما ارسال شده است. کد مرسوله در اطلاعات زیر قرار دارد."
                 }
+            };
 
-                if (!response.order) {
-                    showError(
-                        "سفارشی با این اطلاعات پیدا نشد. کد سفارش یا شماره موبایل را بررسی کن و دوباره امتحان کن.",
-                        "notFound"
-                    );
-                    return;
-                }
+            const order = examples[type];
 
-                showOrder(response.order);
+            setCharacter(order.mood);
 
-            } catch (error) {
-                showError(
-                    "فعلاً ارتباط با سامانه برقرار نشد. چند دقیقه دیگر دوباره امتحان کن.",
-                    "error"
-                );
-            } finally {
-                button.disabled = false;
-                button.textContent = "بگرد ببینم!";
+            officialMessage.textContent = order.official;
+
+            addRow("شماره سفارش", "NV-1024");
+            addRow("وضعیت سفارش", order.status);
+
+            if (type === "shipped") {
+                addRow("کد مرسوله", "12345678901234567890");
             }
+
+            resultBox.classList.add("show");
+
+            /*
+             * این بخش‌ها نمونه نمایشی هستند.
+             * با جست‌وجوی واقعی، فرم پس از پیدا شدن سفارش مخفی می‌شود.
+             */
+            form.hidden = true;
+        }
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            if (!input.value.trim()) {
+                showError("اول کد سفارش یا شماره موبایلتو وارد کن!");
+                return;
+            }
+
+            errorBox.classList.remove("show");
+
+            searchButton.disabled = true;
+            searchButton.textContent = "دارم می‌گردم...";
+
+            /*
+             * فعلاً فقط برای نمایش ظاهر صفحه است.
+             * این قسمت هنوز به سفارش‌های واقعی متصل نیست.
+             */
+            setTimeout(function () {
+                searchButton.disabled = false;
+                searchButton.textContent = "بگرد ببینم!";
+
+                showError(
+                    "سامانه پیگیری هنوز به سفارش‌های واقعی متصل نشده است. این نسخه فقط پیش‌نمایش طراحی صفحه است."
+                );
+            }, 500);
         });
 
-        setKhanMood("welcome");
+        document.querySelectorAll("[data-demo]").forEach(function (button) {
+            button.addEventListener("click", function () {
+                showDemoResult(button.dataset.demo);
+            });
+        });
+
+        againButton.addEventListener("click", resetPage);
+
+        setCharacter("welcome");
     </script>
 
 </body>
