@@ -1,0 +1,353 @@
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#34452f">
+  <meta name="description" content="پیگیری سفارش‌های حوله‌سرای نوید">
+  <title>پیگیری سفارش | NavidTowel</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* استایل اختصاصی صفحه چک؛ هدر و منوی اصلی از فایل‌های فعلی سایت می‌آیند. */
+    .check-page {
+      --check-green:#294737; --check-dark:#1d3428; --check-cream:#f8f4ec;
+      --check-gold:#b79a5b; --check-muted:#73786f; --check-border:#e5dfd2;
+      font-family:Tahoma,Arial,sans-serif; color:#20251f; background:#f8f4ec;
+      min-height:100vh; padding-top:78px; line-height:1.9;
+    }
+    .check-page * { box-sizing:border-box; }
+    .check-page button,.check-page input { font:inherit; }
+    .check-wrap { width:min(1080px,92%); margin:0 auto; padding:34px 0 60px; }
+    .check-hero { text-align:center; margin:8px auto 26px; }
+    .check-kicker { display:inline-flex; align-items:center; gap:8px; padding:5px 13px;
+      border:1px solid #d9dfd5; border-radius:999px; background:#fff; color:var(--check-green);
+      font-size:12px; font-weight:bold; }
+    .check-hero h1 { margin:13px 0 5px; font-size:clamp(27px,5vw,42px); line-height:1.5; color:var(--check-dark); }
+    .check-hero p { margin:0 auto; max-width:600px; color:var(--check-muted); font-size:14px; }
+    .check-card { display:grid; grid-template-columns:minmax(0,1fr) minmax(280px,.78fr); gap:24px;
+      background:#fff; border:1px solid rgba(41,71,55,.09); border-radius:26px;
+      box-shadow:0 18px 48px rgba(30,50,38,.08); padding:clamp(18px,4vw,34px); align-items:center; }
+    .check-form-side { min-width:0; }
+    .check-form-side h2 { margin:0 0 5px; font-size:23px; color:var(--check-dark); }
+    .check-form-side .lead { margin:0 0 22px; color:var(--check-muted); font-size:13px; }
+    .check-label { display:block; margin:0 0 8px; font-size:13px; font-weight:bold; }
+    .check-input-row { display:flex; gap:9px; }
+    .check-input { min-width:0; width:100%; height:53px; border:1px solid #dfe4dc; border-radius:14px;
+      background:#fbfcfa; padding:0 15px; outline:none; color:#20251f; transition:.2s; }
+    .check-input:focus { border-color:#73927b; box-shadow:0 0 0 4px rgba(41,71,55,.09); }
+    .check-submit { flex-shrink:0; border:0; border-radius:14px; padding:0 18px; min-height:53px;
+      color:#fff; background:var(--check-green); font-weight:bold; cursor:pointer; transition:.2s; }
+    .check-submit:hover { background:var(--check-dark); transform:translateY(-1px); }
+    .check-note { margin:11px 0 0; font-size:11px; color:#858980; }
+    .check-character { position:relative; min-height:285px; display:flex; flex-direction:column;
+      align-items:center; justify-content:center; padding:18px; border-radius:22px;
+      background:radial-gradient(circle at 50% 28%,#fff 0,#f2f3e9 53%,#e8ede4 100%);
+      overflow:hidden; text-align:center; }
+    .check-character::before,.check-character::after { content:""; position:absolute; border-radius:50%;
+      border:1px solid rgba(41,71,55,.08); width:230px; height:230px; }
+    .check-character::after { width:290px; height:290px; }
+    .check-avatar { position:relative; z-index:1; display:grid; place-items:center; width:160px; height:160px;
+      border-radius:50%; background:#fff; border:5px solid #fff; box-shadow:0 12px 32px rgba(29,52,40,.13);
+      overflow:hidden; color:var(--check-green); font-size:62px; }
+    .check-avatar img { width:100%; height:100%; object-fit:cover; display:none; }
+    .check-avatar.has-image img { display:block; }
+    .check-avatar.has-image .check-avatar-fallback { display:none; }
+    .check-character-tag { position:relative; z-index:1; margin-top:14px; background:#fff;
+      border:1px solid #e2e7df; border-radius:999px; padding:4px 12px; color:var(--check-green);
+      font-size:12px; font-weight:bold; }
+    .check-character-small { position:relative; z-index:1; margin:7px 0 0; font-size:11px; color:#858980; }
+    .check-speech { display:none; margin:18px 0 0; padding:16px 18px; border-radius:18px;
+      background:#fff; border:1px solid #e4e8e1; box-shadow:0 8px 24px rgba(30,50,38,.05); }
+    .check-speech.show { display:block; animation:checkRise .3s ease both; }
+    .check-speech-top { display:flex; gap:8px; align-items:center; margin-bottom:6px; color:var(--check-green);
+      font-weight:bold; font-size:13px; }
+    .check-speech p { margin:0; font-size:14px; }
+    .check-result { display:none; margin-top:18px; border:1px solid #e2e8df; border-radius:20px;
+      background:#fbfcfa; padding:19px; animation:checkRise .3s ease both; }
+    .check-result.show { display:block; }
+    .check-result-head { display:flex; align-items:center; gap:10px; }
+    .check-result-icon { width:43px; height:43px; flex-shrink:0; display:grid; place-items:center;
+      border-radius:14px; background:#e8efe8; font-size:21px; }
+    .check-result h3 { margin:0; color:var(--check-dark); font-size:16px; }
+    .check-result .status-sub { margin:2px 0 0; font-size:11px; color:var(--check-muted); }
+    .check-result-message { margin:14px 0; font-size:13px; }
+    .check-tracking { display:none; padding:12px; border:1px dashed #cbd7ca; border-radius:12px; background:#fff;
+      margin-bottom:13px; font-size:12px; }
+    .check-tracking strong { display:block; margin-top:3px; direction:ltr; text-align:right; font-size:15px; }
+    .check-post-link { display:none; text-align:center; text-decoration:none; padding:12px 15px; border-radius:12px;
+      background:var(--check-green); color:#fff !important; font-size:13px; font-weight:bold; }
+    .check-post-link.show { display:block; }
+    .check-preview { margin:25px 0 0; padding:16px; border:1px dashed #c8cdbf; border-radius:18px; background:#f0f1e9; }
+    .check-preview h3 { margin:0 0 5px; font-size:13px; color:#4c5849; }
+    .check-preview p { margin:0 0 11px; font-size:11px; color:#777d71; }
+    .check-preview-buttons { display:flex; flex-wrap:wrap; gap:8px; }
+    .check-preview-buttons button { border:1px solid #d5dccf; background:#fff; color:#354b39; border-radius:999px;
+      padding:7px 11px; cursor:pointer; font-size:11px; }
+    .check-preview-buttons button:hover { background:#e4ebdf; }
+    .check-disclaimer { text-align:center; margin:18px auto 0; max-width:680px; color:#858980; font-size:11px; }
+    @keyframes checkRise { from {opacity:0;transform:translateY(7px)} to {opacity:1;transform:translateY(0)} }
+    @media(max-width:760px) {
+      .check-wrap { padding-top:24px; }
+      .check-card { grid-template-columns:1fr; gap:17px; }
+      .check-character { min-height:215px; order:-1; }
+      .check-avatar { width:124px; height:124px; font-size:49px; }
+      .check-input-row { flex-direction:column; }
+      .check-submit { width:100%; }
+    }
+  </style>
+</head>
+<body class="home-page check-page">
+  <div id="siteMenu"></div>
+
+  <main class="check-wrap">
+    <header class="check-hero">
+      <span class="check-kicker">📦 پیگیری سفارش‌های NavidTowel</span>
+      <h1>ببینیم سفارشت کجاست!</h1>
+      <p>کد پیگیری سفارش یا شماره موبایلی که موقع خرید وارد کردی بنویس تا وضعیت سفارشت رو بررسی کنیم.</p>
+    </header>
+
+    <section class="check-card" aria-labelledby="checkFormTitle">
+      <div class="check-form-side">
+        <h2 id="checkFormTitle">خب رفیق، اطلاعات رو بده!</h2>
+        <p class="lead">جناب خانِ پیگیری سفارش‌ها آماده‌ست بره سراغ دفتر سفارش‌ها 😄</p>
+
+        <form id="checkForm">
+          <label class="check-label" for="checkQuery">کد پیگیری سفارش یا شماره موبایل</label>
+          <div class="check-input-row">
+            <input class="check-input" id="checkQuery" name="query" type="text"
+              inputmode="text" autocomplete="tel" placeholder="مثلاً CB-12345 یا 09xxxxxxxxx" required>
+            <button class="check-submit" type="submit">بگرد ببینم!</button>
+          </div>
+          <p class="check-note">اطلاعاتت فقط برای پیدا کردن سفارش استفاده می‌شه.</p>
+        </form>
+
+        <div class="check-speech show" id="checkSpeech" aria-live="polite">
+          <div class="check-speech-top"><span>💬</span><span id="checkSpeechTitle">جناب خان می‌گه:</span></div>
+          <p id="checkSpeechText">سلااام رفیق! 😄 اومدی ببینی حوله‌ات کجاست؟ شماره سفارش یا موبایلت رو بده، مو یه نگاهی بندازم ببینم چه خبره!</p>
+        </div>
+
+        <section class="check-result" id="checkResult" aria-live="polite">
+          <div class="check-result-head">
+            <div class="check-result-icon" id="resultIcon">📦</div>
+            <div>
+              <h3 id="resultTitle">وضعیت سفارش</h3>
+              <p class="status-sub" id="resultSubtitle">آخرین وضعیت ثبت‌شده</p>
+            </div>
+          </div>
+          <p class="check-result-message" id="resultMessage"></p>
+          <div class="check-tracking" id="trackingBox">
+            شماره مرسوله پستی:
+            <strong id="trackingNumber"></strong>
+          </div>
+          <a class="check-post-link" id="postLink" href="#" target="_blank" rel="noopener noreferrer">پیگیری مرسوله در سایت پست ←</a>
+        </section>
+      </div>
+
+      <aside class="check-character" aria-label="جایگاه تصویر جناب خان">
+        <div class="check-avatar" id="checkAvatar">
+          <img id="characterImage" src="" alt="تصویر سناریوی جناب خان">
+          <span class="check-avatar-fallback">😎</span>
+        </div>
+        <span class="check-character-tag">جناب خانِ پیگیری سفارش‌ها</span>
+        <p class="check-character-small" id="characterCaption">فعلاً جای تصویر سناریوی خوشامدگویی</p>
+      </aside>
+    </section>
+
+    <!-- این قسمت فقط برای دیدن ظاهر سناریوهاست؛ بعد از اتصال واقعی حذفش می‌کنیم. -->
+    <section class="check-preview">
+      <h3>پیش‌نمایش سناریوها (فقط برای تست ظاهر)</h3>
+      <p>فعلاً این دکمه‌ها نتیجه نمونه نشان می‌دهند و به Google Sheets وصل نیستند.</p>
+      <div class="check-preview-buttons">
+        <button type="button" data-demo="unpaid">در انتظار پرداخت</button>
+        <button type="button" data-demo="paid">پرداخت شده، در انتظار ارسال</button>
+        <button type="button" data-demo="shipped">ارسال شده</button>
+        <button type="button" data-demo="missing">سفارش پیدا نشد</button>
+        <button type="button" data-demo="error">خطای سیستم</button>
+      </div>
+    </section>
+    <p class="check-disclaimer">این نسخه نمونه‌ی ظاهری صفحه است. برای پیگیری واقعی، باید آن را به Worker امن و Google Sheets سفارش‌ها وصل کنیم.</p>
+  </main>
+
+  <script src="menu.js"></script>
+  <script>
+    (() => {
+      "use strict";
+
+      /*
+        تصاویر سناریوها را بعداً در این مسیرها قرار بده:
+        images/check/welcome-1.webp
+        images/check/unpaid-1.webp
+        images/check/paid-1.webp
+        images/check/shipped-1.webp
+        images/check/missing-1.webp
+        images/check/error-1.webp
+
+        برای هر وضعیت می‌توان چند فایل گذاشت؛ صفحه یکی را تصادفی انتخاب می‌کند.
+      */
+      const scenarios = {
+        welcome: {
+          title: "جناب خان می‌گه:",
+          caption: "سناریوی خوشامدگویی",
+          images: ["images/check/welcome-1.webp", "images/check/welcome-2.webp"],
+          lines: [
+            "سلااام رفیق! 😄 اومدی ببینی حوله‌ات کجاست؟ شماره سفارش یا موبایلت رو بده، مو یه نگاهی بندازم ببینم چه خبره!",
+            "به‌به، سلام رفیق! 😎 کد پیگیری یا شماره موبایلت رو وارد کن تا بریم ببینیم سفارش چه حالی داره!",
+            "خوش اومدی رفیق جان! 😂 شماره رو بده، دفتر سفارش‌ها رو یه ورق بزنیم ببینیم حوله‌ات کجاست."
+          ]
+        },
+        unpaid: {
+          title: "جناب خان خبر می‌ده:",
+          caption: "سناریوی در انتظار پرداخت",
+          icon: "⏳", resultTitle: "در انتظار تأیید پرداخت",
+          subtitle: "پرداخت هنوز در اطلاعات سفارش تأیید نشده",
+          images: ["images/check/unpaid-1.webp", "images/check/unpaid-2.webp"],
+          lines: [
+            "اِی بابا رفیق! سفارشت ثبت شده، ولی پرداختش هنوز تأیید نشده. اگه پرداخت کردی و پول از حسابت کم شده، با پشتیبانی هماهنگ کن تا بررسی کنیم.",
+            "رفیق، سفارشت اینجاس ولی چراغ پرداخت هنوز سبز نشده! 😅 اگه کارت به کارت کردی، رسیدت رو نگه دار و با پشتیبانی تماس بگیر."
+          ]
+        },
+        paid: {
+          title: "جناب خان خبر می‌ده:",
+          caption: "سناریوی آماده‌سازی سفارش",
+          icon: "📦", resultTitle: "پرداخت تأیید شده؛ در انتظار ارسال",
+          subtitle: "سفارش هنوز کد مرسوله ندارد",
+          images: ["images/check/paid-1.webp", "images/check/paid-2.webp", "images/check/paid-3.webp"],
+          lines: [
+            "مبارکه رفیق! پرداختت تأیید شده و سفارشت توی صف آماده‌سازیه. یه کم صبر داشته باش، حوله که بال نداره از در مغازه بپره بیرون برسه خونه‌ات! 😂",
+            "خبر خوبه! پول تأیید شده، حالا باید بسته‌ات آماده بشه و تحویل پست بدیم. چشم به هم بزنی راه می‌افته رفیق! 📦"
+          ]
+        },
+        shipped: {
+          title: "جناب خان خبر می‌ده:",
+          caption: "سناریوی ارسال سفارش",
+          icon: "🚚", resultTitle: "سفارش ارسال شده",
+          subtitle: "برای جزئیات مسیر، از سامانه پست پیگیری کن",
+          images: ["images/check/shipped-1.webp", "images/check/shipped-2.webp", "images/check/shipped-3.webp"],
+          lines: [
+            "ای وااای رفیق! بسته‌ات از پیش ما راه افتاده! 🚚 حالا دیگه باید از پست خبر بگیری؛ بزن رو دکمه تا ببینی مرسوله‌ات کجای راهه!",
+            "حوله‌ات سوار ماشین پست شده رفیق! 😂 مو دیگه نمی‌تونم دنبالش بدوم؛ از این دکمه مسیرشو پیگیری کن."
+          ],
+          tracking: "نمونه-کد-مرسوله"
+        },
+        missing: {
+          title: "جناب خان می‌گه:",
+          caption: "سناریوی پیدا نشدن سفارش",
+          icon: "🔎", resultTitle: "سفارشی پیدا نشد",
+          subtitle: "اطلاعات واردشده را دوباره بررسی کن",
+          images: ["images/check/missing-1.webp", "images/check/missing-2.webp"],
+          lines: [
+            "یا ابوالفضل! 🔎 مو همه دفتر رو زیرورو کردم، ولی با این اطلاعات چیزی پیدا نکردم! یه بار شماره رو چک کن؛ شاید یه عددش قایم‌موشک بازی کرده!",
+            "رفیق، با این شماره چیزی دستم نیومد. یه بار دیگه با دقت واردش کن؛ اگه باز پیدا نشد، خبرمون کن تا بررسی کنیم."
+          ]
+        },
+        error: {
+          title: "جناب خان می‌گه:",
+          caption: "سناریوی خطای سیستم",
+          icon: "🛠️", resultTitle: "ارتباط با سیستم برقرار نشد",
+          subtitle: "این پیام به معنی مشکل داشتن سفارش نیست",
+          images: ["images/check/error-1.webp", "images/check/error-2.webp"],
+          lines: [
+            "رفیق، سیستم الان یه کم قاطی کرده! 😅 این لزوماً یعنی سفارش تو مشکلی داره نیست. یه دقیقه دیگه دوباره امتحان کن.",
+            "اِی بابا، دفتر سفارش‌ها فعلاً جواب نمی‌ده! یه کم بعد دوباره بیا سر بزن رفیق."
+          ]
+        }
+      };
+
+      const speechTitle = document.getElementById("checkSpeechTitle");
+      const speechText = document.getElementById("checkSpeechText");
+      const characterImage = document.getElementById("characterImage");
+      const avatar = document.getElementById("checkAvatar");
+      const caption = document.getElementById("characterCaption");
+      const result = document.getElementById("checkResult");
+      const resultIcon = document.getElementById("resultIcon");
+      const resultTitle = document.getElementById("resultTitle");
+      const resultSubtitle = document.getElementById("resultSubtitle");
+      const resultMessage = document.getElementById("resultMessage");
+      const trackingBox = document.getElementById("trackingBox");
+      const trackingNumber = document.getElementById("trackingNumber");
+      const postLink = document.getElementById("postLink");
+      const speech = document.getElementById("checkSpeech");
+
+      function pick(items) {
+        return items[Math.floor(Math.random() * items.length)];
+      }
+
+      function showCharacter(scenario) {
+        const path = pick(scenario.images || []);
+        caption.textContent = scenario.caption || "جناب خان";
+        avatar.classList.remove("has-image");
+        characterImage.onerror = () => {
+          avatar.classList.remove("has-image");
+          characterImage.removeAttribute("src");
+        };
+        characterImage.onload = () => avatar.classList.add("has-image");
+        if (path) characterImage.src = path;
+      }
+
+      function showSpeech(scenario) {
+        speechTitle.textContent = scenario.title || "جناب خان می‌گه:";
+        speechText.textContent = pick(scenario.lines);
+        speech.classList.remove("show");
+        void speech.offsetWidth;
+        speech.classList.add("show");
+        showCharacter(scenario);
+      }
+
+      function showDemo(key) {
+        const scenario = scenarios[key];
+        if (!scenario) return;
+        showSpeech(scenario);
+        if (key === "welcome") {
+          result.classList.remove("show");
+          return;
+        }
+        resultIcon.textContent = scenario.icon || "📦";
+        resultTitle.textContent = scenario.resultTitle || "وضعیت سفارش";
+        resultSubtitle.textContent = scenario.subtitle || "";
+        resultMessage.textContent = pick(scenario.lines);
+        trackingBox.style.display = "none";
+        postLink.classList.remove("show");
+        if (key === "shipped") {
+          trackingBox.style.display = "block";
+          trackingNumber.textContent = scenario.tracking;
+          /* آدرس نهایی پست را بعداً اینجا قرار بده؛ شماره مرسوله باید به آن اضافه شود. */
+          const POST_TRACKING_BASE_URL = "";
+          if (POST_TRACKING_BASE_URL) {
+            postLink.href = POST_TRACKING_BASE_URL + encodeURIComponent(scenario.tracking);
+            postLink.classList.add("show");
+          }
+        }
+        result.classList.add("show");
+      }
+
+      document.querySelectorAll("[data-demo]").forEach(button => {
+        button.addEventListener("click", () => showDemo(button.dataset.demo));
+      });
+
+      document.getElementById("checkForm").addEventListener("submit", event => {
+        event.preventDefault();
+        const query = document.getElementById("checkQuery").value.trim();
+        if (!query) return;
+        /* اتصال واقعی به Google Sheets هنوز تنظیم نشده است. */
+        showSpeech(scenarios.error);
+        result.classList.remove("show");
+        resultIcon.textContent = "🛠️";
+        resultTitle.textContent = "نسخه آزمایشی";
+        resultSubtitle.textContent = "پیگیری واقعی هنوز وصل نشده";
+        resultMessage.textContent = "رفیق، این صفحه فعلاً برای دیدن ظاهر و سناریوهاست. بعد از اتصال امن به سیستم سفارش‌ها، وضعیت واقعی سفارشت همین‌جا نمایش داده می‌شه.";
+        trackingBox.style.display = "none";
+        postLink.classList.remove("show");
+        result.classList.add("show");
+      });
+
+      showCharacter(scenarios.welcome);
+    })();
+  </script>
+</body>
+</html>
+'''
+path = Path("/mnt/data/check.html")
+path.write_text(html, encoding="utf-8")
+print(f"Created {path} ({path.stat().st_size:,} bytes)")
