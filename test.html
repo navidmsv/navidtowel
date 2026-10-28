@@ -20,11 +20,46 @@
     <link rel="icon" type="image/png" href="images/favicon.png">
     -->
 
+    <!-- ===== فونت‌ها: وزیرمتن (متن) + مرکزی (تیترها) ===== -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/Vazirmatn-font-face.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@500;600;700&display=swap">
+
     <title>NavidTowel | فروشگاه حوله و کالای خواب</title>
 
     <link rel="stylesheet" href="style.css">
 
     <style>
+        /* =====================================================
+           فونت و ظاهر شیک‌تر
+        ===================================================== */
+
+        body {
+            font-family: 'Vazirmatn', Tahoma, sans-serif !important;
+        }
+
+        /* تیترها با فونت مرکزی — فونت مرکزی ریزتر دیده می‌شود،
+           پس یک‌کم بزرگ‌ترش می‌کنیم */
+        h1, h2, h3,
+        .section-title,
+        .logo {
+            font-family: 'Markazi Text', 'Vazirmatn', Tahoma, serif !important;
+            font-weight: 600;
+        }
+
+        h1 { font-size: calc(1em + 0.35em) !important; }
+        h2, .section-title { font-size: calc(1em + 0.3em) !important; }
+        h3 { font-size: calc(1em + 0.2em) !important; }
+
+        /* لیبل‌های انگلیسی: بازتر و لوکس‌تر */
+        .hero-label,
+        .section-label,
+        .promo-content > span,
+        .about-box-inner > span {
+            letter-spacing: .35em;
+            text-transform: uppercase;
+        }
+
         /* =====================================================
            اسلایدر صفحه اصلی (کشی‌شونده — راست‌چین)
         ===================================================== */
@@ -165,123 +200,6 @@
 
         .category-card.has-bg .category-content span {
             color: #fff;
-        }
-
-        /* =====================================================
-           نظرات مشتریان (نمایش + فرم ثبت نظر)
-        ===================================================== */
-
-        .reviews-empty {
-            text-align: center;
-            color: #8a8f83;
-            padding: 24px;
-        }
-
-        .review-form-card {
-            background: #fff;
-            border: 1px solid rgba(52, 69, 47, .15);
-            border-radius: 18px;
-            padding: 28px;
-            margin-top: 36px;
-        }
-
-        .review-form-card h3 {
-            margin: 0 0 6px;
-            color: #34452f;
-        }
-
-        .review-form-card > p {
-            margin: 0 0 18px;
-            font-size: 14px;
-            color: #6d7266;
-        }
-
-        .review-form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .review-form-grid label {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            font-size: 13px;
-            color: #4b5145;
-        }
-
-        .review-form-grid input,
-        .review-form-full textarea {
-            border: 1px solid rgba(52, 69, 47, .25);
-            border-radius: 10px;
-            padding: 10px 12px;
-            font: inherit;
-            font-size: 14px;
-            background: #fbfaf7;
-            color: #2c352a;
-        }
-
-        .review-form-grid input:focus,
-        .review-form-full textarea:focus {
-            outline: none;
-            border-color: #34452f;
-        }
-
-        .review-form-full {
-            margin-top: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            font-size: 13px;
-            color: #4b5145;
-        }
-
-        .review-form-full textarea {
-            width: 100%;
-            min-height: 90px;
-            resize: vertical;
-        }
-
-        .review-form-actions {
-            margin-top: 14px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-
-        .review-submit {
-            background: #34452f;
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            padding: 11px 26px;
-            font: inherit;
-            cursor: pointer;
-            transition: background .25s;
-        }
-
-        .review-submit:hover {
-            background: #2a3826;
-        }
-
-        .review-submit:disabled {
-            opacity: .6;
-            cursor: wait;
-        }
-
-        #reviewMsg {
-            font-size: 13px;
-            margin: 0;
-        }
-
-        #reviewMsg.ok { color: #2e7d32; }
-        #reviewMsg.err { color: #c0392b; }
-
-        @media (max-width: 640px) {
-            .review-form-grid {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 
@@ -812,107 +730,6 @@
 
 
 <!-- =====================================================
-     REVIEWS — نظرات واقعی با تایید مدیر
-===================================================== -->
-
-<section class="section reviews-section" id="reviews">
-
-    <div class="container">
-
-        <div class="section-head">
-
-            <div>
-                <span class="section-label">
-                    تجربه مشتریان
-                </span>
-                <h2 class="section-title">
-                    نظر مشتریان
-                </h2>
-                <p class="section-subtitle">
-                    تجربه خوب مشتری، بهترین معرفی ماست.
-                </p>
-            </div>
-
-        </div>
-
-        <!-- نظرات تاییدشده اینجا نمایش داده می‌شوند -->
-        <div class="reviews" id="reviewsList">
-            <p class="reviews-empty">
-                در حال بارگذاری نظرات...
-            </p>
-        </div>
-
-        <!-- فرم ثبت نظر -->
-        <div class="review-form-card">
-
-            <h3>
-                نظر خودت را ثبت کن
-            </h3>
-
-            <p>
-                نظر شما بعد از بررسی و تایید ما در همین قسمت نمایش داده می‌شود.
-            </p>
-
-            <form id="reviewForm" novalidate>
-
-                <div class="review-form-grid">
-
-                    <label>
-                        نام *
-                        <input type="text" name="name" maxlength="40" required>
-                    </label>
-
-                    <label>
-                        نام خانوادگی
-                        <input type="text" name="family" maxlength="40">
-                    </label>
-
-                    <label>
-                        شهر
-                        <input type="text" name="city" maxlength="40">
-                    </label>
-
-                    <label>
-                        شماره موبایل *
-                        <input type="tel" name="phone" maxlength="11" inputmode="tel" placeholder="09xxxxxxxxx" required>
-                    </label>
-
-                </div>
-
-                <label class="review-form-full">
-                    نظر شما *
-                    <textarea name="text" maxlength="600" required></textarea>
-                </label>
-
-                <!-- تله اسپم: کاربر واقعی این را نمی‌بیند و پر نمی‌کند -->
-                <input
-                    type="text"
-                    name="website"
-                    tabindex="-1"
-                    autocomplete="off"
-                    aria-hidden="true"
-                    style="position:absolute; left:-9999px; opacity:0; height:0; width:0;">
-
-                <div class="review-form-actions">
-
-                    <button type="submit" class="review-submit">
-                        ثبت نظر
-                    </button>
-
-                    <p id="reviewMsg" aria-live="polite"></p>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
      CONTACT + TRUST
 ===================================================== -->
 
@@ -1268,175 +1085,75 @@
     'use strict';
 
     /* =====================================================
-       ۱) اسلایدر صفحه اصلی (کشی‌شونده)
+       اسلایدر صفحه اصلی (کشی‌شونده)
        ⚠️ اگر داخل script.js کد اسلایدر hero هست، حذفش کن
     ===================================================== */
 
     var slider = document.getElementById('heroSlider');
-    if (slider && !slider.dataset.sliderReady) {
-        slider.dataset.sliderReady = '1';
+    if (!slider || slider.dataset.sliderReady) return;
+    slider.dataset.sliderReady = '1';
 
-        var track = document.getElementById('heroTrack');
-        var slides = track.children;
-        var dotsBox = document.getElementById('heroDots');
-        var count = slides.length;
-        var current = 0;
-        var timer = null;
-        var AUTOPLAY_MS = 6000;
+    var track = document.getElementById('heroTrack');
+    var slides = track.children;
+    var dotsBox = document.getElementById('heroDots');
+    var count = slides.length;
+    var current = 0;
+    var timer = null;
+    var AUTOPLAY_MS = 6000;
 
-        var dots = [];
-        for (var i = 0; i < count; i++) {
-            var d = document.createElement('button');
-            d.type = 'button';
-            d.className = 'hero-dot' + (i === 0 ? ' active' : '');
-            d.setAttribute('aria-label', 'رفتن به اسلاید ' + (i + 1));
-            (function (idx) {
-                d.addEventListener('click', function () { goTo(idx); restartAuto(); });
-            })(i);
-            dotsBox.appendChild(d);
-            dots.push(d);
+    var dots = [];
+    for (var i = 0; i < count; i++) {
+        var d = document.createElement('button');
+        d.type = 'button';
+        d.className = 'hero-dot' + (i === 0 ? ' active' : '');
+        d.setAttribute('aria-label', 'رفتن به اسلاید ' + (i + 1));
+        (function (idx) {
+            d.addEventListener('click', function () { goTo(idx); restartAuto(); });
+        })(i);
+        dotsBox.appendChild(d);
+        dots.push(d);
+    }
+
+    function goTo(i) {
+        current = (i + count) % count;
+        track.style.transform = 'translateX(' + (current * 100) + '%)';
+        for (var j = 0; j < count; j++) {
+            dots[j].classList.toggle('active', j === current);
         }
+    }
 
-        function goTo(i) {
-            current = (i + count) % count;
-            track.style.transform = 'translateX(' + (current * 100) + '%)';
-            for (var j = 0; j < count; j++) {
-                dots[j].classList.toggle('active', j === current);
-            }
-        }
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
 
-        function next() { goTo(current + 1); }
-        function prev() { goTo(current - 1); }
+    document.getElementById('heroNext').addEventListener('click', function () { next(); restartAuto(); });
+    document.getElementById('heroPrev').addEventListener('click', function () { prev(); restartAuto(); });
 
-        document.getElementById('heroNext').addEventListener('click', function () { next(); restartAuto(); });
-        document.getElementById('heroPrev').addEventListener('click', function () { prev(); restartAuto(); });
+    function startAuto() { timer = setInterval(next, AUTOPLAY_MS); }
+    function stopAuto() { clearInterval(timer); }
+    function restartAuto() { stopAuto(); startAuto(); }
+    startAuto();
 
-        function startAuto() { timer = setInterval(next, AUTOPLAY_MS); }
-        function stopAuto() { clearInterval(timer); }
-        function restartAuto() { stopAuto(); startAuto(); }
+    slider.addEventListener('mouseenter', stopAuto);
+    slider.addEventListener('mouseleave', startAuto);
+
+    // کشیدن با انگشت — راست‌چین: کشیدن به راست = عکس بعدی
+    var startX = null;
+    slider.addEventListener('touchstart', function (e) {
+        startX = e.touches[0].clientX;
+        stopAuto();
+    }, { passive: true });
+    slider.addEventListener('touchend', function (e) {
+        if (startX === null) return;
+        var diff = e.changedTouches[0].clientX - startX;
+        if (diff > 40) next();       // کشیدن به راست = بعدی
+        else if (diff < -40) prev(); // کشیدن به چپ = قبلی
+        startX = null;
         startAuto();
-
-        slider.addEventListener('mouseenter', stopAuto);
-        slider.addEventListener('mouseleave', startAuto);
-
-        var startX = null;
-        slider.addEventListener('touchstart', function (e) {
-            startX = e.touches[0].clientX;
-            stopAuto();
-        }, { passive: true });
-        slider.addEventListener('touchend', function (e) {
-            if (startX === null) return;
-            var diff = e.changedTouches[0].clientX - startX;
-            if (diff > 40) prev();
-            else if (diff < -40) next();
-            startX = null;
-            startAuto();
-        });
-    }
-
-    /* =====================================================
-       ۲) سال کپی‌رایت
-    ===================================================== */
-
-    var y = document.getElementById('footerYear');
-    if (y) y.textContent = new Date().getFullYear();
-
-    /* =====================================================
-       ۳) نظرات مشتریان — اتصال به ورکر
-       👇 آدرس ورکر نظرات را اینجا بگذار (بعد از ساخت ورکر)
-    ===================================================== */
-
-    var REVIEWS_API = 'https://NAVID-REVIEWS-WORKER-URL.workers.dev'; // 👈 عوضش کن
-
-    var msgEl = document.getElementById('reviewMsg');
-
-    // تبدیل اعداد فارسی به انگلیسی برای شماره موبایل
-    function faToEn(s) {
-        return String(s || '').replace(/[۰-۹]/g, function (d) {
-            return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d);
-        });
-    }
-
-    function loadReviews() {
-        var box = document.getElementById('reviewsList');
-        fetch(REVIEWS_API + '/api/reviews')
-            .then(function (r) { return r.json(); })
-            .then(function (data) {
-                box.innerHTML = '';
-                if (!data.reviews || !data.reviews.length) {
-                    box.innerHTML = '<p class="reviews-empty">هنوز نظری ثبت نشده — اولین نفر باش ✨</p>';
-                    return;
-                }
-                data.reviews.forEach(function (r) {
-                    var div = document.createElement('div');
-                    div.className = 'review';
-                    div.innerHTML =
-                        '<div class="review-top"><div class="stars">★★★★★</div><span>خرید تاییدشده</span></div>' +
-                        '<p></p><strong></strong>';
-                    div.querySelector('p').textContent = r.text;
-                    div.querySelector('strong').textContent = r.name + (r.city ? ' — ' + r.city : '');
-                    box.appendChild(div);
-                });
-            })
-            .catch(function () {
-                box.innerHTML = '<p class="reviews-empty">برای نمایش نظرات، ورکر نظرات را راه‌اندازی کن.</p>';
-            });
-    }
-
-    document.getElementById('reviewForm').addEventListener('submit', function (e) {
-        e.preventDefault();
-        var form = e.target;
-        var btn = form.querySelector('.review-submit');
-
-        var name = form.name.value.trim();
-        var family = form.family.value.trim();
-        var city = form.city.value.trim();
-        var text = form.text.value.trim();
-        var phone = faToEn(form.phone.value).replace(/\D/g, '');
-
-        msgEl.className = '';
-        msgEl.textContent = '';
-
-        if (!name) { msgEl.className = 'err'; msgEl.textContent = 'نام را بنویس.'; return; }
-        if (!/^09\d{9}$/.test(phone)) { msgEl.className = 'err'; msgEl.textContent = 'شماره موبایل معتبر نیست (مثال: 09123456789).'; return; }
-        if (text.length < 10) { msgEl.className = 'err'; msgEl.textContent = 'متن نظر کمی بلندتر باشد (حداقل ۱۰ حرف).'; return; }
-
-        btn.disabled = true;
-        msgEl.className = '';
-        msgEl.textContent = 'در حال ارسال...';
-
-        fetch(REVIEWS_API + '/api/reviews', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name: name,
-                family: family,
-                city: city,
-                phone: phone,
-                text: text,
-                website: form.website.value // تله اسپم
-            })
-        })
-            .then(function (r) { return r.json(); })
-            .then(function (data) {
-                btn.disabled = false;
-                if (data.ok) {
-                    msgEl.className = 'ok';
-                    msgEl.textContent = 'نظرت ثبت شد ✓ بعد از تایید ما نمایش داده می‌شود. ممنون 🌿';
-                    form.reset();
-                } else {
-                    msgEl.className = 'err';
-                    msgEl.textContent = data.error || 'خطا در ثبت نظر. دوباره تلاش کن.';
-                }
-            })
-            .catch(function () {
-                btn.disabled = false;
-                msgEl.className = 'err';
-                msgEl.textContent = 'ارتباط برقرار نشد. اینترنت را چک کن و دوباره تلاش کن.';
-            });
     });
 
-    loadReviews();
+    // سال کپی‌رایت
+    var y = document.getElementById('footerYear');
+    if (y) y.textContent = new Date().getFullYear();
 })();
 </script>
 
