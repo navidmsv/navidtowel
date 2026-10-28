@@ -3,9 +3,9 @@
    Product + Color + Size
 
    تغییرات این نسخه:
-   ۱) همه اعداد با رقم انگلیسی نمایش داده می‌شوند (نه فارسی)
-   ۲) پالت رنگ‌ها به بیش از ۸۰ رنگ با کد دقیق گسترش یافت
-   ۳) نیم‌فاصله (ZWNJ) هم در مقایسه رنگ‌ها نادیده گرفته می‌شود
+   ۱) سبد خالی → دکمه «مشاهده محصولات» به‌جای «تکمیل سفارش»
+   ۲) همه اعداد با رقم انگلیسی
+   ۳) پالت رنگ‌ها بیش از ۸۰ رنگ
 ========================================================= */
 
 let cart = [];
@@ -49,7 +49,7 @@ function normalizeCartText(value) {
     .replace(/ي/g, "ی")
     .replace(/ى/g, "ی")
     .replace(/ك/g, "ک")
-    .replace(/\u200C/g, "")   /* نیم‌فاصله هم حذف شود */
+    .replace(/\u200C/g, "")
     .replace(/\s+/g, "")
     .replace(/[-_]/g, "");
 }
@@ -205,6 +205,10 @@ function createCartModal() {
           <strong class="cartTotal">0 تومان</strong>
         </div>
         <button type="button" class="checkout">تکمیل سفارش</button>
+        <button type="button" class="browse-products">
+          <span class="browse-icon">🛍️</span>
+          مشاهده محصولات
+        </button>
       </div>
     </div>
   `;
@@ -258,10 +262,19 @@ function injectCartModalStyles() {
     .cartModal .cart-total strong{color:#222;font-size:14px;font-weight:900;}
     .cartModal .checkout{width:100%;height:40px;border:0;border-radius:10px;background:#333;color:#fff;font-family:inherit;font-size:11px;font-weight:800;cursor:pointer;transition:.2s ease;}
     .cartModal .checkout:hover{background:#222;}
+
+    /* دکمه مشاهده محصولات — فقط وقتی سبد خالیه دیده می‌شود */
+    .cartModal .browse-products{display:none;width:100%;height:42px;border:1.5px solid #294737;border-radius:10px;background:#fff;color:#294737;font-family:inherit;font-size:11.5px;font-weight:800;cursor:pointer;transition:.2s ease;align-items:center;justify-content:center;gap:6px;}
+    .cartModal .browse-products:hover{background:#294737;color:#fff;}
+    .cartModal .browse-products .browse-icon{font-size:14px;line-height:1;}
+    .cartModal.is-empty .checkout{display:none;}
+    .cartModal.is-empty .browse-products{display:flex;}
+    .cartModal.is-empty .cart-total{display:none;}
+
     .cartModal .empty-cart{min-height:230px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;text-align:center;color:#777;}
     .cartModal .empty-cart-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:14px;background:#f6f6f6;font-size:23px;margin-bottom:4px;}
     .cartModal .empty-cart strong{font-size:12px;color:#444;}
-    .cartModal .empty-cart span{font-size:9px;color:#999;}
+    .cartModal .empty-cart span{font-size:9px;color:#999;line-height:1.8;}
 
     @media(max-width:500px){
       .cartModal.cart-modal{padding:74px 10px 14px;}
@@ -598,6 +611,7 @@ const COLOR_MAP = {
   "نارنجی سوخته": "#cc5500",
   "آجری": "#b0442c",
   "هلویی": "#ffb07c",
+  "کرم نارنجی": "#f3d5b5",
 
   /* قهوه‌ای */
   "قهوه‌ای": "#795548",
@@ -652,8 +666,6 @@ function getCartColorCSS(colorName) {
   const key = normalizeCartText(colorName);
   if (!key) return "#ccc";
 
-  /* کلیدهای خود پالت هم نرمال می‌شوند تا نیم‌فاصله/فاصله
-     هیچ‌وقت باعث نشود رنگ پیدا نشود */
   for (const name in COLOR_MAP) {
     if (normalizeCartText(name) === key) {
       return COLOR_MAP[name];
@@ -693,16 +705,21 @@ function renderCart() {
 
   if (!cartItems || !cartTotal) return;
 
+  /* سبد خالی یا پُر — برای نشان دادن/مخفی کردن دکمه‌ها */
+  if (cartModal) {
+    cartModal.classList.toggle("is-empty", cart.length === 0);
+  }
+
   if (cart.length === 0) {
     cartItems.innerHTML = `
       <div class="empty-cart">
         <div class="empty-cart-icon">🛒</div>
-        <strong>سبد خرید خالی است</strong>
-        <span>هنوز محصولی به سبد اضافه نکرده‌اید.</span>
+        <strong>سبد خرید شما خالی است!</strong>
+        <span>هنوز محصولی انتخاب نکرده‌اید.<br>از دکمه‌ی پایین بروید محصولات را ببینید 👇</span>
       </div>
     `;
 
-    cartTotal.textContent = "0 تومان";
+    cartTotal.textContent = formatPrice(0);
     return;
   }
 
@@ -820,6 +837,10 @@ function goToCartPage() {
   window.location.href = "cart.html";
 }
 
+function goToShopPage() {
+  window.location.href = "shop.html";
+}
+
 /* ================= CART EVENTS ================= */
 
 function setupCartEvents() {
@@ -851,6 +872,15 @@ function setupCartEvents() {
 
     event.preventDefault();
     goToCartPage();
+  });
+
+  /* دکمه مشاهده محصولات — وقتی سبد خالیه */
+  document.addEventListener("click", function (event) {
+    const browseButton = event.target.closest(".browse-products");
+    if (!browseButton) return;
+
+    event.preventDefault();
+    goToShopPage();
   });
 
   document.addEventListener("keydown", function (event) {
