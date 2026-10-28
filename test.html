@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#34452f">
+
+    <meta name="description" content="خرید آنلاین حوله حمام، استخری، کودک و زنانه با کیفیت بالا و لطافت بی‌نظیر از NavidTowel — ارسال سریع به سراسر کشور از آبادان.">
+
+    <!-- ===== پیش‌نمایش اشتراک‌گذاری (تلگرام / واتساپ) ===== -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="NavidTowel | فروشگاه حوله و کالای خواب">
+    <meta property="og:description" content="حوله‌های نرم، لطیف و باکیفیت برای حمام، استخر و استفاده روزمره — با ارسال مطمئن.">
+    <meta property="og:image" content="https://navid.tovel.workers.dev/images/asli.png">
+    <meta property="og:url" content="https://navid.tovel.workers.dev/">
+    <meta property="og:locale" content="fa_IR">
+
+    <!-- ===== آیکون سایت — بعداً فایل favicon.png بذار توی images =====
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    -->
+
+    <title>NavidTowel | فروشگاه حوله و کالای خواب</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* =====================================================
+           استایل اسلایدر صفحه اصلی (کشی‌شونده — راست‌چین)
+           فقط اگه لازم شد، این بخش رو به style.css منتقل کن
+        ===================================================== */
+
+        .hero-slider {
+            position: relative;
+            overflow: hidden;
+            /* 👇 نسبت ابعاد عکس‌هات — این یکی عدد رو با عکس‌هات بخون
+               مثال: 16/9 برای عکس معمولی، 16/7 برای عکس پهن (بنر) */
+            --hero-ratio: 16 / 7;
+            aspect-ratio: var(--hero-ratio);
+        }
+
+        .hero-track {
+            display: flex;
+            height: 100%;
+            /* حرکت نرم کشیدنی */
+            transition: transform .55s cubic-bezier(.4, 0, .2, 1);
+            will-change: transform;
+        }
+
+        .hero-slide {
+            flex: 0 0 100%;
+            height: 100%;
+        }
+
+        .hero-slide a {
+            display: block;
+            height: 100%;
+        }
+
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* دکمه‌های قبلی/بعدی */
+        .hero-slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5;
+            border: none;
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(52, 69, 47, .55);
+            color: #fff;
+            font-size: 20px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .25s;
+            backdrop-filter: blur(4px);
+        }
+
+        .hero-slider-arrow:hover {
+            background: rgba(52, 69, 47, .85);
+        }
+
+        .hero-slider-prev { right: 16px; }
+        .hero-slider-next { left: 16px; }
+
+        /* نقطه‌های پایین اسلایدر */
+        .hero-slider-dots {
+            position: absolute;
+            bottom: 14px;
+            right: 0;
+            left: 0;
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .hero-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            background: rgba(255, 255, 255, .55);
+            transition: background .25s, transform .25s;
+        }
+
+        .hero-dot.active {
+            background: #fff;
+            transform: scale(1.25);
+        }
+    </style>
+
+    <!-- ===== سئوی محلی: معرفی فروشگاه به گوگل ===== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "NavidTowel",
+      "description": "فروشگاه حوله و کالای خواب — حوله حمام، استخری، کودک و زنانه",
+      "url": "https://navid.tovel.workers.dev/",
+      "image": "https://navid.tovel.workers.dev/images/asli.png",
+      "telephone": "09398707122",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "آبادان",
+        "addressCountry": "IR",
+        "streetAddress": "مجتمع کنزالمال، کنز ۵"
+      },
+      "sameAs": ["https://instagram.com/navidtowel"]
+    }
+    </script>
+</head>
+
+
+<body class="home-page">
+
+<div id="siteMenu"></div>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section
+    class="hero hero-slider-section"
+    id="home">
+
+    <div class="container">
+
+        <div class="hero-slider" id="heroSlider">
+
+            <!-- ریل اسلایدر: عکس‌ها داخلش کشیده می‌شن -->
+            <div class="hero-track" id="heroTrack">
+
+                <div class="hero-slide">
+                    <a href="shop.html">
+                        <img
+                            src="images/asli.png"
+                            alt="مجموعه حوله‌های NavidTowel"
+                            fetchpriority="high"
+                            decoding="async">
+                    </a>
+                </div>
+
+                <div class="hero-slide">
+                    <a href="shop.html">
+                        <img
+                            src="IMG_3885.jpeg"
+                            alt="حوله پانچ و تن‌پوش کودک NavidTowel"
+                            loading="lazy"
+                            decoding="async">
+                    </a>
+                </div>
+
+                <div class="hero-slide">
+                    <img
+                        src="images/CHE.webp"
+                        alt="تخفیفات ویژه حوله NavidTowel"
+                        loading="lazy"
+                        decoding="async">
+                </div>
+
+            </div>
+
+            <button
+                type="button"
+                class="hero-slider-arrow hero-slider-prev"
+                id="heroPrev"
+                aria-label="عکس قبلی">
+                →
+            </button>
+
+            <button
+                type="button"
+                class="hero-slider-arrow hero-slider-next"
+                id="heroNext"
+                aria-label="عکس بعدی">
+                ←
+            </button>
+
+            <div
+                class="hero-slider-dots"
+                id="heroDots">
+            </div>
+
+        </div>
+
+        <div class="hero-text hero-text-under">
+
+            <span class="hero-label">
+                NAVIDTOWEL COLLECTION
+            </span>
+
+            <h1>
+                لطافت واقعی،
+                <br>
+                از همین‌جا شروع می‌شود.
+            </h1>
+
+            <p>
+                مجموعه‌ای از حوله‌های باکیفیت، نرم و خوش‌دوخت
+                برای حمام، استخر و استفاده روزمره.
+            </p>
+
+            <div class="hero-buttons">
+                <a
+                    href="shop.html"
+                    class="btn-primary">
+                    مشاهده محصولات
+                    <span>
+                        ←
+                    </span>
+                </a>
+
+                <a
+                    href="#categories"
+                    class="btn-secondary">
+                    دسته‌بندی‌ها
+                </a>
+            </div>
+
+            <div class="hero-mini-info">
+                <div>
+                    <strong>
+                        کیفیت
+                    </strong>
+                    <span>
+                        انتخاب‌شده
+                    </span>
+                </div>
+
+                <div>
+                    <strong>
+                        نرم و لطیف
+                    </strong>
+                    <span>
+                        مناسب استفاده روزانه
+                    </span>
+                </div>
+
+                <div>
+                    <strong>
+                        ارسال
+                    </strong>
+                    <span>
+                        بسته‌بندی مطمئن
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     BENEFITS
+===================================================== -->
+
+<section class="benefits">
+
+    <div class="container benefits-grid">
+
+        <div class="benefit">
+            <div class="benefit-icon">
+                ✦
+            </div>
+            <div>
+                <strong>
+                    کیفیت بالا
+                </strong>
+                <span>
+                    انتخاب‌شده با دقت
+                </span>
+            </div>
+        </div>
+
+        <div class="benefit">
+            <div class="benefit-icon">
+                ◈
+            </div>
+            <div>
+                <strong>
+                    نرم و لطیف
+                </strong>
+                <span>
+                    حس بهتر بعد از حمام
+                </span>
+            </div>
+        </div>
+
+        <div class="benefit">
+            <div class="benefit-icon">
+                ✓
+            </div>
+            <div>
+                <strong>
+                    ارسال مطمئن
+                </strong>
+                <span>
+                    بسته‌بندی مناسب
+                </span>
+            </div>
+        </div>
+
+        <div class="benefit">
+            <div class="benefit-icon">
+                ♡
+            </div>
+            <div>
+                <strong>
+                    رضایت مشتری
+                </strong>
+                <span>
+                    اولویت ما شما هستید
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CATEGORIES
+===================================================== -->
+
+<section
+    class="section categories-section"
+    id="categories">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+                <span class="section-label">
+                    دسته‌بندی
+                </span>
+                <h2 class="section-title">
+                    برای هر استفاده، یک انتخاب
+                </h2>
+                <p class="section-subtitle">
+                    دسته‌بندی موردنظرت را انتخاب کن و محصولات را ببین.
+                </p>
+            </div>
+
+            <a
+                href="shop.html"
+                class="view-all">
+                مشاهده همه ←
+            </a>
+
+        </div>
+
+        <div class="categories">
+
+            <a
+                href="shop.html?category=bath"
+                class="category-card category-bath">
+                <div class="category-number">
+                    01
+                </div>
+                <div class="category-content">
+                    <h3>
+                        حوله حمام
+                    </h3>
+                    <p>
+                        نرم، جاذب و مناسب استفاده روزمره
+                    </p>
+                    <span>
+                        مشاهده محصولات ←
+                    </span>
+                </div>
+            </a>
+
+            <a
+                href="shop.html?category=pool"
+                class="category-card category-pool">
+                <div class="category-number">
+                    02
+                </div>
+                <div class="category-content">
+                    <h3>
+                        حوله استخری
+                    </h3>
+                    <p>
+                        مناسب استخر، سفر و استفاده بیرون
+                    </p>
+                    <span>
+                        مشاهده محصولات ←
+                    </span>
+                </div>
+            </a>
+
+            <a
+                href="shop.html?category=men"
+                class="category-card category-men">
+                <div class="category-number">
+                    03
+                </div>
+                <div class="category-content">
+                    <h3>
+                        مردانه
+                    </h3>
+                    <p>
+                        انتخاب‌های ساده و کاربردی
+                    </p>
+                    <span>
+                        مشاهده محصولات ←
+                    </span>
+                </div>
+            </a>
+
+            <!-- کارت زنانه: استایل‌های inline منتقل شد به style.css (کلاس category-zan) -->
+            <a
+                href="shop.html?category=zan"
+                class="category-card category-zan"
+                aria-label="حوله زنانه">
+                <img
+                    src="images/category-women.png"
+                    alt="حوله زنانه NavidTowel"
+                    loading="lazy"
+                    decoding="async">
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SELECTED PRODUCTS
+===================================================== -->
+
+<section
+    class="section selected-products-section"
+    id="shop">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+                <span class="section-label">
+                    NAVIDTOWEL
+                </span>
+                <h2 class="section-title">
+                    محصولات منتخب
+                </h2>
+                <p class="section-subtitle">
+                    چند انتخاب محبوب برای شروع خرید
+                </p>
+            </div>
+
+            <div class="products-heading-actions">
+
+                <div class="slider-buttons">
+                    <button
+                        type="button"
+                        class="slider-button"
+                        id="productsPrev">
+                        →
+                    </button>
+
+                    <button
+                        type="button"
+                        class="slider-button"
+                        id="productsNext">
+                        ←
+                    </button>
+                </div>
+
+                <a
+                    href="shop.html"
+                    class="view-all">
+                    مشاهده همه محصولات
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="products-slider">
+            <div class="products">
+                <!-- توسط script.js ساخته می‌شود -->
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PROMO
+===================================================== -->
+
+<section class="section promo-section">
+
+    <div class="container">
+
+        <div class="promo">
+
+            <div class="promo-decoration">
+                NAVID
+            </div>
+
+            <div class="promo-content">
+                <span>
+                    NAVIDTOWEL
+                </span>
+                <h2>
+                    انتخاب خوب،
+                    <br>
+                    لازم نیست پیچیده باشد.
+                </h2>
+                <p>
+                    محصول مناسب خودت را پیدا کن و با خیال راحت سفارش بده.
+                </p>
+            </div>
+
+            <a
+                href="shop.html"
+                class="btn-light">
+                رفتن به فروشگاه
+                <span>
+                    ←
+                </span>
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section
+    class="section about-section"
+    id="about">
+
+    <div class="container about">
+
+        <div class="about-box">
+            <div class="about-box-inner">
+                <span>
+                    ABOUT US
+                </span>
+                <strong>
+                    NAVID
+                    <small>
+                        TOWEL
+                    </small>
+                </strong>
+            </div>
+        </div>
+
+        <div class="about-text">
+            <span class="section-label">
+                درباره ما
+            </span>
+            <h2>
+                قرار است خرید حوله،
+                <br>
+                ساده‌تر باشد.
+            </h2>
+            <p>
+                در NavidTowel تلاش می‌کنیم محصولاتی را انتخاب کنیم
+                که در کنار ظاهر خوب، کیفیت و لطافت مناسبی داشته باشند.
+            </p>
+            <p>
+                هدف ما این است که بتوانی بدون دردسر،
+                محصول مناسب خودت را پیدا کنی و سفارش بدهی.
+            </p>
+            <a
+                href="#contact"
+                class="btn-primary">
+                ارتباط با ما
+            </a>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     REVIEWS
+===================================================== -->
+
+<section class="section reviews-section">
+
+    <div class="container">
+
+        <div class="section-head">
+            <div>
+                <span class="section-label">
+                    تجربه مشتریان
+                </span>
+                <h2 class="section-title">
+                    نظر مشتریان
+                </h2>
+                <p class="section-subtitle">
+                    تجربه خوب مشتری، بهترین معرفی ماست.
+                </p>
+            </div>
+        </div>
+
+        <div class="reviews">
+
+            <div class="review">
+                <div class="review-top">
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+                    <span>
+                        خرید موفق
+                    </span>
+                </div>
+                <p>
+                    حوله خیلی نرم و باکیفیت بود.
+                    بسته‌بندی هم خیلی خوب انجام شده بود.
+                </p>
+                <strong>
+                    مریم — آبادان
+                </strong>
+            </div>
+
+            <div class="review">
+                <div class="review-top">
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+                    <span>
+                        خرید موفق
+                    </span>
+                </div>
+                <p>
+                    کیفیت محصول نسبت به قیمت خیلی خوب بود.
+                    حتماً دوباره خرید می‌کنم.
+                </p>
+                <strong>
+                    علی — تهران
+                </strong>
+            </div>
+
+            <div class="review">
+                <div class="review-top">
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+                    <span>
+                        خرید موفق
+                    </span>
+                </div>
+                <p>
+                    رنگ و ظاهر حوله دقیقاً چیزی بود
+                    که انتظار داشتم.
+                </p>
+                <strong>
+                    زهرا — اهواز
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CONTACT + TRUST
+===================================================== -->
+
+<section
+    class="section contact-section"
+    id="contact">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+                <span class="section-label">
+                    ارتباط با ما
+                </span>
+                <h2 class="section-title">
+                    در ارتباط باشیم
+                </h2>
+                <p class="section-subtitle">
+                    برای خرید، پیگیری سفارش یا دریافت اطلاعات بیشتر با ما در تماس باشید.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="contact-grid">
+
+            <!-- CONTACT INFO -->
+
+            <div class="contact-info-card">
+
+                <div class="contact-info-item">
+                    <div class="contact-info-icon">
+                        ☎
+                    </div>
+                    <div>
+                        <small>
+                            تلفن
+                        </small>
+                        <a href="tel:+989398707122">
+                            ۰۹۳۹۸۷۰۷۱۲۲
+                        </a>
+                    </div>
+                </div>
+
+                <div class="contact-info-item">
+                    <div class="contact-info-icon">
+                        ◎
+                    </div>
+                    <div>
+                        <small>
+                            اینستاگرام
+                        </small>
+                        <a
+                            href="https://instagram.com/navidtowel"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            @navidtowel
+                        </a>
+                    </div>
+                </div>
+
+                <div class="contact-info-item">
+                    <div class="contact-info-icon">
+                        ⌖
+                    </div>
+                    <div>
+                        <small>
+                            آدرس فروشگاه
+                        </small>
+                        <span>
+                            آبادان، مجتمع کنزالمال، کنز ۵
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- TRUST PLACEHOLDER -->
+
+            <div class="trust-card">
+
+                <div class="trust-card-header">
+                    <div>
+                        <span class="section-label">
+                            اعتماد و امنیت
+                        </span>
+                        <h3>
+                            خرید مطمئن از NavidTowel
+                        </h3>
+                    </div>
+                    <div class="trust-lock">
+                        ✓
+                    </div>
+                </div>
+
+                <p>
+                    این قسمت برای نمایش نماد اعتماد الکترونیکی،
+                    مجوزها و نشان‌های اعتبار فروشگاه در نظر گرفته شده است.
+                </p>
+
+                <div class="trust-badges">
+
+                    <!-- سازمان منطقه آزاد اروند -->
+                    <div class="trust-badge">
+                        <a
+                            href="https://www.arvandfreezone.com"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            <img
+                                src="images/arvand.png"
+                                alt="سازمان منطقه آزاد اروند"
+                                loading="lazy"
+                                decoding="async"
+                                style="max-width:100px; max-height:90px; object-fit:contain;">
+                        </a>
+                    </div>
+
+                    <!-- نماد اعتماد الکترونیکی — لینک بعد از دریافت نماد واقعی جایگذاری شود -->
+                    <div class="trust-badge">
+                        <div class="trust-badge-placeholder">
+                            <img
+                                src="images/ETEMAD.png"
+                                alt="نماد اعتماد الکترونیکی"
+                                loading="lazy"
+                                decoding="async"
+                                style="max-width:100px; max-height:90px; object-fit:contain;">
+                        </div>
+                    </div>
+
+                    <!-- جایگاه پرداخت -->
+                    <div class="trust-badge">
+                        <div class="trust-badge-placeholder">
+                            <span>PAY</span>
+                            <small>
+                                درگاه پرداخت امن
+                            </small>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer
+    class="footer"
+    id="footer">
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <!-- BRAND -->
+
+            <div class="footer-brand">
+
+                <a
+                    href="index.html"
+                    class="logo">
+                    Navid<span>Towel</span>
+                </a>
+
+                <p>
+                    فروشگاه حوله و کالای خواب با تمرکز بر کیفیت،
+                    انتخاب مناسب و خرید ساده.
+                </p>
+
+                <a
+                    href="https://instagram.com/navidtowel"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="footer-instagram">
+                    ◎ @navidtowel
+                </a>
+
+            </div>
+
+            <!-- STORE -->
+
+            <div>
+                <h3>
+                    فروشگاه
+                </h3>
+
+                <a href="shop.html">
+                    همه محصولات
+                </a>
+
+                <a href="shop.html?category=bath">
+                    حوله حمام
+                </a>
+
+                <a href="shop.html?category=pool">
+                    حوله استخری
+                </a>
+
+                <a href="shop.html?category=robe">
+                    تن‌پوش
+                </a>
+
+                <a href="discount.html">
+                    تخفیفات ویژه
+                </a>
+            </div>
+
+            <!-- CUSTOMER -->
+
+            <div>
+                <h3>
+                    خدمات مشتریان
+                </h3>
+
+                <a href="tracking.html">
+                    پیگیری سفارش
+                </a>
+
+                <a href="cart.html">
+                    سبد خرید
+                </a>
+
+                <a href="#about">
+                    درباره ما
+                </a>
+
+                <a href="#contact">
+                    تماس با ما
+                </a>
+
+                <a href="terms.html">
+                    <!-- 👇 بعداً صفحه قوانین بساز و لینکش رو اینجا بذار -->
+                    قوانین و مقررات
+                </a>
+            </div>
+
+            <!-- CONTACT -->
+
+            <div>
+                <h3>
+                    اطلاعات تماس
+                </h3>
+
+                <p>
+                    <strong>
+                        تلفن:
+                    </strong>
+                    <a href="tel:+989398707122">
+                        ۰۹۳۹۸۷۰۷۱۲۲
+                    </a>
+                </p>
+
+                <p>
+                    <strong>
+                        اینستاگرام:
+                    </strong>
+                    <a
+                        href="https://instagram.com/navidtowel"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        @navidtowel
+                    </a>
+                </p>
+
+                <p>
+                    <strong>
+                        آدرس:
+                    </strong>
+                    آبادان، مجتمع کنزالمال، کنز ۵
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- TRUST FOOTER -->
+
+        <div class="footer-trust">
+
+            <div class="footer-trust-items">
+
+                <div class="footer-trust-item">
+                    <span>
+                        ✓
+                    </span>
+                    <small>
+                        پرداخت امن
+                    </small>
+                </div>
+
+                <div class="footer-trust-item">
+                    <span>
+                        ✓
+                    </span>
+                    <small>
+                        ارسال مطمئن
+                    </small>
+                </div>
+
+                <div class="footer-trust-item">
+                    <a
+                        href="https://www.arvandfreezone.com"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        <img
+                            src="images/arvand.png"
+                            alt="سازمان منطقه آزاد اروند"
+                            loading="lazy"
+                            decoding="async">
+                    </a>
+                    <small>
+                        سازمان منطقه آزاد اروند
+                    </small>
+                </div>
+
+                <div class="footer-trust-item">
+                    <!-- لینک نماد اعتماد هنوز جایگذاری نشده -->
+                    <img
+                        src="images/ETEMAD.png"
+                        alt="نماد اعتماد الکترونیکی"
+                        loading="lazy"
+                        decoding="async">
+                    <small>
+                        نماد اعتماد الکترونیکی
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FOOTER BOTTOM -->
+
+        <div class="footer-bottom">
+
+            <span>
+                © <span id="footerYear">2026</span> NavidTowel
+            </span>
+
+            <span>
+                تمامی حقوق محفوظ است.
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script src="products.js"></script>
+<script src="script.js"></script>
+<script src="menu.js"></script>
+
+<!-- =====================================================
+     اسلایدر صفحه اصلی (کشی‌شونده) — این کد جدید مدیریتش می‌کند
+     ⚠️ اگر داخل script.js کدی برای heroSlider/heroPrev/heroNext
+     هست، آن بخش را حذف کن تا تداخل نکند
+===================================================== -->
+<script>
+(function () {
+    'use strict';
+
+    var slider = document.getElementById('heroSlider');
+    if (!slider || slider.dataset.sliderReady) return; // جلوگیری از اجرای دوباره
+    slider.dataset.sliderReady = '1';
+
+    var track = document.getElementById('heroTrack');
+    var slides = track.children;
+    var dotsBox = document.getElementById('heroDots');
+    var count = slides.length;
+    var current = 0;
+    var timer = null;
+    var AUTOPLAY_MS = 6000; // تغییر خودکار هر ۶ ثانیه
+
+    // ساخت نقطه‌های پایین
+    var dots = [];
+    for (var i = 0; i < count; i++) {
+        var d = document.createElement('button');
+        d.type = 'button';
+        d.className = 'hero-dot' + (i === 0 ? ' active' : '');
+        d.setAttribute('aria-label', 'رفتن به اسلاید ' + (i + 1));
+        (function (idx) {
+            d.addEventListener('click', function () { goTo(idx); restartAuto(); });
+        })(i);
+        dotsBox.appendChild(d);
+        dots.push(d);
+    }
+
+    function goTo(i) {
+        // در حالت راست‌چین، اسلاید بعدی سمت چپ است، پس ترک به راست کشیده می‌شود
+        current = (i + count) % count;
+        track.style.transform = 'translateX(' + (current * 100) + '%)';
+        for (var j = 0; j < count; j++) {
+            dots[j].classList.toggle('active', j === current);
+        }
+    }
+
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+
+    document.getElementById('heroNext').addEventListener('click', function () { next(); restartAuto(); });
+    document.getElementById('heroPrev').addEventListener('click', function () { prev(); restartAuto(); });
+
+    // پخش خودکار
+    function startAuto() { timer = setInterval(next, AUTOPLAY_MS); }
+    function stopAuto() { clearInterval(timer); }
+    function restartAuto() { stopAuto(); startAuto(); }
+    startAuto();
+
+    // توقف هنگام هاور
+    slider.addEventListener('mouseenter', stopAuto);
+    slider.addEventListener('mouseleave', startAuto);
+
+    // کشیدن با انگشت روی موبایل
+    var startX = null;
+    slider.addEventListener('touchstart', function (e) {
+        startX = e.touches[0].clientX;
+        stopAuto();
+    }, { passive: true });
+    slider.addEventListener('touchend', function (e) {
+        if (startX === null) return;
+        var diff = e.changedTouches[0].clientX - startX;
+        if (diff > 40) prev();      // کشیدن به راست = قبلی
+        else if (diff < -40) next(); // کشیدن به چپ = بعدی
+        startX = null;
+        startAuto();
+    });
+
+    // سال کپی‌رایت خودکار
+    var y = document.getElementById('footerYear');
+    if (y) y.textContent = new Date().getFullYear();
+})();
+</script>
+
+</body>
+</html>
