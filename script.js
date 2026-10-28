@@ -1,6 +1,11 @@
 /* =========================================================
    NAVIDTOWEL — CART SYSTEM
    Product + Color + Size
+
+   تغییرات این نسخه:
+   ۱) همه اعداد با رقم انگلیسی نمایش داده می‌شوند (نه فارسی)
+   ۲) پالت رنگ‌ها به بیش از ۸۰ رنگ با کد دقیق گسترش یافت
+   ۳) نیم‌فاصله (ZWNJ) هم در مقایسه رنگ‌ها نادیده گرفته می‌شود
 ========================================================= */
 
 let cart = [];
@@ -26,7 +31,13 @@ const bottomCartTotal = document.getElementById("bottomCartTotal");
 /* ================= PRICE ================= */
 
 function formatPrice(price) {
-  return Number(price || 0).toLocaleString("fa-IR") + " تومان";
+  return Number(price || 0).toLocaleString("en-US") + " تومان";
+}
+
+/* عدد انگلیسی — همه‌جا از این استفاده می‌شود */
+
+function formatNumber(value) {
+  return Number(value || 0).toLocaleString("en-US");
 }
 
 /* ================= NORMALIZE TEXT ================= */
@@ -38,6 +49,7 @@ function normalizeCartText(value) {
     .replace(/ي/g, "ی")
     .replace(/ى/g, "ی")
     .replace(/ك/g, "ک")
+    .replace(/\u200C/g, "")   /* نیم‌فاصله هم حذف شود */
     .replace(/\s+/g, "")
     .replace(/[-_]/g, "");
 }
@@ -190,7 +202,7 @@ function createCartModal() {
       <div class="cart-footer">
         <div class="cart-total">
           <span>مبلغ کل</span>
-          <strong class="cartTotal">۰ تومان</strong>
+          <strong class="cartTotal">0 تومان</strong>
         </div>
         <button type="button" class="checkout">تکمیل سفارش</button>
       </div>
@@ -403,12 +415,6 @@ function addToCart(id, color = null, size = "Free Size") {
 }
 
 /* ================= CHANGE QUANTITY ================= */
-/*
-  اصلاح باگ: قبلاً وقتی تعداد محصول ۱ بود و دکمه «کم‌کردن» زده می‌شد،
-  چون newQuantity به صفر می‌رسید، شرط قدیمی (newQuantity > 0) رد می‌شد
-  و quantity هیچ‌وقت به‌روزرسانی و حذف نمی‌شد. الان تعداد همیشه اول
-  به‌روزرسانی می‌شود و بعد اگر صفر یا کمتر بود، آیتم حذف می‌شود.
-*/
 
 function changeQuantity(id, amount, color = null, size = "Free Size") {
   const key = getCartItemKey(id, color, size);
@@ -483,7 +489,7 @@ function updateHeaderCart() {
   );
 
   headerCounts.forEach(counter => {
-    counter.textContent = quantity.toLocaleString("fa-IR");
+    counter.textContent = formatNumber(quantity);
   });
 }
 
@@ -504,33 +510,158 @@ function getCartItemPrice(item) {
 }
 
 /* ================= COLOR VISUAL ================= */
+/*
+  پالت رنگ‌ها — بیش از ۸۰ رنگ رایج با کد دقیق.
+  کلیدها موقع مقایسه نرمال می‌شوند، پس فرقی نمی‌کند رنگ را
+  با نیم‌فاصله، فاصله یا حروف متفاوت بنویسید — همه پیدا می‌شوند.
+  برای اضافه‌کردن رنگ جدید فقط یک خط به این لیست اضافه کنید:
+  "نام رنگ": "#کد رنگ",
+*/
+
+const COLOR_MAP = {
+
+  /* سفید و کرم */
+  "سفید": "#ffffff",
+  "شیری": "#f6f1e7",
+  "کرم": "#e8d5b5",
+  "کرم روشن": "#f2e8d5",
+  "بژ": "#e6d3b3",
+  "عسلی": "#e6a75c",
+  "شتری": "#c19a6b",
+  "استخوانی": "#e9e2d0",
+
+  /* مشکی و خاکستری */
+  "مشکی": "#111111",
+  "سیاه": "#111111",
+  "خاکستری": "#808080",
+  "خاکستری روشن": "#c9c9c9",
+  "خاکستری تیره": "#4f4f4f",
+  "طوسی": "#9a9a9a",
+  "طوسی روشن": "#d4d4d4",
+  "طوسی تیره": "#5a5a5a",
+  "دودی": "#6d6d6d",
+  "نقره‌ای": "#c0c0c0",
+  "سیلور": "#c0c0c0",
+
+  /* آبی */
+  "ابی": "#2196f3",
+  "آبی": "#2196f3",
+  "آبی روشن": "#8ed0f5",
+  "آبی تیره": "#0d47a1",
+  "سرمه‌ای": "#1a2a52",
+  "نیوی": "#1a2a52",
+  "نفتی": "#1f5f8b",
+  "آبی یخی": "#d6ecf5",
+  "سبزابی": "#4db6ac",
+  "آبی ملایم": "#a3c6e8",
+
+  /* سبز */
+  "سبز": "#43a047",
+  "سبز روشن": "#a5d6a7",
+  "سبز تیره": "#2e5b34",
+  "یشمی": "#00a487",
+  "زمردی": "#1d9e6e",
+  "زیتونی": "#708238",
+  "پسته‌ای": "#93c572",
+  "سبز فسفری": "#7fce4e",
+
+  /* قرمز و صورتی */
+  "قرمز": "#e53935",
+  "قرمز تیره": "#8b1a1a",
+  "آلبالویی": "#7b1c2b",
+  "زرشکی": "#800020",
+  "گیلاسی": "#d2042d",
+  "سرخابی": "#c2185b",
+  "صورتی": "#ec407a",
+  "صورتی روشن": "#f8c8dc",
+  "صورتی تیره": "#e91e63",
+  "صورتی کالباسی": "#d88f8f",
+  "گلبهی": "#f4a6a6",
+  "رزگلد": "#b76e79",
+
+  /* بنفش */
+  "بنفش": "#8e44ad",
+  "بنفش روشن": "#c39bd3",
+  "بنفش تیره": "#4a2c6e",
+  "بادمجانی": "#5b3a6e",
+  "بادمجونی": "#5b3a6e",
+  "یاسی": "#b57edc",
+
+  /* زرد و نارنجی */
+  "زرد": "#fbc02d",
+  "زرد روشن": "#fff176",
+  "خردلی": "#c8a415",
+  "لیمویی": "#f7f694",
+  "طلایی": "#d4af37",
+  "گلد": "#d4af37",
+  "نارنجی": "#fb8c00",
+  "نارنجی سوخته": "#cc5500",
+  "آجری": "#b0442c",
+  "هلویی": "#ffb07c",
+  "کرم نارنجی"? 0: 0,
+
+  /* قهوه‌ای */
+  "قهوه‌ای": "#795548",
+  "قهوه‌ای روشن": "#a0785a",
+  "قهوه‌ای تیره": "#4e342e",
+  "شکلاتی": "#3e2723",
+  "نسکافه‌ای": "#6f4e37",
+  "موکا": "#7a5c45",
+  "کاکی": "#5d5d4a",
+
+  /* فیروزه‌ای و آبی‌سبز */
+  "فیروزه‌ای": "#26a69a",
+  "فیروزه‌ای روشن": "#7fdbda",
+  "مینایی": "#3aa6b9",
+
+  /* انگلیسی */
+  "white": "#ffffff",
+  "black": "#111111",
+  "red": "#e53935",
+  "blue": "#2196f3",
+  "skyblue": "#8ed0f5",
+  "green": "#43a047",
+  "mint": "#93c572",
+  "olive": "#708238",
+  "yellow": "#fbc02d",
+  "lemon": "#f7f694",
+  "orange": "#fb8c00",
+  "peach": "#ffb07c",
+  "coral": "#ff7f50",
+  "pink": "#ec407a",
+  "rose": "#b76e79",
+  "purple": "#8e44ad",
+  "magenta": "#c2185b",
+  "crimson": "#d2042d",
+  "maroon": "#800020",
+  "brown": "#795548",
+  "chocolate": "#3e2723",
+  "gray": "#808080",
+  "grey": "#808080",
+  "silver": "#c0c0c0",
+  "gold": "#d4af37",
+  "navy": "#1a2a52",
+  "teal": "#26a69a",
+  "turquoise": "#26a69a",
+  "cream": "#e8d5b5",
+  "beige": "#e6d3b3",
+  "ivory": "#f6f1e7",
+  "khaki": "#5d5d4a"
+};
 
 function getCartColorCSS(colorName) {
-  const color = normalizeCartText(colorName);
+  const key = normalizeCartText(colorName);
+  if (!key) return "#ccc";
 
-  const map = {
-    "ابی": "#2196f3",
-    "آبی": "#2196f3",
-    "قرمز": "#e53935",
-    "سبز": "#43a047",
-    "زرد": "#fbc02d",
-    "نارنجی": "#fb8c00",
-    "صورتی": "#ec407a",
-    "صورتیکالباسی": "#d88f8f",
-    "بنفش": "#8e44ad",
-    "مشکی": "#111",
-    "سیاه": "#111",
-    "سفید": "#fff",
-    "طوسی": "#999",
-    "خاکستری": "#777",
-    "کرم": "#e8d5b5",
-    "قهوهای": "#795548",
-    "طلایی": "#d4af37",
-    "نقرهای": "#c0c0c0",
-    "فیروزهای": "#26a69a"
-  };
+  /* کلیدهای خود پالت هم نرمال می‌شوند تا نیم‌فاصله/فاصله
+     هیچ‌وقت باعث نشود رنگ پیدا نشود */
+  for (const name in COLOR_MAP) {
+    if (normalizeCartText(name) === key) {
+      return COLOR_MAP[name];
+    }
+  }
 
-  return map[color] || "#ccc";
+  return "#ccc";
 }
 
 function renderCartColor(color) {
@@ -546,11 +677,6 @@ function renderCartColor(color) {
 }
 
 /* ================= HTML ESCAPE ================= */
-/*
-  اضافه شد: قبلاً نام محصول/رنگ مستقیم داخل HTML و onclick
-  گذاشته می‌شد. اگر این متن‌ها هر جا "( یا ') داشتند، HTML یا
-  اسکریپت صفحه می‌شکست. این تابع همون خطر رو از بین می‌بره.
-*/
 
 function escapeHtml(value) {
   return String(value || "")
@@ -562,16 +688,6 @@ function escapeHtml(value) {
 }
 
 /* ================= RENDER CART ================= */
-/*
-  اصلاح باگ مهم: قبلاً دکمه‌های +/-/حذف داخل سبد خرید، رنگ و سایز
-  محصول را با JSON.stringify() مستقیم داخل attribute دوکوتیشن
-  onclick="" می‌ریختند. چون خروجی JSON.stringify هم با دوکوتیشن
-  است ("آبی")، همین که محصول رنگ داشت، attribute وسط راه بسته
-  می‌شد و HTML/جاوااسکریپت آن دکمه خراب می‌شد — یعنی دکمه‌های
-  تغییر تعداد/حذف برای محصولات رنگی می‌توانستند اصلاً کار نکنند.
-  الان به‌جای onclick داخل HTML، از data-attribute و یک
-  event listener مشترک (delegation) استفاده شده که کاملاً امن است.
-*/
 
 function renderCart() {
   updateHeaderCart();
@@ -587,7 +703,7 @@ function renderCart() {
       </div>
     `;
 
-    cartTotal.textContent = "۰ تومان";
+    cartTotal.textContent = "0 تومان";
     return;
   }
 
@@ -638,7 +754,7 @@ function renderCart() {
                data-size="${escapeHtml(item.size || "Free Size")}">
 
             <button type="button" data-action="increase" aria-label="افزایش">+</button>
-            <span>${Number(item.quantity).toLocaleString("fa-IR")}</span>
+            <span>${formatNumber(item.quantity)}</span>
             <button type="button" data-action="decrease" aria-label="کاهش">−</button>
             <button type="button" class="cart-remove-button" data-action="remove" aria-label="حذف">×</button>
           </div>
@@ -669,11 +785,11 @@ function updateBottomCart() {
   const total = getCartTotal();
 
   if (bottomCartCount) {
-    bottomCartCount.textContent = quantity.toLocaleString("fa-IR");
+    bottomCartCount.textContent = formatNumber(quantity);
   }
 
   if (bottomCartTotal) {
-    bottomCartTotal.textContent = Number(total).toLocaleString("fa-IR") + " تومان";
+    bottomCartTotal.textContent = formatNumber(total) + " تومان";
   }
 
   bottomCart.classList.add("active");
@@ -743,12 +859,6 @@ function setupCartEvents() {
       closeCart();
     }
   });
-
-  /*
-    Event delegation برای دکمه‌های داخل سبد خرید (باز کردن محصول،
-    +/-/حذف). چون خود cartItems هر بار دوباره رندر می‌شود، به‌جای
-    بستن listener به هر دکمه، یک listener روی کانتینر ثابت گذاشته شده.
-  */
 
   document.addEventListener("click", function (event) {
     const openTarget = event.target.closest('[data-action="open"]');
@@ -889,117 +999,7 @@ document.addEventListener("DOMContentLoaded", function () {
   setupMobileMenu();
 });
 
-/* =========================================================
-   HERO AUTO SLIDER
-========================================================= */
-
-(function () {
-  "use strict";
-
-  const heroSlider = document.getElementById("heroSlider");
-
-  if (!heroSlider) return;
-
-  const slides = Array.from(
-    heroSlider.querySelectorAll(".hero-slide")
-  );
-
-  const dotsContainer = document.getElementById("heroDots");
-  const prevButton = document.getElementById("heroPrev");
-  const nextButton = document.getElementById("heroNext");
-
-  if (slides.length <= 1) return;
-
-  let currentIndex = 0;
-  let autoSlideTimer = null;
-
-  function showSlide(index) {
-    currentIndex =
-      (index + slides.length) % slides.length;
-
-    slides.forEach((slide, i) => {
-      slide.classList.toggle(
-        "active",
-        i === currentIndex
-      );
-    });
-
-    if (dotsContainer) {
-      Array.from(
-        dotsContainer.children
-      ).forEach((dot, i) => {
-        dot.classList.toggle(
-          "active",
-          i === currentIndex
-        );
-      });
-    }
-  }
-
-  function createDots() {
-    if (!dotsContainer) return;
-
-    dotsContainer.innerHTML = "";
-
-    slides.forEach((slide, index) => {
-      const dot = document.createElement("button");
-
-      dot.type = "button";
-      dot.className = "hero-dot";
-
-      if (index === 0) {
-        dot.classList.add("active");
-      }
-
-      dot.setAttribute(
-        "aria-label",
-        "نمایش عکس " + (index + 1)
-      );
-
-      dot.addEventListener("click", () => {
-        showSlide(index);
-        restartAutoSlide();
-      });
-
-      dotsContainer.appendChild(dot);
-    });
-  }
-
-  function nextSlide() {
-    showSlide(currentIndex + 1);
-  }
-
-  function previousSlide() {
-    showSlide(currentIndex - 1);
-  }
-
-  function startAutoSlide() {
-    autoSlideTimer = setInterval(() => {
-      nextSlide();
-    }, 3000);
-  }
-
-  function restartAutoSlide() {
-    clearInterval(autoSlideTimer);
-    startAutoSlide();
-  }
-
-  if (nextButton) {
-    nextButton.addEventListener("click", () => {
-      nextSlide();
-      restartAutoSlide();
-    });
-  }
-
-  if (prevButton) {
-    prevButton.addEventListener("click", () => {
-      previousSlide();
-      restartAutoSlide();
-    });
-  }
-
-  createDots();
-  showSlide(0);
-  startAutoSlide();
-
-})();
+/*
+  ⚠️ اسلایدر صفحه اصلی (HERO SLIDER) عمداً از این فایل حذف شده.
+  کد اسلایدر داخل index.html است و نباید اینجا هم باشد.
+*/
