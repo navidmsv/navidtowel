@@ -26,15 +26,13 @@
 
     <style>
         /* =====================================================
-           استایل اسلایدر صفحه اصلی (کشی‌شونده — راست‌چین)
-           فقط اگه لازم شد، این بخش رو به style.css منتقل کن
+           اسلایدر صفحه اصلی (کشی‌شونده — راست‌چین)
         ===================================================== */
 
         .hero-slider {
             position: relative;
             overflow: hidden;
-            /* 👇 نسبت ابعاد عکس‌هات — این یکی عدد رو با عکس‌هات بخون
-               مثال: 16/9 برای عکس معمولی، 16/7 برای عکس پهن (بنر) */
+            /* 👇 نسبت ابعاد عکس‌هات — اگه لبه عکس بریده می‌شه این عدد رو عوض کن */
             --hero-ratio: 16 / 7;
             aspect-ratio: var(--hero-ratio);
         }
@@ -42,7 +40,6 @@
         .hero-track {
             display: flex;
             height: 100%;
-            /* حرکت نرم کشیدنی */
             transition: transform .55s cubic-bezier(.4, 0, .2, 1);
             will-change: transform;
         }
@@ -64,7 +61,6 @@
             display: block;
         }
 
-        /* دکمه‌های قبلی/بعدی */
         .hero-slider-arrow {
             position: absolute;
             top: 50%;
@@ -93,7 +89,6 @@
         .hero-slider-prev { right: 16px; }
         .hero-slider-next { left: 16px; }
 
-        /* نقطه‌های پایین اسلایدر */
         .hero-slider-dots {
             position: absolute;
             bottom: 14px;
@@ -119,6 +114,174 @@
         .hero-dot.active {
             background: #fff;
             transform: scale(1.25);
+        }
+
+        /* =====================================================
+           کارت دسته‌بندی با عکس پس‌زمینه (مردانه / زنانه)
+        ===================================================== */
+
+        .category-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            transition: transform .6s ease;
+        }
+
+        .category-card:hover .category-bg {
+            transform: scale(1.05);
+        }
+
+        /* سایه‌ی ملایم روی عکس تا نوشته‌ها خوانا باشند */
+        .category-card.has-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(20, 28, 17, .88), rgba(20, 28, 17, .18) 60%, rgba(20, 28, 17, .05));
+            z-index: 1;
+        }
+
+        .category-card.has-bg .category-number,
+        .category-card.has-bg .category-content {
+            position: relative;
+            z-index: 2;
+            color: #fff;
+        }
+
+        .category-card.has-bg .category-content h3 {
+            color: #fff;
+        }
+
+        .category-card.has-bg .category-content p {
+            color: rgba(255, 255, 255, .85);
+        }
+
+        .category-card.has-bg .category-content span {
+            color: #fff;
+        }
+
+        /* =====================================================
+           نظرات مشتریان (نمایش + فرم ثبت نظر)
+        ===================================================== */
+
+        .reviews-empty {
+            text-align: center;
+            color: #8a8f83;
+            padding: 24px;
+        }
+
+        .review-form-card {
+            background: #fff;
+            border: 1px solid rgba(52, 69, 47, .15);
+            border-radius: 18px;
+            padding: 28px;
+            margin-top: 36px;
+        }
+
+        .review-form-card h3 {
+            margin: 0 0 6px;
+            color: #34452f;
+        }
+
+        .review-form-card > p {
+            margin: 0 0 18px;
+            font-size: 14px;
+            color: #6d7266;
+        }
+
+        .review-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .review-form-grid label {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 13px;
+            color: #4b5145;
+        }
+
+        .review-form-grid input,
+        .review-form-full textarea {
+            border: 1px solid rgba(52, 69, 47, .25);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font: inherit;
+            font-size: 14px;
+            background: #fbfaf7;
+            color: #2c352a;
+        }
+
+        .review-form-grid input:focus,
+        .review-form-full textarea:focus {
+            outline: none;
+            border-color: #34452f;
+        }
+
+        .review-form-full {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 13px;
+            color: #4b5145;
+        }
+
+        .review-form-full textarea {
+            width: 100%;
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .review-form-actions {
+            margin-top: 14px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .review-submit {
+            background: #34452f;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 11px 26px;
+            font: inherit;
+            cursor: pointer;
+            transition: background .25s;
+        }
+
+        .review-submit:hover {
+            background: #2a3826;
+        }
+
+        .review-submit:disabled {
+            opacity: .6;
+            cursor: wait;
+        }
+
+        #reviewMsg {
+            font-size: 13px;
+            margin: 0;
+        }
+
+        #reviewMsg.ok { color: #2e7d32; }
+        #reviewMsg.err { color: #c0392b; }
+
+        @media (max-width: 640px) {
+            .review-form-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 
@@ -161,7 +324,6 @@
 
         <div class="hero-slider" id="heroSlider">
 
-            <!-- ریل اسلایدر: عکس‌ها داخلش کشیده می‌شن -->
             <div class="hero-track" id="heroTrack">
 
                 <div class="hero-slide">
@@ -428,9 +590,17 @@
                 </div>
             </a>
 
+            <!-- مردانه: عکس پس‌زمینه — images/category-men.png را آپلود کن -->
             <a
                 href="shop.html?category=men"
-                class="category-card category-men">
+                class="category-card category-men has-bg">
+                <img
+                    class="category-bg"
+                    src="images/category-men.png"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    onerror="this.style.display='none'; this.parentElement.classList.remove('has-bg');">
                 <div class="category-number">
                     03
                 </div>
@@ -447,16 +617,31 @@
                 </div>
             </a>
 
-            <!-- کارت زنانه: استایل‌های inline منتقل شد به style.css (کلاس category-zan) -->
+            <!-- زنانه: عکس به‌صورت پس‌زمینه‌ی کامل کارت -->
             <a
                 href="shop.html?category=zan"
-                class="category-card category-zan"
-                aria-label="حوله زنانه">
+                class="category-card category-zan has-bg">
                 <img
+                    class="category-bg"
                     src="images/category-women.png"
-                    alt="حوله زنانه NavidTowel"
+                    alt=""
                     loading="lazy"
-                    decoding="async">
+                    decoding="async"
+                    onerror="this.style.display='none'; this.parentElement.classList.remove('has-bg');">
+                <div class="category-number">
+                    04
+                </div>
+                <div class="category-content">
+                    <h3>
+                        زنانه
+                    </h3>
+                    <p>
+                        لطافت و ظرافت برای استفاده روزانه
+                    </p>
+                    <span>
+                        مشاهده محصولات ←
+                    </span>
+                </div>
             </a>
 
         </div>
@@ -627,14 +812,15 @@
 
 
 <!-- =====================================================
-     REVIEWS
+     REVIEWS — نظرات واقعی با تایید مدیر
 ===================================================== -->
 
-<section class="section reviews-section">
+<section class="section reviews-section" id="reviews">
 
     <div class="container">
 
         <div class="section-head">
+
             <div>
                 <span class="section-label">
                     تجربه مشتریان
@@ -646,63 +832,78 @@
                     تجربه خوب مشتری، بهترین معرفی ماست.
                 </p>
             </div>
+
         </div>
 
-        <div class="reviews">
+        <!-- نظرات تاییدشده اینجا نمایش داده می‌شوند -->
+        <div class="reviews" id="reviewsList">
+            <p class="reviews-empty">
+                در حال بارگذاری نظرات...
+            </p>
+        </div>
 
-            <div class="review">
-                <div class="review-top">
-                    <div class="stars">
-                        ★★★★★
-                    </div>
-                    <span>
-                        خرید موفق
-                    </span>
-                </div>
-                <p>
-                    حوله خیلی نرم و باکیفیت بود.
-                    بسته‌بندی هم خیلی خوب انجام شده بود.
-                </p>
-                <strong>
-                    مریم — آبادان
-                </strong>
-            </div>
+        <!-- فرم ثبت نظر -->
+        <div class="review-form-card">
 
-            <div class="review">
-                <div class="review-top">
-                    <div class="stars">
-                        ★★★★★
-                    </div>
-                    <span>
-                        خرید موفق
-                    </span>
-                </div>
-                <p>
-                    کیفیت محصول نسبت به قیمت خیلی خوب بود.
-                    حتماً دوباره خرید می‌کنم.
-                </p>
-                <strong>
-                    علی — تهران
-                </strong>
-            </div>
+            <h3>
+                نظر خودت را ثبت کن
+            </h3>
 
-            <div class="review">
-                <div class="review-top">
-                    <div class="stars">
-                        ★★★★★
-                    </div>
-                    <span>
-                        خرید موفق
-                    </span>
+            <p>
+                نظر شما بعد از بررسی و تایید ما در همین قسمت نمایش داده می‌شود.
+            </p>
+
+            <form id="reviewForm" novalidate>
+
+                <div class="review-form-grid">
+
+                    <label>
+                        نام *
+                        <input type="text" name="name" maxlength="40" required>
+                    </label>
+
+                    <label>
+                        نام خانوادگی
+                        <input type="text" name="family" maxlength="40">
+                    </label>
+
+                    <label>
+                        شهر
+                        <input type="text" name="city" maxlength="40">
+                    </label>
+
+                    <label>
+                        شماره موبایل *
+                        <input type="tel" name="phone" maxlength="11" inputmode="tel" placeholder="09xxxxxxxxx" required>
+                    </label>
+
                 </div>
-                <p>
-                    رنگ و ظاهر حوله دقیقاً چیزی بود
-                    که انتظار داشتم.
-                </p>
-                <strong>
-                    زهرا — اهواز
-                </strong>
-            </div>
+
+                <label class="review-form-full">
+                    نظر شما *
+                    <textarea name="text" maxlength="600" required></textarea>
+                </label>
+
+                <!-- تله اسپم: کاربر واقعی این را نمی‌بیند و پر نمی‌کند -->
+                <input
+                    type="text"
+                    name="website"
+                    tabindex="-1"
+                    autocomplete="off"
+                    aria-hidden="true"
+                    style="position:absolute; left:-9999px; opacity:0; height:0; width:0;">
+
+                <div class="review-form-actions">
+
+                    <button type="submit" class="review-submit">
+                        ثبت نظر
+                    </button>
+
+                    <p id="reviewMsg" aria-live="polite"></p>
+
+                </div>
+
+            </form>
 
         </div>
 
@@ -815,7 +1016,6 @@
 
                 <div class="trust-badges">
 
-                    <!-- سازمان منطقه آزاد اروند -->
                     <div class="trust-badge">
                         <a
                             href="https://www.arvandfreezone.com"
@@ -830,7 +1030,6 @@
                         </a>
                     </div>
 
-                    <!-- نماد اعتماد الکترونیکی — لینک بعد از دریافت نماد واقعی جایگذاری شود -->
                     <div class="trust-badge">
                         <div class="trust-badge-placeholder">
                             <img
@@ -842,7 +1041,6 @@
                         </div>
                     </div>
 
-                    <!-- جایگاه پرداخت -->
                     <div class="trust-badge">
                         <div class="trust-badge-placeholder">
                             <span>PAY</span>
@@ -875,8 +1073,6 @@
 
         <div class="footer-grid">
 
-            <!-- BRAND -->
-
             <div class="footer-brand">
 
                 <a
@@ -899,8 +1095,6 @@
                 </a>
 
             </div>
-
-            <!-- STORE -->
 
             <div>
                 <h3>
@@ -928,8 +1122,6 @@
                 </a>
             </div>
 
-            <!-- CUSTOMER -->
-
             <div>
                 <h3>
                     خدمات مشتریان
@@ -952,12 +1144,9 @@
                 </a>
 
                 <a href="terms.html">
-                    <!-- 👇 بعداً صفحه قوانین بساز و لینکش رو اینجا بذار -->
                     قوانین و مقررات
                 </a>
             </div>
-
-            <!-- CONTACT -->
 
             <div>
                 <h3>
@@ -1037,7 +1226,6 @@
                 </div>
 
                 <div class="footer-trust-item">
-                    <!-- لینک نماد اعتماد هنوز جایگذاری نشده -->
                     <img
                         src="images/ETEMAD.png"
                         alt="نماد اعتماد الکترونیکی"
@@ -1075,84 +1263,180 @@
 <script src="script.js"></script>
 <script src="menu.js"></script>
 
-<!-- =====================================================
-     اسلایدر صفحه اصلی (کشی‌شونده) — این کد جدید مدیریتش می‌کند
-     ⚠️ اگر داخل script.js کدی برای heroSlider/heroPrev/heroNext
-     هست، آن بخش را حذف کن تا تداخل نکند
-===================================================== -->
 <script>
 (function () {
     'use strict';
 
+    /* =====================================================
+       ۱) اسلایدر صفحه اصلی (کشی‌شونده)
+       ⚠️ اگر داخل script.js کد اسلایدر hero هست، حذفش کن
+    ===================================================== */
+
     var slider = document.getElementById('heroSlider');
-    if (!slider || slider.dataset.sliderReady) return; // جلوگیری از اجرای دوباره
-    slider.dataset.sliderReady = '1';
+    if (slider && !slider.dataset.sliderReady) {
+        slider.dataset.sliderReady = '1';
 
-    var track = document.getElementById('heroTrack');
-    var slides = track.children;
-    var dotsBox = document.getElementById('heroDots');
-    var count = slides.length;
-    var current = 0;
-    var timer = null;
-    var AUTOPLAY_MS = 6000; // تغییر خودکار هر ۶ ثانیه
+        var track = document.getElementById('heroTrack');
+        var slides = track.children;
+        var dotsBox = document.getElementById('heroDots');
+        var count = slides.length;
+        var current = 0;
+        var timer = null;
+        var AUTOPLAY_MS = 6000;
 
-    // ساخت نقطه‌های پایین
-    var dots = [];
-    for (var i = 0; i < count; i++) {
-        var d = document.createElement('button');
-        d.type = 'button';
-        d.className = 'hero-dot' + (i === 0 ? ' active' : '');
-        d.setAttribute('aria-label', 'رفتن به اسلاید ' + (i + 1));
-        (function (idx) {
-            d.addEventListener('click', function () { goTo(idx); restartAuto(); });
-        })(i);
-        dotsBox.appendChild(d);
-        dots.push(d);
-    }
-
-    function goTo(i) {
-        // در حالت راست‌چین، اسلاید بعدی سمت چپ است، پس ترک به راست کشیده می‌شود
-        current = (i + count) % count;
-        track.style.transform = 'translateX(' + (current * 100) + '%)';
-        for (var j = 0; j < count; j++) {
-            dots[j].classList.toggle('active', j === current);
+        var dots = [];
+        for (var i = 0; i < count; i++) {
+            var d = document.createElement('button');
+            d.type = 'button';
+            d.className = 'hero-dot' + (i === 0 ? ' active' : '');
+            d.setAttribute('aria-label', 'رفتن به اسلاید ' + (i + 1));
+            (function (idx) {
+                d.addEventListener('click', function () { goTo(idx); restartAuto(); });
+            })(i);
+            dotsBox.appendChild(d);
+            dots.push(d);
         }
+
+        function goTo(i) {
+            current = (i + count) % count;
+            track.style.transform = 'translateX(' + (current * 100) + '%)';
+            for (var j = 0; j < count; j++) {
+                dots[j].classList.toggle('active', j === current);
+            }
+        }
+
+        function next() { goTo(current + 1); }
+        function prev() { goTo(current - 1); }
+
+        document.getElementById('heroNext').addEventListener('click', function () { next(); restartAuto(); });
+        document.getElementById('heroPrev').addEventListener('click', function () { prev(); restartAuto(); });
+
+        function startAuto() { timer = setInterval(next, AUTOPLAY_MS); }
+        function stopAuto() { clearInterval(timer); }
+        function restartAuto() { stopAuto(); startAuto(); }
+        startAuto();
+
+        slider.addEventListener('mouseenter', stopAuto);
+        slider.addEventListener('mouseleave', startAuto);
+
+        var startX = null;
+        slider.addEventListener('touchstart', function (e) {
+            startX = e.touches[0].clientX;
+            stopAuto();
+        }, { passive: true });
+        slider.addEventListener('touchend', function (e) {
+            if (startX === null) return;
+            var diff = e.changedTouches[0].clientX - startX;
+            if (diff > 40) prev();
+            else if (diff < -40) next();
+            startX = null;
+            startAuto();
+        });
     }
 
-    function next() { goTo(current + 1); }
-    function prev() { goTo(current - 1); }
+    /* =====================================================
+       ۲) سال کپی‌رایت
+    ===================================================== */
 
-    document.getElementById('heroNext').addEventListener('click', function () { next(); restartAuto(); });
-    document.getElementById('heroPrev').addEventListener('click', function () { prev(); restartAuto(); });
-
-    // پخش خودکار
-    function startAuto() { timer = setInterval(next, AUTOPLAY_MS); }
-    function stopAuto() { clearInterval(timer); }
-    function restartAuto() { stopAuto(); startAuto(); }
-    startAuto();
-
-    // توقف هنگام هاور
-    slider.addEventListener('mouseenter', stopAuto);
-    slider.addEventListener('mouseleave', startAuto);
-
-    // کشیدن با انگشت روی موبایل
-    var startX = null;
-    slider.addEventListener('touchstart', function (e) {
-        startX = e.touches[0].clientX;
-        stopAuto();
-    }, { passive: true });
-    slider.addEventListener('touchend', function (e) {
-        if (startX === null) return;
-        var diff = e.changedTouches[0].clientX - startX;
-        if (diff > 40) prev();      // کشیدن به راست = قبلی
-        else if (diff < -40) next(); // کشیدن به چپ = بعدی
-        startX = null;
-        startAuto();
-    });
-
-    // سال کپی‌رایت خودکار
     var y = document.getElementById('footerYear');
     if (y) y.textContent = new Date().getFullYear();
+
+    /* =====================================================
+       ۳) نظرات مشتریان — اتصال به ورکر
+       👇 آدرس ورکر نظرات را اینجا بگذار (بعد از ساخت ورکر)
+    ===================================================== */
+
+    var REVIEWS_API = 'https://NAVID-REVIEWS-WORKER-URL.workers.dev'; // 👈 عوضش کن
+
+    var msgEl = document.getElementById('reviewMsg');
+
+    // تبدیل اعداد فارسی به انگلیسی برای شماره موبایل
+    function faToEn(s) {
+        return String(s || '').replace(/[۰-۹]/g, function (d) {
+            return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d);
+        });
+    }
+
+    function loadReviews() {
+        var box = document.getElementById('reviewsList');
+        fetch(REVIEWS_API + '/api/reviews')
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                box.innerHTML = '';
+                if (!data.reviews || !data.reviews.length) {
+                    box.innerHTML = '<p class="reviews-empty">هنوز نظری ثبت نشده — اولین نفر باش ✨</p>';
+                    return;
+                }
+                data.reviews.forEach(function (r) {
+                    var div = document.createElement('div');
+                    div.className = 'review';
+                    div.innerHTML =
+                        '<div class="review-top"><div class="stars">★★★★★</div><span>خرید تاییدشده</span></div>' +
+                        '<p></p><strong></strong>';
+                    div.querySelector('p').textContent = r.text;
+                    div.querySelector('strong').textContent = r.name + (r.city ? ' — ' + r.city : '');
+                    box.appendChild(div);
+                });
+            })
+            .catch(function () {
+                box.innerHTML = '<p class="reviews-empty">برای نمایش نظرات، ورکر نظرات را راه‌اندازی کن.</p>';
+            });
+    }
+
+    document.getElementById('reviewForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var form = e.target;
+        var btn = form.querySelector('.review-submit');
+
+        var name = form.name.value.trim();
+        var family = form.family.value.trim();
+        var city = form.city.value.trim();
+        var text = form.text.value.trim();
+        var phone = faToEn(form.phone.value).replace(/\D/g, '');
+
+        msgEl.className = '';
+        msgEl.textContent = '';
+
+        if (!name) { msgEl.className = 'err'; msgEl.textContent = 'نام را بنویس.'; return; }
+        if (!/^09\d{9}$/.test(phone)) { msgEl.className = 'err'; msgEl.textContent = 'شماره موبایل معتبر نیست (مثال: 09123456789).'; return; }
+        if (text.length < 10) { msgEl.className = 'err'; msgEl.textContent = 'متن نظر کمی بلندتر باشد (حداقل ۱۰ حرف).'; return; }
+
+        btn.disabled = true;
+        msgEl.className = '';
+        msgEl.textContent = 'در حال ارسال...';
+
+        fetch(REVIEWS_API + '/api/reviews', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: name,
+                family: family,
+                city: city,
+                phone: phone,
+                text: text,
+                website: form.website.value // تله اسپم
+            })
+        })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                btn.disabled = false;
+                if (data.ok) {
+                    msgEl.className = 'ok';
+                    msgEl.textContent = 'نظرت ثبت شد ✓ بعد از تایید ما نمایش داده می‌شود. ممنون 🌿';
+                    form.reset();
+                } else {
+                    msgEl.className = 'err';
+                    msgEl.textContent = data.error || 'خطا در ثبت نظر. دوباره تلاش کن.';
+                }
+            })
+            .catch(function () {
+                btn.disabled = false;
+                msgEl.className = 'err';
+                msgEl.textContent = 'ارتباط برقرار نشد. اینترنت را چک کن و دوباره تلاش کن.';
+            });
+    });
+
+    loadReviews();
 })();
 </script>
 
