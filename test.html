@@ -266,62 +266,201 @@ h3 { font-size: calc(1em + 0.55em) !important; }
 <!-- =====================================================
      HERO
 ===================================================== -->
+<!-- ================= اسلایدر جدید NavidTowel (مستقل) ================= -->
+<style>
+.nv-hero{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/7;      /* نسبت عکس — اگه بریده میشه اینو عوض کن مثلا 4/3 */
+  overflow:hidden;
+  background:#e9e5dc;
+  direction:ltr;
+}
+.nv-slide{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transition:opacity .7s ease;
+  pointer-events:none;
+}
+.nv-slide.active{
+  opacity:1;
+  pointer-events:auto;
+}
+.nv-slide a{
+  display:block;
+  width:100%;
+  height:100%;
+}
+/* 👇 هم عکس، هم گیف، هم فیلم — هرچی بذاری پر می‌شه */
+.nv-slide img,
+.nv-slide video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  border:0;
+}
+.nv-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:6;
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:50%;
+  background:rgba(52,69,47,.55);
+  color:#fff;
+  font-size:20px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:background .25s;
+}
+.nv-arrow:hover{background:rgba(52,69,47,.9);}
+.nv-prev{right:14px;}
+.nv-next{left:14px;}
+.nv-dots{
+  position:absolute;
+  bottom:14px;
+  left:0;
+  right:0;
+  z-index:6;
+  display:flex;
+  justify-content:center;
+  gap:8px;
+}
+.nv-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  border:0;
+  padding:0;
+  cursor:pointer;
+  background:rgba(255,255,255,.55);
+  transition:.25s;
+}
+.nv-dot.active{background:#fff;transform:scale(1.25);}
+@media(max-width:700px){
+  .nv-hero{aspect-ratio:4/3;}
+  .nv-arrow{width:34px;height:34px;font-size:16px;}
+}
+</style>
 
-<section
-    class="hero hero-slider-section"
-    id="home">
+<section class="nv-hero" id="nvHero">
 
-    <div class="container">
+  <!-- اسلاید ۱ : عکس -->
+  <div class="nv-slide active">
+    <a href="shop.html">
+      <img src="images/asli.png" alt="مجموعه حوله‌های NavidTowel" fetchpriority="high">
+    </a>
+  </div>
 
-        <div class="hero-slider" id="heroSlider">
+  <!-- اسلاید ۲ : عکس -->
+  <div class="nv-slide">
+    <a href="shop.html">
+      <img src="IMG_3885.jpeg" alt="حوله پانچ و تن‌پوش کودک NavidTowel">
+    </a>
+  </div>
 
-            <div class="hero-track" id="heroTrack">
+  <!-- اسلاید ۳ : گیف (همین‌جوریه — گیف رو مثل عکس می‌ذاری) -->
+  <div class="nv-slide">
+    <a href="shop.html">
+      <img src="images/CHE.webp" alt="تخفیفات ویژه NavidTowel">
+    </a>
+  </div>
 
-                <div class="hero-slide">
-                    <a href="shop.html">
-                        <img
-                            src="images/asli.png"
-                            alt="مجموعه حوله‌های NavidTowel"
-                            fetchpriority="high"
-                            decoding="async">
-                    </a>
-                </div>
+  <!--
+  ════════════════════════════════════════════════
+  برای فیلم، هر وقت خواستی یه اسلاید جدید اضافه کن
+  یا عکس یکی از اسلایدها رو با این عوض کن:
 
-                <div class="hero-slide">
-                    <a href="shop.html">
-                        <img
-                            src="IMG_3885.jpeg"
-                            alt="حوله پانچ و تن‌پوش کودک NavidTowel"
-                            loading="lazy"
-                            decoding="async">
-                    </a>
-                </div>
+  <div class="nv-slide">
+    <a href="shop.html">
+      <video src="images/film.mp4" autoplay muted loop playsinline></video>
+    </a>
+  </div>
 
-                <div class="hero-slide">
-                    <img
-                        src="images/CHE.webp"
-                        alt="تخفیفات ویژه حوله NavidTowel"
-                        loading="lazy"
-                        decoding="async">
-                </div>
+  ⚠️ حتماً muted و autoplay و loop و playsinline باشه
+  وگرنه مرورگر فیلم رو پخش نمی‌کنه.
+  ════════════════════════════════════════════════
+  -->
 
-            </div>
+  <button class="nv-arrow nv-prev" type="button" aria-label="قبلی">❯</button>
+  <button class="nv-arrow nv-next" type="button" aria-label="بعدی">❮</button>
+  <div class="nv-dots" id="nvDots"></div>
 
-            <button
-                type="button"
-                class="hero-slider-arrow hero-slider-prev"
-                id="heroPrev"
-                aria-label="عکس قبلی">
-                →
-            </button>
+</section>
 
-            <button
-                type="button"
-                class="hero-slider-arrow hero-slider-next"
-                id="heroNext"
-                aria-label="عکس بعدی">
-                ←
-            </button>
+<script>
+(function () {
+  var hero   = document.getElementById("nvHero");
+  if (!hero) return;
+
+  var slides = hero.querySelectorAll(".nv-slide");
+  var dotsEl = document.getElementById("nvDots");
+  var index  = 0;
+  var timer  = null;
+
+  slides.forEach(function (_, i) {
+    var dot = document.createElement("button");
+    dot.type = "button";
+    dot.className = "nv-dot" + (i === 0 ? " active" : "");
+    dot.addEventListener("click", function () { go(i); });
+    dotsEl.appendChild(dot);
+  });
+
+  var dots = dotsEl.querySelectorAll(".nv-dot");
+
+  function go(i) {
+    slides[index].classList.remove("active");
+    dots[index].classList.remove("active");
+    var oldVideo = slides[index].querySelector("video");
+    if (oldVideo) oldVideo.pause();
+
+    index = (i + slides.length) % slides.length;
+
+    slides[index].classList.add("active");
+    dots[index].classList.add("active");
+    var video = slides[index].querySelector("video");
+    if (video) video.play();
+  }
+
+  function next() { go(index + 1); }
+  function prev() { go(index - 1); }
+
+  hero.querySelector(".nv-next").addEventListener("click", function () { next(); resetTimer(); });
+  hero.querySelector(".nv-prev").addEventListener("click", function () { prev(); resetTimer(); });
+
+  function startTimer() { timer = setInterval(next, 6000); }
+  function stopTimer()  { clearInterval(timer); }
+  function resetTimer() { stopTimer(); startTimer(); }
+  startTimer();
+
+  /* سوایپ موبایل */
+  var startX = null;
+  hero.addEventListener("touchstart", function (e) {
+    startX = e.touches[0].clientX;
+    stopTimer();
+  }, { passive: true });
+  hero.addEventListener("touchend", function (e) {
+    if (startX === null) return;
+    var diff = e.changedTouches[0].clientX - startX;
+    if (diff > 40) prev();
+    else if (diff < -40) next();
+    startX = null;
+    startTimer();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowLeft")  next();
+    if (e.key === "ArrowRight") prev();
+  });
+})();
+</script>
+<!-- ================= پایان اسلایدر ================= -->
 
             <div
                 class="hero-slider-dots"
