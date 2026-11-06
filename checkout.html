@@ -3,8 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
     <title>تکمیل سفارش | NavidTowel</title>
     <link rel="stylesheet" href="style.css">
+
+<script>
+    /* جلوگیری از باز شدن این صفحه داخل iframe سایت‌های دیگر (clickjacking) */
+    if (window.top !== window.self) {
+        try {
+            window.top.location = window.self.location;
+        } catch (error) {
+            document.documentElement.style.display = "none";
+        }
+    }
+</script>
 
 <style>
     .checkout-page {
@@ -135,6 +147,19 @@
         color: #888;
         font-size: 10px;
         line-height: 1.7;
+    }
+
+    /* فیلد تله برای ربات‌ها (honeypot) — برای کاربر واقعی دیده نمی‌شود */
+
+    .hp-field {
+        position: absolute !important;
+        left: -9999px !important;
+        top: auto !important;
+        width: 1px !important;
+        height: 1px !important;
+        opacity: 0 !important;
+        overflow: hidden !important;
+        pointer-events: none !important;
     }
 
     .shipping-section {
@@ -742,6 +767,32 @@
         display: none !important;
     }
 
+    /* دکمه‌ی «برگشت به سبد خرید» — سمت راستِ دکمه‌ی ثبت سفارش */
+
+    body.checkout-page-body .header-actions .checkout-header-back {
+        height: 42px !important;
+        padding: 0 14px !important;
+        border-radius: 11px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        background: #fff !important;
+        color: var(--green-dark, #34452f) !important;
+        border: 1px solid rgba(52,69,47,.28) !important;
+        font-family: Tahoma, Arial, sans-serif !important;
+        font-size: 12px !important;
+        font-weight: 800 !important;
+        text-decoration: none !important;
+        white-space: nowrap !important;
+        cursor: pointer !important;
+        box-shadow: 0 5px 14px rgba(52,69,47,.08) !important;
+    }
+
+    body.checkout-page-body .header-actions .checkout-header-back:hover {
+        background: rgba(52,69,47,.06) !important;
+    }
+
     /* پیام */
 
     .checkout-message {
@@ -977,10 +1028,23 @@
         }
 
         body.checkout-page-body .header-actions .cart-btn.checkout-header-submit {
-            min-width: 105px !important;
+            min-width: 92px !important;
             height: 39px !important;
-            padding: 0 13px !important;
+            padding: 0 11px !important;
             font-size: 11px !important;
+        }
+
+        body.checkout-page-body .header-actions .checkout-header-back {
+            height: 39px !important;
+            padding: 0 9px !important;
+            font-size: 10.5px !important;
+            gap: 4px !important;
+        }
+    }
+
+    @media (max-width: 380px) {
+        body.checkout-page-body .header-actions .checkout-header-back .back-arrow {
+            display: none !important;
         }
     }
 </style>
@@ -1025,7 +1089,18 @@
                     <h2>اطلاعات گیرنده</h2>
                 </div>
 
-                <form id="checkoutForm">
+                <form id="checkoutForm" novalidate>
+
+                    <!-- فیلد تله برای ربات‌ها: کاربر واقعی هیچ‌وقت پرش نمی‌کند -->
+                    <input
+                        type="text"
+                        id="hpField"
+                        name="nt_hp_check"
+                        class="hp-field"
+                        tabindex="-1"
+                        autocomplete="off"
+                        aria-hidden="true"
+                    >
 
                     <div class="form-grid">
 
@@ -1040,6 +1115,7 @@
                                 name="firstName"
                                 autocomplete="given-name"
                                 placeholder="نام"
+                                maxlength="40"
                                 required
                             >
                         </div>
@@ -1055,6 +1131,7 @@
                                 name="lastName"
                                 autocomplete="family-name"
                                 placeholder="نام خانوادگی"
+                                maxlength="40"
                                 required
                             >
                         </div>
@@ -1138,6 +1215,7 @@
                                 id="city"
                                 name="city"
                                 placeholder="مثلاً آبادان"
+                                maxlength="40"
                                 required
                             >
                         </div>
@@ -1168,6 +1246,7 @@
                                 name="address"
                                 autocomplete="street-address"
                                 placeholder="استان، شهر، خیابان، کوچه، پلاک، واحد..."
+                                maxlength="300"
                                 required
                             ></textarea>
                         </div>
@@ -1184,6 +1263,7 @@
                                 id="note"
                                 name="note"
                                 placeholder="اگر توضیحی درباره سفارش یا تحویل دارید بنویسید..."
+                                maxlength="300"
                             ></textarea>
                         </div>
 
@@ -1392,7 +1472,7 @@
                                         </span>
 
                                         <strong id="cardPaymentAmount">
-                                            0 تومان
+                                            0 ریال
                                         </strong>
 
                                     </div>
@@ -1790,30 +1870,44 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
+    /* =========================================================
+       تنظیمات
+    ========================================================= */
+
     const GOOGLE_SCRIPT_URL =
         "https://script.google.com/macros/s/AKfycbyyg20MikWIqNtE5KKuQrczOMT_qp9B5gwqaBc7FbZsRcH8Ymje80ee202ymZhpFORf1w/exec";
 
     const GATEWAY_URL = "";
 
-    const CARD_NUMBER =
-        "0000000000000000";
+    const CARD_NUMBER = "0000000000000000";
+    const CARD_OWNER = "نام صاحب کارت";
 
-    const CARD_OWNER =
-        "نام صاحب کارت";
+    const CART_KEY = "navidTowelCart";
+    const CHECKOUT_KEY = "navidTowelCheckout";
 
-    const CART_KEY =
-        "navidTowelCart";
+    /*
+      قیمت‌ها تو products.js به «هزار تومان» وارد می‌شن:
+      عدد 1260 یعنی 1,260,000 تومان.
+      ریال = تومان × 10 (فقط برای کارت‌به‌کارت/درگاه).
+    */
+    const PRICE_UNIT = 1000;
+    const RIAL_PER_TOMAN = 10;
 
-    const CHECKOUT_KEY =
-        "navidTowelCheckout";
+    /*
+      محافظ دوران مهاجرت: اگه یه محصول هنوز با قیمت کامل (به تومان،
+      مثلاً 890000) تو products.js مونده باشه، عدد بزرگ‌تر از این حد رو
+      «قیمت قدیمی به تومان» حساب می‌کنیم و دوباره × 1000 نمی‌کنیم.
+    */
+    const LEGACY_PRICE_LIMIT = 50000;
 
-    let cart = [];
+    const MAX_QTY = 20;
+    const MAX_URL_LENGTH = 7000;
+    const SEND_TIMEOUT_MS = 20000;
+    const MIN_SUBMIT_GAP_MS = 4000;
 
-    try {
-        cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
-    } catch (error) {
-        cart = [];
-    }
+    /* =========================================================
+       المان‌ها
+    ========================================================= */
 
     const checkoutTitle = document.getElementById("checkoutTitle");
     const emptyCheckout = document.getElementById("emptyCheckout");
@@ -1825,20 +1919,33 @@ document.addEventListener("DOMContentLoaded", function () {
     const paymentCard = document.getElementById("paymentCard");
     const paymentGateway = document.getElementById("paymentGateway");
     const confirmTransfer = document.getElementById("confirmTransfer");
-    const transferConfirmedMessage = document.getElementById("transferConfirmedMessage");
     const transferTrackingNumber = document.getElementById("transferTrackingNumber");
     const finalTransferBox = document.getElementById("finalTransferBox");
     const finalTransferButton = document.getElementById("finalTransferButton");
     const copyTrackingCodeButton = document.getElementById("copyTrackingCode");
+    const hpField = document.getElementById("hpField");
 
+    let cart = [];
     let transferConfirmed = false;
     let paymentConfirmInProgress = false;
     let finalSaveInProgress = false;
-
-    /* اطلاعاتی که مرحله‌ی «واریز کردم» برگردونده (کد پیگیری از سرور) */
     let paymentDraft = null;
+    let lastSubmitAt = 0;
 
-    /* هدر */
+    const requestId = createRequestId();
+
+    function createRequestId() {
+        try {
+            if (window.crypto && window.crypto.randomUUID) {
+                return window.crypto.randomUUID();
+            }
+        } catch (error) {}
+        return "r" + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+    }
+
+    /* =========================================================
+       هدر: «ثبت سفارش» + «برگشت به سبد خرید» (سمت راستش)
+    ========================================================= */
 
     function setupCheckoutHeader() {
         const oldButton = document.querySelector(".header-actions .cart-btn");
@@ -1851,13 +1958,45 @@ document.addEventListener("DOMContentLoaded", function () {
         newButton.innerHTML = "ثبت سفارش";
         oldButton.replaceWith(newButton);
 
+        const backLink = document.createElement("a");
+        backLink.href = "cart.html";
+        backLink.className = "checkout-header-back";
+        backLink.setAttribute("aria-label", "بازگشت به سبد خرید");
+        backLink.innerHTML =
+            '<span class="back-arrow">→</span><span class="back-text">سبد خرید</span>';
+
+        /* در صفحه‌ی راست‌به‌چپ، عنصرِ قبلی سمت راست قرار می‌گیره */
+        newButton.parentNode.insertBefore(backLink, newButton);
+
         newButton.addEventListener("click", function () {
+            const payment = document.querySelector('input[name="paymentMethod"]:checked');
+
+            if (!payment) {
+                showMessage("ابتدا روش پرداخت را انتخاب کنید.");
+                return;
+            }
+
+            if (paymentCard.checked && !transferConfirmed) {
+                cardPaymentBox.scrollIntoView({ behavior: "smooth", block: "center" });
+                showMessage("ابتدا مبلغ را واریز کنید و روی «واریز کردم» بزنید.");
+                return;
+            }
+
             const target = paymentCard.checked ? finalTransferButton : submitButton;
             target.scrollIntoView({ behavior: "smooth", block: "center" });
+
             setTimeout(function () {
                 if (!target.disabled) target.click();
             }, 350);
         });
+    }
+
+    function hideHeaderButtons() {
+        document
+            .querySelectorAll(".checkout-header-submit, .checkout-header-back")
+            .forEach(function (element) {
+                element.style.display = "none";
+            });
     }
 
     setupCheckoutHeader();
@@ -1870,15 +2009,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (badge) badge.textContent = "فعال";
     }
 
-    /* سبد خالی */
-
-    if (!cart.length) {
-        emptyCheckout.style.display = "block";
-        checkoutContent.style.display = "none";
-        return;
-    }
-
-    /* تبدیل اعداد */
+    /* =========================================================
+       ابزارهای عمومی
+    ========================================================= */
 
     function normalizeDigits(value) {
         return String(value || "")
@@ -1895,6 +2028,50 @@ document.addEventListener("DOMContentLoaded", function () {
         return Number.isFinite(number) ? number : 0;
     }
 
+    function formatPrice(number) {
+        return parseNumber(number).toLocaleString("en-US");
+    }
+
+    /* مبلغ به ریال: برای نمایش کنار کارت‌به‌کارت و (در آینده) درگاه */
+    function formatRial(toman) {
+        return (parseNumber(toman) * RIAL_PER_TOMAN).toLocaleString("en-US") + " ریال";
+    }
+
+    function escapeHtml(value) {
+        return String(value == null ? "" : value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+    }
+
+    /* پاک‌سازی متن ورودی قبل از ارسال */
+    function sanitizeText(value, max, multiline) {
+        let text = String(value == null ? "" : value).replace(/\r\n?/g, "\n");
+
+        /* کاراکترهای کنترلی و کاراکترهای جعل جهت متن (bidi override) */
+        text = text.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u202A-\u202E\u2066-\u2069]/g, "");
+        text = text.replace(/[<>]/g, "");
+
+        if (multiline) {
+            text = text.replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n");
+        } else {
+            text = text.replace(/\s+/g, " ");
+        }
+
+        return text.trim().slice(0, max);
+    }
+
+    function normalizeLabel(value) {
+        return String(value || "")
+            .trim()
+            .replace(/ي/g, "ی")
+            .replace(/ك/g, "ک")
+            .replace(/\s+/g, "")
+            .toLowerCase();
+    }
+
     document.querySelectorAll("input, textarea").forEach(function (field) {
         field.addEventListener("input", function () {
             const oldValue = this.value;
@@ -1903,11 +2080,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    function formatPrice(number) {
-        return parseNumber(number).toLocaleString("en-US");
-    }
-
-    /* محصولات */
+    /* =========================================================
+       محصولات و قیمت (فقط از روی کاتالوگ سایت، نه از سبد)
+    ========================================================= */
 
     function getProductsArray() {
         const possibleArrays = [];
@@ -1935,35 +2110,42 @@ document.addEventListener("DOMContentLoaded", function () {
         return product || null;
     }
 
-    function getItemPrice(item) {
-        const product = findProduct(item);
-        const productPrices = [product?.price, product?.salePrice, product?.currentPrice, product?.finalPrice];
-        const itemPrices = [item?.price, item?.salePrice, item?.currentPrice, item?.finalPrice, item?.unitPrice];
-        const allPrices = productPrices.concat(itemPrices);
-
-        for (let index = 0; index < allPrices.length; index++) {
-            const price = parseNumber(allPrices[index]);
-            if (price > 0) return price;
+    function firstPositive(values) {
+        for (let index = 0; index < values.length; index++) {
+            const number = parseNumber(values[index]);
+            if (number > 0) return number;
         }
         return 0;
     }
 
+    /* «هزار تومان» → تومان (با محافظ قیمت‌های قدیمیِ کامل) */
+    function unitToToman(raw) {
+        const number = parseNumber(raw);
+        if (number <= 0) return 0;
+        return number > LEGACY_PRICE_LIMIT ? number : number * PRICE_UNIT;
+    }
+
+    function getItemPrice(item) {
+        const product = findProduct(item);
+        if (!product) return 0;
+        return unitToToman(firstPositive([
+            product.price, product.salePrice, product.currentPrice, product.finalPrice
+        ]));
+    }
+
     function getItemOldPrice(item) {
         const product = findProduct(item);
-        const values = [product?.oldPrice, product?.previousPrice, product?.compareAtPrice, item?.oldPrice, item?.previousPrice, item?.compareAtPrice];
-
-        for (let index = 0; index < values.length; index++) {
-            const price = parseNumber(values[index]);
-            if (price > 0) return price;
-        }
-        return 0;
+        if (!product) return 0;
+        return unitToToman(firstPositive([
+            product.oldPrice, product.previousPrice, product.compareAtPrice
+        ]));
     }
 
     function getItemImage(item) {
         const product = findProduct(item);
         if (product?.image) return product.image;
         if (Array.isArray(product?.images) && product.images.length) return product.images[0];
-        return item?.image || item?.imageUrl || "";
+        return "";
     }
 
     function getItemName(item) {
@@ -1980,6 +2162,84 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
         return "";
+    }
+
+    /*
+      سبد خرید تو مرورگر کاربره و قابل دستکاریه؛ پس قبل از هر چیز
+      از روی کاتالوگ سایت دوباره‌سازیش می‌کنیم: محصولِ ناموجود/غیرفعال/
+      بدون‌قیمت حذف می‌شه، رنگ باید واقعاً مال همون محصول باشه، تعداد
+      بین 1 تا سقف مجاز و حداکثر به اندازه‌ی موجودی.
+    */
+    function sanitizeCart(rawCart) {
+        const result = [];
+        let dropped = 0;
+        let adjusted = false;
+
+        (Array.isArray(rawCart) ? rawCart : []).forEach(function (item) {
+            const product = findProduct(item);
+
+            if (!product || product.active === false || getItemPrice(item) <= 0) {
+                dropped++;
+                return;
+            }
+
+            let color = "";
+            let stock = NaN;
+
+            const productColors = Array.isArray(product.colors) ? product.colors : [];
+
+            if (productColors.length) {
+                const wanted = normalizeLabel(
+                    getVariantValue(item, ["color", "colorName", "selectedColor", "variantColor"])
+                );
+
+                const match = productColors.find(function (candidate) {
+                    return normalizeLabel(candidate && candidate.name) === wanted;
+                });
+
+                if (!match) {
+                    dropped++;
+                    return;
+                }
+
+                color = String(match.name);
+                stock = Number(match.stock);
+            }
+
+            let quantity = Math.floor(parseNumber(item?.quantity));
+            if (!(quantity >= 1)) quantity = 1;
+            if (quantity > MAX_QTY) {
+                quantity = MAX_QTY;
+                adjusted = true;
+            }
+
+            if (Number.isFinite(stock)) {
+                if (stock <= 0) {
+                    dropped++;
+                    return;
+                }
+                if (quantity > stock) {
+                    quantity = stock;
+                    adjusted = true;
+                }
+            }
+
+            const size = sanitizeText(
+                getVariantValue(item, ["size", "sizeName", "selectedSize", "variantSize"]),
+                30,
+                false
+            );
+
+            result.push(Object.assign({}, item, {
+                id: product.id,
+                name: product.name,
+                color: color || null,
+                size: size || "Free Size",
+                quantity: quantity
+            }));
+        });
+
+        return { items: result, dropped: dropped, adjusted: adjusted };
     }
 
     function calculateTotals() {
@@ -2017,17 +2277,17 @@ document.addEventListener("DOMContentLoaded", function () {
             element.className = "checkout-product";
 
             const imageHTML = image
-                ? '<img src="' + image + '" alt="">'
+                ? '<img src="' + escapeHtml(image) + '" alt="">'
                 : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">□</div>';
 
             let metaHTML = '<span>تعداد: ' + quantity.toLocaleString("en-US") + "</span>";
-            if (color) metaHTML += '<span class="meta-separator">•</span><span>رنگ: ' + color + "</span>";
-            if (size) metaHTML += '<span class="meta-separator">•</span><span>سایز: ' + size + "</span>";
+            if (color) metaHTML += '<span class="meta-separator">•</span><span>رنگ: ' + escapeHtml(color) + "</span>";
+            if (size) metaHTML += '<span class="meta-separator">•</span><span>سایز: ' + escapeHtml(size) + "</span>";
 
             element.innerHTML =
                 '<div class="checkout-product-image">' + imageHTML + '</div>' +
                 '<div class="checkout-product-info">' +
-                    '<div class="checkout-product-name">' + name + '</div>' +
+                    '<div class="checkout-product-name">' + escapeHtml(name) + '</div>' +
                     '<div class="checkout-product-meta">' + metaHTML + '</div>' +
                 '</div>' +
                 '<div class="checkout-product-price">' + formatPrice(price * quantity) + " تومان" + '</div>';
@@ -2060,7 +2320,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("checkoutTotal").innerHTML =
             formatPrice(totals.total) + ' <span class="currency">تومان</span>';
 
-        document.getElementById("cardPaymentAmount").textContent = formatPrice(totals.total) + " تومان";
+        /* فقط مبلغ واریز کارت‌به‌کارت به ریال نمایش داده می‌شه */
+        document.getElementById("cardPaymentAmount").textContent = formatRial(totals.total);
     }
 
     function updateCardInformation() {
@@ -2073,9 +2334,64 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("cardOwner").textContent = CARD_OWNER;
     }
 
-    updateCardInformation();
+    /* =========================================================
+       پیام
+    ========================================================= */
 
-    /* شماره پیگیری 10 تا 13 رقم */
+    function showMessage(text) {
+        message.style.display = "block";
+        message.textContent = text;
+        message.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function hideMessage() {
+        message.style.display = "none";
+        message.textContent = "";
+    }
+
+    /* =========================================================
+       اگر محصولات لود نشدن: سبد کاربر رو دست نمی‌زنیم
+    ========================================================= */
+
+    if (!catalogProducts.length) {
+        emptyCheckout.querySelector("h2").textContent = "خطا در بارگذاری محصولات";
+        emptyCheckout.querySelector("p").textContent =
+            "لطفاً صفحه را دوباره بارگذاری کنید. اطلاعات سبد خرید شما پاک نشده است.";
+        emptyCheckout.style.display = "block";
+        checkoutContent.style.display = "none";
+        return;
+    }
+
+    /* =========================================================
+       سبد خرید (بعد از پاک‌سازی)
+    ========================================================= */
+
+    let rawCart = [];
+
+    try {
+        rawCart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+    } catch (error) {
+        rawCart = [];
+    }
+
+    const sanitized = sanitizeCart(rawCart);
+    cart = sanitized.items;
+
+    if (JSON.stringify(rawCart) !== JSON.stringify(cart)) {
+        try {
+            localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        } catch (error) {}
+    }
+
+    if (!cart.length) {
+        emptyCheckout.style.display = "block";
+        checkoutContent.style.display = "none";
+        return;
+    }
+
+    /* =========================================================
+       نمایش مرحله‌ی پرداخت
+    ========================================================= */
 
     function getTransferNumber() {
         return normalizeDigits(transferTrackingNumber.value).replace(/\D/g, "");
@@ -2199,11 +2515,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    renderItems();
-    updateSummary();
-    updatePaymentUI();
-
-    /* ذخیره اطلاعات فرم */
+    /* =========================================================
+       ذخیره/بازیابی اطلاعات فرم
+    ========================================================= */
 
     function saveCheckoutData() {
         const data = {
@@ -2244,8 +2558,6 @@ document.addEventListener("DOMContentLoaded", function () {
         updateSummary();
     }
 
-    loadCheckoutData();
-
     document.getElementById("checkoutForm").addEventListener("input", function () {
         saveCheckoutData();
     });
@@ -2255,7 +2567,11 @@ document.addEventListener("DOMContentLoaded", function () {
         updateSummary();
     });
 
-    /* محصولات برای شیت */
+    /* =========================================================
+       ساخت داده‌ی ارسالی
+    ========================================================= */
+
+    /* محصولات برای شیت (قیمت‌ها به تومانِ کامل) */
 
     function createProductsText() {
         const list = [];
@@ -2278,28 +2594,52 @@ document.addEventListener("DOMContentLoaded", function () {
         return list.join("\n");
     }
 
+    /*
+      فهرست خامِ اقلام (شناسه/تعداد/رنگ/سایز). سرور می‌تونه با همین،
+      قیمت‌ها رو از روی کاتالوگ خودش دوباره حساب کنه و به مبلغ
+      ارسالی از مرورگر اعتماد نکنه.
+    */
+    function buildItemsPayload() {
+        return JSON.stringify(cart.map(function (item) {
+            return {
+                id: item.id,
+                q: Math.max(1, Math.floor(parseNumber(item.quantity))),
+                c: getVariantValue(item, ["color", "colorName", "selectedColor", "variantColor"]),
+                s: getVariantValue(item, ["size", "sizeName", "selectedSize", "variantSize"])
+            };
+        }));
+    }
+
     function buildFormFields() {
-        const checkoutData = saveCheckoutData();
+        const data = saveCheckoutData();
         const totals = calculateTotals();
 
         return {
-            firstName: checkoutData.firstName,
-            lastName: checkoutData.lastName,
-            mobile: checkoutData.mobile,
-            province: checkoutData.province,
-            city: checkoutData.city,
-            postalCode: checkoutData.postalCode,
-            address: checkoutData.address,
-            note: checkoutData.note,
-            shipping: checkoutData.shipping,
+            firstName: sanitizeText(data.firstName, 40, false),
+            lastName: sanitizeText(data.lastName, 40, false),
+            mobile: normalizeDigits(data.mobile).replace(/\D/g, "").slice(0, 11),
+            province: sanitizeText(data.province, 40, false),
+            city: sanitizeText(data.city, 40, false),
+            postalCode: normalizeDigits(data.postalCode).replace(/\D/g, "").slice(0, 10),
+            address: sanitizeText(data.address, 300, true),
+            note: sanitizeText(data.note, 300, true),
+            shipping: sanitizeText(data.shipping, 20, false),
             shippingCost: totals.shippingCost,
-            paymentMethod: checkoutData.paymentMethod,
+            paymentMethod: sanitizeText(data.paymentMethod, 30, false),
             products: createProductsText(),
-            total: totals.total
+            items: buildItemsPayload(),
+            total: totals.total,
+            totalRial: totals.total * RIAL_PER_TOMAN
         };
     }
 
-    /* ارسال واقعی با JSONP */
+    /* =========================================================
+       ارسال به سرور (JSONP) با تلاش مجدد
+    ========================================================= */
+
+    function sleep(ms) {
+        return new Promise(function (resolve) { setTimeout(resolve, ms); });
+    }
 
     function sendOrderToGoogle(fields, stage, transferTrackingValue) {
         return new Promise(function (resolve, reject) {
@@ -2313,12 +2653,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (finished) return;
                 finished = true;
                 cleanup();
-                reject(new Error("timeout"));
-            }, 15000);
+                reject(new Error("پاسخی از سرور دریافت نشد."));
+            }, SEND_TIMEOUT_MS);
 
+            /* جواب دیرهنگام نباید خطای جاوااسکریپت بده؛ تابع خالی جاش می‌مونه */
             function cleanup() {
                 clearTimeout(timeout);
-                try { delete window[callbackName]; } catch (error) { window[callbackName] = undefined; }
+                window[callbackName] = function () {};
                 if (script && script.parentNode) script.parentNode.removeChild(script);
             }
 
@@ -2330,13 +2671,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (response && response.ok) {
                     resolve(response);
                 } else {
-                    reject(new Error(response?.error || "ثبت سفارش انجام نشد"));
+                    const serverError = new Error(
+                        (response && response.error) || "ثبت سفارش انجام نشد."
+                    );
+                    serverError.permanent = true;
+                    reject(serverError);
                 }
             };
 
             const params = new URLSearchParams();
             params.set("callback", callbackName);
             params.set("stage", stage);
+            params.set("requestId", requestId);
             params.set("firstName", fields.firstName || "");
             params.set("lastName", fields.lastName || "");
             params.set("mobile", fields.mobile || "");
@@ -2349,37 +2695,69 @@ document.addEventListener("DOMContentLoaded", function () {
             params.set("paymentMethod", fields.paymentMethod || "");
             params.set("note", fields.note || "");
             params.set("products", fields.products || "");
+            params.set("items", fields.items || "[]");
             params.set("total", String(fields.total || 0));
+            params.set("totalRial", String(fields.totalRial || 0));
             params.set("transferTrackingNumber", transferTrackingValue || "");
+
+            const url = GOOGLE_SCRIPT_URL + "?" + params.toString();
+
+            if (url.length > MAX_URL_LENGTH) {
+                finished = true;
+                cleanup();
+                const tooLong = new Error(
+                    "اطلاعات سفارش بیش از حد طولانی است. لطفاً آدرس یا توضیحات را کوتاه‌تر کنید."
+                );
+                tooLong.permanent = true;
+                reject(tooLong);
+                return;
+            }
 
             script = document.createElement("script");
             script.async = true;
-            script.src = GOOGLE_SCRIPT_URL + "?" + params.toString();
+            script.src = url;
 
             script.onerror = function () {
                 if (finished) return;
                 finished = true;
                 cleanup();
-                reject(new Error("ارتباط با سرور برقرار نشد"));
+                reject(new Error("ارتباط با سرور برقرار نشد."));
             };
 
             document.body.appendChild(script);
         });
     }
 
-    /* پیام */
+    /*
+      خطاهای شبکه/تایم‌اوت تا ۳ بار تکرار می‌شن (تکرار امنه: سرور با
+      «اثر انگشت» سفارش، ردیف تکراری نمی‌سازه و تلگرام رو دوباره
+      نمی‌فرسته). خطای سرور (مثل اعتبارسنجی) تکرار نمی‌شه.
+    */
+    async function sendWithRetry(fields, stage, transferTrackingValue) {
+        if (navigator.onLine === false) {
+            throw new Error("اینترنت شما قطع است. اتصال را بررسی کنید و دوباره امتحان کنید.");
+        }
 
-    function showMessage(text) {
-        message.style.display = "block";
-        message.textContent = text;
+        const delays = [0, 1200, 3000];
+        let lastError = null;
+
+        for (let attempt = 0; attempt < delays.length; attempt++) {
+            if (delays[attempt]) await sleep(delays[attempt]);
+
+            try {
+                return await sendOrderToGoogle(fields, stage, transferTrackingValue);
+            } catch (error) {
+                lastError = error;
+                if (error && error.permanent) throw error;
+            }
+        }
+
+        throw lastError || new Error("ارتباط با سرور برقرار نشد.");
     }
 
-    function hideMessage() {
-        message.style.display = "none";
-        message.textContent = "";
-    }
-
-    /* اعتبارسنجی مشترک فرم گیرنده */
+    /* =========================================================
+       اعتبارسنجی و محافظ‌ها
+    ========================================================= */
 
     function validateRecipientForm() {
         const form = document.getElementById("checkoutForm");
@@ -2408,13 +2786,36 @@ document.addEventListener("DOMContentLoaded", function () {
             return false;
         }
 
+        if (calculateTotals().total <= 0) {
+            showMessage("مبلغ سفارش نامعتبر است. سبد خرید را بررسی کنید.");
+            return false;
+        }
+
         return true;
     }
 
-    /*
-      مرحله ۱: «واریز کردم» — همین الان اطلاعات تو شیت ذخیره
-      می‌شه و کد پیگیری صادر می‌شه، ولی تلگرام هنوز نمی‌ره.
-    */
+    /* ضد ربات (فیلد تله) و فاصله‌ی حداقل بین دو ارسال */
+    function guardSubmit() {
+        if (hpField && hpField.value.trim() !== "") {
+            showMessage("ثبت سفارش انجام نشد. دوباره تلاش کنید.");
+            return false;
+        }
+
+        const now = Date.now();
+        if (now - lastSubmitAt < MIN_SUBMIT_GAP_MS) {
+            showMessage("لطفاً چند لحظه صبر کنید...");
+            return false;
+        }
+
+        lastSubmitAt = now;
+        return true;
+    }
+
+    /* =========================================================
+       مرحله ۱: «واریز کردم»
+       همین الان اطلاعات تو شیت ذخیره می‌شه و کد پیگیری صادر
+       می‌شه، ولی تلگرام هنوز نمی‌ره.
+    ========================================================= */
 
     confirmTransfer.addEventListener("click", async function () {
         if (!paymentCard.checked || paymentConfirmInProgress) return;
@@ -2424,6 +2825,8 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        if (!guardSubmit()) return;
+
         hideMessage();
         paymentConfirmInProgress = true;
         confirmTransfer.disabled = true;
@@ -2431,10 +2834,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         try {
             const fields = buildFormFields();
-            const response = await sendOrderToGoogle(fields, "payment_confirmed", "");
+            const response = await sendWithRetry(fields, "payment_confirmed", "");
 
             if (!response || !response.ok || !response.trackingCode) {
-                throw new Error(response?.error || "ثبت اطلاعات ناموفق بود");
+                throw new Error(response?.error || "ثبت اطلاعات ناموفق بود.");
             }
 
             paymentDraft = { fields: fields, trackingCode: response.trackingCode };
@@ -2460,7 +2863,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    /* مرحله ۲: ثبت نهایی */
+    /* =========================================================
+       مرحله ۲: ثبت نهایی
+    ========================================================= */
 
     finalTransferButton.addEventListener("click", async function () {
         if (finalSaveInProgress) return;
@@ -2494,6 +2899,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (!validateRecipientForm()) return;
+        if (!guardSubmit()) return;
 
         finalSaveInProgress = true;
         hideMessage();
@@ -2504,10 +2910,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const fields = buildFormFields();
             const transferValue = getTransferNumber();
 
-            const response = await sendOrderToGoogle(fields, "final", transferValue);
+            const response = await sendWithRetry(fields, "final", transferValue);
 
             if (!response || !response.ok || !response.trackingCode) {
-                throw new Error(response?.error || "ثبت نهایی ناموفق بود");
+                throw new Error(response?.error || "ثبت نهایی ناموفق بود.");
             }
 
             localStorage.setItem("navidTowelLastOrder", JSON.stringify({
@@ -2520,6 +2926,8 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.removeItem("navidTowelPaymentDraft");
             localStorage.removeItem(CART_KEY);
             cart = [];
+
+            hideHeaderButtons();
 
             checkoutTitle.style.display = "none";
             checkoutContent.style.display = "none";
@@ -2564,6 +2972,22 @@ document.addEventListener("DOMContentLoaded", function () {
             copyTrackingCodeButton.classList.remove("copied");
         }, 1600);
     });
+
+    /* =========================================================
+       شروع
+    ========================================================= */
+
+    updateCardInformation();
+    renderItems();
+    updateSummary();
+    updatePaymentUI();
+    loadCheckoutData();
+
+    if (sanitized.dropped > 0) {
+        showMessage("بعضی محصولات سبد (ناموجود یا بدون قیمت) از سفارش حذف شدند.");
+    } else if (sanitized.adjusted) {
+        showMessage("تعداد بعضی محصولات بر اساس موجودی تنظیم شد.");
+    }
 
 });
 
