@@ -1477,6 +1477,7 @@
 
                                     </div>
 
+
                                     <button
                                         type="button"
                                         id="confirmTransfer"
@@ -2680,7 +2681,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const params = new URLSearchParams();
             params.set("callback", callbackName);
-            params.set("nt_hp_check", hpField ? hpField.value.trim() : "");
             params.set("stage", stage);
             params.set("requestId", requestId);
             params.set("firstName", fields.firstName || "");
