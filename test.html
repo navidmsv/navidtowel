@@ -1,508 +1,1890 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#294737">
-  <meta name="description" content="پیگیری وضعیت سفارش‌های حوله‌سرای نوید">
-  <title>پیگیری سفارش | حوله‌سرای نوید</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    :root {
-      --track-green:#294737; --track-green-dark:#1d3428; --track-green-soft:#edf4e9;
-      --track-cream:#f8f4ec; --track-gold:#c69b55; --track-text:#24362c;
-      --track-muted:#7d8178; --track-border:#e9e4da; --track-white:#fff;
-      --track-red:#a84338; --track-shadow:0 12px 35px rgba(34,55,42,.075);
-    }
-    * { box-sizing:border-box; }
-    body {
-      margin:0; min-height:100vh; background:var(--track-cream); color:var(--track-text);
-      font-family:inherit;
-    }
-    #siteMenu { position:relative; z-index:1000; width:100%; }
-    .track-page { width:min(100% - 30px,760px); margin:0 auto; padding:25px 0 55px; }
-    .track-hero { text-align:center; margin:0 auto 18px; }
-    .track-eyebrow {
-      display:inline-flex; align-items:center; gap:7px; padding:6px 12px; border:1px solid #dfe7dc;
-      border-radius:30px; background:#fff; color:var(--track-green); font-size:11px; font-weight:800;
-    }
-    .track-eyebrow:before { content:""; width:7px; height:7px; border-radius:50%; background:#6b9a70; }
-    .track-hero h1 { margin:10px 0 3px; color:var(--track-green); font-size:clamp(24px,5vw,31px); font-weight:950; }
-    .track-hero p { margin:0; color:var(--track-muted); font-size:13px; line-height:2; }
-    .track-mascot { display:flex; flex-direction:column; align-items:center; margin:18px auto 20px; }
-    .track-bubble {
-      position:relative; max-width:min(92%,430px); padding:10px 17px; border:1px solid #dce5da;
-      border-radius:17px; background:#fff; color:var(--track-green); box-shadow:0 5px 18px #2947370b;
-      text-align:center; font-size:13px; font-weight:850; line-height:1.9;
-    }
-    .track-bubble:after {
-      content:""; position:absolute; bottom:-7px; right:calc(50% - 6px); width:12px; height:12px;
-      background:#fff; border-left:1px solid #dce5da; border-bottom:1px solid #dce5da; transform:rotate(-45deg);
-    }
-    .track-mascot img { display:block; width:174px; height:174px; max-width:70vw; object-fit:contain; object-position:center bottom; margin-top:9px; }
-    .track-panel,.track-results,.track-error,.track-info {
-      border:1px solid var(--track-border); border-radius:22px; background:#fff; box-shadow:var(--track-shadow);
-    }
-    .track-panel { padding:clamp(18px,4vw,25px); }
-    .track-panel-head { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
-    .track-icon {
-      display:grid; place-items:center; flex:0 0 43px; width:43px; height:43px; border-radius:14px;
-      background:var(--track-green-soft); color:var(--track-green);
-    }
-    .track-icon svg { width:22px; height:22px; }
-    .track-panel h2 { margin:0; color:var(--track-green); font-size:18px; font-weight:950; }
-    .track-panel-head p { margin:3px 0 0; color:var(--track-muted); font-size:12px; line-height:1.8; }
-    .track-fields { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-    .track-field label { display:block; margin:0 0 7px; color:#536157; font-size:12px; font-weight:850; }
-    .track-input-wrap { position:relative; }
-    .track-input {
-      display:block; width:100%; height:51px; padding:0 13px; border:1px solid #e5e2d9; border-radius:12px;
-      outline:none; background:#fcfbf8; color:var(--track-text); font:inherit; font-size:14px; direction:ltr; text-align:left;
-      transition:border-color .2s,box-shadow .2s;
-    }
-    .track-input::placeholder { color:#a4a69e; font-size:12px; direction:rtl; text-align:right; }
-    .track-input:focus { border-color:#78927c; box-shadow:0 0 0 3px #29473712; background:#fff; }
-    .track-hint { margin:11px 0 0; color:#888b83; font-size:11px; line-height:1.9; }
-    .track-submit {
-      display:flex; align-items:center; justify-content:center; gap:9px; width:100%; min-height:51px; margin-top:17px;
-      border:0; border-radius:13px; background:var(--track-green); color:#fff; font:inherit; font-size:14px;
-      font-weight:950; cursor:pointer; transition:transform .15s,background .15s;
-    }
-    .track-submit:hover { background:var(--track-green-dark); }
-    .track-submit:active { transform:scale(.99); }
-    .track-submit:disabled { opacity:.7; cursor:wait; }
-    .track-spinner { display:none; width:17px; height:17px; border:2px solid #ffffff66; border-top-color:#fff; border-radius:50%; animation:track-spin .7s linear infinite; }
-    .track-submit.loading .track-spinner { display:inline-block; }
-    @keyframes track-spin { to { transform:rotate(360deg); } }
-    .track-error { display:none; margin-top:15px; padding:14px 16px; border-color:#f0d2cd; background:#fff7f5; color:var(--track-red); font-size:13px; line-height:2; }
-    .track-error.show { display:block; animation:track-in .25s ease; }
-    .track-error strong { display:block; margin-bottom:2px; }
-    .track-results { display:none; margin-top:18px; padding:clamp(16px,4vw,23px); }
-    .track-results.show { display:block; animation:track-in .3s ease; }
-    @keyframes track-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
-    .results-top { display:flex; justify-content:space-between; align-items:center; gap:12px; padding-bottom:15px; border-bottom:1px solid #efede7; }
-    .results-top h2 { margin:0; color:var(--track-green); font-size:19px; font-weight:950; }
-    .results-count { flex-shrink:0; padding:6px 10px; border-radius:30px; background:#f2f4ef; color:#627064; font-size:11px; font-weight:850; }
-    .privacy-note { margin:12px 0 0; color:#7b8179; font-size:11px; line-height:1.9; }
-    .order-list { display:grid; gap:14px; margin-top:15px; }
-    .order-card { overflow:hidden; border:1px solid #e9e8df; border-radius:17px; background:#fff; }
-    .order-card-head { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:14px 15px; background:#fbfcf9; border-bottom:1px solid #eeeee7; }
-    .order-number { color:var(--track-green); font-size:14px; font-weight:950; direction:ltr; text-align:left; overflow-wrap:anywhere; }
-    .order-index { color:#8b9087; font-size:10px; margin-left:5px; }
-    .status-pill { display:inline-flex; align-items:center; gap:6px; max-width:55%; padding:6px 10px; border-radius:30px; background:#edf4e9; color:#315b3e; font-size:11px; font-weight:900; }
-    .status-pill:before { content:""; width:6px; height:6px; border-radius:50%; background:currentColor; }
-    .status-pill.is-wait { background:#fff4df; color:#94651d; }
-    .status-pill.is-danger { background:#fff0ed; color:#a84338; }
-    .status-pill.is-neutral { background:#f0f1ef; color:#667067; }
-    .order-body { padding:15px; }
-    .stepper { display:grid; grid-template-columns:repeat(4,1fr); gap:4px; margin:2px 0 17px; }
-    .step { position:relative; text-align:center; color:#a1a69e; font-size:10px; line-height:1.6; }
-    .step:not(:last-child):after { content:""; position:absolute; top:9px; right:calc(50% + 12px); left:calc(-50% + 12px); height:2px; background:#e7e9e3; }
-    .step-dot { position:relative; z-index:1; display:block; width:19px; height:19px; margin:0 auto 6px; border:2px solid #e1e5dd; border-radius:50%; background:#fff; }
-    .step.done { color:var(--track-green); font-weight:850; }
-    .step.done .step-dot { border-color:var(--track-green); background:var(--track-green); box-shadow:inset 0 0 0 4px #fff; }
-    .step.done:not(:last-child):after { background:#78947c; }
-    .step.current .step-dot { outline:4px solid #29473716; }
-    .order-fields { display:grid; grid-template-columns:1fr 1fr; gap:0 15px; }
-    .data-row { display:flex; flex-direction:column; gap:4px; min-width:0; padding:10px 0; border-bottom:1px solid #f0efe9; }
-    .data-row.wide { grid-column:1/-1; }
-    .data-label { color:#8a8e85; font-size:11px; }
-    .data-value { color:#34463a; font-size:12px; font-weight:850; line-height:1.9; overflow-wrap:anywhere; white-space:pre-wrap; }
-    .data-value.ltr { direction:ltr; text-align:right; }
-    .data-value.money { color:var(--track-green); font-size:14px; }
-    .parcel-box { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:13px; padding:12px; border:1px dashed #cbd9c9; border-radius:12px; background:#f8fbf6; }
-    .parcel-meta { min-width:0; }
-    .parcel-meta small { display:block; color:#7c877c; font-size:10px; margin-bottom:4px; }
-    .parcel-meta strong { display:block; color:var(--track-green); font-size:13px; direction:ltr; text-align:right; overflow-wrap:anywhere; }
-    .copy-btn { flex-shrink:0; padding:8px 11px; border:1px solid #d9e4d7; border-radius:9px; background:#fff; color:var(--track-green); font:inherit; font-size:11px; font-weight:900; cursor:pointer; }
-    .copy-btn.done { background:var(--track-green); color:#fff; }
-    .post-link { display:flex; align-items:center; justify-content:center; gap:7px; width:100%; min-height:43px; margin-top:9px; border-radius:10px; background:var(--track-green); color:#fff; text-decoration:none; font-size:12px; font-weight:900; }
-    .limited-note { margin:12px 0 0; padding:10px 12px; border-radius:10px; background:#f7f6f1; color:#7c8178; font-size:11px; line-height:1.9; }
-    .empty-orders { padding:25px 12px; text-align:center; color:#777; font-size:13px; }
-    .track-bottom { margin-top:17px; text-align:center; }
-    .track-again { padding:10px 17px; border:1px solid #dce4da; border-radius:11px; background:#fff; color:var(--track-green); font:inherit; font-size:12px; font-weight:900; cursor:pointer; }
-    .track-info { display:flex; align-items:flex-start; gap:10px; margin-top:18px; padding:13px 15px; box-shadow:none; }
-    .track-info svg { flex-shrink:0; width:18px; height:18px; color:#8c9b87; margin-top:2px; }
-    .track-info p { margin:0; color:#7c8178; font-size:11px; line-height:2; }
-    @media(max-width:560px) {
-      .track-page { width:calc(100% - 24px); padding-top:19px; }
-      .track-mascot { margin:14px auto 16px; }
-      .track-mascot img { width:150px; height:150px; }
-      .track-fields { grid-template-columns:1fr; gap:11px; }
-      .track-input { height:49px; }
-      .track-panel { border-radius:18px; }
-      .track-results { border-radius:18px; }
-      .order-fields { grid-template-columns:1fr 1fr; gap:0 10px; }
-      .step { font-size:9px; }
-      .order-card-head { padding:12px; }
-      .order-body { padding:12px; }
-    }
-    @media(prefers-reduced-motion:reduce) { *,*:before,*:after { animation-duration:.01ms!important; transition-duration:.01ms!important; } }
-  </style>
-</head>
-<body>
-  <div id="siteMenu"></div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#34452f">
+    <meta name="description" content="پیگیری وضعیت سفارش‌های NavidTowel">
 
-  <main class="track-page">
-    <header class="track-hero">
-      <span class="track-eyebrow">سامانه رسمی پیگیری سفارش</span>
-      <h1>پیگیری سفارش</h1>
-      <p>سفارشت کجاست؟ همین‌جا وضعیتش رو ببین.</p>
-    </header>
+    <title>پیگیری سفارش | NavidTowel</title>
 
-    <section class="track-mascot" aria-label="راهنمای پیگیری سفارش">
-      <div class="track-bubble" id="characterText">اِی جونم! کد سفارش یا شماره موبایلتو بده ببینیم چه خبره!</div>
-      <img id="characterImage" src="images/check/khan-welcome.webp" alt="شخصیت راهنمای حوله‌سرای نوید">
-    </section>
+    <link rel="stylesheet" href="style.css">
 
-    <form class="track-panel" id="trackingForm" novalidate>
-      <div class="track-panel-head">
-        <span class="track-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5M8 10.8h5.6M10.8 8v5.6"/></svg>
-        </span>
-        <div>
-          <h2>جست‌وجوی سفارش</h2>
-          <p>یکی از اطلاعات زیر رو وارد کن؛ هر دو هم می‌تونی وارد کنی.</p>
-        </div>
-      </div>
+    <style>
+        /* =========================================
+           TRACKING PAGE — NAVIDTOWEL
+        ========================================= */
 
-      <div class="track-fields">
-        <div class="track-field">
-          <label for="trackingCode">کد پیگیری سفارش</label>
-          <div class="track-input-wrap">
-            <input class="track-input" id="trackingCode" name="trackingCode" type="text"
-              placeholder="مثلاً NV-1024" autocomplete="off" inputmode="text" maxlength="40">
-          </div>
-        </div>
-        <div class="track-field">
-          <label for="mobile">شماره موبایل خریدار</label>
-          <div class="track-input-wrap">
-            <input class="track-input" id="mobile" name="mobile" type="tel"
-              placeholder="09xxxxxxxxx" autocomplete="tel" inputmode="tel" maxlength="16">
-          </div>
-        </div>
-      </div>
-      <p class="track-hint">برای مشاهده جزئیات کامل سفارش، کد پیگیری و شماره موبایلی که هنگام خرید ثبت کردی رو با هم وارد کن.</p>
-      <button class="track-submit" id="searchButton" type="submit">
-        <span class="track-spinner" aria-hidden="true"></span>
-        <span id="searchButtonText">پیگیری سفارش</span>
-      </button>
-    </form>
+        .tracking-page {
+            --track-green: #34452f;
+            --track-dark: #263722;
+            --track-soft: #edf1e9;
+            --track-gold: #b79a5b;
+            --track-text: #263027;
+            --track-muted: #85877f;
+            --track-border: #e9e5db;
 
-    <div class="track-error" id="errorCard" role="alert" aria-live="assertive">
-      <strong>نتیجه پیگیری</strong>
-      <span id="errorText"></span>
-    </div>
-
-    <section class="track-results" id="resultCard" aria-live="polite">
-      <div class="results-top">
-        <h2>نتیجه جست‌وجو</h2>
-        <span class="results-count" id="resultsCount"></span>
-      </div>
-      <p class="privacy-note" id="privacyNote"></p>
-      <div class="order-list" id="orderList"></div>
-      <div class="track-bottom">
-        <button class="track-again" id="againButton" type="button">پیگیری سفارش دیگر</button>
-      </div>
-    </section>
-
-    <aside class="track-info">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg>
-      <p>اطلاعات سفارش فقط از سامانه ثبت سفارش فروشگاه دریافت می‌شود. برای حفظ حریم خصوصی، جزئیات کامل سفارش تنها با تطبیق کد پیگیری و شماره موبایل نمایش داده خواهد شد.</p>
-    </aside>
-  </main>
-
-  <script src="menu.js"></script>
-  <script>
-    "use strict";
-
-    // نشانی وب‌اپ Google Apps Script ربات پیگیری سفارش
-    const TRACK_API_URL = "https://script.google.com/macros/s/AKfycbyyg20MikWIqNtE5KKuQrczOMT_qp9B5gwqaBc7FbZsRcH8Ymje80ee202ymZhpFORf1w/exec";
-    const POST_TRACKING_URL = "https://tracking.post.ir/";
-
-    const $ = (id) => document.getElementById(id);
-    const form = $("trackingForm");
-    const codeInput = $("trackingCode");
-    const mobileInput = $("mobile");
-    const searchButton = $("searchButton");
-    const searchButtonText = $("searchButtonText");
-    const resultCard = $("resultCard");
-    const orderList = $("orderList");
-    const errorCard = $("errorCard");
-    const errorText = $("errorText");
-
-    const characterAssets = {
-      welcome: "images/check/khan-welcome.webp",
-      pending: "images/check/khan-pending.webp",
-      preparing: "images/check/khan-preparing.webp",
-      shipped: "images/check/khan-shipped.webp",
-      delivered: "images/check/khan-shipped.webp",
-      missing: "images/check/khan-not-found.webp",
-      error: "images/check/khan-error.webp"
-    };
-
-    const characterMessages = {
-      welcome: "اِی جونم! کد سفارش یا شماره موبایلتو بده ببینیم چه خبره!",
-      pending: "صبور باش رفیق! وضعیت پرداخت سفارشت رو بررسی می‌کنیم.",
-      preparing: "به‌به! سفارشت داره آماده می‌شه؛ همه‌چی رو بررسی کن.",
-      shipped: "اِی جونم! سفارشت راه افتاده؛ کد مرسوله رو بردار!",
-      delivered: "مبارکت باشه رفیق! سفارشت تحویل شده.",
-      missing: "اِی داد! چیزی پیدا نکردم؛ اطلاعات رو یه بار بررسی کن.",
-      error: "یه مشکلی پیش اومده رفیق؛ کمی بعد دوباره امتحان کن!"
-    };
-
-    function setCharacter(mood) {
-      $("characterText").textContent = characterMessages[mood] || characterMessages.welcome;
-      const img = $("characterImage");
-      img.onerror = () => { img.hidden = true; };
-      img.onload = () => { img.hidden = false; };
-      img.src = characterAssets[mood] || characterAssets.welcome;
-    }
-
-    function normalizeDigits(value) {
-      return String(value ?? "")
-        .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
-        .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
-    }
-
-    function cleanText(value) {
-      return String(value ?? "").trim();
-    }
-
-    function hideMessages() {
-      errorCard.classList.remove("show");
-      resultCard.classList.remove("show");
-      errorText.textContent = "";
-      orderList.replaceChildren();
-    }
-
-    function showError(message, mood = "missing") {
-      resultCard.classList.remove("show");
-      errorText.textContent = message || "در دریافت اطلاعات سفارش مشکلی پیش آمد.";
-      errorCard.classList.add("show");
-      setCharacter(mood);
-    }
-
-    function setLoading(loading) {
-      searchButton.disabled = loading;
-      searchButton.classList.toggle("loading", loading);
-      searchButtonText.textContent = loading ? "در حال بررسی سفارش..." : "پیگیری سفارش";
-    }
-
-    function classifyStatus(status) {
-      const s = cleanText(status).toLowerCase();
-      if (/تحویل|دریافت شد|تکمیل شد|delivered/.test(s)) return { mood:"delivered", level:4, kind:"good" };
-      if (/ارسال|مرسوله|پست|shipped|sent/.test(s)) return { mood:"shipped", level:3, kind:"good" };
-      if (/آماده|بسته.?بندی|پردازش|processing|prepar/.test(s)) return { mood:"preparing", level:2, kind:"good" };
-      if (/لغو|ناموفق|مرجوع|cancel|failed|reject/.test(s)) return { mood:"missing", level:0, kind:"danger" };
-      if (/پرداخت|انتظار|تایید|تأیید|ثبت|جدید|pending|await/.test(s)) return { mood:"pending", level:1, kind:"wait" };
-      return { mood:"preparing", level:1, kind:"neutral" };
-    }
-
-    function makeElement(tag, className, text) {
-      const el = document.createElement(tag);
-      if (className) el.className = className;
-      if (text !== undefined && text !== null) el.textContent = String(text);
-      return el;
-    }
-
-    function addDataRow(container, label, value, options = {}) {
-      if (value === undefined || value === null || String(value).trim() === "") return;
-      const row = makeElement("div", "data-row" + (options.wide ? " wide" : ""));
-      row.append(
-        makeElement("span", "data-label", label),
-        makeElement("span", "data-value" + (options.ltr ? " ltr" : "") + (options.money ? " money" : ""), value)
-      );
-      container.appendChild(row);
-    }
-
-    function addStepper(container, level, cancelled) {
-      const steps = ["ثبت سفارش", "تأیید پرداخت", "آماده‌سازی", "ارسال سفارش"];
-      const stepper = makeElement("div", "stepper");
-      steps.forEach((label, index) => {
-        const step = makeElement("div", "step" + (!cancelled && index < level ? " done" : "") + (!cancelled && index === level - 1 ? " current" : ""));
-        step.append(makeElement("span", "step-dot"), makeElement("span", "", label));
-        stepper.appendChild(step);
-      });
-      container.appendChild(stepper);
-    }
-
-    async function copyText(value, button) {
-      try {
-        if (navigator.clipboard && window.isSecureContext) {
-          await navigator.clipboard.writeText(value);
-        } else {
-          const temp = document.createElement("textarea");
-          temp.value = value;
-          temp.style.position = "fixed";
-          temp.style.opacity = "0";
-          document.body.appendChild(temp);
-          temp.select();
-          const ok = document.execCommand("copy");
-          temp.remove();
-          if (!ok) throw new Error("copy failed");
+            min-height: 100vh;
+            padding: 105px 0 70px;
+            background:
+                radial-gradient(
+                    circle at 50% 0%,
+                    rgba(183,154,91,.10),
+                    transparent 38%
+                ),
+                #f7f5ef;
+            color: var(--track-text);
+            font-family: Tahoma, Arial, sans-serif;
         }
-        button.textContent = "کپی شد";
-        button.classList.add("done");
-      } catch (_) {
-        button.textContent = "کپی نشد";
-      }
-      setTimeout(() => {
-        button.textContent = "کپی کد";
-        button.classList.remove("done");
-      }, 1600);
-    }
 
-    function renderOrder(order, index, full) {
-      const status = classifyStatus(order.status);
-      const card = makeElement("article", "order-card");
-      const head = makeElement("div", "order-card-head");
-      const numberWrap = makeElement("div");
-      numberWrap.append(
-        makeElement("span", "order-index", "سفارش " + (index + 1)),
-        makeElement("strong", "order-number", order.orderNumber || order.trackingCode || "—")
-      );
-      const pill = makeElement("span", "status-pill" + (status.kind === "wait" ? " is-wait" : status.kind === "danger" ? " is-danger" : status.kind === "neutral" ? " is-neutral" : ""), order.status || "در حال بررسی");
-      head.append(numberWrap, pill);
-      card.appendChild(head);
+        .tracking-page *,
+        .tracking-page *::before,
+        .tracking-page *::after {
+            box-sizing: border-box;
+        }
 
-      const body = makeElement("div", "order-body");
-      addStepper(body, status.level, status.kind === "danger");
+        .tracking-container {
+            width: min(760px, 92%);
+            margin: 0 auto;
+        }
 
-      const fields = makeElement("div", "order-fields");
-      addDataRow(fields, "کد پیگیری سفارش", order.trackingCode || order.orderNumber, {ltr:true});
-      if (full) {
-        addDataRow(fields, "نام و نام خانوادگی", order.fullName);
-        addDataRow(fields, "شماره موبایل", order.mobile, {ltr:true});
-        addDataRow(fields, "کد انتقال وجه", order.transferCode, {ltr:true});
-        addDataRow(fields, "محصولات سفارش", order.products, {wide:true});
-        addDataRow(fields, "مبلغ سفارش", order.total, {money:true});
-        addDataRow(fields, "آدرس ارسال", order.address, {wide:true});
-        addDataRow(fields, "کد پستی", order.postalCode, {ltr:true});
-        addDataRow(fields, "توضیحات ارسال", order.shippingNote, {wide:true});
-      }
-      card.appendChild(fields);
+        /* سربرگ صفحه */
 
-      const parcelCode = cleanText(order.shipmentCode);
-      if (parcelCode) {
-        const parcel = makeElement("div", "parcel-box");
-        const meta = makeElement("div", "parcel-meta");
-        meta.append(makeElement("small", "", "کد مرسوله پستی"), makeElement("strong", "", parcelCode));
-        const copy = makeElement("button", "copy-btn", "کپی کد");
-        copy.type = "button";
-        copy.addEventListener("click", () => copyText(parcelCode, copy));
-        parcel.append(meta, copy);
-        body.appendChild(parcel);
+        .tracking-hero {
+            text-align: center;
+            margin-bottom: 28px;
+        }
 
-        const postLink = makeElement("a", "post-link", "رهگیری مرسوله در سامانه پست");
-        postLink.href = POST_TRACKING_URL;
-        postLink.target = "_blank";
-        postLink.rel = "noopener noreferrer";
-        body.appendChild(postLink);
-      }
+        .tracking-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 13px;
+            border: 1px solid rgba(52,69,47,.13);
+            border-radius: 30px;
+            background: #fff;
+            color: var(--track-green);
+            font-size: 11px;
+            font-weight: 800;
+        }
 
-      if (!full) {
-        body.appendChild(makeElement("p", "limited-note", "برای مشاهده نام، محصولات، مبلغ و نشانی سفارش، کد پیگیری و شماره موبایل ثبت‌شده هنگام خرید را هم‌زمان وارد کن."));
-      }
-      card.appendChild(body);
-      return card;
-    }
+        .tracking-eyebrow span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #7b9a67;
+        }
 
-    function renderResponse(data) {
-      if (!data || data.ok !== true) {
-        showError(data && data.message ? data.message : "سفارشی با این مشخصات پیدا نشد. اطلاعات را بررسی کن.", "missing");
-        return;
-      }
+        .tracking-hero h1 {
+            margin: 13px 0 7px;
+            color: var(--track-green);
+            font-size: 29px;
+            font-weight: 900;
+            line-height: 1.7;
+        }
 
-      const orders = Array.isArray(data.orders) ? data.orders : (data.order ? [data.order] : []);
-      if (!orders.length) {
-        showError("سفارشی با این مشخصات پیدا نشد. اطلاعات را بررسی کن.", "missing");
-        return;
-      }
+        .tracking-hero p {
+            margin: 0;
+            color: var(--track-muted);
+            font-size: 13px;
+            line-height: 2;
+        }
 
-      orderList.replaceChildren();
-      const full = data.full === true;
-      orders.slice(0, 10).forEach((order, index) => {
-        if (order && typeof order === "object") orderList.appendChild(renderOrder(order, index, full));
-      });
+        /* شخصیت صفحه */
 
-      $("resultsCount").textContent = orders.length + " سفارش";
-      $("privacyNote").textContent = full
-        ? "اطلاعات کامل سفارش‌های منطبق با کد پیگیری و شماره موبایل نمایش داده شده است."
-        : "نمایش اطلاعات محدود است؛ برای حفظ حریم خصوصی، جزئیات کامل فقط پس از تطبیق کد پیگیری و شماره موبایل نشان داده می‌شود.";
+        .tracking-character {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            margin: 0 auto 25px;
+            padding: 15px 20px;
+            max-width: 520px;
+        }
 
-      const latestStatus = classifyStatus(orders[0].status);
-      setCharacter(latestStatus.mood);
-      errorCard.classList.remove("show");
-      resultCard.classList.add("show");
-      resultCard.scrollIntoView({behavior:"smooth", block:"start"});
-    }
+        .tracking-character img {
+            width: 145px;
+            height: 145px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
 
-    async function requestOrders(trackingCode, mobile) {
-      // ارسال به‌صورت form-urlencoded برای پرهیز از preflight در Google Apps Script.
-      const payload = new URLSearchParams();
-      if (trackingCode) payload.set("trackingCode", trackingCode);
-      if (mobile) payload.set("mobile", mobile);
+        .character-message {
+            position: relative;
+            flex: 1;
+            padding: 15px 17px;
+            border: 1px solid #e8e4d9;
+            border-radius: 16px;
+            background: #fff;
+            color: var(--track-green);
+            box-shadow: 0 7px 22px rgba(40,55,38,.05);
+        }
 
-      const response = await fetch(TRACK_API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-        body: payload.toString(),
-        redirect: "follow"
-      });
+        .character-message::after {
+            content: "";
+            position: absolute;
+            right: -7px;
+            top: 50%;
+            width: 13px;
+            height: 13px;
+            background: #fff;
+            border-right: 1px solid #e8e4d9;
+            border-bottom: 1px solid #e8e4d9;
+            transform: translateY(-50%) rotate(135deg);
+        }
 
-      if (!response.ok) throw new Error("HTTP " + response.status);
-      const raw = await response.text();
-      try {
-        return JSON.parse(raw);
-      } catch (_) {
-        throw new Error("پاسخ سرور JSON معتبر نیست؛ روش دریافت اطلاعات در Worker را بررسی کنید.");
-      }
-    }
+        .character-message strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: var(--track-gold);
+        }
 
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      hideMessages();
+        .character-message p {
+            margin: 0;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 2;
+        }
 
-      const trackingCode = normalizeDigits(codeInput.value).trim();
-      const mobile = normalizeDigits(mobileInput.value).replace(/[^\d+]/g, "").trim();
+        /* کارت اصلی فرم */
 
-      if (!trackingCode && !mobile) {
-        showError("کد پیگیری یا شماره موبایل را وارد کن.");
-        return;
-      }
-      if (mobile && !/^(\+98|0098|98|0)?9\d{9}$/.test(mobile)) {
-        showError("شماره موبایل معتبر نیست. شماره را به شکل 09xxxxxxxxx وارد کن.");
-        mobileInput.focus();
-        return;
-      }
+        .tracking-form-card {
+            padding: 27px;
+            border: 1px solid var(--track-border);
+            border-radius: 19px;
+            background: #fff;
+            box-shadow: 0 12px 35px rgba(40,55,38,.055);
+        }
 
-      setLoading(true);
-      setCharacter("pending");
-      try {
-        const data = await requestOrders(trackingCode, mobile);
-        renderResponse(data);
-      } catch (error) {
-        console.error("Order tracking error:", error);
-        showError(
-          "ارتباط با سامانه پیگیری برقرار نشد. ممکن است تنظیمات دریافت درخواست یا دسترسی مرورگر به Google Apps Script نیاز به اصلاح داشته باشد. کمی بعد دوباره امتحان کن.",
-          "error"
-        );
-      } finally {
-        setLoading(false);
-      }
-    });
+        .tracking-form-heading {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 21px;
+            padding-bottom: 17px;
+            border-bottom: 1px solid #f0eee8;
+        }
 
-    $("againButton").addEventListener("click", () => {
-      hideMessages();
-      codeInput.value = "";
-      mobileInput.value = "";
-      setCharacter("welcome");
-      codeInput.focus();
-      form.scrollIntoView({behavior:"smooth", block:"center"});
-    });
+        .tracking-form-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+            background: var(--track-soft);
+            color: var(--track-green);
+            font-size: 21px;
+        }
 
-    setCharacter("welcome");
-  </script>
+        .tracking-form-heading h2 {
+            margin: 0 0 3px;
+            color: var(--track-green);
+            font-size: 17px;
+            font-weight: 900;
+        }
+
+        .tracking-form-heading p {
+            margin: 0;
+            color: var(--track-muted);
+            font-size: 11px;
+        }
+
+        .tracking-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .tracking-field {
+            min-width: 0;
+        }
+
+        .tracking-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #42483f;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .tracking-field input {
+            width: 100%;
+            height: 51px;
+            padding: 0 14px;
+            border: 1px solid #e5e2d9;
+            border-radius: 11px;
+            outline: none;
+            background: #fcfbf8;
+            color: #263027;
+            font-family: inherit;
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        .tracking-field input:focus {
+            border-color: var(--track-green);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(52,69,47,.08);
+        }
+
+        .tracking-field input::placeholder {
+            color: #aaa99f;
+            font-size: 12px;
+        }
+
+        .tracking-field input.code-input {
+            direction: ltr;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tracking-field-help {
+            margin-top: 7px;
+            color: #96968d;
+            font-size: 10px;
+            line-height: 1.8;
+        }
+
+        .tracking-security-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-top: 17px;
+            padding: 11px 13px;
+            border-radius: 10px;
+            background: #f7f8f4;
+            color: #777c71;
+            font-size: 10px;
+            line-height: 1.9;
+        }
+
+        .tracking-security-note span {
+            color: var(--track-green);
+            font-size: 15px;
+        }
+
+        .tracking-submit {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            width: 100%;
+            min-height: 52px;
+            margin-top: 17px;
+            border: none;
+            border-radius: 12px;
+            background: var(--track-green);
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 7px 18px rgba(52,69,47,.17);
+            transition: .2s;
+        }
+
+        .tracking-submit:hover {
+            background: var(--track-dark);
+            transform: translateY(-1px);
+        }
+
+        .tracking-submit:disabled {
+            opacity: .65;
+            cursor: wait;
+            transform: none;
+        }
+
+        .tracking-submit .button-icon {
+            font-size: 18px;
+        }
+
+        /* وضعیت بارگذاری */
+
+        .tracking-loading {
+            display: none;
+            margin-top: 15px;
+            padding: 14px;
+            border-radius: 11px;
+            background: #f6f8f3;
+            color: var(--track-green);
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .tracking-loading.show {
+            display: block;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            margin-left: 7px;
+            vertical-align: middle;
+            border: 2px solid #dce4d7;
+            border-top-color: var(--track-green);
+            border-radius: 50%;
+            animation: tracking-spin .7s linear infinite;
+        }
+
+        @keyframes tracking-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* پیام خطا */
+
+        .tracking-error {
+            display: none;
+            margin-top: 17px;
+            padding: 15px;
+            border: 1px solid #f0d4ce;
+            border-radius: 12px;
+            background: #fff7f5;
+            color: #98483e;
+            font-size: 12px;
+            line-height: 2;
+        }
+
+        .tracking-error.show {
+            display: block;
+        }
+
+        /* نتایج */
+
+        .tracking-results {
+            display: none;
+            margin-top: 24px;
+        }
+
+        .tracking-results.show {
+            display: block;
+            animation: tracking-appear .35s ease;
+        }
+
+        @keyframes tracking-appear {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .results-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 13px;
+        }
+
+        .results-heading h2 {
+            margin: 0;
+            color: var(--track-green);
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .results-count {
+            padding: 6px 10px;
+            border-radius: 30px;
+            background: var(--track-soft);
+            color: var(--track-green);
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        /* کارت سفارش */
+
+        .order-card {
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 1px solid var(--track-border);
+            border-radius: 17px;
+            background: #fff;
+            box-shadow: 0 7px 23px rgba(40,55,38,.04);
+        }
+
+        .order-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 17px 19px;
+            background: #fbfaf6;
+            border-bottom: 1px solid #efede6;
+        }
+
+        .order-code-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #929389;
+            font-size: 10px;
+        }
+
+        .order-code {
+            direction: ltr;
+            text-align: left;
+            color: var(--track-green);
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .order-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 11px;
+            border-radius: 30px;
+            background: #edf1e9;
+            color: var(--track-green);
+            font-size: 10px;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        .order-status::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .order-status.pending {
+            background: #fff5df;
+            color: #9a7225;
+        }
+
+        .order-status.paid {
+            background: #edf3ff;
+            color: #45699e;
+        }
+
+        .order-status.preparing {
+            background: #f1edff;
+            color: #7657a9;
+        }
+
+        .order-status.shipped {
+            background: #eaf5f2;
+            color: #287a62;
+        }
+
+        .order-status.delivered {
+            background: #eaf4e8;
+            color: #477b3d;
+        }
+
+        .order-status.cancelled {
+            background: #fff0ee;
+            color: #a64c42;
+        }
+
+        /* مراحل سفارش */
+
+        .order-progress {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 22px 17px 18px;
+            direction: rtl;
+        }
+
+        .progress-step {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .progress-step:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            top: 13px;
+            right: calc(50% + 17px);
+            width: calc(100% - 34px);
+            height: 2px;
+            background: #e7e7df;
+            z-index: -1;
+        }
+
+        .progress-step.done:not(:last-child)::after {
+            background: #8ca17f;
+        }
+
+        .progress-circle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 27px;
+            height: 27px;
+            margin-bottom: 8px;
+            border: 2px solid #e4e5dc;
+            border-radius: 50%;
+            background: #fff;
+            color: #aaa;
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .progress-step.done .progress-circle {
+            border-color: var(--track-green);
+            background: var(--track-green);
+            color: #fff;
+        }
+
+        .progress-step.active .progress-circle {
+            border-color: var(--track-gold);
+            background: #fff;
+            color: var(--track-gold);
+            box-shadow: 0 0 0 4px rgba(183,154,91,.13);
+        }
+
+        .progress-step small {
+            color: #92948b;
+            font-size: 9px;
+            white-space: nowrap;
+        }
+
+        .progress-step.done small,
+        .progress-step.active small {
+            color: var(--track-green);
+            font-weight: 800;
+        }
+
+        /* اطلاعات سفارش */
+
+        .order-details {
+            padding: 0 19px 17px;
+        }
+
+        .order-details-title {
+            margin: 0 0 9px;
+            padding-top: 14px;
+            border-top: 1px solid #efede6;
+            color: var(--track-green);
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f2f0eb;
+            font-size: 11px;
+            line-height: 1.9;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            flex-shrink: 0;
+            color: #929389;
+        }
+
+        .detail-value {
+            max-width: 70%;
+            color: #353d34;
+            font-weight: 800;
+            text-align: left;
+            overflow-wrap: anywhere;
+            white-space: pre-line;
+        }
+
+        .order-message {
+            margin: 0 19px 17px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            background: #f6f7f2;
+            color: #66715f;
+            font-size: 11px;
+            line-height: 2;
+        }
+
+        /* کد مرسوله */
+
+        .shipment-box {
+            margin: 0 19px 18px;
+            padding: 14px;
+            border: 1px dashed #cbd6c6;
+            border-radius: 12px;
+            background: #f7faf5;
+        }
+
+        .shipment-box-title {
+            margin-bottom: 9px;
+            color: #65715e;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .shipment-code-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .shipment-code {
+            direction: ltr;
+            text-align: left;
+            color: var(--track-green);
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            overflow-wrap: anywhere;
+        }
+
+        .copy-shipment {
+            flex-shrink: 0;
+            padding: 8px 11px;
+            border: 1px solid #d9e1d4;
+            border-radius: 8px;
+            background: #fff;
+            color: var(--track-green);
+            font-family: inherit;
+            font-size: 10px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .copy-shipment.copied {
+            background: var(--track-green);
+            color: #fff;
+        }
+
+        .postal-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 43px;
+            margin-top: 11px;
+            border-radius: 9px;
+            background: var(--track-green);
+            color: #fff !important;
+            font-size: 11px;
+            font-weight: 900;
+            text-decoration: none !important;
+        }
+
+        /* حالت محدود اطلاعات */
+
+        .limited-note {
+            margin: 0 19px 18px;
+            padding: 12px;
+            border-radius: 10px;
+            background: #fff8e9;
+            color: #826b39;
+            font-size: 10px;
+            line-height: 1.9;
+        }
+
+        /* دکمه پیگیری مجدد */
+
+        .tracking-again {
+            display: none;
+            width: 100%;
+            min-height: 47px;
+            margin-top: 14px;
+            border: 1px solid #dce2d7;
+            border-radius: 11px;
+            background: #fff;
+            color: var(--track-green);
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .tracking-again.show {
+            display: block;
+        }
+
+        /* راهنما */
+
+        .tracking-help {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 23px;
+        }
+
+        .tracking-help-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 14px;
+            border: 1px solid #ebe7dd;
+            border-radius: 12px;
+            background: rgba(255,255,255,.75);
+        }
+
+        .tracking-help-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 31px;
+            height: 31px;
+            flex-shrink: 0;
+            border-radius: 9px;
+            background: var(--track-soft);
+            color: var(--track-green);
+            font-size: 15px;
+        }
+
+        .tracking-help-item strong {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--track-green);
+            font-size: 11px;
+        }
+
+        .tracking-help-item p {
+            margin: 0;
+            color: #85877f;
+            font-size: 10px;
+            line-height: 1.8;
+        }
+
+        /* موبایل */
+
+        @media (max-width: 600px) {
+
+            .tracking-page {
+                padding: 94px 0 45px;
+            }
+
+            .tracking-container {
+                width: 93%;
+            }
+
+            .tracking-hero {
+                margin-bottom: 16px;
+            }
+
+            .tracking-hero h1 {
+                font-size: 24px;
+            }
+
+            .tracking-hero p {
+                font-size: 11px;
+            }
+
+            .tracking-character {
+                gap: 9px;
+                margin-bottom: 17px;
+                padding: 5px 2px;
+            }
+
+            .tracking-character img {
+                width: 112px;
+                height: 112px;
+            }
+
+            .character-message {
+                padding: 11px;
+            }
+
+            .character-message p {
+                font-size: 11px;
+            }
+
+            .tracking-form-card {
+                padding: 19px 15px;
+                border-radius: 15px;
+            }
+
+            .tracking-fields {
+                grid-template-columns: 1fr;
+                gap: 13px;
+            }
+
+            .tracking-field input {
+                height: 49px;
+            }
+
+            .order-card-top {
+                padding: 14px;
+            }
+
+            .order-progress {
+                padding: 19px 8px 15px;
+            }
+
+            .progress-step small {
+                font-size: 8px;
+            }
+
+            .order-details {
+                padding: 0 14px 14px;
+            }
+
+            .order-message,
+            .shipment-box,
+            .limited-note {
+                margin-right: 14px;
+                margin-left: 14px;
+            }
+
+            .tracking-help {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .tracking-character img {
+                width: 90px;
+                height: 90px;
+            }
+
+            .progress-step small {
+                font-size: 7px;
+            }
+
+            .order-status {
+                font-size: 9px;
+                padding: 6px 8px;
+            }
+        }
+    </style>
+</head>
+
+<body class="home-page">
+
+    <!-- هدر اصلی سایت -->
+    <div id="siteMenu"></div>
+
+    <main class="tracking-page">
+
+        <div class="tracking-container">
+
+            <!-- عنوان -->
+            <header class="tracking-hero">
+
+                <div class="tracking-eyebrow">
+                    <span></span>
+                    سامانه رسمی پیگیری سفارش
+                </div>
+
+                <h1>پیگیری سفارش</h1>
+
+                <p>
+                    از آخرین وضعیت سفارش خود باخبر شوید.
+                    <br>
+                    اطلاعات خریدتان را وارد کنید.
+                </p>
+
+            </header>
+
+            <!-- شخصیت -->
+            <section class="tracking-character">
+
+                <img
+                    id="characterImage"
+                    src="images/check/khan-welcome.webp"
+                    alt="راهنمای پیگیری سفارش"
+                >
+
+                <div class="character-message">
+
+                    <strong>جناب خان میگه:</strong>
+
+                    <p id="characterText">
+                        سلام رفیق! کد سفارشتو بده ببینیم کجاست!
+                    </p>
+
+                </div>
+
+            </section>
+
+            <!-- فرم جست‌وجو -->
+            <section class="tracking-form-card" id="trackingFormCard">
+
+                <div class="tracking-form-heading">
+
+                    <div class="tracking-form-icon">⌕</div>
+
+                    <div>
+                        <h2>جست‌وجوی سفارش</h2>
+                        <p>کد سفارش و شماره موبایل خود را وارد کنید.</p>
+                    </div>
+
+                </div>
+
+                <form id="trackingForm">
+
+                    <div class="tracking-fields">
+
+                        <div class="tracking-field">
+
+                            <label for="trackingCode">
+                                کد پیگیری سفارش
+                            </label>
+
+                            <input
+                                id="trackingCode"
+                                class="code-input"
+                                type="text"
+                                placeholder="مثلاً C1234"
+                                autocomplete="off"
+                                maxlength="6"
+                            >
+
+                            <div class="tracking-field-help">
+                                کد ثبت‌شده هنگام تکمیل خرید
+                            </div>
+
+                        </div>
+
+                        <div class="tracking-field">
+
+                            <label for="trackingMobile">
+                                شماره موبایل
+                            </label>
+
+                            <input
+                                id="trackingMobile"
+                                type="tel"
+                                inputmode="numeric"
+                                placeholder="09xxxxxxxxx"
+                                autocomplete="tel"
+                                maxlength="13"
+                            >
+
+                            <div class="tracking-field-help">
+                                شماره‌ای که هنگام سفارش ثبت کردی
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="tracking-security-note">
+                        <span>🔒</span>
+                        <div>
+                            برای مشاهده جزئیات کامل سفارش، هر دو فیلد را وارد کنید.
+                            با وارد کردن فقط یکی از آن‌ها، اطلاعات محدود نمایش داده می‌شود.
+                        </div>
+                    </div>
+
+                    <button
+                        class="tracking-submit"
+                        id="trackingSubmit"
+                        type="submit"
+                    >
+                        <span class="button-icon">⌕</span>
+                        <span id="submitText">پیگیری سفارش</span>
+                    </button>
+
+                </form>
+
+                <div class="tracking-loading" id="trackingLoading">
+                    <span class="loading-spinner"></span>
+                    در حال بررسی اطلاعات سفارش...
+                </div>
+
+                <div class="tracking-error" id="trackingError" role="alert"></div>
+
+            </section>
+
+            <!-- نتایج -->
+            <section class="tracking-results" id="trackingResults">
+
+                <div class="results-heading">
+
+                    <h2>نتیجه پیگیری</h2>
+
+                    <span class="results-count" id="resultsCount"></span>
+
+                </div>
+
+                <div id="ordersContainer"></div>
+
+                <button
+                    type="button"
+                    class="tracking-again"
+                    id="trackingAgain"
+                >
+                    پیگیری سفارش دیگر
+                </button>
+
+            </section>
+
+            <!-- راهنما -->
+            <section class="tracking-help">
+
+                <div class="tracking-help-item">
+
+                    <div class="tracking-help-icon">⌕</div>
+
+                    <div>
+                        <strong>کد پیگیری کجاست؟</strong>
+                        <p>
+                            کد سفارش پس از ثبت خرید به شما نمایش داده می‌شود.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="tracking-help-item">
+
+                    <div class="tracking-help-icon">☎</div>
+
+                    <div>
+                        <strong>نیاز به راهنمایی داری؟</strong>
+                        <p>
+                            برای پیگیری بیشتر می‌توانی با پشتیبانی فروشگاه تماس بگیری.
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <!-- فایل‌های اصلی سایت -->
+    <script src="menu.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        "use strict";
+
+        /* =========================================
+           CONFIG
+        ========================================= */
+
+        const TRACK_API_URL =
+            "https://script.google.com/macros/s/AKfycbyyg20MikWIqNtE5KKuQrczOMT_qp9B5gwqaBc7FbZsRcH8Ymje80ee202ymZhpFORf1w/exec";
+
+        const POST_TRACKING_URL =
+            "https://tracking.post.ir/";
+
+        /* =========================================
+           ELEMENTS
+        ========================================= */
+
+        const form = document.getElementById("trackingForm");
+
+        const codeInput = document.getElementById("trackingCode");
+
+        const mobileInput = document.getElementById("trackingMobile");
+
+        const submitButton = document.getElementById("trackingSubmit");
+
+        const submitText = document.getElementById("submitText");
+
+        const loadingBox = document.getElementById("trackingLoading");
+
+        const errorBox = document.getElementById("trackingError");
+
+        const resultsBox = document.getElementById("trackingResults");
+
+        const ordersContainer = document.getElementById("ordersContainer");
+
+        const resultsCount = document.getElementById("resultsCount");
+
+        const againButton = document.getElementById("trackingAgain");
+
+        const characterImage = document.getElementById("characterImage");
+
+        const characterText = document.getElementById("characterText");
+
+        /* =========================================
+           HELPERS
+        ========================================= */
+
+        function normalizeDigits(value) {
+
+            return String(value || "")
+                .replace(/[۰-۹]/g, function (digit) {
+                    return String("۰۱۲۳۴۵۶۷۸۹".indexOf(digit));
+                })
+                .replace(/[٠-٩]/g, function (digit) {
+                    return String("٠١٢٣٤٥٦٧٨٩".indexOf(digit));
+                });
+
+        }
+
+        function cleanText(value) {
+
+            return String(value == null ? "" : value).trim();
+
+        }
+
+        function formatPrice(value) {
+
+            const digits = normalizeDigits(value)
+                .replace(/[^\d]/g, "");
+
+            if (!digits) return cleanText(value) || "-";
+
+            return Number(digits).toLocaleString("en-US") + " تومان";
+
+        }
+
+        function escapeHTML(value) {
+
+            return String(value == null ? "" : value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+        function setCharacter(mood, message) {
+
+            const images = {
+                welcome: "images/check/khan-welcome.webp",
+                pending: "images/check/khan-pending.webp",
+                paid: "images/check/khan-preparing.webp",
+                preparing: "images/check/khan-preparing.webp",
+                shipped: "images/check/khan-shipped.webp",
+                delivered: "images/check/khan-shipped.webp",
+                cancelled: "images/check/khan-error.webp",
+                error: "images/check/khan-error.webp"
+            };
+
+            const messages = {
+                welcome: "سلام رفیق! کد سفارشتو بده ببینیم کجاست!",
+                pending: "هنوز پرداخت تأیید نشده؛ یه نگاهی به وضعیت پرداختت بنداز!",
+                paid: "پرداختت تأیید شده؛ سفارش داره وارد مراحل آماده‌سازی می‌شه!",
+                preparing: "به‌به! سفارشت داره آماده می‌شه!",
+                shipped: "ای جونم! سفارشت راه افتاده!",
+                delivered: "مبارکه! سفارشت به دستت رسیده!",
+                cancelled: "این سفارش لغو شده؛ برای راهنمایی با پشتیبانی تماس بگیر.",
+                error: "یه مشکلی پیش اومده؛ دوباره امتحان کن!"
+            };
+
+            characterText.textContent =
+                message || messages[mood] || messages.welcome;
+
+            characterImage.onerror = function () {
+                this.style.visibility = "hidden";
+            };
+
+            characterImage.onload = function () {
+                this.style.visibility = "visible";
+            };
+
+            characterImage.src = images[mood] || images.welcome;
+
+        }
+
+        function showError(message) {
+
+            errorBox.textContent =
+                message || "در ارتباط با سامانه مشکلی پیش آمد.";
+
+            errorBox.classList.add("show");
+
+        }
+
+        function clearMessages() {
+
+            errorBox.classList.remove("show");
+
+            errorBox.textContent = "";
+
+            resultsBox.classList.remove("show");
+
+            ordersContainer.replaceChildren();
+
+            againButton.classList.remove("show");
+
+        }
+
+        function setLoading(loading) {
+
+            submitButton.disabled = loading;
+
+            loadingBox.classList.toggle("show", loading);
+
+            submitText.textContent =
+                loading ? "در حال بررسی..." : "پیگیری سفارش";
+
+        }
+
+        /* =========================================
+           JSONP CONNECTION
+        ========================================= */
+
+        function requestTracking(data) {
+
+            return new Promise(function (resolve, reject) {
+
+                const callbackName =
+                    "navidTowelTrack_" +
+                    Date.now() +
+                    "_" +
+                    Math.floor(Math.random() * 100000);
+
+                const params = new URLSearchParams();
+
+                params.set("action", "track");
+
+                params.set("callback", callbackName);
+
+                if (data.trackingCode) {
+                    params.set("trackingCode", data.trackingCode);
+                }
+
+                if (data.mobile) {
+                    params.set("mobile", data.mobile);
+                }
+
+                const script = document.createElement("script");
+
+                let finished = false;
+
+                const timeout = setTimeout(function () {
+
+                    finish(
+                        new Error(
+                            "پاسخی از سامانه دریافت نشد. لطفاً دوباره تلاش کنید."
+                        )
+                    );
+
+                }, 20000);
+
+                function finish(error, result) {
+
+                    if (finished) return;
+
+                    finished = true;
+
+                    clearTimeout(timeout);
+
+                    script.remove();
+
+                    try {
+                        delete window[callbackName];
+                    } catch (e) {
+                        window[callbackName] = undefined;
+                    }
+
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(result);
+                    }
+
+                }
+
+                window[callbackName] = function (result) {
+
+                    finish(null, result);
+
+                };
+
+                script.onerror = function () {
+
+                    finish(
+                        new Error(
+                            "ارتباط با سامانه برقرار نشد. اتصال اینترنت را بررسی کنید."
+                        )
+                    );
+
+                };
+
+                script.src =
+                    TRACK_API_URL +
+                    "?" +
+                    params.toString();
+
+                document.head.appendChild(script);
+
+            });
+
+        }
+
+        /* =========================================
+           STATUS
+        ========================================= */
+
+        function getStatusInfo(status) {
+
+            const value = cleanText(status);
+
+            const map = {
+
+                "در انتظار پرداخت": {
+                    label: "در انتظار پرداخت",
+                    className: "pending",
+                    mood: "pending",
+                    step: 0,
+                    message:
+                        "پرداخت سفارش شما هنوز تأیید نشده است. لطفاً وضعیت پرداخت را بررسی کنید."
+                },
+
+                "پرداخت شده": {
+                    label: "پرداخت شده",
+                    className: "paid",
+                    mood: "paid",
+                    step: 1,
+                    message:
+                        "پرداخت شما تأیید شده و سفارش در صف آماده‌سازی قرار دارد."
+                },
+
+                "در حال آماده‌سازی": {
+                    label: "در حال آماده‌سازی",
+                    className: "preparing",
+                    mood: "preparing",
+                    step: 2,
+                    message:
+                        "سفارش شما در حال آماده‌سازی است. پس از ارسال، کد مرسوله در همین صفحه نمایش داده می‌شود."
+                },
+
+                "ارسال شده": {
+                    label: "ارسال شده",
+                    className: "shipped",
+                    mood: "shipped",
+                    step: 3,
+                    message:
+                        "سفارش شما ارسال شده است. می‌توانید با کد مرسوله وضعیت بسته را از سامانه پست بررسی کنید."
+                },
+
+                "تحویل شده": {
+                    label: "تحویل شده",
+                    className: "delivered",
+                    mood: "delivered",
+                    step: 4,
+                    message:
+                        "سفارش شما تحویل داده شده است. امیدواریم از خریدتان راضی باشید."
+                },
+
+                "لغو شده": {
+                    label: "لغو شده",
+                    className: "cancelled",
+                    mood: "cancelled",
+                    step: -1,
+                    message:
+                        "این سفارش لغو شده است. برای دریافت اطلاعات بیشتر با پشتیبانی تماس بگیرید."
+                }
+
+            };
+
+            return map[value] || {
+                label: value || "در حال بررسی",
+                className: "",
+                mood: "preparing",
+                step: 0,
+                message:
+                    "وضعیت سفارش شما در سامانه ثبت شده است."
+            };
+
+        }
+
+        /* =========================================
+           SAFE DOM
+        ========================================= */
+
+        function addDetail(container, label, value) {
+
+            if (!cleanText(value)) return;
+
+            const row = document.createElement("div");
+
+            row.className = "detail-row";
+
+            const title = document.createElement("span");
+
+            title.className = "detail-label";
+
+            title.textContent = label;
+
+            const content = document.createElement("span");
+
+            content.className = "detail-value";
+
+            content.textContent = value;
+
+            row.append(title, content);
+
+            container.appendChild(row);
+
+        }
+
+        function createProgress(step) {
+
+            const steps = [
+                "ثبت سفارش",
+                "پرداخت",
+                "آماده‌سازی",
+                "ارسال",
+                "تحویل"
+            ];
+
+            const wrapper = document.createElement("div");
+
+            wrapper.className = "order-progress";
+
+            steps.forEach(function (label, index) {
+
+                const item = document.createElement("div");
+
+                item.className = "progress-step";
+
+                if (step >= 0 && index < step) {
+                    item.classList.add("done");
+                }
+
+                if (step >= 0 && index === step) {
+                    item.classList.add("active");
+                }
+
+                const circle = document.createElement("div");
+
+                circle.className = "progress-circle";
+
+                circle.textContent =
+                    step >= 0 && index < step ? "✓" : index + 1;
+
+                const text = document.createElement("small");
+
+                text.textContent = label;
+
+                item.append(circle, text);
+
+                wrapper.appendChild(item);
+
+            });
+
+            return wrapper;
+
+        }
+
+        function createShipmentBox(code) {
+
+            const wrapper = document.createElement("div");
+
+            wrapper.className = "shipment-box";
+
+            const title = document.createElement("div");
+
+            title.className = "shipment-box-title";
+
+            title.textContent = "کد رهگیری مرسوله پستی";
+
+            const line = document.createElement("div");
+
+            line.className = "shipment-code-line";
+
+            const codeElement = document.createElement("span");
+
+            codeElement.className = "shipment-code";
+
+            codeElement.textContent = code;
+
+            const copyButton = document.createElement("button");
+
+            copyButton.type = "button";
+
+            copyButton.className = "copy-shipment";
+
+            copyButton.textContent = "کپی کد";
+
+            copyButton.addEventListener("click", async function () {
+
+                try {
+
+                    await navigator.clipboard.writeText(code);
+
+                } catch (error) {
+
+                    const helper = document.createElement("textarea");
+
+                    helper.value = code;
+
+                    helper.style.position = "fixed";
+
+                    helper.style.opacity = "0";
+
+                    document.body.appendChild(helper);
+
+                    helper.select();
+
+                    document.execCommand("copy");
+
+                    helper.remove();
+
+                }
+
+                copyButton.textContent = "کپی شد ✓";
+
+                copyButton.classList.add("copied");
+
+                setTimeout(function () {
+
+                    copyButton.textContent = "کپی کد";
+
+                    copyButton.classList.remove("copied");
+
+                }, 1700);
+
+            });
+
+            line.append(codeElement, copyButton);
+
+            const postalLink = document.createElement("a");
+
+            postalLink.className = "postal-link";
+
+            postalLink.href = POST_TRACKING_URL;
+
+            postalLink.target = "_blank";
+
+            postalLink.rel = "noopener noreferrer";
+
+            postalLink.textContent = "پیگیری مرسوله در سامانه پست";
+
+            wrapper.append(title, line, postalLink);
+
+            return wrapper;
+
+        }
+
+        /* =========================================
+           ORDER CARD
+        ========================================= */
+
+        function createOrderCard(order, fullAccess) {
+
+            const status = getStatusInfo(order.status);
+
+            const card = document.createElement("article");
+
+            card.className = "order-card";
+
+            /* سربرگ سفارش */
+
+            const top = document.createElement("div");
+
+            top.className = "order-card-top";
+
+            const codeBox = document.createElement("div");
+
+            const codeLabel = document.createElement("span");
+
+            codeLabel.className = "order-code-label";
+
+            codeLabel.textContent = "کد سفارش";
+
+            const code = document.createElement("div");
+
+            code.className = "order-code";
+
+            code.textContent =
+                order.trackingCode || order.orderNumber || "-";
+
+            codeBox.append(codeLabel, code);
+
+            const badge = document.createElement("span");
+
+            badge.className =
+                "order-status " + status.className;
+
+            badge.textContent = status.label;
+
+            top.append(codeBox, badge);
+
+            card.appendChild(top);
+
+            /* مراحل */
+
+            card.appendChild(createProgress(status.step));
+
+            /* اطلاعات */
+
+            const details = document.createElement("div");
+
+            details.className = "order-details";
+
+            const title = document.createElement("h3");
+
+            title.className = "order-details-title";
+
+            title.textContent = fullAccess
+                ? "جزئیات سفارش"
+                : "اطلاعات سفارش";
+
+            details.appendChild(title);
+
+            if (fullAccess) {
+
+                addDetail(details, "نام مشتری", order.fullName);
+
+                addDetail(details, "شماره موبایل", order.mobile);
+
+                addDetail(details, "محصولات", order.products);
+
+                addDetail(
+                    details,
+                    "مبلغ سفارش",
+                    formatPrice(order.total)
+                );
+
+                addDetail(details, "آدرس ارسال", order.address);
+
+                addDetail(details, "کد پستی", order.postalCode);
+
+                addDetail(details, "توضیحات ارسال", order.shippingNote);
+
+                addDetail(details, "شماره پیگیری پرداخت", order.transferCode);
+
+            }
+
+            card.appendChild(details);
+
+            /* پیام وضعیت */
+
+            const message = document.createElement("div");
+
+            message.className = "order-message";
+
+            message.textContent = status.message;
+
+            card.appendChild(message);
+
+            /* کد مرسوله */
+
+            if (order.shipmentCode) {
+
+                card.appendChild(
+                    createShipmentBox(order.shipmentCode)
+                );
+
+            } else if (status.step === 3) {
+
+                const waiting = document.createElement("div");
+
+                waiting.className = "limited-note";
+
+                waiting.textContent =
+                    "سفارش ارسال شده است؛ کد مرسوله هنوز در سامانه ثبت نشده است.";
+
+                card.appendChild(waiting);
+
+            }
+
+            /* محدودیت اطلاعات */
+
+            if (!fullAccess) {
+
+                const note = document.createElement("div");
+
+                note.className = "limited-note";
+
+                note.textContent =
+                    "برای مشاهده نام، محصولات، مبلغ و آدرس سفارش، کد پیگیری و شماره موبایل ثبت‌شده را هم‌زمان وارد کنید.";
+
+                card.appendChild(note);
+
+            }
+
+            return card;
+
+        }
+
+        /* =========================================
+           SHOW ORDERS
+        ========================================= */
+
+        function showOrders(data) {
+
+            ordersContainer.replaceChildren();
+
+            const orders = Array.isArray(data.orders)
+                ? data.orders
+                : data.order
+                    ? [data.order]
+                    : [];
+
+            if (!orders.length) {
+
+                showError("اطلاعات سفارشی برای نمایش دریافت نشد.");
+
+                return;
+
+            }
+
+            const fullAccess = data.full === true;
+
+            resultsCount.textContent =
+                orders.length.toLocaleString("en-US") +
+                " سفارش پیدا شد";
+
+            orders.forEach(function (order) {
+
+                ordersContainer.appendChild(
+                    createOrderCard(order, fullAccess)
+                );
+
+            });
+
+            resultsBox.classList.add("show");
+
+            againButton.classList.add("show");
+
+            const firstStatus = getStatusInfo(
+                orders[0].status
+            );
+
+            setCharacter(firstStatus.mood);
+
+            resultsBox.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+
+        /* =========================================
+           SEARCH
+        ========================================= */
+
+        form.addEventListener("submit", async function (event) {
+
+            event.preventDefault();
+
+            clearMessages();
+
+            const trackingCode = normalizeDigits(
+                codeInput.value
+            ).trim().toUpperCase();
+
+            const mobile = normalizeDigits(
+                mobileInput.value
+            ).replace(/\D/g, "");
+
+            if (!trackingCode && !mobile) {
+
+                showError(
+                    "لطفاً کد پیگیری یا شماره موبایل را وارد کنید."
+                );
+
+                return;
+
+            }
+
+            if (trackingCode && !/^[A-Z]\d{4,5}$/.test(trackingCode)) {
+
+                showError(
+                    "فرمت کد پیگیری صحیح نیست. نمونه کد: C1234 یا D1234"
+                );
+
+                codeInput.focus();
+
+                return;
+
+            }
+
+            if (mobile && mobile.length < 10) {
+
+                showError(
+                    "شماره موبایل واردشده معتبر نیست."
+                );
+
+                mobileInput.focus();
+
+                return;
+
+            }
+
+            setLoading(true);
+
+            setCharacter("welcome", "دارم سفارشتو بررسی می‌کنم...");
+
+            try {
+
+                const response = await requestTracking({
+                    trackingCode: trackingCode,
+                    mobile: mobile
+                });
+
+                if (!response || response.ok !== true) {
+
+                    throw new Error(
+                        response && response.error
+                            ? response.error
+                            : "سفارشی با این مشخصات پیدا نشد."
+                    );
+
+                }
+
+                showOrders(response);
+
+            } catch (error) {
+
+                clearMessages();
+
+                showError(
+                    error.message ||
+                    "در ارتباط با سامانه مشکلی پیش آمد. دوباره تلاش کنید."
+                );
+
+                setCharacter("error");
+
+            } finally {
+
+                setLoading(false);
+
+            }
+
+        });
+
+        /* =========================================
+           RESET
+        ========================================= */
+
+        againButton.addEventListener("click", function () {
+
+            clearMessages();
+
+            codeInput.value = "";
+
+            mobileInput.value = "";
+
+            setCharacter("welcome");
+
+            codeInput.focus();
+
+            document.getElementById("trackingFormCard")
+                .scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+        });
+
+        /* =========================================
+           INIT
+        ========================================= */
+
+        setCharacter("welcome");
+
+    </script>
+
 </body>
 </html>
