@@ -1035,6 +1035,100 @@
         [hidden] {
             display: none !important;
         }
+        /* محصولات سفارش در صفحه پیگیری */
+
+.tracking-products {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    margin-bottom: 17px;
+}
+
+.tracking-product {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 12px;
+    border: 1px solid #e9ece5;
+    border-radius: 11px;
+    background: #fbfcf9;
+}
+
+.tracking-product .checkout-product-image {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 9px;
+    background: #f3f1ed;
+}
+
+.tracking-product .checkout-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tracking-product .checkout-product-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.tracking-product .checkout-product-name {
+    margin-bottom: 5px;
+    color: #34452f;
+    font-size: 12px;
+    font-weight: 800;
+    white-space: normal;
+}
+
+.tracking-product .checkout-product-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    color: #888;
+    font-size: 10px;
+    line-height: 1.8;
+}
+
+.tracking-product .checkout-product-price {
+    flex-shrink: 0;
+    color: #34452f;
+    font-size: 11px;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.tracking-products-title {
+    margin: 0 0 12px;
+    color: #34452f;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.tracking-product-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: #edf1e9;
+    color: #34452f;
+    font-size: 23px;
+}
+
+@media(max-width: 380px) {
+    .tracking-product {
+        gap: 8px;
+        padding: 9px;
+    }
+
+    .tracking-product .checkout-product-price {
+        font-size: 10px;
+    }
+}
     </style>
 </head>
 
@@ -2010,71 +2104,307 @@
 
         }
 
+/* =====================================
+   PRODUCTS PARSER
+===================================== */
 
+function parseOrderProducts(raw) {
+
+    const lines = String(raw || "")
+        .split(/\r?\n/)
+        .map(line => line.trim())
+        .filter(Boolean);
+
+    return lines.map(function (line) {
+
+        const parts = line.split(" = ");
+
+        const description = parts[0] || "";
+        const price = parts.slice(1).join(" = ");
+
+        const main = description.split(" | ");
+
+        const first = main.shift() || "";
+
+        const match = first.match(/^(.*?)\s*[×x]\s*(\d+)$/);
+
+        const name = match
+            ? match[1].trim()
+            : first.trim();
+
+        const quantity = match
+            ? Number(match[2])
+            : 1;
+
+        let color = "";
+        let size = "";
+
+        main.forEach(function (part) {
+
+            if (part.startsWith("رنگ:")) {
+                color = part.replace("رنگ:", "").trim();
+            }
+
+            if (part.startsWith("سایز:")) {
+                size = part.replace("سایز:", "").trim();
+            }
+
+        });
+
+        return {
+            name: name,
+            quantity: quantity,
+            color: color,
+            size: size,
+            price: price.replace(/\s*تومان$/, "").trim()
+        };
+
+    });
+
+}
+
+
+/* =====================================
+   FIND PRODUCT IMAGE
+===================================== */
+
+function findOrderProductImage(item) {
+
+    if (!Array.isArray(products)) return "";
+
+    const product = products.find(function (p) {
+
+        return cleanText(p.name) === cleanText(item.name);
+
+    });
+
+    if (!product || !Array.isArray(product.images)) {
+        return "";
+    }
+
+    if (item.color) {
+
+        const normalizedColor = item.color
+            .replace(/ي/g, "ی")
+            .replace(/ك/g, "ک")
+            .replace(/\s/g, "")
+            .toLowerCase();
+
+        const matchingImage = product.images.find(function (src) {
+
+            const imageName = decodeURIComponent(src)
+                .replace(/ي/g, "ی")
+                .replace(/ك/g, "ک")
+                .replace(/\s/g, "")
+                .toLowerCase();
+
+            return imageName.includes(normalizedColor);
+
+        });
+
+        if (matchingImage) return matchingImage;
+
+    }
+
+    return product.images[0] || "";
+
+}
+
+
+/* =====================================
+   RENDER ORDER PRODUCTS
+===================================== */
+
+function createOrderProducts(raw) {
+
+    const items = parseOrderProducts(raw);
+
+    const section = document.createElement("div");
+
+    const title = document.createElement("h3");
+
+    title.className = "tracking-products-title";
+
+    title.textContent = "محصولات سفارش";
+
+    section.appendChild(title);
+
+    const list = document.createElement("div");
+
+    list.className = "tracking-products";
+
+    if (!items.length) {
+
+        const empty = document.createElement("div");
+
+        empty.className = "limited-note";
+
+        empty.textContent = "اطلاعات محصولات سفارش در دسترس نیست.";
+
+        section.appendChild(empty);
+
+        return section;
+
+    }
+
+    items.forEach(function (item) {
+
+        const row = document.createElement("div");
+
+        row.className = "tracking-product checkout-product";
+
+
+        const imageBox = document.createElement("div");
+
+        imageBox.className = "checkout-product-image";
+
+        const imageSrc = findOrderProductImage(item);
+
+        if (imageSrc) {
+
+            const image = document.createElement("img");
+
+            image.src = imageSrc;
+
+            image.alt = item.name;
+
+            image.loading = "lazy";
+
+            image.onerror = function () {
+                imageBox.replaceChildren();
+                imageBox.className = "tracking-product-placeholder";
+                imageBox.textContent = "▧";
+            };
+
+            imageBox.appendChild(image);
+
+        } else {
+
+            imageBox.className = "tracking-product-placeholder";
+
+            imageBox.textContent = "▧";
+
+        }
+
+
+        const info = document.createElement("div");
+
+        info.className = "checkout-product-info";
+
+
+        const name = document.createElement("div");
+
+        name.className = "checkout-product-name";
+
+        name.textContent = item.name;
+
+
+        const meta = document.createElement("div");
+
+        meta.className = "checkout-product-meta";
+
+
+        function addMeta(text) {
+
+            if (!text) return;
+
+            const span = document.createElement("span");
+
+            span.textContent = text;
+
+            meta.appendChild(span);
+
+        }
+
+
+        addMeta("تعداد: " + item.quantity);
+
+        addMeta(item.color ? "رنگ: " + item.color : "");
+
+        addMeta(item.size ? "سایز: " + item.size : "");
+
+
+        info.append(name, meta);
+
+
+        const price = document.createElement("div");
+
+        price.className = "checkout-product-price";
+
+        price.textContent =
+            item.price
+                ? Number(normalizeDigits(item.price).replace(/[^\d]/g, ""))
+                    .toLocaleString("en-US") + " تومان"
+                : "-";
+
+
+        row.append(imageBox, info, price);
+
+        list.appendChild(row);
+
+    });
+
+    section.appendChild(list);
+
+    return section;
+
+}
         /* =====================================
            PROGRESS
         ===================================== */
+function createProgress(step) {
 
-        function createProgress(step) {
+    const steps = [
+        "ثبت سفارش",
+        "پرداخت شده",
+        "آماده‌سازی",
+        "ارسال شده",
+        "تحویل"
+    ];
 
-            const steps = [
-                "ثبت سفارش",
-                "پرداخت",
-                "آماده‌سازی",
-                "ارسال",
-                "تحویل"
-            ];
+    const wrapper = document.createElement("div");
 
-            const wrapper =
-                document.createElement("div");
+    wrapper.className = "order-progress";
 
-            wrapper.className = "order-progress";
+    steps.forEach(function (label, index) {
 
+        const item = document.createElement("div");
 
-            steps.forEach(function (label, index) {
+        item.className = "progress-step";
 
-                const item =
-                    document.createElement("div");
-
-                item.className = "progress-step";
-
-
-                if (step >= 0 && index < step) {
-                    item.classList.add("done");
-                }
-
-                if (step >= 0 && index === step) {
-                    item.classList.add("active");
-                }
-
-
-                const circle =
-                    document.createElement("div");
-
-                circle.className = "progress-circle";
-
-                circle.textContent =
-                    step >= 0 && index < step
-                        ? "✓"
-                        : index + 1;
-
-
-                const text =
-                    document.createElement("small");
-
-                text.textContent = label;
-
-
-                item.append(circle, text);
-
-                wrapper.appendChild(item);
-
-            });
-
-
-            return wrapper;
-
+        // مراحل انجام‌شده سبز می‌شوند
+        if (step >= 0 && index <= step) {
+            item.classList.add("done");
         }
+
+        // فقط مرحله بعدی طلایی می‌شود
+        if (step >= 0 && step < 4 && index === step + 1) {
+            item.classList.add("active");
+        }
+
+        const circle = document.createElement("div");
+
+        circle.className = "progress-circle";
+
+        circle.textContent =
+            step >= 0 && index <= step
+                ? "✓"
+                : index + 1;
+
+        const text = document.createElement("small");
+
+        text.textContent = label;
+
+        item.append(circle, text);
+
+        wrapper.appendChild(item);
+
+    });
+
+    return wrapper;
+
+}
+       
 
 
         /* =====================================
@@ -2196,9 +2526,12 @@
 
         function createOrderCard(order, fullAccess) {
 
-            const status =
-                getStatusInfo(order.status);
+          const realStatus = cleanText(order.status);
 
+const status =
+    order.shipmentCode && realStatus !== "تحویل شده"
+        ? getStatusInfo("ارسال شده")
+        : getStatusInfo(realStatus);
 
             const card =
                 document.createElement("article");
@@ -2283,57 +2616,102 @@
             details.appendChild(title);
 
 
-            if (fullAccess) {
+            if (order.products) {
 
-                addDetail(
-                    details,
-                    "نام مشتری",
-                    order.fullName
-                );
+    details.appendChild(
+        createOrderProducts(order.products)
+    );
 
-                addDetail(
-                    details,
-                    "شماره موبایل",
-                    order.mobile
-                );
+}
 
-                addDetail(
-                    details,
-                    "محصولات",
-                    order.products
-                );
+if (fullAccess) {
 
-                addDetail(
-                    details,
-                    "مبلغ سفارش",
-                    formatPrice(order.total)
-                );
+    // نام مشتری
+    addDetail(
+        details,
+        "نام مشتری",
+        order.fullName
+    );
 
-                addDetail(
-                    details,
-                    "آدرس ارسال",
-                    order.address
-                );
+    // شماره موبایل
+    addDetail(
+        details,
+        "شماره موبایل",
+        order.mobile
+    );
 
-                addDetail(
-                    details,
-                    "کد پستی",
-                    order.postalCode
-                );
+    // مبلغ
+    addDetail(
+        details,
+        "مبلغ سفارش",
+        formatPrice(order.total)
+    );
 
-                addDetail(
-                    details,
-                    "توضیحات ارسال",
-                    order.shippingNote
-                );
+    // کد پستی
+    addDetail(
+        details,
+        "کد پستی",
+        order.postalCode
+    );
 
-                addDetail(
-                    details,
-                    "شماره پیگیری پرداخت",
-                    order.transferCode
-                );
+    // آدرس
+    addDetail(
+        details,
+        "آدرس ارسال",
+        order.address
+    );
 
-            }
+    // تفکیک روش ارسال از توضیحات مشتری
+    const shippingLines = cleanText(order.shippingNote)
+        .split(/\r?\n/);
+
+    let shippingMethod = "";
+    let customerNote = "";
+
+    if (shippingLines.length) {
+
+        const firstLine = shippingLines[0].trim();
+
+        const shippingMatch = firstLine.match(
+            /^(پست|تیپاکس)\s*=\s*(.+)$/
+        );
+
+        if (shippingMatch) {
+
+            shippingMethod =
+                shippingMatch[1] + " - " + shippingMatch[2];
+
+            customerNote =
+                shippingLines.slice(1).join("\n").trim();
+
+        } else {
+
+            customerNote =
+                shippingLines.join("\n").trim();
+
+        }
+
+    }
+
+    addDetail(
+        details,
+        "روش ارسال",
+        shippingMethod
+    );
+
+    addDetail(
+        details,
+        "توضیحات مشتری",
+        customerNote
+    );
+
+    addDetail(
+        details,
+        "شماره پیگیری پرداخت",
+        order.transferCode
+    );
+
+}
 
 
             card.appendChild(details);
@@ -2657,7 +3035,31 @@
             footerYear.textContent =
                 new Date().getFullYear();
         }
+/* کلیک روی پیگیری سفارش در منوی بالای صفحه */
 
+document.addEventListener("click", function (event) {
+
+    const link = event.target.closest("a");
+
+    if (!link) return;
+
+    const label = cleanText(link.textContent)
+        .replace(/\s+/g, " ");
+
+    if (label.includes("پیگیری سفارش")) {
+
+        event.preventDefault();
+
+        resetTracking();
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+}, true);
 
         supportSay("welcome");
 
