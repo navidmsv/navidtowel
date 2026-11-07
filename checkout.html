@@ -1047,6 +1047,98 @@
             display: none !important;
         }
     }
+    /* اصلاح اندازه و عرض صفحه چک‌اوت */
+html {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body.checkout-page-body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.checkout-page,
+.checkout-page .container,
+.checkout-layout,
+.checkout-card {
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.checkout-layout {
+    width: 100%;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, .8fr);
+}
+
+/* جلوگیری از زوم خودکار Safari در موبایل */
+@media (max-width: 850px) {
+    .checkout-layout {
+        grid-template-columns: minmax(0, 1fr);
+        width: 100%;
+    }
+
+    .checkout-card {
+        width: 100%;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea,
+    .final-transfer-input {
+        font-size: 16px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .checkout-page .container {
+        width: 100%;
+        max-width: 100%;
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
+    .checkout-card {
+        padding: 15px;
+    }
+
+    .checkout-layout {
+        gap: 15px;
+    }
+
+    .bank-card-number {
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+}
+/* پیام خطای اختصاصی فیلدها */
+.form-group .field-error {
+    display: none;
+    color: #d32f2f;
+    font-size: 11px;
+    line-height: 1.7;
+    margin-top: 2px;
+}
+
+.form-group.has-error input,
+.form-group.has-error select,
+.form-group.has-error textarea {
+    border-color: #d32f2f !important;
+    box-shadow: 0 0 0 2px rgba(211, 47, 47, .08) !important;
+}
+
+.form-group.has-error .field-error {
+    display: block;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    scroll-margin-top: 120px;
+}
 </style>
 </head>
 
@@ -1839,7 +1931,7 @@
                 </h4>
 
                 <p>
-                    تلفن پشتیبانی: 09398707122
+                    تلفن: 09398707122
                 </p>
 
                 <p>
@@ -2965,7 +3057,7 @@ document.addEventListener("DOMContentLoaded", function () {
             helper.remove();
         }
 
-        copyTrackingCodeButton.textContent = " ✓ ";
+        copyTrackingCodeButton.textContent = "✓ کپی شد";
         copyTrackingCodeButton.classList.add("copied");
         setTimeout(function () {
             copyTrackingCodeButton.textContent = "کپی";
@@ -2973,6 +3065,136 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 1600);
     });
 
+function clearFieldErrors() {
+    document.querySelectorAll(".form-group.has-error").forEach(function (group) {
+        group.classList.remove("has-error");
+
+        const error = group.querySelector(".field-error");
+        if (error) error.remove();
+    });
+}
+
+function showFieldError(field, errorText) {
+    clearFieldErrors();
+
+    const group = field.closest(".form-group");
+
+    if (group) {
+        group.classList.add("has-error");
+
+        const error = document.createElement("div");
+        error.className = "field-error";
+        error.textContent = errorText;
+
+        group.appendChild(error);
+    }
+
+    hideMessage();
+
+    field.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+    setTimeout(function () {
+        field.focus({ preventScroll: true });
+    }, 450);
+
+    return false;
+}
+
+function validateRecipientForm() {
+    const fields = [
+        ["firstName", "لطفاً نام خود را وارد کنید."],
+        ["lastName", "لطفاً نام خانوادگی خود را وارد کنید."],
+        ["mobile", "لطفاً شماره موبایل را وارد کنید."],
+        ["province", "لطفاً استان را انتخاب کنید."],
+        ["city", "لطفاً نام شهر را وارد کنید."],
+        ["postalCode", "لطفاً کد پستی را وارد کنید."],
+        ["address", "لطفاً آدرس کامل خود را وارد کنید."]
+    ];
+
+    clearFieldErrors();
+
+    for (const item of fields) {
+        const field = document.getElementById(item[0]);
+
+        if (!field.value.trim()) {
+            return showFieldError(field, item[1]);
+        }
+    }
+
+    const mobile = normalizeDigits(
+        document.getElementById("mobile").value.trim()
+    );
+
+    if (!/^09\d{9}$/.test(mobile)) {
+        return showFieldError(
+            document.getElementById("mobile"),
+            "شماره موبایل معتبر نیست؛ باید با 09 شروع شود و 11 رقم باشد."
+        );
+    }
+
+    const postalCode = normalizeDigits(
+        document.getElementById("postalCode").value.trim()
+    );
+
+    if (!/^\d{10}$/.test(postalCode)) {
+        return showFieldError(
+            document.getElementById("postalCode"),
+            "کد پستی باید دقیقاً 10 رقم باشد."
+        );
+    }
+
+    const shipping = document.querySelector(
+        'input[name="shipping"]:checked'
+    );
+
+    if (!shipping) {
+        showMessage("لطفاً روش ارسال سفارش را انتخاب کنید.");
+
+        document.querySelector(".shipping-section").scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+        return false;
+    }
+
+    if (calculateTotals().total <= 0) {
+        showMessage("مبلغ سفارش نامعتبر است. لطفاً سبد خرید را بررسی کنید.");
+        return false;
+    }
+
+    return true;
+}
+document.querySelectorAll(
+    "#checkoutForm input, #checkoutForm select, #checkoutForm textarea"
+).forEach(function (field) {
+
+    field.addEventListener("input", function () {
+        const group = this.closest(".form-group");
+
+        if (group && group.classList.contains("has-error")) {
+            group.classList.remove("has-error");
+
+            const error = group.querySelector(".field-error");
+            if (error) error.remove();
+        }
+    });
+
+    field.addEventListener("change", function () {
+        const group = this.closest(".form-group");
+
+        if (group && group.classList.contains("has-error")) {
+            group.classList.remove("has-error");
+
+            const error = group.querySelector(".field-error");
+            if (error) error.remove();
+        }
+    });
+
+});
     /* =========================================================
        شروع
     ========================================================= */
