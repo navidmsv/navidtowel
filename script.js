@@ -1045,88 +1045,114 @@ document.addEventListener("DOMContentLoaded", function () {
   /* ================= STYLE ================= */
 
   var css = `
-    /* ---------- نوتیفیکیشن ---------- */
-    body .cart-toast {
-      position: fixed !important;
-      top: calc(var(--nt-toast-top, 78px) + 10px) !important;
-      bottom: auto !important;
-      left: 50% !important;
-      right: auto !important;
-      z-index: 2147483000 !important;
-      display: flex !important;
-      align-items: center !important;
-      gap: 10px !important;
-      width: max-content !important;
-      max-width: min(92vw, 420px) !important;
-      padding: 11px 16px 14px 14px !important;
-      border-radius: 16px !important;
-      direction: rtl !important;
-      overflow: hidden !important;
-      background: linear-gradient(135deg, rgba(38,55,34,.97), rgba(52,69,47,.95)) !important;
-      color: #fff !important;
-      border: 1px solid rgba(255,255,255,.14) !important;
-      box-shadow: 0 14px 40px rgba(20,35,25,.35), inset 0 1px 0 rgba(255,255,255,.12) !important;
-      -webkit-backdrop-filter: blur(14px) saturate(140%);
-      backdrop-filter: blur(14px) saturate(140%);
-      font-size: 10px !important;
-      font-weight: 700 !important;
-      line-height: 1.7 !important;
-      opacity: 0 !important;
-      visibility: hidden !important;
-      pointer-events: none !important;
-      transform: translate(-50%, -18px) scale(.95) !important;
-      transition: opacity .28s ease, visibility .28s, transform .45s cubic-bezier(.22, 1.25, .36, 1) !important;
-    }
+    /* ---------- نوتیفیکیشن جمع‌وجور و شیک ---------- */
 
-    body .cart-toast.show {
-      opacity: 1 !important;
-      visibility: visible !important;
-      transform: translate(-50%, 0) scale(1) !important;
-    }
+body .cart-toast {
+    position: fixed !important;
+    top: calc(var(--nt-toast-top, 78px) + 8px) !important;
+    bottom: auto !important;
+    left: 50% !important;
+    right: auto !important;
+    z-index: 2147483000 !important;
 
-    body .cart-toast .cart-toast-icon {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      background: #d4af37;
-      color: #2a3a26;
-      font-size: 14px;
-      font-weight: 900;
-      line-height: 1;
-    }
+    display: flex !important;
+    align-items: center !important;
+    gap: 9px !important;
 
-    body .cart-toast.nt-warn .cart-toast-icon {
-      background: #f0b44c;
-    }
+    width: max-content !important;
+    max-width: min(88vw, 320px) !important;
 
-    body .cart-toast .cart-toast-text {
-      color: #fff;
-    }
+    padding: 9px 13px 11px !important;
+    border-radius: 13px !important;
 
-    body .cart-toast::after {
-      content: "";
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      height: 3px;
-      background: linear-gradient(90deg, #d4af37, #f3dc8a);
-      transform-origin: right center;
-      transform: scaleX(0);
-    }
+    direction: rtl !important;
+    overflow: hidden !important;
 
-    body .cart-toast.show::after {
-      animation: ntToastBar 2.6s linear forwards;
-    }
+    background: linear-gradient(
+        135deg,
+        rgba(38,55,34,.97),
+        rgba(52,69,47,.96)
+    ) !important;
 
-    @keyframes ntToastBar {
-      from { transform: scaleX(1); }
-      to   { transform: scaleX(0); }
-    }
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,.12) !important;
+
+    box-shadow: 0 8px 24px rgba(20,35,25,.22) !important;
+
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    line-height: 1.6 !important;
+
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+
+    transform: translate(-50%, -12px) scale(.97) !important;
+
+    transition:
+        opacity .22s ease,
+        visibility .22s,
+        transform .3s cubic-bezier(.2,.8,.2,1) !important;
+}
+
+body .cart-toast.show {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translate(-50%, 0) scale(1) !important;
+}
+
+body .cart-toast .cart-toast-icon {
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background: #d4af37;
+    color: #2a3a26;
+
+    font-size: 12px;
+    font-weight: 900;
+}
+
+body .cart-toast.nt-warn .cart-toast-icon {
+    background: #e8ad48;
+}
+
+body .cart-toast .cart-toast-text {
+    color: #fff;
+}
+
+body .cart-toast::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 2px;
+
+    background: linear-gradient(90deg, #d4af37, #f3dc8a);
+
+    transform-origin: right center;
+    transform: scaleX(0);
+}
+
+body .cart-toast.show::after {
+    animation: ntToastBar 2.6s linear forwards;
+}
+
+@keyframes ntToastBar {
+    from { transform: scaleX(1); }
+    to { transform: scaleX(0); }
+}
 
     /* ---------- هایلایت باکس رنگ وقتی انتخاب نشده ---------- */
     .product-options-box.nt-attn {
