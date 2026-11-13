@@ -390,7 +390,7 @@ function addToCart(id, color = null, size = "Free Size") {
 
   if (Array.isArray(product.colors) && product.colors.length) {
     if (!color) {
-      showCartNotification("رنگ‌محصول‌راانتخاب‌کنید.", "remove");
+      showCartNotification("رنگ محصول ‌را انتخاب کنید.", "remove");
       return;
     }
 
