@@ -1068,7 +1068,7 @@ document.addEventListener("DOMContentLoaded", function () {
       box-shadow: 0 14px 40px rgba(20,35,25,.35), inset 0 1px 0 rgba(255,255,255,.12) !important;
       -webkit-backdrop-filter: blur(14px) saturate(140%);
       backdrop-filter: blur(14px) saturate(140%);
-      font-size: 12px !important;
+      font-size: 10px !important;
       font-weight: 700 !important;
       line-height: 1.7 !important;
       opacity: 0 !important;
