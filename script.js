@@ -1044,7 +1044,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* ================= STYLE ================= */
 
-  var css = '
+  var css = `
     /* ---------- نوتیفیکیشن جمع‌وجور و شیک ---------- */
 
 body .cart-toast {
@@ -1084,7 +1084,7 @@ body .cart-toast {
 
     font-size: 11px !important;
     font-weight: 600 !important;
-    line-height: 1.4 !important;
+    line-height: 1.6 !important;
 
     opacity: 0 !important;
     visibility: hidden !important;
