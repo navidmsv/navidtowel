@@ -1045,104 +1045,88 @@ document.addEventListener("DOMContentLoaded", function () {
   /* ================= STYLE ================= */
 
   var css = `
-    /* ---------- نوتیفیکیشن جمع‌وجور و شیک ---------- */
+    /* ---------- نوتیفیکیشن جمع‌وجور و شیک ----------
+    /* NAVIDTOWEL — COMPACT TOAST */
 
 body .cart-toast {
     position: fixed !important;
     top: calc(var(--nt-toast-top, 78px) + 8px) !important;
-    bottom: auto !important;
     left: 50% !important;
     right: auto !important;
-    z-index: 2147483000 !important;
+    bottom: auto !important;
+
+    width: auto !important;
+    max-width: 260px !important;
+    min-width: 0 !important;
 
     display: flex !important;
     align-items: center !important;
-    gap: 9px !important;
+    gap: 7px !important;
 
-    width: max-content !important;
-    max-width: min(88vw, 320px) !important;
+    padding: 7px 11px !important;
+    border-radius: 10px !important;
 
-    padding: 9px 13px 11px !important;
-    border-radius: 13px !important;
+    background: #34452f !important;
+    color: #fff !important;
+
+    border: 1px solid rgba(255,255,255,.12) !important;
+    box-shadow: 0 5px 16px rgba(0,0,0,.16) !important;
+
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    line-height: 1.5 !important;
 
     direction: rtl !important;
     overflow: hidden !important;
-
-    background: linear-gradient(
-        135deg,
-        rgba(38,55,34,.97),
-        rgba(52,69,47,.96)
-    ) !important;
-
-    color: #fff !important;
-    border: 1px solid rgba(255,255,255,.12) !important;
-
-    box-shadow: 0 8px 24px rgba(20,35,25,.22) !important;
-
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-
-    font-size: 11px !important;
-    font-weight: 600 !important;
-    line-height: 1.6 !important;
 
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
 
-    transform: translate(-50%, -12px) scale(.97) !important;
+    transform: translate(-50%, -8px) !important;
+    transition: .22s ease !important;
 
-    transition:
-        opacity .22s ease,
-        visibility .22s,
-        transform .3s cubic-bezier(.2,.8,.2,1) !important;
+    z-index: 2147483000 !important;
 }
 
 body .cart-toast.show {
     opacity: 1 !important;
     visibility: visible !important;
-    transform: translate(-50%, 0) scale(1) !important;
+    transform: translate(-50%, 0) !important;
 }
 
 body .cart-toast .cart-toast-icon {
-    width: 23px;
-    height: 23px;
-    border-radius: 50%;
+    width: 19px !important;
+    height: 19px !important;
+    min-width: 19px !important;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 
-    flex-shrink: 0;
+    border-radius: 50% !important;
+    background: #d4af37 !important;
+    color: #34452f !important;
 
-    background: #d4af37;
-    color: #2a3a26;
-
-    font-size: 12px;
-    font-weight: 900;
-}
-
-body .cart-toast.nt-warn .cart-toast-icon {
-    background: #e8ad48;
+    font-size: 10px !important;
+    font-weight: 900 !important;
 }
 
 body .cart-toast .cart-toast-text {
-    color: #fff;
+    color: #fff !important;
+    font-size: 10px !important;
 }
 
 body .cart-toast::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    bottom: 0;
-
-    width: 100%;
-    height: 2px;
-
-    background: linear-gradient(90deg, #d4af37, #f3dc8a);
-
-    transform-origin: right center;
+    content: "" !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    height: 2px !important;
+    width: 100% !important;
+    background: #d4af37 !important;
     transform: scaleX(0);
+    transform-origin: right;
 }
 
 body .cart-toast.show::after {
