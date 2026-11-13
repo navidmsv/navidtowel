@@ -1031,3 +1031,470 @@ document.addEventListener("DOMContentLoaded", function () {
   ⚠️ اسلایدر صفحه اصلی (HERO SLIDER) عمداً از این فایل حذف شده.
   کد اسلایدر داخل index.html است و نباید اینجا هم باشد.
 */
+/* =========================================================
+   NAVIDTOWEL — UI POLISH
+   ۱) نوتیفیکیشن شیک، همیشه زیر هدر (برای همه صفحه‌ها)
+   ۲) alert() های سایت به همین نوتیفیکیشن تبدیل می‌شن
+   ۳) اسلاید لمسی/ماوسی عکس‌های صفحه‌ی محصول با افکت
+   نصب: کل این کد رو ته فایل script.js بچسبون (بعد از آخرین خط).
+========================================================= */
+
+(function () {
+  "use strict";
+
+  /* ================= STYLE ================= */
+
+  var css = `
+    /* ---------- نوتیفیکیشن ---------- */
+    body .cart-toast {
+      position: fixed !important;
+      top: calc(var(--nt-toast-top, 78px) + 10px) !important;
+      bottom: auto !important;
+      left: 50% !important;
+      right: auto !important;
+      z-index: 2147483000 !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      width: max-content !important;
+      max-width: min(92vw, 420px) !important;
+      padding: 11px 16px 14px 14px !important;
+      border-radius: 16px !important;
+      direction: rtl !important;
+      overflow: hidden !important;
+      background: linear-gradient(135deg, rgba(38,55,34,.97), rgba(52,69,47,.95)) !important;
+      color: #fff !important;
+      border: 1px solid rgba(255,255,255,.14) !important;
+      box-shadow: 0 14px 40px rgba(20,35,25,.35), inset 0 1px 0 rgba(255,255,255,.12) !important;
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      backdrop-filter: blur(14px) saturate(140%);
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      line-height: 1.7 !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      transform: translate(-50%, -18px) scale(.95) !important;
+      transition: opacity .28s ease, visibility .28s, transform .45s cubic-bezier(.22, 1.25, .36, 1) !important;
+    }
+
+    body .cart-toast.show {
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: translate(-50%, 0) scale(1) !important;
+    }
+
+    body .cart-toast .cart-toast-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: #d4af37;
+      color: #2a3a26;
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    body .cart-toast.nt-warn .cart-toast-icon {
+      background: #f0b44c;
+    }
+
+    body .cart-toast .cart-toast-text {
+      color: #fff;
+    }
+
+    body .cart-toast::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #d4af37, #f3dc8a);
+      transform-origin: right center;
+      transform: scaleX(0);
+    }
+
+    body .cart-toast.show::after {
+      animation: ntToastBar 2.6s linear forwards;
+    }
+
+    @keyframes ntToastBar {
+      from { transform: scaleX(1); }
+      to   { transform: scaleX(0); }
+    }
+
+    /* ---------- هایلایت باکس رنگ وقتی انتخاب نشده ---------- */
+    .product-options-box.nt-attn {
+      animation: ntShake .55s ease;
+      border-color: #d4af37 !important;
+      background: #fffaf0 !important;
+      box-shadow: 0 0 0 3px rgba(212,175,55,.22), 0 8px 24px rgba(212,175,55,.18) !important;
+    }
+
+    @keyframes ntShake {
+      0%, 100% { transform: translateX(0); }
+      15% { transform: translateX(-6px); }
+      30% { transform: translateX(6px); }
+      45% { transform: translateX(-4px); }
+      60% { transform: translateX(4px); }
+      75% { transform: translateX(-2px); }
+    }
+
+    /* ---------- گالری ---------- */
+    .product-main-image {
+      touch-action: pan-y;
+      -webkit-user-select: none;
+      user-select: none;
+      cursor: grab;
+    }
+
+    .product-main-image.nt-dragging {
+      cursor: grabbing;
+    }
+
+    .product-main-image img {
+      will-change: transform, opacity;
+      -webkit-user-drag: none;
+      transform-origin: center;
+    }
+  `;
+
+  var styleTag = document.createElement("style");
+  styleTag.id = "navid-ui-style";
+  styleTag.textContent = css;
+  document.head.appendChild(styleTag);
+
+  /* ================= TOAST ================= */
+
+  var toastTimer = null;
+  var topFrame = 0;
+
+  function updateToastTop() {
+    var header = document.querySelector(".header");
+    var bottom = 68;
+
+    if (header) {
+      bottom = Math.max(0, Math.round(header.getBoundingClientRect().bottom));
+    }
+
+    document.documentElement.style.setProperty("--nt-toast-top", bottom + "px");
+  }
+
+  function scheduleToastTop() {
+    if (topFrame) return;
+    topFrame = requestAnimationFrame(function () {
+      topFrame = 0;
+      updateToastTop();
+    });
+  }
+
+  window.addEventListener("scroll", scheduleToastTop, { passive: true });
+  window.addEventListener("resize", scheduleToastTop);
+  document.addEventListener("DOMContentLoaded", updateToastTop);
+
+  function highlightOptions() {
+    var box = document.getElementById("productOptions");
+    if (!box) return;
+
+    var header = document.querySelector(".header");
+    var headerBottom = header ? header.getBoundingClientRect().bottom : 0;
+    var rect = box.getBoundingClientRect();
+
+    if (rect.top < headerBottom + 90 || rect.bottom > window.innerHeight - 20) {
+      box.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    box.classList.remove("nt-attn");
+    void box.offsetWidth;
+    box.classList.add("nt-attn");
+
+    setTimeout(function () {
+      box.classList.remove("nt-attn");
+    }, 1500);
+  }
+
+  /* جایگزین تابع قبلی cart.js (همون اسم و همون ورودی‌ها) */
+  window.showCartNotification = function (message, type) {
+    var toast = document.querySelector(".cart-toast");
+
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.className = "cart-toast";
+      toast.setAttribute("role", "status");
+      toast.setAttribute("aria-live", "polite");
+      document.body.appendChild(toast);
+    }
+
+    var text = String(message == null ? "" : message);
+
+    var isWarn =
+      type === "warn" ||
+      (type === "remove" && /انتخاب|موجود|معتبر|خالی|بیشتر|لطفاً|لطفا/.test(text));
+
+    var isRemove = type === "remove" && !isWarn;
+
+    toast.classList.remove("show", "nt-warn");
+
+    if (isWarn) toast.classList.add("nt-warn");
+
+    toast.innerHTML =
+      '<span class="cart-toast-icon">' +
+      (isWarn ? "!" : isRemove ? "−" : "✓") +
+      '</span><span class="cart-toast-text"></span>';
+
+    toast.querySelector(".cart-toast-text").textContent = text;
+
+    updateToastTop();
+
+    void toast.offsetWidth;
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+    clearTimeout(window.cartToastTimer);
+
+    toastTimer = setTimeout(function () {
+      toast.classList.remove("show");
+    }, 2600);
+
+    if (isWarn && /رنگ/.test(text)) {
+      highlightOptions();
+    }
+  };
+
+  window.navidToast = window.showCartNotification;
+
+  /* alert های زشت مرورگر → همین نوتیفیکیشن */
+  window.alert = function (message) {
+    window.showCartNotification(String(message == null ? "" : message), "warn");
+  };
+
+  /* ================= GALLERY SWIPE ================= */
+
+  function initGallery() {
+    var frame = document.getElementById("productMainImage");
+    var img = document.getElementById("mainProductImage");
+    var prev = document.getElementById("productPrev");
+    var next = document.getElementById("productNext");
+    var thumbs = document.getElementById("productThumbnails");
+
+    if (!frame || !img || !prev || !next) return;
+
+    var direction = 0;
+    var dragging = false;
+    var locked = false;
+    var animating = false;
+    var pendingEnter = false;
+    var startX = 0;
+    var startY = 0;
+    var dx = 0;
+    var startTime = 0;
+    var pointerId = null;
+
+    img.setAttribute("draggable", "false");
+
+    function frameWidth() {
+      return frame.clientWidth || 320;
+    }
+
+    function hasMultipleImages() {
+      return !!thumbs && thumbs.children.length > 1;
+    }
+
+    function preloadAll() {
+      if (!thumbs) return;
+
+      thumbs.querySelectorAll("img").forEach(function (thumb) {
+        var preload = new Image();
+        preload.src = thumb.src;
+      });
+    }
+
+    /* ورود عکس جدید با افکت (جهتش از طرف حرکت انگشت) */
+    function playEnter(dir) {
+      var offset = dir * Math.min(60, frameWidth() * 0.14);
+
+      pendingEnter = true;
+
+      img.style.transition = "none";
+      img.style.opacity = "0";
+      img.style.transform =
+        dir === 0 ? "scale(.95)" : "translateX(" + offset + "px) scale(.98)";
+
+      var started = false;
+
+      function go() {
+        if (started) return;
+        started = true;
+
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            img.style.transition =
+              "transform .45s cubic-bezier(.22,.8,.3,1), opacity .38s ease";
+            img.style.transform = "none";
+            img.style.opacity = "1";
+            pendingEnter = false;
+          });
+        });
+      }
+
+      if (img.complete && img.naturalWidth) {
+        go();
+      } else {
+        img.addEventListener("load", go, { once: true });
+        img.addEventListener("error", go, { once: true });
+        setTimeout(go, 700);
+      }
+    }
+
+    new MutationObserver(function () {
+      if (dragging) return;
+
+      var dir = direction;
+      direction = 0;
+
+      playEnter(dir);
+      preloadAll();
+    }).observe(img, { attributes: true, attributeFilter: ["src"] });
+
+    /* جهت حرکت وقتی روی فلش‌ها کلیک می‌شه */
+    frame.addEventListener(
+      "click",
+      function (event) {
+        if (event.target.closest("#productNext")) direction = 1;
+        else if (event.target.closest("#productPrev")) direction = -1;
+      },
+      true
+    );
+
+    frame.addEventListener("pointerdown", function (event) {
+      if (event.button !== undefined && event.button !== 0) return;
+      if (event.target.closest(".product-gallery-arrow")) return;
+      if (animating) return;
+
+      dragging = true;
+      locked = false;
+      startX = event.clientX;
+      startY = event.clientY;
+      dx = 0;
+      startTime = Date.now();
+      pointerId = event.pointerId;
+    });
+
+    frame.addEventListener("pointermove", function (event) {
+      if (!dragging || event.pointerId !== pointerId) return;
+
+      var moveX = event.clientX - startX;
+      var moveY = event.clientY - startY;
+
+      if (!locked) {
+        if (Math.abs(moveX) < 8 && Math.abs(moveY) < 8) return;
+
+        /* حرکت عمودی = اسکرول عادی صفحه */
+        if (Math.abs(moveY) > Math.abs(moveX)) {
+          dragging = false;
+          return;
+        }
+
+        locked = true;
+        frame.classList.add("nt-dragging");
+
+        try {
+          frame.setPointerCapture(pointerId);
+        } catch (error) {}
+      }
+
+      dx = moveX;
+
+      var width = frameWidth();
+      var ratio = Math.min(Math.abs(dx) / width, 0.5);
+
+      img.style.transition = "none";
+      img.style.transform =
+        "translateX(" + dx * 0.92 + "px) scale(" + (1 - ratio * 0.06) + ")";
+      img.style.opacity = String(1 - Math.min(Math.abs(dx) / (width * 1.1), 0.4));
+
+      event.preventDefault();
+    });
+
+    function finishDrag(event) {
+      if (!dragging) return;
+      if (event && event.pointerId !== pointerId) return;
+
+      var wasLocked = locked;
+
+      dragging = false;
+      frame.classList.remove("nt-dragging");
+
+      try {
+        frame.releasePointerCapture(pointerId);
+      } catch (error) {}
+
+      if (!wasLocked) return;
+
+      var width = frameWidth();
+      var elapsed = Math.max(1, Date.now() - startTime);
+      var speed = Math.abs(dx) / elapsed;
+
+      var commit =
+        Math.abs(dx) > Math.max(48, width * 0.18) ||
+        (speed > 0.5 && Math.abs(dx) > 24);
+
+      if (commit && hasMultipleImages()) {
+        var dir = dx < 0 ? 1 : -1;
+
+        animating = true;
+
+        img.style.transition = "transform .2s ease-in, opacity .2s ease-in";
+        img.style.transform =
+          "translateX(" + (dx < 0 ? -1 : 1) * width * 0.5 + "px) scale(.96)";
+        img.style.opacity = "0";
+
+        setTimeout(function () {
+          direction = dir;
+          (dir > 0 ? next : prev).click();
+          animating = false;
+
+          /* اگه عکسی عوض نشد، عکس فعلی برگرده */
+          setTimeout(function () {
+            if (!pendingEnter && img.style.opacity === "0") {
+              img.style.transition = "transform .3s ease, opacity .25s ease";
+              img.style.transform = "none";
+              img.style.opacity = "1";
+            }
+          }, 160);
+        }, 190);
+      } else {
+        img.style.transition =
+          "transform .4s cubic-bezier(.22,1.3,.36,1), opacity .25s ease";
+        img.style.transform = "none";
+        img.style.opacity = "1";
+      }
+    }
+
+    frame.addEventListener("pointerup", finishDrag);
+    frame.addEventListener("pointercancel", finishDrag);
+
+    /* کیبورد: ← بعدی ، → قبلی */
+    document.addEventListener("keydown", function (event) {
+      var tag = (event.target && event.target.tagName) || "";
+      if (/INPUT|TEXTAREA|SELECT/.test(tag)) return;
+
+      if (event.key === "ArrowLeft") {
+        direction = 1;
+        next.click();
+      } else if (event.key === "ArrowRight") {
+        direction = -1;
+        prev.click();
+      }
+    });
+
+    preloadAll();
+  }
+
+  document.addEventListener("DOMContentLoaded", initGallery);
+})();
